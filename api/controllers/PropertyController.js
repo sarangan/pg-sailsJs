@@ -930,7 +930,7 @@ module.exports = {
 
 									//good to go from here
 									//var qry = "select property_masteritem_link.*, company_masteritem_link.item_name, company_masteritem_link.type, company_masteritem_link.option from property_masteritem_link inner join company_masteritem_link on property_masteritem_link.com_master_id = company_masteritem_link.com_master_id where property_masteritem_link.type='DEFAULT' and property_masteritem_link.property_id =" + property_id + " order by property_masteritem_link.com_master_id, company_masteritem_link.option ";
-									var query = "select property_masteritem_link.* from property_masteritem_link where property_masteritem_link.type='DEFAULT' and property_masteritem_link.status=1 and property_masteritem_link.property_id =" + property_id + " order by property_masteritem_link.com_master_id, property_masteritem_link.option ";
+									var qry = "select property_masteritem_link.* from property_masteritem_link where property_masteritem_link.type='DEFAULT' and property_masteritem_link.status=1 and property_masteritem_link.property_id =" + property_id + " order by property_masteritem_link.com_master_id, property_masteritem_link.option ";
 									Property_masteritem_link.query(qry, function(err, prop_tempalte){
 
 										return res.json({status: 1, template: prop_tempalte});
