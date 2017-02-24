@@ -574,7 +574,7 @@ module.exports = {
 							if(propertyInfo.property_id){
 
 								dataPropertyInfo['property_id'] = propertyInfo.property_id;
-								
+
 								// Sync.create({
 								// 	syn_id: uuidV4(),
 								// 	property_id: propertyInfo.property_id,
@@ -631,17 +631,17 @@ module.exports = {
 		 					// 	});
 
 	 						});
-			 				 
+
 
 
 							//meter import
 			 				 Company_meter_link.find({status: 1}).exec(function(err, Meter_types){
 			 					 var data = [];
 			 						for(var i=0,l = Meter_types.length; i < l; i++){
-			 							data.push({	
-			 								prop_meter_id: uuidV4(), 
-			 								property_id: propertyInfo.property_id, 
-			 								com_meter_id: Meter_types[i].com_meter_id, 
+			 							data.push({
+			 								prop_meter_id: uuidV4(),
+			 								property_id: propertyInfo.property_id,
+			 								com_meter_id: Meter_types[i].com_meter_id,
 			 								meter_name: Meter_types[i].meter_name,
 			 								reading_value: '',
 			 								status: 1,
@@ -674,7 +674,7 @@ module.exports = {
 										 data.push({
 										 	prop_general_id: uuidV4(),
 										 	property_id: propertyInfo.property_id,
-										 	com_general_id: General_conditions[i].com_general_id, 
+										 	com_general_id: General_conditions[i].com_general_id,
 										 	item_name: General_conditions[i].item_name,
 										 	options: General_conditions[i].options,
 										 	type: General_conditions[i].type,
@@ -712,10 +712,10 @@ module.exports = {
 
 								 	var prop_master_id = uuidV4();
 
-									 data_master_items.push({ 
+									 data_master_items.push({
 									 	prop_master_id: prop_master_id,
-									 	property_id: propertyInfo.property_id, 
-									 	com_master_id: master_items[i].com_master_id, 
+									 	property_id: propertyInfo.property_id,
+									 	com_master_id: master_items[i].com_master_id,
 									 	type: 'DEFAULT',
 									 	com_type: master_items[i].type,
 									 	option: master_items[i].option,
@@ -723,7 +723,7 @@ module.exports = {
 									 	name: master_items[i].item_name,
 									 	priority: master_items[i].priority,
 									 	total_num: 0,
-									 	status: 1 
+									 	status: 1
 									 });
 
 									//  Sync.create({
@@ -755,12 +755,12 @@ module.exports = {
 									for(var i=0,l = sub_items.length; i < l; i++){
 										data_sub_items.push({
 											prop_subitem_id: uuidV4(),
-											property_id: propertyInfo.property_id, 
+											property_id: propertyInfo.property_id,
 											com_subitem_id: sub_items[i].com_subitem_id,
 											item_name: sub_items[i].item_name,
 											type: sub_items[i].type,
 											priority: sub_items[i].priority,
-											status: 1 
+											status: 1
 										});
 									}
 
@@ -929,7 +929,8 @@ module.exports = {
 								if(user.company_id ==  property_details.company_id ){
 
 									//good to go from here
-									var qry = "select property_masteritem_link.*, company_masteritem_link.item_name, company_masteritem_link.type, company_masteritem_link.option from property_masteritem_link inner join company_masteritem_link on property_masteritem_link.com_master_id = company_masteritem_link.com_master_id where property_masteritem_link.type='DEFAULT' and property_masteritem_link.property_id =" + property_id + " order by property_masteritem_link.com_master_id, company_masteritem_link.option ";
+									//var qry = "select property_masteritem_link.*, company_masteritem_link.item_name, company_masteritem_link.type, company_masteritem_link.option from property_masteritem_link inner join company_masteritem_link on property_masteritem_link.com_master_id = company_masteritem_link.com_master_id where property_masteritem_link.type='DEFAULT' and property_masteritem_link.property_id =" + property_id + " order by property_masteritem_link.com_master_id, company_masteritem_link.option ";
+									var query = "select property_masteritem_link.* from property_masteritem_link where property_masteritem_link.type='DEFAULT' and property_masteritem_link.status=1 and property_masteritem_link.property_id =" + property_id + " order by property_masteritem_link.com_master_id, property_masteritem_link.option ";
 									Property_masteritem_link.query(qry, function(err, prop_tempalte){
 
 										return res.json({status: 1, template: prop_tempalte});
