@@ -999,9 +999,21 @@ module.exports = {
 
 											//sails.log.debug( nums[i].prop_master_id,  nums[i].total_num);
 
-											Property_masteritem_link.update( {prop_master_id: nums[i].prop_master_id } , update_data).exec(function(err, com_sub){
+											Property_masteritem_link.update( {prop_master_id: nums[i].prop_master_id, com_master_id: nums[i].com_master_id } , update_data).exec(function(err, com_sub){
 												if (err) console.log(err);
 												//console.log(com_sub);
+
+												// Sync.create({
+												// 	syn_id: uuidV4(),
+												// 	property_id: propertyInfo.property_id,
+												// 	table_name: 'property_subitem_link',
+												// 	key_id: prop_subs.prop_subitem_id,
+												// 	task: 'INSERT',
+												// 	pk_name: 'prop_subitem_id',
+												// 	status: 1
+												// }).exec(function(err, syc_details){
+						 						// 		 if (err) console.log(res.json(err) ) ;
+						 						// 	});
 
 
 												Company_masteritem_link.findOne({com_master_id: com_sub[0].com_master_id } ).exec(function(err, com_master_item){
@@ -1010,18 +1022,39 @@ module.exports = {
 													var total_num = com_sub[0].total_num;
 
 													if(total_num > 0){
+														const uuidV4 = require('uuid/v4');
+
 														for(var j=1; j <= total_num; j++){
 
 															var num_data = {
+																prop_master_id: uuidV4(),
+																property_id: property_id,
+																com_master_id: com_sub[0].com_master_id,
+																type: 'SELF',
+																com_type: com_sub[0].type,
+																option: com_sub[0].option,
 																self_prop_master_id: com_sub[0].prop_master_id,
 																name: com_master_item.item_name + ' ' + (j).toString(),
-																type: 'SELF',
-																com_master_id: com_sub[0].com_master_id,
-																property_id: property_id
+																priority: 1,
+																total_num: 0,
+																status: 1
 															};
 
 															Property_masteritem_link.create(num_data).exec(function(err, prop_master_num){
 																if (err) console.log(err);
+
+																// Sync.create({
+																// 	syn_id: uuidV4(),
+																// 	property_id: propertyInfo.property_id,
+																// 	table_name: 'property_subitem_link',
+																// 	key_id: prop_subs.prop_subitem_id,
+																// 	task: 'INSERT',
+																// 	pk_name: 'prop_subitem_id',
+																// 	status: 1
+																// }).exec(function(err, syc_details){
+										 						// 		 if (err) console.log(res.json(err) ) ;
+										 						// 	});
+
 															});
 
 
@@ -1045,9 +1078,9 @@ module.exports = {
 											var update_data = {status: options[i].status };
 
 											Property_masteritem_link.update( {prop_master_id: options[i].prop_master_id }, update_data).exec(function(err, com_sub){
-												if (err) console.log(err) ;
+												if (err) console.log(err);
 
-											//	console.log(com_sub);
+												//	console.log(com_sub);
 											});
 
 										}
