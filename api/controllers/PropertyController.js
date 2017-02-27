@@ -1138,10 +1138,11 @@ module.exports = {
 								if(user.company_id ==  property_details.company_id ){
 
 									//good to go from here
-									var qry = "select property_masteritem_link.*, company_masteritem_link.item_name, company_masteritem_link.type as template_type, company_masteritem_link.option from property_masteritem_link left join company_masteritem_link on property_masteritem_link.com_master_id = company_masteritem_link.com_master_id where !(company_masteritem_link.option ='NUM' and property_masteritem_link.type ='DEFAULT') and property_masteritem_link.property_id ="+ property_id +" order by property_masteritem_link.priority, property_masteritem_link.prop_master_id, company_masteritem_link.option";
-									Property_masteritem_link.query(qry, function(err, prop_tempalte){
+									//var qry = "select property_masteritem_link.*, company_masteritem_link.item_name, company_masteritem_link.type as template_type, company_masteritem_link.option from property_masteritem_link left join company_masteritem_link on property_masteritem_link.com_master_id = company_masteritem_link.com_master_id where !(company_masteritem_link.option ='NUM' and property_masteritem_link.type ='DEFAULT') and property_masteritem_link.property_id ="+ property_id +" order by property_masteritem_link.priority, property_masteritem_link.prop_master_id, company_masteritem_link.option";
+									var qry = "select property_masteritem_link.*,  property_masteritem_link.com_type as template_type, (select count(photos.photo_id) from photos where photos.parent_id = property_masteritem_link.prop_master_id or photos.item_id = property_masteritem_link.prop_master_id ) as image_count from property_masteritem_link where NOT(property_masteritem_link.option ='NUM' and property_masteritem_link.type ='DEFAULT') and property_masteritem_link.property_id ="+ property_id +" and property_masteritem_link.status = 1 order by property_masteritem_link.priority, property_masteritem_link.prop_master_id, property_masteritem_link.option,  property_masteritem_link.name";
+									Property_masteritem_link.query(qry, function(err, prop_room){
 
-										return res.json({status: 1, template: prop_tempalte});
+										return res.json({status: 1, roomlist: prop_room});
 
 									});
 
@@ -1323,7 +1324,61 @@ module.exports = {
 			}
 
 
+		},
+		getSignaturesList: function(req, res){
+
+			if( req.token.hasOwnProperty('sid') ){
+				if(req.token.sid){
+
+					var property_id = req.param('property_id');
+
+					if(!property_id){
+						return res.json({status: 2, text: 'property id is missing!' });
+					}
+					else{
+
+						User.findOne({id :  req.token.sid}).exec(function(err, user){
+							if(err) return res.json(err);
+
+							console.log('user', user.company_id);
+
+							Property.findOne({property_id: property_id }).exec(function(err, property_details){
+								if(err) return res.json(err);
+
+								//check if the user is authorize to access this property
+								if(user.company_id ==  property_details.company_id ){
+
+									//good to go from here
+									var qry = "select signatures.* from signatures where signatures.property_id='"+ property_id + "'";
+									Signatures.query(qry, function(err, sign_list){
+
+										return res.json({status: 1, signatures: sign_list});
+
+									});
+
+								}
+								else{
+									return res.json({status: 2, text: 'you are not allow to access this property!' });
+								}
+
+							});
+
+
+
+						});
+
+					}
+
+
+
+
+				}
+			}
+
+
 		}
+
+
 
 
 
