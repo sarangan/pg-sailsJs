@@ -1139,8 +1139,8 @@ module.exports = {
 
 									//good to go from here
 									//var qry = "select property_masteritem_link.*, company_masteritem_link.item_name, company_masteritem_link.type as template_type, company_masteritem_link.option from property_masteritem_link left join company_masteritem_link on property_masteritem_link.com_master_id = company_masteritem_link.com_master_id where !(company_masteritem_link.option ='NUM' and property_masteritem_link.type ='DEFAULT') and property_masteritem_link.property_id ="+ property_id +" order by property_masteritem_link.priority, property_masteritem_link.prop_master_id, company_masteritem_link.option";
-									
-									var qry = "select property_masteritem_link.*,  property_masteritem_link.com_type as template_type, (select count(photos.photo_id) from photos where photos.parent_id = property_masteritem_link.prop_master_id or photos.item_id = property_masteritem_link.prop_master_id ) as image_count from property_masteritem_link where NOT(property_masteritem_link.option ='NUM' and property_masteritem_link.type ='DEFAULT') and property_masteritem_link.property_id ='"+ property_id +"' and property_masteritem_link.status = 1 order by property_masteritem_link.priority, property_masteritem_link.prop_master_id, property_masteritem_link.option,  property_masteritem_link.name";
+
+									var qry = "select property_masteritem_link.*,  property_masteritem_link.com_type as template_type, (select count(photos.photo_id) from photos where photos.parent_id = property_masteritem_link.prop_master_id or photos.item_id = property_masteritem_link.prop_master_id ) as image_count from property_masteritem_link where NOT(property_masteritem_link.option ='NUM' and property_masteritem_link.type ='DEFAULT') and property_masteritem_link.property_id ='"+ property_id +"' and property_masteritem_link.status = 1 order by property_masteritem_link.priority";
 									Property_masteritem_link.query(qry, function(err, prop_room){
 										//console.log(prop_room);
 										return res.json({status: 1, roomlist: prop_room, property_id: property_id });
