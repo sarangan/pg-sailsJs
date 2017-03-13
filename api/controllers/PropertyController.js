@@ -1399,12 +1399,13 @@ module.exports = {
 								//check if the user is authorize to access this property
 								if(user.company_id ==  property_details.company_id ){
 
-									//good to go from here
+
 									var qry = "select property_general_condition_link.* from property_general_condition_link where property_general_condition_link.status=1 and property_general_condition_link.property_id='"+ property_id +"' order by property_general_condition_link.priority";
 
-									Property_general_condition_link.query(qry, function(err, gen_list){
 
-										return res.json({status: 1, gen_list: gen_list});
+									Property_general_condition_link.query(qry, function(err, gen_list){
+										//console.log(prop_room);
+										return res.json({status: 1, gen_list: gen_list });
 
 									});
 
@@ -1422,8 +1423,11 @@ module.exports = {
 					}
 
 
+
+
 				}
 			}
+
 
 		}
 
