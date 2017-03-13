@@ -459,7 +459,7 @@ module.exports = {
 
 									//good to go from here
 									Property_info.query("select property_info.*, DATE_FORMAT(property_info.createdAt,'%d/%m/%Y') as created_date, property.description from property_info inner join property on property_info.property_id = property.property_id where property.property_id='"+ property_id + "'", function(err, property){
-										return res.json({status: 1, property: property});
+										return res.json({status: 1, property: property[0]});
 									});
 
 								}
@@ -1371,11 +1371,59 @@ module.exports = {
 					}
 
 
+				}
+			}
+
+		},
+
+		getGeneralConditionList: function(req, res){
+
+			if( req.token.hasOwnProperty('sid') ){
+				if(req.token.sid){
+
+					var property_id = req.param('property_id');
+
+					if(!property_id){
+						return res.json({status: 2, text: 'property id is missing!' });
+					}
+					else{
+
+						User.findOne({id :  req.token.sid}).exec(function(err, user){
+							if(err) return res.json(err);
+
+							console.log('user', user.company_id);
+
+							Property.findOne({property_id: property_id }).exec(function(err, property_details){
+								if(err) return res.json(err);
+
+								//check if the user is authorize to access this property
+								if(user.company_id ==  property_details.company_id ){
+
+									//good to go from here
+									var qry = "select property_general_condition_link.* from property_general_condition_link where property_general_condition_link.status=1 and property_general_condition_link.property_id='"+ property_id +"' order by property_general_condition_link.priority";
+
+									Property_general_condition_link.query(qry, function(err, gen_list){
+
+										return res.json({status: 1, gen_list: gen_list});
+
+									});
+
+								}
+								else{
+									return res.json({status: 2, text: 'you are not allow to access this property!' });
+								}
+
+							});
+
+
+
+						});
+
+					}
 
 
 				}
 			}
-
 
 		}
 
