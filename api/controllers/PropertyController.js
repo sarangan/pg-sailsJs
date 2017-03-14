@@ -1224,6 +1224,71 @@ module.exports = {
 
 		},
 
+		//this is to get property template
+		updategeneralcondition: function(req, res){
+
+
+			if( req.token.hasOwnProperty('sid') ){
+				if(req.token.sid){
+
+					var property_id = req.param('property_id');
+
+					if(!property_id){
+						return res.json({status: 2, text: 'property id is missing!' });
+					}
+					else{
+
+						User.findOne({id :  req.token.sid}).exec(function(err, user){
+							if(err) return res.json(err);
+
+							console.log('user', user.company_id);
+
+							Property.findOne({property_id: property_id }).exec(function(err, property_details){
+								if(err) return res.json(err);
+
+								//check if the user is authorize to access this property
+								if(user.company_id ==  property_details.company_id ){
+
+									var gen_list =  req.param('gen_list');
+									for(var i = 0, l = gen_list.length; i < l ; i++ ){
+
+										var general_id = gen_list[i]['prop_general_id'];
+										var data = {
+											'comment' : gen_list[i]['comment'],
+											'user_input' :  gen_list[i]['user_input']
+										}
+
+										Property_general_condition_link.update({prop_general_id: general_id }, data ).exec(function afterwards(err, updated){
+												if (err) return res.json(err);
+										});
+
+									}
+
+									return res.json(200, { status: 1, text: 'successfully updated' });
+
+
+								}
+								else{
+									return res.json({status: 2, text: 'you are not allow to access this property!' });
+								}
+
+							});
+
+
+
+						});
+
+					}
+
+
+
+
+				}
+			}
+
+
+		},
+
 		addConditionComment: function(req, res){
 
 				if( req.token.hasOwnProperty('sid') ){
