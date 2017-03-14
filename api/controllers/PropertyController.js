@@ -1170,7 +1170,7 @@ module.exports = {
 		},
 
 		//this is to get property template
-		getgenerallist: function(req, res){
+		getgeneralconditionlist: function(req, res){
 
 
 			if( req.token.hasOwnProperty('sid') ){
@@ -1429,63 +1429,7 @@ module.exports = {
 				}
 			}
 
-		},
-
-		getGeneralConditionList: function(req, res){
-
-			if( req.token.hasOwnProperty('sid') ){
-				if(req.token.sid){
-
-					var property_id = req.param('property_id');
-
-					if(!property_id){
-						return res.json({status: 2, text: 'property id is missing!' });
-					}
-					else{
-
-						User.findOne({id :  req.token.sid}).exec(function(err, user){
-							if(err) return res.json(err);
-
-							console.log('user', user.company_id);
-
-							Property.findOne({property_id: property_id }).exec(function(err, property_details){
-								if(err) return res.json(err);
-
-								//check if the user is authorize to access this property
-								if(user.company_id ==  property_details.company_id ){
-
-
-									var qry = "select property_general_condition_link.* from property_general_condition_link where property_general_condition_link.status=1 and property_general_condition_link.property_id='"+ property_id +"' order by property_general_condition_link.priority";
-
-
-									Property_general_condition_link.query(qry, function(err, gen_list){
-										//console.log(gen_list);
-										return res.json({status: 1, gen_list: gen_list });
-
-									});
-
-								}
-								else{
-									return res.json({status: 2, text: 'you are not allow to access this property!' });
-								}
-
-							});
-
-
-
-						});
-
-					}
-
-
-
-
-				}
-			}
-
-
 		}
-
 
 
 
