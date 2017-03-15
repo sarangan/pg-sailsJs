@@ -1002,8 +1002,6 @@ module.exports = {
 											Property_masteritem_link.update( {prop_master_id: nums[i].prop_master_id, com_master_id: nums[i].com_master_id } , update_data).exec(function(err, com_sub){
 												if (err) console.log(err);
 
-												console.log('must be here ');
-												console.log(com_sub);
 
 												// Sync.create({
 												// 	syn_id: uuidV4(),
@@ -1020,8 +1018,6 @@ module.exports = {
 
 												Company_masteritem_link.findOne({com_master_id: com_sub[0].com_master_id } ).exec(function(err, com_master_item){
 
-													console.log('must be there');
-													console.log(com_sub[0]);
 
 													var total_num = com_sub[0].total_num;
 
@@ -1035,7 +1031,7 @@ module.exports = {
 																property_id: property_id,
 																com_master_id: com_sub[0].com_master_id,
 																type: 'SELF',
-																com_type: com_sub[0].type,
+																com_type: com_sub[0].com_type,
 																option: com_sub[0].option,
 																self_prop_master_id: com_sub[0].prop_master_id,
 																name: com_master_item.item_name + ' ' + (j).toString(),
