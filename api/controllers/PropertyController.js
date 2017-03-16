@@ -1393,6 +1393,59 @@ module.exports = {
 
 		},
 
+		getSingleItem: function(req, res){
+
+			if( req.token.hasOwnProperty('sid') ){
+				if(req.token.sid){
+
+					var property_id = req.param('property_id');
+
+					if(!property_id){
+						return res.json({status: 2, text: 'property id is missing!' });
+					}
+					else{
+
+						User.findOne({id :  req.token.sid}).exec(function(err, user){
+							if(err) return res.json(err);
+
+							console.log('user', user.company_id);
+
+							Property.findOne({property_id: property_id }).exec(function(err, property_details){
+								if(err) return res.json(err);
+
+								//check if the user is authorize to access this property
+								if(user.company_id ==  property_details.company_id ){
+
+									//good to go from here
+									var qry = "select property_feedback.* from property_feedback where property_feedback.item_id='" + req.param('feedback_id') + "' and property_feedback.type=?";
+									Property_feedback.query(qry, function(err, single_item){
+
+										return res.json({status: 1, single_item: single_item});
+
+									});
+
+								}
+								else{
+									return res.json({status: 2, text: 'you are not allow to access this property!' });
+								}
+
+							});
+
+
+
+						});
+
+					}
+
+
+
+
+				}
+			}
+
+
+		},
+
 		getSubItemsList: function(req, res){
 
 			if( req.token.hasOwnProperty('sid') ){

@@ -64,7 +64,8 @@ module.exports.policies = {
    'getMeterList': ['tokenAuth'],
    'getSubItemsList': ['tokenAuth'],
    'getgeneralconditionlist': ['tokenAuth'],
-   'updategeneralcondition': ['tokenAuth']   
+   'updategeneralcondition': ['tokenAuth'],
+   'getSingleItem': ['tokenAuth']
  }
   /***************************************************************************
   *                                                                          *
