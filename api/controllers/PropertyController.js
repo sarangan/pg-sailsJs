@@ -1416,13 +1416,19 @@ module.exports = {
 								//check if the user is authorize to access this property
 								if(user.company_id ==  property_details.company_id ){
 
-									//good to go from here
-									var qry = "select property_feedback.* from property_feedback where property_feedback.item_id='" + req.param('feedback_id') + "' and property_feedback.type=?";
-									Property_feedback.query(qry, function(err, single_item){
+									if(req.param('prop_master_id') ){
+										//good to go from here
+										var qry = "select property_feedback.* from property_feedback where property_feedback.item_id='" + req.param('prop_master_id') + "' and property_feedback.type=?";
+										Property_feedback.query(qry, function(err, single_item){
 
-										return res.json({status: 1, single_item: single_item});
+											return res.json({status: 1, single_item: single_item});
 
-									});
+										});
+									}
+									else{
+										return res.json({status: 2, text: 'id is missing!' });
+									}
+
 
 								}
 								else{
