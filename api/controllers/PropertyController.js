@@ -1418,7 +1418,7 @@ module.exports = {
 
 									if(req.param('prop_master_id') ){
 										//good to go from here
-										var qry = "select property_feedback.* from property_feedback where property_feedback.item_id='" + req.param('prop_master_id') + "' and property_feedback.type=?";
+										var qry = "select property_feedback.* from property_feedback where property_feedback.item_id='" + req.param('prop_master_id') + "' and property_feedback.type='" + req.param('type') + "'";
 										Property_feedback.query(qry, function(err, single_item){
 
 											return res.json({status: 1, single_item: single_item});
