@@ -1477,7 +1477,7 @@ module.exports = {
 
 									var data_feedback =  req.param('data');
 									var prop_feedback_id ='';
-									if(data.hasOwnProperty('prop_feedback_id') ){
+									if(data_feedback.hasOwnProperty('prop_feedback_id') ){
 										prop_feedback_id = data_feedback['prop_feedback_id'];
 										delete data_feedback['prop_feedback_id'];
 									}
