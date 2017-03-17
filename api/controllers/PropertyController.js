@@ -1363,11 +1363,31 @@ module.exports = {
 								//check if the user is authorize to access this property
 								if(user.company_id ==  property_details.company_id ){
 
-									//good to go from here
-									var qry = "select property_meter_link.*, company_meter_link.meter_name from property_meter_link left join company_meter_link on property_meter_link.com_meter_id = company_meter_link.com_meter_id where property_meter_link.status=1 and property_meter_link.property_id ="+ property_id ;
-									Property_meter_link.query(qry, function(err, meter_list){
+									Property_meter_link.find({property_id: property_id }).then(function(meter_list){
 
-										return res.json({status: 1, meter_list: meter_list});
+									})
+									.catch( function(err){
+												 // do something when is error
+												 return res.json(200, { status: 2, error:'error procssing details'});
+								 })
+								 .done(function(){
+
+								 });
+
+									//good to go from here
+									Property_meter_link.find({property_id:  property_id }, function(err, meter_list){
+
+										//return res.json({status: 1, meter_list: meter_list});
+
+										
+
+										var qry = "select property_feedback.* from property_feedback where property_feedback.item_id='" + req.param('prop_master_id') + "' and property_feedback.type='" + req.param('type') + "'";
+										Property_feedback.query(qry, function(err, single_item){
+
+											return res.json({status: 1, single_item: single_item});
+
+										});
+
 
 									});
 
@@ -1494,6 +1514,11 @@ module.exports = {
 
 									}
 									else{
+
+										const uuidV4 = require('uuid/v4');
+										prop_feedback_id = uuidV4();
+										data_feedback['prop_feedback_id'] = prop_feedback_id;
+										data_feedback['property_id'] = property_id;
 
 										Property_feedback.insert( data_feedback ).exec(function afterwards(err, updated){
 												if (err) return res.json(err);
