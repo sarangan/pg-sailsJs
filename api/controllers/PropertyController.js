@@ -1449,6 +1449,82 @@ module.exports = {
 				}
 			}
 
+		},
+
+		//this is to update single item
+		updateSingleItem: function(req, res){
+
+			if( req.token.hasOwnProperty('sid') ){
+				if(req.token.sid){
+
+					var property_id = req.param('property_id');
+
+					if(!property_id){
+						return res.json({status: 2, text: 'property id is missing!' });
+					}
+					else{
+
+						User.findOne({id :  req.token.sid}).exec(function(err, user){
+							if(err) return res.json(err);
+
+							console.log('user', user.company_id);
+
+							Property.findOne({property_id: property_id }).exec(function(err, property_details){
+								if(err) return res.json(err);
+
+								//check if the user is authorize to access this property
+								if(user.company_id ==  property_details.company_id ){
+
+									var data_feedback =  req.param('data');
+									var prop_feedback_id ='';
+									if(data.hasOwnProperty('prop_feedback_id') ){
+										prop_feedback_id = data_feedback['prop_feedback_id'];
+										delete data_feedback['prop_feedback_id'];
+									}
+
+									if(prop_feedback_id){
+
+										Property_feedback.update({prop_feedback_id: prop_feedback_id }, data_feedback ).exec(function afterwards(err, updated){
+												if (err) return res.json(err);
+
+												return res.json(200, { status: 1, text: 'successfully updated' });
+
+										});
+
+
+									}
+									else{
+
+										Property_feedback.insert( data_feedback ).exec(function afterwards(err, updated){
+												if (err) return res.json(err);
+
+												return res.json(200, { status: 1, text: 'successfully inserted' });
+
+										});
+
+
+									}
+
+
+								}
+								else{
+									return res.json({status: 2, text: 'you are not allow to access this property!' });
+								}
+
+							});
+
+
+
+						});
+
+					}
+
+
+
+
+				}
+			}
+
 
 		},
 
