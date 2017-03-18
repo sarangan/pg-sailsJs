@@ -1363,11 +1363,6 @@ module.exports = {
 								//check if the user is authorize to access this property
 								if(user.company_id ==  property_details.company_id ){
 
-									//good to go from here
-									Property_meter_link.find({property_id:  property_id }, function(err, meter_list){
-
-										//return res.json({status: 1, meter_list: meter_list});
-
 									
 										var qry = "SELECT property_meter_link.prop_meter_id, property_meter_link.property_id, property_meter_link.com_meter_id, property_meter_link.meter_name, property_meter_link.reading_value, property_feedback.prop_feedback_id, property_feedback.comment, property_feedback.description FROM property_meter_link INNER JOIN property_feedback ON property_meter_link.prop_meter_id = property_feedback.item_id where property_meter_link.status = 1 and property_feedback.type='METER' and property_meter_link.property_id='" + property_id +"'" ;
 										
@@ -1376,9 +1371,6 @@ module.exports = {
 											return res.json({status: 1, meter_items: meter_items});
 
 										});
-
-
-									});
 
 								}
 								else{
