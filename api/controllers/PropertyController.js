@@ -1373,7 +1373,7 @@ module.exports = {
 										
 										Property_meter_link.query(qry, function(err, meter_items){
 
-											return res.json({status: 1, data: meter_items});
+											return res.json({status: 1, meter_items: meter_items});
 
 										});
 
