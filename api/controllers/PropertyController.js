@@ -1365,7 +1365,7 @@ module.exports = {
 
 									
 										var qry = "SELECT property_meter_link.prop_meter_id, property_meter_link.property_id, property_meter_link.com_meter_id, property_meter_link.meter_name, property_meter_link.reading_value, property_feedback.prop_feedback_id, property_feedback.comment, property_feedback.description FROM property_meter_link INNER JOIN property_feedback ON property_meter_link.prop_meter_id = property_feedback.item_id where property_meter_link.status = 1 and property_feedback.type='METER' and property_meter_link.property_id='" + property_id +"'" ;
-										
+										sails.log(qry);
 										Property_meter_link.query(qry, function(err, meter_items){
 
 											return res.json({status: 1, meter_items: meter_items});
