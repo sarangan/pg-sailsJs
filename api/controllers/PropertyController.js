@@ -1442,16 +1442,13 @@ module.exports = {
 										if(prop_feedback_id){
 
 											Property_feedback.update({prop_feedback_id: prop_feedback_id }, insert_data ).exec(function afterwards(err, updated){
-													if (err) return res.json(err);
+												if (err) return res.json(err);
+												//return res.json(200, { status: 1, text: 'successfully updated' });						
+											});
 
-													//return res.json(200, { status: 1, text: 'successfully updated' });
-
-													Property_meter_link.update({ prop_meter_id: data_feedback['prop_meter_id'] }, {reading_value: data_feedback['reading_value']} ).exec(function afterwards(err, updated){
-														if (err) return res.json(err);
-														//return res.json(200, { status: 1, text: 'successfully updated' });
-													});
-
-
+											Property_meter_link.update({ prop_meter_id: data_feedback['prop_meter_id'] }, {reading_value: data_feedback['reading_value']} ).exec(function afterwards(err, updated){
+												if (err) return res.json(err);
+												//return res.json(200, { status: 1, text: 'successfully updated' });
 											});
 
 
@@ -1475,13 +1472,11 @@ module.exports = {
 											Property_feedback.create( insert_data ).exec(function afterwards(err, updated){
 												if (err) return res.json(err);
 												//return res.json(200, { status: 1, text: 'successfully inserted' });
+											});
 
-												Property_meter_link.update({ prop_meter_id: data_feedback['prop_meter_id'] }, {reading_value: data_feedback['reading_value']} ).exec(function afterwards(err, updated){
-														if (err) return res.json(err);
-														//return res.json(200, { status: 1, text: 'successfully updated' });
-												});
-
-
+											Property_meter_link.update({ prop_meter_id: data_feedback['prop_meter_id'] }, {reading_value: data_feedback['reading_value']} ).exec(function afterwards(err, updated){
+												if (err) return res.json(err);
+												//return res.json(200, { status: 1, text: 'successfully updated' });
 											});
 
 
