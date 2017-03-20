@@ -1423,6 +1423,8 @@ module.exports = {
 								var meter_list =  req.param('data');
 								for(var i = 0, l = meter_list.length; i < l ; i++ ){
 
+									sails.log(meter_list[i]);
+
 									var data_feedback =  meter_list[i];
 									var prop_feedback_id ='';
 									if(data_feedback.hasOwnProperty('prop_feedback_id') ){
