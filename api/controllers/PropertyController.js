@@ -1464,7 +1464,9 @@ module.exports = {
 												'item_id' : data_feedback['prop_meter_id'],
 												'option' : '',
 												'comment' : (data_feedback['comment']? data_feedback['comment'] : ''),
-												'description' : (data_feedback['description']? data_feedback['description'] : '')										
+												'description' : (data_feedback['description']? data_feedback['description'] : ''),
+												'parent_id' : '',
+												'type' : 'METER'									
 											};
 
 											//sails.log(insert_data);
@@ -1472,7 +1474,7 @@ module.exports = {
 											Property_feedback.create( insert_data ).exec(function afterwards(err, updated){
 												if (err){
 													sails.log(err);
-													//return res.json(err);
+													return res.json(err);
 												} 
 													
 												//return res.json(200, { status: 1, text: 'successfully inserted' });
@@ -1481,7 +1483,7 @@ module.exports = {
 											Property_meter_link.update({ prop_meter_id: data_feedback['prop_meter_id'] }, {reading_value: (data_feedback['reading_value']? data_feedback['reading_value']: '') } ).exec(function afterwards(err, updated){
 												if (err){
 													sails.log(err);
-													//return res.json(err);
+													return res.json(err);
 												}
 												//return res.json(200, { status: 1, text: 'successfully updated' });
 											});
