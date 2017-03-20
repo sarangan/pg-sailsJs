@@ -1420,71 +1420,72 @@ module.exports = {
 								if(user.company_id ==  property_details.company_id ){
 
 
-								var meter_list =  req.param('data');
-								for(var i = 0, l = meter_list.length; i < l ; i++ ){
+									var meter_list =  req.param('data');
+									for(var i = 0, l = meter_list.length; i < l ; i++ ){
 
-									sails.log(meter_list[i]);
+										sails.log(meter_list[i]);
 
-									var data_feedback =  meter_list[i];
-									var prop_feedback_id ='';
+										var data_feedback =  meter_list[i];
+										var prop_feedback_id ='';
 
-									if(data_feedback.hasOwnProperty('prop_feedback_id') ){
-										prop_feedback_id = data_feedback['prop_feedback_id'];
-										delete data_feedback['prop_feedback_id'];
-									}
+										if(data_feedback.hasOwnProperty('prop_feedback_id') ){
+											prop_feedback_id = data_feedback['prop_feedback_id'];
+											delete data_feedback['prop_feedback_id'];
+										}
 
-									var insert_data = {
-										'option' : '',
-										'comment' : data_feedback['comment'],
-										'description' : data_feedback['description']										
-									};
-
-									if(prop_feedback_id){
-
-										Property_feedback.update({prop_feedback_id: prop_feedback_id }, insert_data ).exec(function afterwards(err, updated){
-												if (err) return res.json(err);
-
-												//return res.json(200, { status: 1, text: 'successfully updated' });
-
-												Property_meter_link.update({ prop_meter_id: data_feedback['prop_meter_id'] }, {reading_value: data_feedback['reading_value']} ).exec(function afterwards(err, updated){
-													if (err) return res.json(err);
-													//return res.json(200, { status: 1, text: 'successfully updated' });
-												});
-
-
-										});
-
-
-									}
-									else{
-
-										const uuidV4 = require('uuid/v4');
-										prop_feedback_id = uuidV4();
-										
 										var insert_data = {
-											'prop_feedback_id' : prop_feedback_id,
-											'property_id' : property_id,
-											'item_id' : data_feedback['prop_meter_id'],
 											'option' : '',
 											'comment' : data_feedback['comment'],
 											'description' : data_feedback['description']										
+										};
+
+										if(prop_feedback_id){
+
+											Property_feedback.update({prop_feedback_id: prop_feedback_id }, insert_data ).exec(function afterwards(err, updated){
+													if (err) return res.json(err);
+
+													//return res.json(200, { status: 1, text: 'successfully updated' });
+
+													Property_meter_link.update({ prop_meter_id: data_feedback['prop_meter_id'] }, {reading_value: data_feedback['reading_value']} ).exec(function afterwards(err, updated){
+														if (err) return res.json(err);
+														//return res.json(200, { status: 1, text: 'successfully updated' });
+													});
+
+
+											});
+
+
 										}
+										else{
 
-
-										Property_feedback.insert( insert_data ).exec(function afterwards(err, updated){
-											if (err) return res.json(err);
-											//return res.json(200, { status: 1, text: 'successfully inserted' });
-
+											const uuidV4 = require('uuid/v4');
+											prop_feedback_id = uuidV4();
 											
+											var insert_data = {
+												'prop_feedback_id' : prop_feedback_id,
+												'property_id' : property_id,
+												'item_id' : data_feedback['prop_meter_id'],
+												'option' : '',
+												'comment' : data_feedback['comment'],
+												'description' : data_feedback['description']										
+											}
 
-										});
+											sails.log(insert_data);
+											
+											Property_feedback.insert( insert_data ).exec(function afterwards(err, updated){
+												if (err) return res.json(err);
+												//return res.json(200, { status: 1, text: 'successfully inserted' });
 
+
+
+											});
+
+
+										}
 
 									}
 
-								}
-
-								return res.json(200, { status: 1, text: 'successfully updated' });
+									return res.json(200, { status: 1, text: 'successfully updated' });
 
 
 								}
