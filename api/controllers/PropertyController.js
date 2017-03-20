@@ -1465,7 +1465,7 @@ module.exports = {
 												'option' : '',
 												'comment' : (data_feedback['comment']? data_feedback['comment'] : ''),
 												'description' : (data_feedback['description']? data_feedback['description'] : ''),
-												'parent_id' : '',
+												'parent_id' : data_feedback['prop_meter_id'],
 												'type' : 'METER'									
 											};
 
