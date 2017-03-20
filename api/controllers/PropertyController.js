@@ -1683,7 +1683,8 @@ module.exports = {
 								if(user.company_id ==  property_details.company_id ){
 
 									//good to go from here
-									var qry = "select property_subitem_link.*, company_subitem_link.item_name, company_subitem_link.type, property_masteritem_link.prop_master_id, company_subitem_link.com_master_id from property_subitem_link inner join company_subitem_link on property_subitem_link.com_subitem_id = company_subitem_link.com_subitem_id inner JOIN property_masteritem_link on company_subitem_link.com_master_id = property_masteritem_link.com_master_id where property_subitem_link.status =1 and property_masteritem_link.prop_master_id ="+ prop_master_id +" and property_subitem_link.property_id= "+ property_id + " order by company_subitem_link.type" ;
+									var qry = "select property_subitem_link.*, property_masteritem_link.prop_master_id, property_masteritem_link.name as master_item_name,company_subitem_link.com_master_id from property_subitem_link inner join company_subitem_link on property_subitem_link.com_subitem_id = company_subitem_link.com_subitem_id INNER JOIN property_masteritem_link ON company_subitem_link.com_master_id = property_masteritem_link.com_master_id where property_subitem_link.status =1 and property_masteritem_link.prop_master_id ='" + prop_master_id +"' and property_subitem_link.property_id='" + property_id +"' order by property_subitem_link.type";
+									
 									Property_subitem_link.query(qry, function(err, sub_items){
 
 										return res.json({status: 1, sub_items: sub_items});
