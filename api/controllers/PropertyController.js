@@ -1470,12 +1470,19 @@ module.exports = {
 											//sails.log(insert_data);
 
 											Property_feedback.create( insert_data ).exec(function afterwards(err, updated){
-												if (err) return res.json(err);
+												if (err){
+													sails.log(err);
+													//return res.json(err);
+												} 
+													
 												//return res.json(200, { status: 1, text: 'successfully inserted' });
 											});
 
 											Property_meter_link.update({ prop_meter_id: data_feedback['prop_meter_id'] }, {reading_value: (data_feedback['reading_value']? data_feedback['reading_value']: '') } ).exec(function afterwards(err, updated){
-												if (err) return res.json(err);
+												if (err){
+													sails.log(err);
+													//return res.json(err);
+												}
 												//return res.json(200, { status: 1, text: 'successfully updated' });
 											});
 
