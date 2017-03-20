@@ -1423,7 +1423,7 @@ module.exports = {
 									var meter_list =  req.param('data');
 									for(var i = 0, l = meter_list.length; i < l ; i++ ){
 
-										sails.log(meter_list[i]);
+										//sails.log(meter_list[i]);
 
 										var data_feedback =  meter_list[i];
 										var prop_feedback_id ='';
@@ -1470,11 +1470,17 @@ module.exports = {
 												'description' : data_feedback['description']										
 											};
 
-											sails.log(insert_data);
+											//sails.log(insert_data);
 
 											Property_feedback.create( insert_data ).exec(function afterwards(err, updated){
 												if (err) return res.json(err);
 												//return res.json(200, { status: 1, text: 'successfully inserted' });
+
+												Property_meter_link.update({ prop_meter_id: data_feedback['prop_meter_id'] }, {reading_value: data_feedback['reading_value']} ).exec(function afterwards(err, updated){
+														if (err) return res.json(err);
+														//return res.json(200, { status: 1, text: 'successfully updated' });
+												});
+
 
 											});
 
