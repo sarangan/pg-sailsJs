@@ -1692,8 +1692,13 @@ module.exports = {
 
 									// });
 
-									Property_subitem_link.query(qry)
+									var Promise = require('bluebird');
+
+									var subitemQueryAsync = Promise.promisify(Property_subitem_link.query);
+
+									subitemQueryAsync.query(qry)
 										.then( function(sub_items){
+
 											sails.log.debug('initial list of sub items  ' +  sub_items.length );
 											
 											var gen_sub_item_id = '';
