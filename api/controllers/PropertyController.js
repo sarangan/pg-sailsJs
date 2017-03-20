@@ -1686,11 +1686,45 @@ module.exports = {
 
 									var qry = "select property_subitem_link.*, property_masteritem_link.prop_master_id, property_masteritem_link.name as master_item_name,company_subitem_link.com_master_id, property_feedback.prop_feedback_id, property_feedback.comment, property_feedback.description from property_subitem_link INNER JOIN company_subitem_link on property_subitem_link.com_subitem_id = company_subitem_link.com_subitem_id INNER JOIN property_masteritem_link ON company_subitem_link.com_master_id = property_masteritem_link.com_master_id LEFT JOIN property_feedback on property_subitem_link.prop_subitem_id = property_feedback.item_id where property_subitem_link.status =1 and property_masteritem_link.prop_master_id ='" + prop_master_id +"' and property_subitem_link.property_id='" + property_id +"' order by property_subitem_link.priority";
 									
-									Property_subitem_link.query(qry, function(err, sub_items){
+									// Property_subitem_link.query(qry, function(err, sub_items){
 
-										return res.json({status: 1, sub_items: sub_items});
+									// 	return res.json({status: 1, sub_items: sub_items});
 
-									});
+									// });
+
+									Property_subitem_link.query(qry)
+										.then( function(sub_items){
+											sails.log.debug('initial list of sub items  ' +  sub_items.length );
+											
+											var gen_sub_item_id = '';
+											for(var i =0, l = sub_items.length; i < l ; i++){
+												if(sub_items[i].type == 'GENERAL'){
+													gen_sub_item_id = sub_items[i].prop_subitem_id;
+												}
+											}
+
+											var comments = null;
+
+											if(gen_sub_item_id){
+
+												comments = Property_sub_feedback_general.find({ item_id: gen_sub_item_id }).then(function(comments){
+											        return comments;
+											    });
+											    
+											}
+
+											return [ sub_items, comments];
+
+										}).spread(function( sub_items, comments){
+
+											sails.log('last promise');
+											return res.json({status: 1, sub_items: sub_items, gen_comment:comments });
+
+										}).fail( function(err){
+								            // do something when is error
+								            if(err) return res.json(err);
+								        });
+
 
 								}
 								else{
