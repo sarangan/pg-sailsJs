@@ -1468,15 +1468,13 @@ module.exports = {
 												'option' : '',
 												'comment' : data_feedback['comment'],
 												'description' : data_feedback['description']										
-											}
+											};
 
 											sails.log(insert_data);
-											
-											Property_feedback.insert( insert_data ).exec(function afterwards(err, updated){
+
+											Property_feedback.create( insert_data ).exec(function afterwards(err, updated){
 												if (err) return res.json(err);
 												//return res.json(200, { status: 1, text: 'successfully inserted' });
-
-
 
 											});
 
@@ -1617,7 +1615,7 @@ module.exports = {
 										data_feedback['prop_feedback_id'] = prop_feedback_id;
 										data_feedback['property_id'] = property_id;
 
-										Property_feedback.insert( data_feedback ).exec(function afterwards(err, updated){
+										Property_feedback.create( data_feedback ).exec(function afterwards(err, updated){
 												if (err) return res.json(err);
 
 												return res.json(200, { status: 1, text: 'successfully inserted' });
