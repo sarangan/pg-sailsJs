@@ -1727,6 +1727,7 @@ module.exports = {
 											return res.json({status: 1, sub_items: sub_items, gen_comment:comments });
 
 										}).fail( function(err){
+												sails.log(err);
 								            // do something when is error
 								            if(err) return res.json(err);
 								        });
