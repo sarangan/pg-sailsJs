@@ -1692,12 +1692,12 @@ module.exports = {
 
 									// });
 
-									/*var Promise = require('bluebird');
+									var Promise = require('bluebird');
 
-									var subitemQueryAsync = new Promise(Property_subitem_link.query);
+									var subitemQueryAsync =  Promise.promisifyAll(Property_subitem_link.query);
 
 									//subitemQueryAsync.query(qry)
-									Property_subitem_link.query(qry)
+									Property_subitem_link.queryAsync(qry)
 										.then( function(sub_items){
 
 											sails.log('initial list of sub items  ' +  sub_items.length );
@@ -1729,9 +1729,11 @@ module.exports = {
 										}).fail( function(err){
 								            // do something when is error
 								            if(err) return res.json(err);
-								        });*/
+								        });
 
-										Property_subitem_link
+
+
+										/*Property_subitem_link
 										 .query(qry)
 										 .then(function(sub_items){
 										 //act on result
@@ -1767,7 +1769,7 @@ module.exports = {
 										 //clean up
 										 });
 
-
+*/
 
 								}
 								else{
