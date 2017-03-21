@@ -1697,7 +1697,7 @@ module.exports = {
 									var subitemQueryAsync =  Promise.promisifyAll(Property_subitem_link.query);
 
 									//subitemQueryAsync.query(qry)
-									Property_subitem_link.queryAsync(qry)
+									subitemQueryAsync.queryAsync(qry)
 										.then( function(sub_items){
 
 											sails.log('initial list of sub items  ' +  sub_items.length );
