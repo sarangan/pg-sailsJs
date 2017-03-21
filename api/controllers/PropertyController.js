@@ -1692,7 +1692,7 @@ module.exports = {
 
 									// });
 
-									var Promise = require('bluebird');
+									/*var Promise = require('bluebird');
 
 									var subitemQueryAsync = new Promise(Property_subitem_link.query);
 
@@ -1729,7 +1729,44 @@ module.exports = {
 										}).fail( function(err){
 								            // do something when is error
 								            if(err) return res.json(err);
-								        });
+								        });*/
+
+										Property_subitem_link
+										 .query(qry)
+										 .then(function(sub_items){
+										 //act on result
+
+										 	var gen_sub_item_id = '';
+											for(var i =0, l = sub_items.length; i < l ; i++){
+												if(sub_items[i].type == 'GENERAL'){
+													gen_sub_item_id = sub_items[i].prop_subitem_id;
+												}
+											}
+
+											if(gen_sub_item_id){
+
+												Property_sub_feedback_general.find({ item_id: gen_sub_item_id }).then(function(comments){
+
+													return res.json({status: 1, sub_items: sub_items, gen_comment:comments });
+
+												});
+
+											}
+											else{
+												return res.json({status: 1, sub_items: sub_items, gen_comment:'' });
+											}
+
+
+
+
+										 })
+										 .catch(function(error){
+										 //handle error
+										 })
+										 .done(function(){
+										 //clean up
+										 });
+
 
 
 								}
