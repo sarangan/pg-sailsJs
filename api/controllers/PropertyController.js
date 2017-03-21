@@ -1694,12 +1694,12 @@ module.exports = {
 
 									var Promise = require('bluebird');
 
-									var subitemQueryAsync = Promise.promisify(Property_subitem_link.query);
+									var subitemQueryAsync = new Promise(Property_subitem_link.query);
 
 									subitemQueryAsync.query(qry)
 										.then( function(sub_items){
 
-											sails.log.debug('initial list of sub items  ' +  sub_items.length );
+											sails.log('initial list of sub items  ' +  sub_items.length );
 											
 											var gen_sub_item_id = '';
 											for(var i =0, l = sub_items.length; i < l ; i++){
