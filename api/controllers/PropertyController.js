@@ -1698,6 +1698,8 @@ module.exports = {
 
 										if(gen_sub_item_id){
 
+											sails.log('found general');
+											sails.log(gen_sub_item_id);
 											
 										    Property_sub_feedback_general.find({item_id: gen_sub_item_id }).exec(function afterwards(err, comments){
 										    	return res.json({status: 1, sub_items: sub_items, gen_comment:comments });
@@ -1705,6 +1707,7 @@ module.exports = {
 									    
 										}
 										else{
+											sails.log('not found general');
 
 											return res.json({status: 1, sub_items: sub_items, gen_comment:'' });
 										}
