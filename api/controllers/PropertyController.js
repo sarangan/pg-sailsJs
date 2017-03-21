@@ -1694,7 +1694,7 @@ module.exports = {
 
 									var Promise = require('bluebird');
 
-									var subitemQueryAsync =  Promise.promisifyAll(Property_subitem_link.query);
+									var subitemQueryAsync =  Promise.promisifyAll(Property_subitem_link);
 
 									//subitemQueryAsync.query(qry)
 									subitemQueryAsync.queryAsync(qry)
