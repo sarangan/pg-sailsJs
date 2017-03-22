@@ -1925,7 +1925,7 @@ module.exports = {
 													comment: data_general_comment['comment'],
 													prop_sub_feedback_general_id: prop_sub_feedback_general_id,
 													property_id: property_id,
-													item_id: data_feedback['prop_subitem_id']
+													item_id: data_feedback['prop_subitem_id'],
 													parent_id: req.param('prop_master_id')
 												}
 
