@@ -1699,7 +1699,7 @@ module.exports = {
 										if(gen_sub_item_id){
 
 																						
-										    Property_sub_feedback_general.find({item_id: gen_sub_item_id }).exec(function afterwards(err, comments){
+										    Property_sub_feedback_general.findOne({item_id: gen_sub_item_id }).exec(function afterwards(err, comments){
 										    	return res.json({status: 1, sub_items: sub_items, gen_comment:comments });
 										    });
 									    
@@ -1813,6 +1813,160 @@ module.exports = {
 
 
 		},
+
+		//this is to update sub items
+		updatesubitems: function(req, res){
+
+
+			if( req.token.hasOwnProperty('sid') ){
+				if(req.token.sid){
+
+					var property_id = req.param('property_id');
+
+					if(!property_id){
+						return res.json({status: 2, text: 'property id is missing!' });
+					}
+					else{
+
+						User.findOne({id :  req.token.sid}).exec(function(err, user){
+							if(err) return res.json(err);
+
+							console.log('user', user.company_id);
+
+							Property.findOne({property_id: property_id }).exec(function(err, property_details){
+								if(err) return res.json(err);
+
+								//check if the user is authorize to access this property
+								if(user.company_id ==  property_details.company_id ){
+
+
+									var sub_list =  req.param('sub_list');
+									for(var i = 0, l = sub_list.length; i < l ; i++ ){
+
+										//sails.log(meter_list[i]);
+
+										var data_feedback =  sub_list[i];
+										var prop_feedback_id ='';
+
+										if(data_feedback.hasOwnProperty('prop_feedback_id') ){
+											prop_feedback_id = data_feedback['prop_feedback_id'];
+											delete data_feedback['prop_feedback_id'];
+										}
+
+										var update_data = {
+											'option' : data_feedback['option'],
+											'comment' : data_feedback['comment'],
+											'description' : data_feedback['description']										
+										};
+
+										if(prop_feedback_id){
+
+											Property_feedback.update({prop_feedback_id: prop_feedback_id }, update_data ).exec(function afterwards(err, updated){
+												if (err) return res.json(err);
+												//return res.json(200, { status: 1, text: 'successfully updated' });						
+											});
+
+										}
+										else{
+
+											const uuidV4 = require('uuid/v4');
+											prop_feedback_id = uuidV4();
+											
+											var insert_data = {
+												'prop_feedback_id' : prop_feedback_id,
+												'property_id' : property_id,
+												'item_id' : data_feedback['prop_subitem_id'],
+												'option' : (data_feedback['option']? data_feedback['option'] : ''),
+												'comment' : (data_feedback['comment']? data_feedback['comment'] : ''),
+												'description' : (data_feedback['description']? data_feedback['description'] : ''),
+												'parent_id' : data_feedback['prop_master_id'],
+												'type' : 'SUB'									
+											};
+
+											//sails.log(insert_data);
+
+											Property_feedback.create( insert_data ).exec(function afterwards(err, updated){
+												if (err){
+													sails.log(err);
+													return res.json(err);
+												} 
+													
+												//return res.json(200, { status: 1, text: 'successfully inserted' });
+											});
+
+											
+										}
+
+
+										if(data_feedback['type'] == 'GENERAL'){
+
+											// START insert and update general comment 
+											var data_general_comment =  req.param('gen_comment');
+											if(data_general_comment.hasOwnProperty('prop_sub_feedback_general_id') ){
+
+												var gen_data = {
+													comment: data_general_comment['comment']
+												}
+
+												Property_sub_feedback_general.update({ prop_sub_feedback_general_id: data_general_comment['prop_sub_feedback_general_id'] }, gen_data ).exec(function afterwards(err, updated){
+													if (err) return res.json(err);
+													//return res.json(200, { status: 1, text: 'successfully updated' });
+												});
+
+											}
+											else{
+
+												const uuidV4 = require('uuid/v4');
+												var prop_sub_feedback_general_id = uuidV4();
+
+												var gen_data = {
+
+													comment: data_general_comment['comment'],
+													prop_sub_feedback_general_id: prop_sub_feedback_general_id,
+													property_id: property_id,
+													item_id: data_feedback['prop_subitem_id']
+													parent_id: req.param('prop_master_id')
+												}
+
+												Property_sub_feedback_general.update(gen_data).exec(function afterwards(err, updated){
+													if (err) return res.json(err);
+													//return res.json(200, { status: 1, text: 'successfully updated' });
+												});
+
+											}
+											// END insert and update general comment
+
+										}
+										
+
+									}
+
+																		
+									return res.json(200, { status: 1, text: 'successfully updated' });
+
+
+								}
+								else{
+									return res.json({status: 2, text: 'you are not allow to access this property!' });
+								}
+
+							});
+
+
+
+						});
+
+					}
+
+
+
+
+				}
+			}
+
+
+		},
+
 		getSignaturesList: function(req, res){
 
 			if( req.token.hasOwnProperty('sid') ){

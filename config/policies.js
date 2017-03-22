@@ -63,6 +63,7 @@ module.exports.policies = {
    'getConditionComment': ['tokenAuth'],
    'getMeterList': ['tokenAuth'],
    'getSubItemsList': ['tokenAuth'],
+   'updatesubitems' : ['tokenAuth'],
    'getgeneralconditionlist': ['tokenAuth'],
    'updategeneralcondition': ['tokenAuth'],
    'getSingleItem': ['tokenAuth'],
