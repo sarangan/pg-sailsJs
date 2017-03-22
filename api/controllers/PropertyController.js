@@ -1903,38 +1903,46 @@ module.exports = {
 
 											// START insert and update general comment 
 											var data_general_comment =  req.param('gen_comment');
-											if(data_general_comment.hasOwnProperty('prop_sub_feedback_general_id') ){
 
-												var gen_data = {
-													comment: data_general_comment['comment']
+											if(data_general_comment){
+
+												if(data_general_comment.hasOwnProperty('prop_sub_feedback_general_id') ){
+
+													var gen_data = {
+														comment: data_general_comment['comment']
+													}
+
+													Property_sub_feedback_general.update({ prop_sub_feedback_general_id: data_general_comment['prop_sub_feedback_general_id'] }, gen_data ).exec(function afterwards(err, updated){
+														if (err) return res.json(err);
+														//return res.json(200, { status: 1, text: 'successfully updated' });
+													});
+
 												}
+												else{
 
-												Property_sub_feedback_general.update({ prop_sub_feedback_general_id: data_general_comment['prop_sub_feedback_general_id'] }, gen_data ).exec(function afterwards(err, updated){
-													if (err) return res.json(err);
-													//return res.json(200, { status: 1, text: 'successfully updated' });
-												});
+													//const uuidV4 = require('uuid/v4');
+													var prop_sub_feedback_general_id = uuidV4();
+
+													var gen_data = {
+
+														comment: data_general_comment['comment'],
+														prop_sub_feedback_general_id: prop_sub_feedback_general_id,
+														property_id: property_id,
+														item_id: data_feedback['prop_subitem_id'],
+														parent_id: req.param('prop_master_id')
+													}
+
+													Property_sub_feedback_general.update(gen_data).exec(function afterwards(err, updated){
+														if (err) return res.json(err);
+														//return res.json(200, { status: 1, text: 'successfully updated' });
+													});
+
+												}
+											
 
 											}
-											else{
 
-												//const uuidV4 = require('uuid/v4');
-												var prop_sub_feedback_general_id = uuidV4();
-
-												var gen_data = {
-
-													comment: data_general_comment['comment'],
-													prop_sub_feedback_general_id: prop_sub_feedback_general_id,
-													property_id: property_id,
-													item_id: data_feedback['prop_subitem_id'],
-													parent_id: req.param('prop_master_id')
-												}
-
-												Property_sub_feedback_general.update(gen_data).exec(function afterwards(err, updated){
-													if (err) return res.json(err);
-													//return res.json(200, { status: 1, text: 'successfully updated' });
-												});
-
-											}
+											
 											// END insert and update general comment
 
 										}
