@@ -1839,6 +1839,7 @@ module.exports = {
 								//check if the user is authorize to access this property
 								if(user.company_id ==  property_details.company_id ){
 
+									const uuidV4 = require('uuid/v4');
 
 									var sub_list =  req.param('sub_list');
 									for(var i = 0, l = sub_list.length; i < l ; i++ ){
@@ -1869,7 +1870,7 @@ module.exports = {
 										}
 										else{
 
-											const uuidV4 = require('uuid/v4');
+											
 											prop_feedback_id = uuidV4();
 											
 											var insert_data = {
@@ -1916,7 +1917,7 @@ module.exports = {
 											}
 											else{
 
-												const uuidV4 = require('uuid/v4');
+												//const uuidV4 = require('uuid/v4');
 												var prop_sub_feedback_general_id = uuidV4();
 
 												var gen_data = {
