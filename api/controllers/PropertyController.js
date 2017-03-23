@@ -2024,6 +2024,47 @@ module.exports = {
 				}
 			}
 
+		},
+
+		//this is to get company template
+		getCompanylist: function(req, res){
+
+
+			if( req.token.hasOwnProperty('sid') ){
+				if(req.token.sid){
+					
+					User.findOne({id :  req.token.sid}).exec(function(err, user){
+						if(err) return res.json(err);
+
+						console.log('user', user.company_id);
+
+						//check if the user is authorize to access this property
+						if(user.company_id){
+
+							
+							var qry = "select company_masteritem_link.* from company_masteritem_link where company_masteritem_link.company_id ="+ user.company_id +" order by property_masteritem_link.priority";
+							Property_masteritem_link.query(qry, function(err, template_list){
+								//console.log(prop_room);
+								return res.json({status: 1, template: template_list });
+
+							});
+
+						}
+						else{
+							return res.json({status: 2, text: 'you are not allow to access this property!' });
+						}
+
+						
+
+
+					});
+
+				}
+
+
+			}
+
+
 		}
 
 
