@@ -2042,7 +2042,7 @@ module.exports = {
 						if(user.company_id){
 
 							
-							var qry = "select company_masteritem_link.* from company_masteritem_link where company_masteritem_link.company_id ="+ user.company_id +" order by property_masteritem_link.priority";
+							var qry = "select company_masteritem_link.* from company_masteritem_link where company_masteritem_link.company_id ="+ user.company_id +" order by company_masteritem_link.priority";
 							Property_masteritem_link.query(qry, function(err, template_list){
 								//console.log(prop_room);
 								return res.json({status: 1, template: template_list });
