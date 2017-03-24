@@ -70,7 +70,8 @@ module.exports.policies = {
    'updateSingleItem': ['tokenAuth'],
    'updatemeterlist': ['tokenAuth'],
    'getcompanytemplate' : ['tokenAuth'],
-   'getgeneralconditiontemplate' : ['tokenAuth']
+   'getgeneralconditiontemplate' : ['tokenAuth'],
+   'updategeneralconditiontemplate' :  ['tokenAuth']
  }
   /***************************************************************************
   *                                                                          *
