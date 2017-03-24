@@ -2129,7 +2129,7 @@ module.exports = {
 
 								var general_id = gen_list[i]['com_general_id'];
 								var data = {
-									'item_name' : gen_list[i]['options'],
+									'item_name' : gen_list[i]['item_name'],
 									'options' :  gen_list[i]['options']
 								}
 
