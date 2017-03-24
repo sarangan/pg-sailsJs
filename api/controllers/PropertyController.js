@@ -2161,7 +2161,59 @@ module.exports = {
 			}
 
 
+		},
+
+		//this is to get property template
+		insertgeneralconditiontemplate: function(req, res){
+
+
+			if( req.token.hasOwnProperty('sid') ){
+				if(req.token.sid){
+
+
+					User.findOne({id :  req.token.sid}).exec(function(err, user){
+						if(err) return res.json(err);
+
+						console.log('user', user.company_id);
+
+
+						//check if the user is authorize to access this property
+						if(user.company_id){
+
+							var gen_item =  req.param('gen_item');
+
+							gen_item['company_id'] = user.company_id;
+							gen_item['status'] = 1;
+
+							Company_general_condition_link.create(gen_item).exec(function afterwards(err, updated){
+								if (err) return res.json(err);
+
+								return res.json(200, { status: 1, text: 'successfully updated' });
+							});							
+
+
+						}
+						else{
+							return res.json({status: 2, text: 'you are not allow to access this property!' });
+						}
+
+						
+
+
+					});
+
+					
+
+
+
+
+				}
+			}
+
+
 		}
+
+
 
 
 
