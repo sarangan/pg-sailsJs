@@ -71,7 +71,8 @@ module.exports.policies = {
    'updatemeterlist': ['tokenAuth'],
    'getcompanytemplate' : ['tokenAuth'],
    'getgeneralconditiontemplate' : ['tokenAuth'],
-   'updategeneralconditiontemplate' :  ['tokenAuth']
+   'updategeneralconditiontemplate' :  ['tokenAuth'],
+   'insertgeneralconditiontemplate' : ['tokenAuth']
  }
   /***************************************************************************
   *                                                                          *
