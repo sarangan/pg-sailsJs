@@ -2083,7 +2083,7 @@ module.exports = {
 						if(user.company_id){
 
 
-							var qry = "select company_general_condition_link.* from company_general_condition_link where company_general_condition_link.company_id="+ user.company_id +" order by company_general_condition_link.priority";
+							var qry = "select company_general_condition_link.* from company_general_condition_link where company_general_condition_link.status = 1 and company_general_condition_link.company_id="+ user.company_id +" order by company_general_condition_link.priority";
 							Company_general_condition_link.query(qry, function(err, com_gen){
 								//console.log(prop_room);
 								return res.json({status: 1, gen_list: com_gen });
