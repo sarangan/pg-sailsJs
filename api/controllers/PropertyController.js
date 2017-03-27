@@ -2226,12 +2226,11 @@ module.exports = {
 							var gen_id =  req.param('general_id');
 
 							var data = {
-								com_general_id: gen_id,
-								company_id : user.company_id
+								status : 2
 							};
 
 							if(gen_id){
-								Company_general_condition_link.destroy(data).exec(function afterwards(err, updated){
+								Company_general_condition_link.update({com_general_id: general_id }, data).exec(function afterwards(err, updated){
 									if (err) return res.json(err);
 
 									return res.json(200, { status: 1, text: 'successfully deleted' });
