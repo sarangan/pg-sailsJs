@@ -73,7 +73,8 @@ module.exports.policies = {
    'getgeneralconditiontemplate' : ['tokenAuth'],
    'updategeneralconditiontemplate' :  ['tokenAuth'],
    'insertgeneralconditiontemplate' : ['tokenAuth'],
-   'deletegeneralconditiontemplate' :  ['tokenAuth']
+   'deletegeneralconditiontemplate' :  ['tokenAuth'],
+   'getsubitemstmplate' : ['tokenAuth']
  }
   /***************************************************************************
   *                                                                          *
