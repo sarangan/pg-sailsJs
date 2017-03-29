@@ -2256,7 +2256,45 @@ module.exports = {
 			}
 
 
-		}
+		},
+
+		//get sub items list
+		getsubitemstmplate: function(req, res){
+
+
+			if( req.token.hasOwnProperty('sid') ){
+				if(req.token.sid){
+
+					User.findOne({id :  req.token.sid}).exec(function(err, user){
+						if(err) return res.json(err);
+
+						console.log('user', user.company_id);
+
+						//check if the user is authorize to access this property
+						if(user.company_id && req.param('com_master_id') ){
+
+
+							var qry = "select company_subitem_link.* from company_subitem_link where company_subitem_link.status = 1 and company_subitem_link.com_master_id="+ req.param('com_master_id') +" and company_subitem_link.company_id="+ user.company_id +" order by company_subitem_link.priority";
+							Company_subitem_link.query(qry, function(err, com_sub){
+								//console.log(prop_room);
+								return res.json({status: 1, sub_items: com_sub });
+
+							});
+
+						}
+						else{
+							return res.json({status: 2, text: 'you are not allow to access this property!' });
+						}
+
+
+					});
+
+
+
+				}
+			}
+
+
 
 
 
