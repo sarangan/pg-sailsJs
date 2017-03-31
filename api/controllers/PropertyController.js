@@ -2427,6 +2427,184 @@ module.exports = {
 			}
 
 
+		},
+
+		//get meter items list template
+		getmeterlisttemplate: function(req, res){
+
+
+			if( req.token.hasOwnProperty('sid') ){
+				if(req.token.sid){
+
+					User.findOne({id :  req.token.sid}).exec(function(err, user){
+						if(err) return res.json(err);
+
+						console.log('user', user.company_id);
+
+						//check if the user is authorize to access this property
+						if(user.company_id && req.param('com_master_id') ){
+
+
+							var qry = "select company_meter_link.* from company_meter_link where company_meter_link.status = 1 and company_meter_link.company_id="+ user.company_id ;
+							Company_meter_link.query(qry, function(err, com_meter){
+								//console.log(prop_room);
+								return res.json({status: 1, meter_list: com_meter });
+
+							});
+
+						}
+						else{
+							return res.json({status: 2, text: 'you are not allow to access this property!' });
+						}
+
+
+					});
+
+
+
+				}
+			}
+		},
+
+		//this is to update sub items template
+		updatemeterlisttemplate: function(req, res){
+
+
+			if( req.token.hasOwnProperty('sid') ){
+				if(req.token.sid){
+
+
+					User.findOne({id :  req.token.sid}).exec(function(err, user){
+						if(err) return res.json(err);
+
+						console.log('user', user.company_id);
+
+
+						//check if the user is authorize to access this property
+						if(user.company_id){
+
+							var meter_list =  req.param('meter_list');
+							for(var i = 0, l = meter_list.length; i < l ; i++ ){
+
+								var meter_id = meter_list[i]['com_meter_id'];
+								var data = {
+									'meter_name' : meter_list[i]['meter_name']
+								}
+
+								Company_meter_link.update({com_meter_id: meter_id }, data ).exec(function afterwards(err, updated){
+										if (err) return res.json(err);
+								});
+
+							}
+
+							return res.json(200, { status: 1, text: 'successfully updated' });
+
+
+						}
+						else{
+							return res.json({status: 2, text: 'you are not allow to access this property!' });
+						}
+
+					});
+
+				}
+			}
+
+		},
+
+		//this is to insert new sub item template 
+		insertmeteritemtemplate: function(req, res){
+
+
+			if( req.token.hasOwnProperty('sid') ){
+				if(req.token.sid){
+
+
+					User.findOne({id :  req.token.sid}).exec(function(err, user){
+						if(err) return res.json(err);
+
+						console.log('user', user.company_id);
+
+
+						//check if the user is authorize to access this property
+						if(user.company_id){
+
+							var meter_item =  req.param('meter_item');
+
+							meter_item['company_id'] = user.company_id;
+							meter_item['status'] = 1;
+
+							Company_meter_link.create(meter_item).exec(function afterwards(err, updated){
+								if (err) return res.json(err);
+
+								return res.json(200, { status: 1, text: 'successfully updated' });
+							});							
+
+
+						}
+						else{
+							return res.json({status: 2, text: 'you are not allow to access this property!' });
+						}
+
+					});
+
+
+				}
+			}
+
+
+		},
+
+		//this is to get property template
+		deletemeteritemtemplate: function(req, res){
+
+
+			if( req.token.hasOwnProperty('sid') ){
+				if(req.token.sid){
+
+
+					User.findOne({id :  req.token.sid}).exec(function(err, user){
+						if(err) return res.json(err);
+
+						console.log('user', user.company_id);
+
+
+						//check if the user is authorize to access this property
+						if(user.company_id){
+
+							var meter_id =  req.param('meter_id');
+
+							var data = {
+								status : 2
+							};
+
+							if(meter_id){
+								Company_meter_link.update({com_meter_id: meter_id }, data).exec(function afterwards(err, updated){
+									if (err) return res.json(err);
+
+									return res.json(200, { status: 1, text: 'successfully deleted' });
+								});
+							}
+							else{
+
+								return res.json({status: 2, text: 'you cannot delete this item!' });
+							}
+														
+														
+
+
+						}
+						else{
+							return res.json({status: 2, text: 'you are not allow to access this property!' });
+						}
+
+						
+					});
+
+				}
+			}
+
+
 		}
 
 
