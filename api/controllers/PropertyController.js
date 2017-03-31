@@ -2148,14 +2148,7 @@ module.exports = {
 						}
 
 						
-
-
 					});
-
-					
-
-
-
 
 				}
 			}
@@ -2293,6 +2286,61 @@ module.exports = {
 
 				}
 			}
+		},
+
+		//this is to update sub items 
+		updatesubitemstemplate: function(req, res){
+
+
+			if( req.token.hasOwnProperty('sid') ){
+				if(req.token.sid){
+
+
+					User.findOne({id :  req.token.sid}).exec(function(err, user){
+						if(err) return res.json(err);
+
+						console.log('user', user.company_id);
+
+
+						//check if the user is authorize to access this property
+						if(user.company_id){
+
+							var sub_items =  req.param('sub_items');
+							for(var i = 0, l = sub_items.length; i < l ; i++ ){
+
+								var sub_id = sub_items[i]['com_subitem_id'];
+								var data = {
+									'item_name' : sub_items[i]['item_name']
+								}
+
+								Company_subitem_link.update({com_subitem_id: sub_id }, data ).exec(function afterwards(err, updated){
+										if (err) return res.json(err);
+								});
+
+							}
+
+							return res.json(200, { status: 1, text: 'successfully updated' });
+
+
+						}
+						else{
+							return res.json({status: 2, text: 'you are not allow to access this property!' });
+						}
+
+						
+
+
+					});
+
+					
+
+
+
+
+				}
+			}
+
+
 		}
 
 
