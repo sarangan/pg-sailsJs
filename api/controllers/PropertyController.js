@@ -2043,7 +2043,7 @@ module.exports = {
 
 							
 							var qry = "select company_masteritem_link.* from company_masteritem_link where company_masteritem_link.company_id ="+ user.company_id +" order by company_masteritem_link.priority";
-							Property_masteritem_link.query(qry, function(err, template_list){
+							Company_masteritem_link.query(qry, function(err, template_list){
 								//console.log(prop_room);
 								return res.json({status: 1, template: template_list });
 
@@ -2066,6 +2066,153 @@ module.exports = {
 
 
 		},
+
+		//this is to update company template
+		updatecompanytemplate: function(req, res){
+
+
+			if( req.token.hasOwnProperty('sid') ){
+				if(req.token.sid){
+					
+					User.findOne({id :  req.token.sid}).exec(function(err, user){
+						if(err) return res.json(err);
+
+						console.log('user', user.company_id);
+
+						//check if the user is authorize to access this property
+						if(user.company_id){
+
+							
+							var master_item =  req.param('master_item');
+							for(var i = 0, l = master_item.length; i < l ; i++ ){
+
+								var master_id = master_item[i]['com_master_id'];
+								var data = {
+									'item_name' : master_item[i]['item_name'],
+									'status' :  master_item[i]['status']
+								}
+
+								Company_masteritem_link.update({com_master_id: master_id }, data ).exec(function afterwards(err, updated){
+										if (err) return res.json(err);
+								});
+
+							}
+
+							return res.json(200, { status: 1, text: 'successfully updated' });
+						}
+						else{
+							return res.json({status: 2, text: 'you are not allow to access this property!' });
+						}
+
+						
+
+
+					});
+
+				}
+
+
+			}
+
+
+		},
+
+		//this is to insert company template
+		insertcompanytemplate: function(req, res){
+
+
+			if( req.token.hasOwnProperty('sid') ){
+				if(req.token.sid){
+
+
+					User.findOne({id :  req.token.sid}).exec(function(err, user){
+						if(err) return res.json(err);
+
+						console.log('user', user.company_id);
+
+
+						//check if the user is authorize to access this property
+						if(user.company_id){
+
+							var master_item =  req.param('master_item');
+
+							master_item['company_id'] = user.company_id;
+							master_item['status'] = 1;
+							master_item['original_master_id'] = 0;
+							master_item['priority'] = 0;
+
+							Company_masteritem_link.create(master_item).exec(function afterwards(err, updated){
+								if (err) return res.json(err);
+
+								return res.json(200, { status: 1, text: 'successfully updated' });
+							});							
+
+
+						}
+						else{
+							return res.json({status: 2, text: 'you are not allow to access this property!' });
+						}
+
+					});
+
+				}
+			}
+
+		},
+
+		//this is to delete master item template
+		deletecompanytemplate: function(req, res){
+
+
+			if( req.token.hasOwnProperty('sid') ){
+				if(req.token.sid){
+
+
+					User.findOne({id :  req.token.sid}).exec(function(err, user){
+						if(err) return res.json(err);
+
+						console.log('user', user.company_id);
+
+
+						//check if the user is authorize to access this property
+						if(user.company_id){
+
+							var com_master_id =  req.param('master_id');
+
+							
+							if(com_master_id){
+
+								var qry = "delete from company_masteritem_link where company_masteritem_link.company_id ="+ user.company_id +" and company_masteritem_link.com_master_id=" + com_master_id;
+								Company_masteritem_link.query(qry, function(err, template_list){
+									//console.log(prop_room);
+									return res.json(200, { status: 1, text: 'successfully deleted' });
+
+								});
+
+								
+							}
+							else{
+
+								return res.json({status: 2, text: 'you cannot delete this item!' });
+							}
+														
+														
+
+
+						}
+						else{
+							return res.json({status: 2, text: 'you are not allow to access this property!' });
+						}
+
+						
+					});
+
+				}
+			}
+
+
+		},
+
 
 		// to get company general condition template		
 		getgeneralconditiontemplate: function(req, res){
