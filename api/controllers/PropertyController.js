@@ -2442,7 +2442,7 @@ module.exports = {
 						console.log('user', user.company_id);
 
 						//check if the user is authorize to access this property
-						if(user.company_id && req.param('com_master_id') ){
+						if(user.company_id ){
 
 
 							var qry = "select company_meter_link.* from company_meter_link where company_meter_link.status = 1 and company_meter_link.company_id="+ user.company_id ;
