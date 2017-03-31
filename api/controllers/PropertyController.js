@@ -2251,7 +2251,7 @@ module.exports = {
 
 		},
 
-		//get sub items list
+		//get sub items list template
 		getsubitemstmplate: function(req, res){
 
 
@@ -2288,7 +2288,7 @@ module.exports = {
 			}
 		},
 
-		//this is to update sub items 
+		//this is to update sub items template
 		updatesubitemstemplate: function(req, res){
 
 
@@ -2327,14 +2327,48 @@ module.exports = {
 							return res.json({status: 2, text: 'you are not allow to access this property!' });
 						}
 
-						
-
-
 					});
 
-					
+				}
+			}
+
+		},
+
+		//this is to insert new sub item template 
+		insertsubitemtemplate: function(req, res){
 
 
+			if( req.token.hasOwnProperty('sid') ){
+				if(req.token.sid){
+
+
+					User.findOne({id :  req.token.sid}).exec(function(err, user){
+						if(err) return res.json(err);
+
+						console.log('user', user.company_id);
+
+
+						//check if the user is authorize to access this property
+						if(user.company_id){
+
+							var sub_item =  req.param('sub_item');
+
+							sub_item['company_id'] = user.company_id;
+							sub_item['status'] = 1;
+
+							Company_subitem_link.create(sub_item).exec(function afterwards(err, updated){
+								if (err) return res.json(err);
+
+								return res.json(200, { status: 1, text: 'successfully updated' });
+							});							
+
+
+						}
+						else{
+							return res.json({status: 2, text: 'you are not allow to access this property!' });
+						}
+
+					});
 
 
 				}
@@ -2342,6 +2376,7 @@ module.exports = {
 
 
 		}
+
 
 
 
