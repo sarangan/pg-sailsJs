@@ -2139,7 +2139,14 @@ module.exports = {
 							master_item['company_id'] = user.company_id;
 							master_item['status'] = 1;
 							master_item['original_master_id'] = 0;
-							master_item['priority'] = 0;
+							master_item['priority'] = 1;
+
+							if(master_item['type'] == 'ITEM'){
+								master_item['option'] = 'OPT';
+							}
+							else if(master_item['type'] == 'SUB'){
+								master_item['option'] = 'NUM';
+							}
 
 							Company_masteritem_link.create(master_item).exec(function afterwards(err, updated){
 								if (err) return res.json(err);
