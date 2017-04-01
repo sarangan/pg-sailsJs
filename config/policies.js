@@ -81,7 +81,10 @@ module.exports.policies = {
    'getmeterlisttemplate' : ['tokenAuth'],
    'updatemeterlisttemplate' : ['tokenAuth'],
    'insertmeteritemtemplate' :  ['tokenAuth'],
-   'deletemeteritemtemplate' : ['tokenAuth']
+   'deletemeteritemtemplate' : ['tokenAuth'],
+   'updatecompanytemplate' :  ['tokenAuth'],
+   'insertcompanytemplate' : ['tokenAuth'],
+   'deletecompanytemplate' : ['tokenAuth']
  }
   /***************************************************************************
   *                                                                          *
