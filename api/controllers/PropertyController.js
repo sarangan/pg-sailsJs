@@ -2076,8 +2076,7 @@ module.exports = {
 					
 					User.findOne({id :  req.token.sid}).exec(function(err, user){
 						if(err) return res.json(err);
-
-						console.log('user', user.company_id);
+						
 
 						//check if the user is authorize to access this property
 						if(user.company_id){

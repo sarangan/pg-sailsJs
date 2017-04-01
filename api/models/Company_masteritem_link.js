@@ -35,7 +35,7 @@ module.exports = {
       type: "integer"
     },
     status: {
-      type: "boolean"
+      type: "integer"
     }
 
   }
