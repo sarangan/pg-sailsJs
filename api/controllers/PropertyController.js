@@ -2084,6 +2084,7 @@ module.exports = {
 
 							
 							var master_item =  req.param('master_item');
+							sails.log(master_item);
 							for(var i = 0, l = master_item.length; i < l ; i++ ){
 
 								var master_id = master_item[i]['com_master_id'];
@@ -2093,7 +2094,7 @@ module.exports = {
 								}
 
 								Company_masteritem_link.update({com_master_id: master_id }, data ).exec(function afterwards(err, updated){
-										if (err) return res.json(err);
+										sails.log( err );
 								});
 
 							}
