@@ -2548,14 +2548,14 @@ module.exports = {
 						//check if the user is authorize to access this property
 						if(user.company_id){
 
-							var gen_id =  req.param('general_id');
+							var sub_id =  req.param('sub_id');
 
 							var data = {
 								status : 2
 							};
 
 							if(gen_id){
-								Company_general_condition_link.update({com_general_id: gen_id }, data).exec(function afterwards(err, updated){
+								Company_subitem_link.update({com_subitem_id: sub_id }, data).exec(function afterwards(err, updated){
 									if (err) return res.json(err);
 
 									return res.json(200, { status: 1, text: 'successfully deleted' });
