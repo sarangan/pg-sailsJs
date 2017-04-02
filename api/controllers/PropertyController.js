@@ -2554,7 +2554,7 @@ module.exports = {
 								status : 2
 							};
 
-							if(gen_id){
+							if(sub_id){
 								Company_subitem_link.update({com_subitem_id: sub_id }, data).exec(function afterwards(err, updated){
 									if (err) return res.json(err);
 
