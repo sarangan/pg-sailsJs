@@ -84,7 +84,8 @@ module.exports.policies = {
    'deletemeteritemtemplate' : ['tokenAuth'],
    'updatecompanytemplate' :  ['tokenAuth'],
    'insertcompanytemplate' : ['tokenAuth'],
-   'deletecompanytemplate' : ['tokenAuth']
+   'deletecompanytemplate' : ['tokenAuth'],
+   'getPhotos' : ['tokenAuth']
  }
   /***************************************************************************
   *                                                                          *

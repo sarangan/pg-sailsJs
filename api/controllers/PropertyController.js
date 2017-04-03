@@ -1338,7 +1338,7 @@ module.exports = {
 					}
 				}
 
-	},
+		},
 
 		getMeterList: function(req, res){
 
@@ -2712,16 +2712,13 @@ module.exports = {
 		//this is to get property template
 		deletemeteritemtemplate: function(req, res){
 
-
 			if( req.token.hasOwnProperty('sid') ){
 				if(req.token.sid){
-
 
 					User.findOne({id :  req.token.sid}).exec(function(err, user){
 						if(err) return res.json(err);
 
 						console.log('user', user.company_id);
-
 
 						//check if the user is authorize to access this property
 						if(user.company_id){
@@ -2743,21 +2740,70 @@ module.exports = {
 
 								return res.json({status: 2, text: 'you cannot delete this item!' });
 							}
-														
-														
-
 
 						}
 						else{
 							return res.json({status: 2, text: 'you are not allow to access this property!' });
 						}
-
 						
 					});
 
 				}
 			}
 
+		},
+
+		
+		getPhotos: function(req, res){
+
+			if( req.token.hasOwnProperty('sid') ){
+				if(req.token.sid){
+
+					var property_id = req.param('property_id');
+					var item_id = req.param('item_id');
+
+					if(!property_id){
+						return res.json({status: 2, text: 'property id is missing!' });
+					}
+					else{
+
+						User.findOne({id :  req.token.sid}).exec(function(err, user){
+							if(err) return res.json(err);
+
+							console.log('user', user.company_id);
+
+							Property.findOne({property_id: property_id }).exec(function(err, property_details){
+								if(err) return res.json(err);
+
+								//check if the user is authorize to access this property
+								if(user.company_id ==  property_details.company_id ){
+
+									
+									Photos.find({property_id: property_id, item_id: item_id }).exec(function(err, photos){
+										if(err) return res.json(err);
+
+										return res.json({status: 1, photos: photos});
+									});					
+
+
+								}
+								else{
+									return res.json({status: 2, text: 'you are not allow to access this property!' });
+								}
+
+							});
+
+
+
+						});
+
+					}
+
+
+
+
+				}
+			}
 
 		}
 
