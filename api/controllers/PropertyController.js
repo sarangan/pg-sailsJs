@@ -188,7 +188,7 @@ module.exports = {
 						// }
 						var path = require('path');
 
-						req.file('photo').upload(
+						/*req.file('photo').upload(
 							{
 								 dirname: '../public/images',//'./assets/images',
 								  maxBytes: 10000000
@@ -224,12 +224,12 @@ module.exports = {
 								 }
 							});
 
-				  		});
+				  		});*/
 
 
 				  		//new method
 
-				  		/*var uploadToDir = '../public/images'; 
+				  		var uploadToDir = '../public/images'; 
 						req.file('photo').upload({
 						    saveAs:function(file, cb) {
 						        cb(null,uploadToDir+'/'+file.filename);
@@ -252,6 +252,7 @@ module.exports = {
 						        fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
 						        //return res.json({msg:"File saved", data: files});
 
+						        console.log('file uploaded!');
 
 						         var data = JSON.parse(req.param('data') );
 								 delete data.id;
@@ -262,6 +263,9 @@ module.exports = {
 
 								Photos.create(data).exec(function(err, photos){
 									if (err) return res.json(err);
+
+									console.log('photo saved');
+
 									 if(photos.photo_id){
 										return res.json({
 											message: files.length + ' file(s) uploaded successfully!',
@@ -276,7 +280,7 @@ module.exports = {
 
 
 						    }
-						});*/
+						});
 
 
 
