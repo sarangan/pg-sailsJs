@@ -224,7 +224,7 @@ module.exports = {
 
 				  		//new method
 
-				  		//var uploadToDir = '../public/images'; 
+				  		var uploadToDir = '../public/images'; 
 						req.file('photo').upload({
 						    saveAs:function(file, cb) {
 						        cb(null,uploadToDir+'/'+file.filename);
