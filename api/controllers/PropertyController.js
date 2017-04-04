@@ -217,7 +217,7 @@ module.exports = {
 						      //ImagesDirArr.pop();
 
 						      //var path = ImagesDirArr.join('/'); // path to root of the project
-						      //var _src = files[0].fd             // path of the uploaded file  
+						      var _src = files[0].fd             // path of the uploaded file  
 
 						      var ImagesDirArr = __dirname.split('/'); // path to this controller
 						        ImagesDirArr.pop();
