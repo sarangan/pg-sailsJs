@@ -173,7 +173,7 @@ module.exports = {
 				User.findOne({id :  req.token.sid}).exec(function(err, user){
 					if(err) return res.json(err);
 
-						console.log( req.param('data') );
+						//console.log( req.param('data') );
 						console.log('Uploading photos');
 
 						// return res.json({ status: 1, data:  req.param('data') });
@@ -207,6 +207,8 @@ module.exports = {
 
 							 data['img_url'] = files[0].fd;
 							 data['file_name'] = files[0].filename;
+
+							 console.log(files[0]);
 
 							Photos.create(data).exec(function(err, photos){
 								if (err) return res.json(err);
