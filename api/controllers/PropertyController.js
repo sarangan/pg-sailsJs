@@ -181,7 +181,7 @@ module.exports = {
 						var current_year = d.getFullYear();
 						var uploadToDir = '../public/resources_' + current_year;
 
-						// var fs = require('fs');
+						var fs = require('fs');
 						
 						// if (!fs.existsSync(uploadToDir)){
 						//     fs.mkdirSync(uploadToDir);
