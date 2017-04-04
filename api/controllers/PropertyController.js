@@ -186,7 +186,7 @@ module.exports = {
 						// if (!fs.existsSync(uploadToDir)){
 						//     fs.mkdirSync(uploadToDir);
 						// }
-
+						var path = require('path');
 
 						req.file('photo').upload(
 							{
@@ -206,7 +206,7 @@ module.exports = {
 							 delete data.sync;
 
 							 data['img_url'] = files[0].fd;
-							 data['file_name'] = files[0].filename;
+							 data['file_name'] = path.basename(files[0].fd);//files[0].filename;
 
 							 console.log(files[0]);
 
