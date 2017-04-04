@@ -188,9 +188,9 @@ module.exports = {
 						// }
 
 
-						/*req.file('photo').upload(
+						req.file('photo').upload(
 							{
-								 dirname: './assets/images',
+								 dirname: '../public/images',//'./assets/images',
 								  maxBytes: 10000000
 							},
 							function (err, files) {
@@ -219,12 +219,12 @@ module.exports = {
 								 }
 							});
 
-				  		});*/
+				  		});
 
 
 				  		//new method
 
-				  		var uploadToDir = '../public/images'; 
+				  		/*var uploadToDir = '../public/images'; 
 						req.file('photo').upload({
 						    saveAs:function(file, cb) {
 						        cb(null,uploadToDir+'/'+file.filename);
@@ -271,7 +271,7 @@ module.exports = {
 
 
 						    }
-						});
+						});*/
 
 
 
