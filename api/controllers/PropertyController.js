@@ -188,7 +188,7 @@ module.exports = {
 						// }
 						var path = require('path');
 
-						/*req.file('photo').upload(
+						req.file('photo').upload(
 							{
 								 dirname: '../public/images',//'./assets/images',
 								  maxBytes: 10000000
@@ -212,6 +212,24 @@ module.exports = {
 							 console.log(files[0].fd);
 							 console.log(files[0].filename);
 
+							  //var ImagesDirArr = __dirname.split('/'); // path to this controller
+						      //ImagesDirArr.pop();
+						      //ImagesDirArr.pop();
+
+						      //var path = ImagesDirArr.join('/'); // path to root of the project
+						      //var _src = files[0].fd             // path of the uploaded file  
+
+						      var ImagesDirArr = __dirname.split('/'); // path to this controller
+						        ImagesDirArr.pop();
+						        ImagesDirArr.pop();
+
+						        // the destination path
+						      var _dest = ImagesDirArr.join('/')  +'/assets/images/'+ path.basename(files[0].fd); //files[0].filename 
+
+						        // not preferred but fastest way of copying file
+						      fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
+
+
 							Photos.create(data).exec(function(err, photos){
 								if (err) return res.json(err);
 								 if(photos.photo_id){
@@ -224,12 +242,12 @@ module.exports = {
 								 }
 							});
 
-				  		});*/
+				  		});
 
 
 				  		//new method
 
-				  		var uploadToDir = '../public/images'; 
+				  		/*var uploadToDir = '../public/images'; 
 						req.file('photo').upload({
 						    saveAs:function(file, cb) {
 						        cb(null,uploadToDir+'/'+file.filename);
@@ -280,7 +298,7 @@ module.exports = {
 
 
 						    }
-						});
+						});*/
 
 
 
