@@ -206,6 +206,7 @@ module.exports = {
 							 delete data.sync;
 
 							 data['img_url'] = files[0].fd;
+							 data['file_name'] = files[0].filename;
 
 							Photos.create(data).exec(function(err, photos){
 								if (err) return res.json(err);
