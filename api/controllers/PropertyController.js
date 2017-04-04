@@ -177,23 +177,30 @@ module.exports = {
 						console.log('Uploading photos');
 
 						// return res.json({ status: 1, data:  req.param('data') });
+						var d = new Date();
+						var current_year = d.getFullYear();
+						var uploadToDir = '../public/resources_' + current_year;
 
-						req.file('photo').upload(
+						var fs = require('fs');
+						
+						if (!fs.existsSync(uploadToDir)){
+						    fs.mkdirSync(uploadToDir);
+						}
+
+
+						/*req.file('photo').upload(
 							{
 								 dirname: './assets/images',
 								  maxBytes: 10000000
 							},
 							function (err, files) {
 
-				      if (err){
-								console.log(err);
-								return res.json(err);
-							}
+						      	if (err){
+									console.log(err);
+									return res.json(err);
+								}
 
-							// var synid = req.param('sync');
-							// var key = req.param('key');
-							// var table = req.param('table');
-							//
+							
 							 var data = JSON.parse(req.param('data') );
 							 delete data.id;
 							 delete data.sync;
@@ -203,8 +210,6 @@ module.exports = {
 							Photos.create(data).exec(function(err, photos){
 								if (err) return res.json(err);
 								 if(photos.photo_id){
-								// 		return res.json({ status: 1,  synid: synid , key: key, table: table, data: data  });
-
 									return res.json({
 										message: files.length + ' file(s) uploaded successfully!',
 										files: files,
@@ -214,12 +219,59 @@ module.exports = {
 								 }
 							});
 
-							//console.log(files);
+				  		});*/
+
+
+				  		//new method
+
+				  		//var uploadToDir = '../public/images'; 
+						req.file('photo').upload({
+						    saveAs:function(file, cb) {
+						        cb(null,uploadToDir+'/'+file.filename);
+						    }
+						},function whenDone(err,files){
+						    if (err) return res.serverError(err);
+						    if( files.length > 0 ){
+
+						        var ImagesDirArr = __dirname.split('/'); // path to this controller
+						        ImagesDirArr.pop();
+						        ImagesDirArr.pop();
+
+						        var path = ImagesDirArr.join('/'); // path to root of the project
+						        var _src = files[0].fd             // path of the uploaded file  
+
+						        // the destination path
+						        var _dest = path+'/assets/images/'+files[0].filename 
+
+						        // not preferred but fastest way of copying file
+						        fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
+						        //return res.json({msg:"File saved", data: files});
+
+
+						         var data = JSON.parse(req.param('data') );
+								 delete data.id;
+								 delete data.sync;
+
+								 data['img_url'] = files[0].fd;
+								 data['file_name'] = files[0].filename;
+
+								Photos.create(data).exec(function(err, photos){
+									if (err) return res.json(err);
+									 if(photos.photo_id){
+										return res.json({
+											message: files.length + ' file(s) uploaded successfully!',
+											files: files,
+											data: data
+										});
+
+									 }
+								});
 
 
 
 
-				  });
+						    }
+						});
 
 
 
