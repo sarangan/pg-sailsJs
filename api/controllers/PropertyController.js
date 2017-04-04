@@ -208,7 +208,9 @@ module.exports = {
 							 data['img_url'] = files[0].fd;
 							 data['file_name'] = path.basename(files[0].fd);//files[0].filename;
 
-							 console.log(files[0]);
+							 //console.log(files[0]);
+							 console.log(files[0].fd);
+							 console.log(files[0].filename);
 
 							Photos.create(data).exec(function(err, photos){
 								if (err) return res.json(err);
