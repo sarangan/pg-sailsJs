@@ -2937,6 +2937,53 @@ module.exports = {
 				}
 			}
 
+		},
+
+		//this to update photo drag and drop 
+		updatephotodnd: function(req, res){
+
+			if( req.token.hasOwnProperty('sid') ){
+				if(req.token.sid){
+
+					User.findOne({id :  req.token.sid}).exec(function(err, user){
+						if(err) return res.json(err);
+
+						console.log('user', user.company_id);
+
+						//check if the user is authorize to access this property
+						if(user.company_id){
+
+							var photo_id =  req.param('photo_id');
+							var item_id =  req.param('item_id');
+
+							if(photo_id && item_id){
+
+								var data = {
+									item_id: item_id,
+									type: 'SUB' 
+								}
+
+								Photos.update({photo_id: photo_id }, data).exec(function afterwards(err, updated){
+									if (err) return res.json(err);
+
+									return res.json(200, { status: 1, text: 'successfully updated' });
+								});
+							}
+							else{
+
+								return res.json({status: 2, text: 'data is missing for update' });
+							}
+
+						}
+						else{
+							return res.json({status: 2, text: 'you are not allow to access this property!' });
+						}
+						
+					});
+
+				}
+			}
+
 		}
 
 
