@@ -2984,7 +2984,7 @@ module.exports = {
 				}
 			}
 
-		}
+		},
 
 		//this to update photo drag and drop 
 		photodelete: function(req, res){
