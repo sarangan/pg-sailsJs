@@ -2986,6 +2986,59 @@ module.exports = {
 
 		}
 
+		//this to update photo drag and drop 
+		photodelete: function(req, res){
+
+			if( req.token.hasOwnProperty('sid') ){
+				if(req.token.sid){
+
+					User.findOne({id :  req.token.sid}).exec(function(err, user){
+						if(err) return res.json(err);
+
+						console.log('user', user.company_id);
+
+						//check if the user is authorize to access this property
+						if(user.company_id){
+
+							var photo_id =  req.param('photo_id');
+
+							if(photo_id ){
+
+								/*Photos.findOne({ photo_id: photo_id }).exec(function(err, photo){
+									if(err) return res.json(err);
+									var file_path = photo.img_url;
+									if(file_path){
+									}
+								});*/
+
+
+								var qry = "delete from photos where photo_id'"+ photo_id + "'" ;
+								Photos.query(qry, function(err, photo){
+									if (err) return res.json(err);
+
+									return res.json({status: 1, text: 'successfully deleted' });
+
+								});
+
+
+							}
+							else{
+
+								return res.json({status: 2, text: 'data is missing' });
+							}
+
+						}
+						else{
+							return res.json({status: 2, text: 'you are not allow to access this property!' });
+						}
+						
+					});
+
+				}
+			}
+
+		}
+
 
 
 
