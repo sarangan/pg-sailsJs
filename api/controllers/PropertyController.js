@@ -3102,7 +3102,7 @@ module.exports = {
 							  	img_url: files[0].fd,
 							  	file_name: path.basename(files[0].fd)
 							  }
-							  
+
 
 						      var _src = files[0].fd             // path of the uploaded file  
 
@@ -3123,7 +3123,8 @@ module.exports = {
 									return res.json({
 										message: files.length + ' file(s) uploaded successfully!',
 										files: files,
-										data: data
+										data: data,
+										status: 1
 									});
 
 								 }
