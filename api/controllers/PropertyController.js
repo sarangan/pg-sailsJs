@@ -3037,7 +3037,98 @@ module.exports = {
 				}
 			}
 
+		},
+
+		uploadfile: function(req, res){
+
+		if( req.token.hasOwnProperty('sid') ){
+			if(req.token.sid){
+
+				User.findOne({id :  req.token.sid}).exec(function(err, user){
+					if(err) return res.json(err);
+
+						//console.log( req.param('data') );
+						console.log('Uploading photos');
+
+						// return res.json({ status: 1, data:  req.param('data') });
+						var d = new Date();
+						var current_year = d.getFullYear();
+						var uploadToDir = '../public/resources_' + current_year;
+
+						var fs = require('fs');
+						
+						// if (!fs.existsSync(uploadToDir)){
+						//     fs.mkdirSync(uploadToDir);
+						// }
+						var path = require('path');
+
+						req.file('photo').upload(
+							{
+								 dirname: '../public/images',//'./assets/images',
+								  maxBytes: 10000000
+							},
+							function (err, files) {
+
+						      	if (err){
+									console.log(err);
+									return res.json(err);
+								}
+
+								console.log('uploaded'); 
+
+							var data = req.param('data') ;
+							 console.log(data); 
+
+							 // var data = req.param('data') ;
+							 // delete data.id;
+							 // delete data.sync;
+
+							 // data['img_url'] = files[0].fd;
+							 // data['file_name'] = path.basename(files[0].fd);//files[0].filename;
+
+							 //console.log(files[0]);
+							 console.log(files[0].fd);
+							 console.log(files[0].filename);
+
+						      var _src = files[0].fd             // path of the uploaded file  
+
+						      var ImagesDirArr = __dirname.split('/'); // path to this controller
+						        ImagesDirArr.pop();
+						        ImagesDirArr.pop();
+
+						        // the destination path
+						      var _dest = ImagesDirArr.join('/')  +'/assets/images/'+ path.basename(files[0].fd); //files[0].filename 
+
+						        // not preferred but fastest way of copying file
+						      fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
+
+
+							// Photos.create(data).exec(function(err, photos){
+							// 	if (err) return res.json(err);
+							// 	 if(photos.photo_id){
+							// 		return res.json({
+							// 			message: files.length + ' file(s) uploaded successfully!',
+							// 			files: files,
+							// 			data: data
+							// 		});
+
+							// 	 }
+							// });
+
+				  		});
+
+
+				  		
+
+
+
+				});
+
+			}
+
 		}
+
+	}
 
 
 
