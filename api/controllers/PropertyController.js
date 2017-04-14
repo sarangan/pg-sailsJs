@@ -3088,9 +3088,21 @@ module.exports = {
 							  //data['img_url'] = files[0].fd;
 							  //data['file_name'] = path.basename(files[0].fd);//files[0].filename;
 
+
+
 							 //console.log(files[0]);
 							 console.log(files[0].fd);
 							 console.log(files[0].filename);
+
+							 var data = {
+							  	property_id : req.param('property_id'),
+							  	item_id : req.param('item_id'),
+							  	parent_id: req.param('parent_id'),
+							  	type: req.param('type'),
+							  	img_url: files[0].fd,
+							  	file_name: path.basename(files[0].fd)
+							  }
+							  
 
 						      var _src = files[0].fd             // path of the uploaded file  
 
@@ -3105,17 +3117,17 @@ module.exports = {
 						      fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
 
 
-							// Photos.create(data).exec(function(err, photos){
-							// 	if (err) return res.json(err);
-							// 	 if(photos.photo_id){
-							// 		return res.json({
-							// 			message: files.length + ' file(s) uploaded successfully!',
-							// 			files: files,
-							// 			data: data
-							// 		});
+							Photos.create(data).exec(function(err, photos){
+								if (err) return res.json(err);
+								 if(photos.photo_id){
+									return res.json({
+										message: files.length + ' file(s) uploaded successfully!',
+										files: files,
+										data: data
+									});
 
-							// 	 }
-							// });
+								 }
+							});
 
 				  		});
 
