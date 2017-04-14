@@ -3103,17 +3103,17 @@ module.exports = {
 						      fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
 
 
-							// Photos.create(data).exec(function(err, photos){
-							// 	if (err) return res.json(err);
-							// 	 if(photos.photo_id){
-							// 		return res.json({
-							// 			message: files.length + ' file(s) uploaded successfully!',
-							// 			files: files,
-							// 			data: data
-							// 		});
+							Photos.create(data).exec(function(err, photos){
+								if (err) return res.json(err);
+								 if(photos.photo_id){
+									return res.json({
+										message: files.length + ' file(s) uploaded successfully!',
+										files: files,
+										data: data
+									});
 
-							// 	 }
-							// });
+								 }
+							});
 
 				  		});
 
