@@ -3078,23 +3078,15 @@ module.exports = {
 
 							console.log(req.param('property_id'));
 
-							//var data = req.param('data');
-							//console.log(data); 
-
-							  // var data = req.param('data') ;
-							  // delete data.id;
-							  // delete data.sync;
-
-							  //data['img_url'] = files[0].fd;
-							  //data['file_name'] = path.basename(files[0].fd);//files[0].filename;
-
-
 
 							 //console.log(files[0]);
 							 console.log(files[0].fd);
 							 console.log(files[0].filename);
 
+							 const uuidV4 = require('uuid/v4');
+
 							 var data = {
+							 	photo_id: uuidV4(),
 							  	property_id : req.param('property_id'),
 							  	item_id : req.param('item_id'),
 							  	parent_id: req.param('parent_id'),
