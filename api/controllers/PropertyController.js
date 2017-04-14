@@ -3074,17 +3074,19 @@ module.exports = {
 									return res.json(err);
 								}
 
-								console.log('uploaded'); 
+							console.log('uploaded'); 
 
-							var data = req.param('data') ;
-							 console.log(data); 
+							console.log(req.param('property_id'));
 
-							 // var data = req.param('data') ;
-							 // delete data.id;
-							 // delete data.sync;
+							//var data = req.param('data');
+							//console.log(data); 
 
-							 // data['img_url'] = files[0].fd;
-							 // data['file_name'] = path.basename(files[0].fd);//files[0].filename;
+							  // var data = req.param('data') ;
+							  // delete data.id;
+							  // delete data.sync;
+
+							  //data['img_url'] = files[0].fd;
+							  //data['file_name'] = path.basename(files[0].fd);//files[0].filename;
 
 							 //console.log(files[0]);
 							 console.log(files[0].fd);
@@ -3103,17 +3105,17 @@ module.exports = {
 						      fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
 
 
-							Photos.create(data).exec(function(err, photos){
-								if (err) return res.json(err);
-								 if(photos.photo_id){
-									return res.json({
-										message: files.length + ' file(s) uploaded successfully!',
-										files: files,
-										data: data
-									});
+							// Photos.create(data).exec(function(err, photos){
+							// 	if (err) return res.json(err);
+							// 	 if(photos.photo_id){
+							// 		return res.json({
+							// 			message: files.length + ' file(s) uploaded successfully!',
+							// 			files: files,
+							// 			data: data
+							// 		});
 
-								 }
-							});
+							// 	 }
+							// });
 
 				  		});
 
