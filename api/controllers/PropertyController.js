@@ -1682,11 +1682,15 @@ module.exports = {
 									var data_feedback =  req.param('data');
 									var prop_feedback_id ='';
 									if(data_feedback.hasOwnProperty('prop_feedback_id') ){
+
 										prop_feedback_id = data_feedback['prop_feedback_id'];
+
 										delete data_feedback['prop_feedback_id'];
 									}
 
 									if(prop_feedback_id){
+
+										sails.log('updatre');
 
 										Property_feedback.update({prop_feedback_id: prop_feedback_id }, data_feedback ).exec(function afterwards(err, updated){
 												if (err) return res.json(err);
@@ -1698,6 +1702,8 @@ module.exports = {
 
 									}
 									else{
+
+										sails.log('insert');
 
 										const uuidV4 = require('uuid/v4');
 										prop_feedback_id = uuidV4();
