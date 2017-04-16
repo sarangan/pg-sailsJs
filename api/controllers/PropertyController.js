@@ -1713,6 +1713,8 @@ module.exports = {
 										Property_feedback.create( data_feedback ).exec(function afterwards(err, updated){
 												if (err) return res.json(err);
 
+												sails.log(updated);
+
 												return res.json(200, { status: 1, text: 'successfully inserted' });
 
 										});
