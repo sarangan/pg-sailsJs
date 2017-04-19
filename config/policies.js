@@ -93,7 +93,8 @@ module.exports.policies = {
    'sortgeneralcondition' : ['tokenAuth'],
    'sortroomlist' : ['tokenAuth'],
    'sortcompanytemplate' : ['tokenAuth'],
-   'sortgeneralconditiontemplate' : ['tokenAuth']
+   'sortgeneralconditiontemplate' : ['tokenAuth'],
+   'sortsubitemstemplate' : ['tokenAuth']
  }
   /***************************************************************************
   *                                                                          *
