@@ -1248,6 +1248,66 @@ module.exports = {
 
 		},
 
+
+		//this is to get property template
+		sortroomlist: function(req, res){
+
+			if( req.token.hasOwnProperty('sid') ){
+				if(req.token.sid){
+
+					var property_id = req.param('property_id');
+
+					if(!property_id){
+						return res.json({status: 2, text: 'property id is missing!' });
+					}
+					else{
+
+						User.findOne({id :  req.token.sid}).exec(function(err, user){
+							if(err) return res.json(err);
+
+							console.log('user', user.company_id);
+
+							Property.findOne({property_id: property_id }).exec(function(err, property_details){
+								if(err) return res.json(err);
+
+								//check if the user is authorize to access this property
+								if(user.company_id ==  property_details.company_id ){
+
+									var room_list =  req.param('room_list');
+									for(var i = 0, l = room_list.length; i < l ; i++ ){
+
+										var prop_master_id = room_list[i]['prop_master_id'];
+										var data = {
+											'priority' : (i + 1)
+										}
+
+										Property_masteritem_link.update({prop_master_id: prop_master_id }, data ).exec(function afterwards(err, updated){
+												if (err) return res.json(err);
+										});
+
+									}
+
+									return res.json(200, { status: 1, text: 'successfully updated' });
+
+
+								}
+								else{
+									return res.json({status: 2, text: 'you are not allow to access this property!' });
+								}
+
+							});
+
+
+
+						});
+
+					}
+
+				}
+			}
+
+		},
+
 		//this is to get property template
 		getgeneralconditionlist: function(req, res){
 

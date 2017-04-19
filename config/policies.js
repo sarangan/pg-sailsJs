@@ -90,7 +90,8 @@ module.exports.policies = {
    'updatephotodnd' : ['tokenAuth'],
    'photodelete' : ['tokenAuth'],
    'uploadfile' : ['tokenAuth'],
-   'sortgeneralcondition' : ['tokenAuth']
+   'sortgeneralcondition' : ['tokenAuth'],
+   'sortroomlist' : ['tokenAuth']
  }
   /***************************************************************************
   *                                                                          *
