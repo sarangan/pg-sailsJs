@@ -92,7 +92,8 @@ module.exports.policies = {
    'uploadfile' : ['tokenAuth'],
    'sortgeneralcondition' : ['tokenAuth'],
    'sortroomlist' : ['tokenAuth'],
-   'sortcompanytemplate' : ['tokenAuth']
+   'sortcompanytemplate' : ['tokenAuth'],
+   'sortgeneralconditiontemplate' : ['tokenAuth']
  }
   /***************************************************************************
   *                                                                          *

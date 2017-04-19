@@ -2655,6 +2655,53 @@ module.exports = {
 
 		},
 
+		//sort general condition
+		sortgeneralconditiontemplate: function(req, res){
+
+			if( req.token.hasOwnProperty('sid') ){
+				if(req.token.sid){
+
+
+					User.findOne({id :  req.token.sid}).exec(function(err, user){
+						if(err) return res.json(err);
+
+						console.log('user', user.company_id);
+
+
+						//check if the user is authorize to access this property
+						if(user.company_id){
+
+							var gen_list =  req.param('gen_list');
+							for(var i = 0, l = gen_list.length; i < l ; i++ ){
+
+								var com_general_id = gen_list[i]['com_general_id'];
+								var data = {
+									'priority' : (i + 1)
+								}
+
+								Company_general_condition_link.update({com_general_id: com_general_id }, data ).exec(function afterwards(err, updated){
+										if (err) return res.json(err);
+								});
+
+							}
+
+							return res.json(200, { status: 1, text: 'successfully updated' });													
+
+
+						}
+						else{
+							return res.json({status: 2, text: 'you are not allow to access this property!' });
+						}
+
+						
+					});
+
+				}
+			}
+
+		},
+
+
 		//get sub items list template
 		getsubitemstmplate: function(req, res){
 
