@@ -91,7 +91,8 @@ module.exports.policies = {
    'photodelete' : ['tokenAuth'],
    'uploadfile' : ['tokenAuth'],
    'sortgeneralcondition' : ['tokenAuth'],
-   'sortroomlist' : ['tokenAuth']
+   'sortroomlist' : ['tokenAuth'],
+   'sortcompanytemplate' : ['tokenAuth']
  }
   /***************************************************************************
   *                                                                          *
