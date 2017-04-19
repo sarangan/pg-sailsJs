@@ -1359,9 +1359,6 @@ module.exports = {
 
 					}
 
-
-
-
 				}
 			}
 
@@ -1444,13 +1441,22 @@ module.exports = {
 								//check if the user is authorize to access this property
 								if(user.company_id ==  property_details.company_id ){
 
+									var gen_list =  req.param('gen_list');
+									for(var i = 0, l = gen_list.length; i < l ; i++ ){
 
-									var qry = "select property_general_condition_link.* from property_general_condition_link where property_general_condition_link.status=1 and property_general_condition_link.property_id='"+ property_id +"' order by property_general_condition_link.priority";
-									Property_general_condition_link.query(qry, function(err, prop_gen){
-										//console.log(prop_room);
-										return res.json({status: 1, gen_list: prop_gen, property_id: property_id });
+										var general_id = gen_list[i]['prop_general_id'];
+										var data = {
+											'priority' : (i + 1)
+										}
 
-									});
+										Property_general_condition_link.update({prop_general_id: general_id }, data ).exec(function afterwards(err, updated){
+												if (err) return res.json(err);
+										});
+
+									}
+
+									return res.json(200, { status: 1, text: 'successfully updated' });
+
 
 								}
 								else{
@@ -1464,9 +1470,6 @@ module.exports = {
 						});
 
 					}
-
-
-
 
 				}
 			}

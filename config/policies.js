@@ -89,7 +89,8 @@ module.exports.policies = {
    'getPhotosByMaster' : ['tokenAuth'],
    'updatephotodnd' : ['tokenAuth'],
    'photodelete' : ['tokenAuth'],
-   'uploadfile' : ['tokenAuth']
+   'uploadfile' : ['tokenAuth'],
+   'sortgeneralcondition' : ['tokenAuth']
  }
   /***************************************************************************
   *                                                                          *
