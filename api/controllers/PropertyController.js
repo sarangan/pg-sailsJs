@@ -318,23 +318,23 @@ module.exports = {
 				User.findOne({id :  req.token.sid}).exec(function(err, user){
 					if(err) return res.json(err);
 
-						console.log('Uploading voices shit');
-
+						console.log('Uploading voices');
 
 						// return res.json({ status: 1, data:  req.param('data') });
 
-						req.file('voice').upload(
+						var fs = require('fs');
+						var path = require('path');
+
+
+							req.file('voice').upload(
 							{
-								 dirname: './assets/images',
+								 dirname: '../public/voices',//'./assets/images',
 								  maxBytes: 10000000
 							},
 							function (err, files) {
 
-
 								if (err){
-
-									console.log( 'this is uploading error');
-
+									console.log( 'voice file uploading error');
 									console.log(err);
 									return res.json(err);
 								}
@@ -343,25 +343,37 @@ module.exports = {
 							 	delete data.id;
 							 	delete data.sync;
 
-							 data['voice_url'] = files[0].fd;
+								data['voice_url'] = files[0].fd;
+								data['file_name'] = path.basename(files[0].fd);
 
-							 console.log( data );
-							 console.log('Uploading voices');
+								console.log( data );
+								console.log('Uploading voices');
+
+								var _src = files[0].fd             // path of the uploaded file  
+
+							    var ImagesDirArr = __dirname.split('/'); // path to this controller
+							    ImagesDirArr.pop();
+							    ImagesDirArr.pop();
+
+							    // the destination path
+							    var _dest = ImagesDirArr.join('/')  +'/assets/voices/'+ path.basename(files[0].fd); //files[0].filename 
+
+							    // not preferred but fastest way of copying file
+							    fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
 
 
+								Property_sub_voice_general.create(data).exec(function(err, property_sub_voice_general_data){
+									if (err) return res.json(err);
+									 if(property_sub_voice_general_data.prop_sub_feedback_general_id){
 
-							 Property_sub_voice_general.create(data).exec(function(err, property_sub_voice_general_data){
-								if (err) return res.json(err);
-								 if(property_sub_voice_general_data.prop_sub_feedback_general_id){
-
-										 return res.json({
+										return res.json({
 											'message': files.length + ' file(s) uploaded successfully!',
 											'files': files,
 											'data': data
 										});
 
-								 }
-							 });
+									 }
+								});
 
 
 

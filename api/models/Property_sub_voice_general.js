@@ -30,6 +30,9 @@
      voice_url: {
        type: "string"
      },
+     file_name: {
+      type: "string"
+     },
      mb_createdAt: {
       type: "string"
     }
