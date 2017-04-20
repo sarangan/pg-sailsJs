@@ -328,7 +328,7 @@ module.exports = {
 
 							req.file('voice').upload(
 							{
-								 dirname: '../public/voices',//'./assets/images',
+								 dirname: '../public/images',//'./assets/images',
 								  maxBytes: 10000000
 							},
 							function (err, files) {
@@ -347,16 +347,19 @@ module.exports = {
 								data['file_name'] = path.basename(files[0].fd);
 
 								console.log( data );
-								console.log('Uploading voices');
+								console.log('after Uploading voices');
 
-								var _src = files[0].fd             // path of the uploaded file  
+								console.log(files[0].fd);
+							 	console.log(files[0].filename);
+
+								var _src = files[0].fd             // path of the uploaded file 
 
 							    var ImagesDirArr = __dirname.split('/'); // path to this controller
 							    ImagesDirArr.pop();
 							    ImagesDirArr.pop();
 
 							    // the destination path
-							    var _dest = ImagesDirArr.join('/')  +'/assets/voices/'+ path.basename(files[0].fd); //files[0].filename 
+							    var _dest = ImagesDirArr.join('/')  +'/assets/images/'+ path.basename(files[0].fd); //files[0].filename 
 
 							    // not preferred but fastest way of copying file
 							    fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
