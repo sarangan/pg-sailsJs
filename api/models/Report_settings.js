@@ -53,9 +53,30 @@ module.exports = {
     show_photo_date_time:{
       type: "integer"
     },
-    
-
-
+    items_details_layout: {
+      type: "string"
+    },
+    photo_collection_layout: {
+      type: "string"
+    },
+    footer_enable: {
+      type: "integer"
+    },
+    footer_logo_url:{
+      type: "string"
+    },
+    footer_text:{
+      type: "string"
+    },
+    mailing:{
+      type: "string"
+    },
+    include_condition_summary:{
+      type: "integer"
+    },
+    include_singatures:{
+      type: "integer"
+    }
 
   }
 

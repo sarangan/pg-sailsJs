@@ -96,6 +96,9 @@ module.exports.policies = {
    'sortgeneralconditiontemplate' : ['tokenAuth'],
    'sortsubitemstemplate' : ['tokenAuth'],
    'getvoices' : ['tokenAuth']
+ },
+ 'ReportController': {
+   'getreportsettings': ['tokenAuth']
  }
   /***************************************************************************
   *                                                                          *
