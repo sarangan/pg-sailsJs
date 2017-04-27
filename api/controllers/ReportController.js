@@ -21,7 +21,7 @@ module.exports = {
           //check if the user is authorize to access this property
           if(user.company_id){
 
-            Report_settings.findOne(company_id: user.company_id).exec(function(err, report){
+            Report_settings.findOne({company_id: user.company_id}).exec(function(err, report){
               if (err) return res.json(err);
 
               return res.json(200, { status: 1, report_settings: report });
