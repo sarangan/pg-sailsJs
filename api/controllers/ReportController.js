@@ -100,6 +100,104 @@ module.exports = {
       }
     }
 
+  },
+
+    uploadlogo: function(req, res){
+
+    if( req.token.hasOwnProperty('sid') ){
+      if(req.token.sid){
+
+        User.findOne({id :  req.token.sid}).exec(function(err, user){
+          if(err) return res.json(err);
+
+            //console.log( req.param('data') );
+            console.log('Uploading logo');
+
+            // return res.json({ status: 1, data:  req.param('data') });
+            var d = new Date();
+            var current_year = d.getFullYear();
+            var uploadToDir = '../public/resources_' + current_year;
+
+            var fs = require('fs');
+
+            // if (!fs.existsSync(uploadToDir)){
+            //     fs.mkdirSync(uploadToDir);
+            // }
+            var path = require('path');
+
+            req.file('logo').upload(
+              {
+                 dirname: '../public/images',//'./assets/images',
+                  maxBytes: 10000000
+              },
+              function (err, files) {
+
+                  if (err){
+                  console.log(err);
+                  return res.json(err);
+                }
+
+                //console.log(files[0]);
+               console.log(files[0].fd);
+               console.log(files[0].filename);
+
+               const uuidV4 = require('uuid/v4');
+
+               var data = {
+                  //img_url: files[0].fd,
+                  logo_url: path.basename(files[0].fd)
+                }
+
+                  var _src = files[0].fd             // path of the uploaded file
+
+                  var ImagesDirArr = __dirname.split('/'); // path to this controller
+                    ImagesDirArr.pop();
+                    ImagesDirArr.pop();
+
+                    // the destination path
+                  var _dest = ImagesDirArr.join('/')  +'/assets/images/'+ path.basename(files[0].fd); //files[0].filename
+
+                    // not preferred but fastest way of copying file
+                  fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
+
+
+                  Report_settings.findOne({company_id: user.company_id }).exec(function(err, report_settings){
+
+                    var report_id ='';
+                    if(typeof report_settings != 'undefined'){
+                      if(report_settings.hasOwnProperty('report_id') ){
+                        report_id = report_settings['report_id'];
+                      }
+                    }
+
+                    if(report_id){
+                        //update existing one
+                        Report_settings.update({report_id: report_id }, data).exec(function afterwards(err, updated){
+                            if (err) return res.json(err);
+                            return res.json(200, { status: 1, text: 'successfully uploaded' });
+                        });
+                    }
+                    else{
+                        //create new
+                        data['company_id'] = user.company_id;
+                        Report_settings.create(data).exec(function afterwards(err, updated){
+          								if (err) return res.json(err);
+          								return res.json(200, { status: 1, text: 'successfully uploaded' });
+          							});
+                    }
+
+                  });
+
+
+              });
+
+
+        });
+
+      }
+
+    }
+
   }
 
 

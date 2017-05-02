@@ -99,7 +99,8 @@ module.exports.policies = {
  },
  'ReportController': {
    'getreportsettings': ['tokenAuth'],
-   'updateReportSettings': ['tokenAuth']
+   'updateReportSettings': ['tokenAuth'],
+   'uploadlogo': ['tokenAuth'] 
  }
   /***************************************************************************
   *                                                                          *
