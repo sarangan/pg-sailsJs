@@ -55,11 +55,13 @@ module.exports = {
             Report_settings.findOne({company_id: user.company_id }).exec(function(err, report_settings){
 
               var report_id ='';
-              if(report_settings.hasOwnProperty('report_id') ){
-                report_id = report_settings['report_id'];
-                delete settings['report_id'];
-              }
 
+              if(typeof report_settings != 'undefined'){
+                if(report_settings.hasOwnProperty('report_id') ){
+                  report_id = report_settings['report_id'];
+                  delete settings['report_id'];
+                }
+              }
 
               if(report_id){
                   //update existing one
