@@ -52,30 +52,43 @@ module.exports = {
 
             var settings = req.param('report_settings');
 
-            if(settings.hasOwnProperty('report_id') && settings.report_id.length > 0 ){
-              //update existing one
-              var report_id = settings.report_id;
-              delete settings['report_id'];
+            Report_settings.findOne({company_id: company_id }).exec(function(err, report_settings){
 
-              Report_settings.update({report_id: report_id }, settings).exec(function afterwards(err, updated){
-                  if (err) return res.json(err);
-
-                  return res.json(200, { status: 1, text: 'successfully updated' });
-              });
+              var report_id ='';
+              if(report_settings.hasOwnProperty('report_id') ){
+                report_id = report_settings['report_id'];
+                delete settings['report_id'];
+              }
 
 
-            }
-            else{
-              //create new
-              delete settings['report_id'];
+              if(report_id){
+                  //update existing one
+                  var report_id = settings.report_id;
+                  delete settings['report_id'];
 
-              Report_settings.create(settings).exec(function afterwards(err, updated){
-								if (err) return res.json(err);
+                  Report_settings.update({report_id: report_id }, settings).exec(function afterwards(err, updated){
+                      if (err) return res.json(err);
 
-								return res.json(200, { status: 1, text: 'successfully created' });
-							});
+                      return res.json(200, { status: 1, text: 'successfully updated' });
+                  });
 
-            }
+              }
+              else{
+                  //create new
+                  delete settings['report_id'];
+                  settings['company_id'] = user.company_id;
+
+                  Report_settings.create(settings).exec(function afterwards(err, updated){
+    								if (err) return res.json(err);
+
+    								return res.json(200, { status: 1, text: 'successfully created' });
+    							});
+
+              }
+
+            });
+
+
 
           }
           else{
