@@ -10,10 +10,8 @@ module.exports = {
 
   getreportsettings: function(req, res){
 
-
     if( req.token.hasOwnProperty('sid') ){
       if(req.token.sid){
-
 
         User.findOne({id :  req.token.sid}).exec(function(err, user){
           if(err) return res.json(err);
@@ -39,7 +37,9 @@ module.exports = {
     }
 
 
-  }
+  },
+
+
 
 
 }

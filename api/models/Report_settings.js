@@ -71,6 +71,18 @@ module.exports = {
     mailing:{
       type: "string"
     },
+    ex_mail_server: {
+      type: "string"
+    },
+    ex_mail_username: {
+      type: "string"
+    },
+    ex_mail_password: {
+      type: "string"
+    },
+    ex_mail_port: {
+      type: "string"
+    },
     include_condition_summary:{
       type: "integer"
     },
