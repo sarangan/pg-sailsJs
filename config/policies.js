@@ -98,7 +98,8 @@ module.exports.policies = {
    'getvoices' : ['tokenAuth']
  },
  'ReportController': {
-   'getreportsettings': ['tokenAuth']
+   'getreportsettings': ['tokenAuth'],
+   'updateReportSettings': ['tokenAuth']
  }
   /***************************************************************************
   *                                                                          *

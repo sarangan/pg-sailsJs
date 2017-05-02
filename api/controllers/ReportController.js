@@ -39,6 +39,55 @@ module.exports = {
 
   },
 
+  updateReportSettings: function(req, res){
+
+    if( req.token.hasOwnProperty('sid') ){
+      if(req.token.sid){
+
+        User.findOne({id :  req.token.sid}).exec(function(err, user){
+          if(err) return res.json(err);
+
+          //check if the user is authorize to access this property
+          if(user.company_id){
+
+            var settings = req.param('report_settings');
+
+            if(settings.hasOwnProperty('report_id') && settings.report_id.length > 0 ){
+              //update existing one
+              var report_id = settings.report_id;
+              delete settings['report_id'];
+
+              Report_settings.update({report_id: report_id }, settings).exec(function afterwards(err, updated){
+                  if (err) return res.json(err);
+
+                  return res.json(200, { status: 1, text: 'successfully updated' });
+              });
+
+
+            }
+            else{
+              //create new
+              delete settings['report_id'];
+
+              Report_settings.create(settings).exec(function afterwards(err, updated){
+								if (err) return res.json(err);
+
+								return res.json(200, { status: 1, text: 'successfully created' });
+							});
+
+            }
+
+          }
+          else{
+            return res.json({status: 2, text: 'you are not allow to access this info!' });
+          }
+
+        });
+
+      }
+    }
+
+  }
 
 
 
