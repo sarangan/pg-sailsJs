@@ -52,7 +52,7 @@ module.exports = {
 
             var settings = req.param('report_settings');
 
-            Report_settings.findOne({company_id: company_id }).exec(function(err, report_settings){
+            Report_settings.findOne({company_id: user.company_id }).exec(function(err, report_settings){
 
               var report_id ='';
               if(report_settings.hasOwnProperty('report_id') ){
@@ -63,8 +63,6 @@ module.exports = {
 
               if(report_id){
                   //update existing one
-                  var report_id = settings.report_id;
-                  delete settings['report_id'];
 
                   Report_settings.update({report_id: report_id }, settings).exec(function afterwards(err, updated){
                       if (err) return res.json(err);
