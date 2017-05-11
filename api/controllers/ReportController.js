@@ -255,7 +255,7 @@ module.exports = {
 
             var html ="<h1>Test</h1><p>Hello world</p>"
 
-            res.setHeader('Content-disposition', 'attachment; filename=myFile.pdf';
+            res.setHeader('Content-disposition', 'attachment; filename=myFile.pdf');
             return require('wkhtmltopdf')(html).pipe(res);
 
         })
