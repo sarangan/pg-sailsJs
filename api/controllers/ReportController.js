@@ -253,7 +253,8 @@ module.exports = {
 
             var wkhtmltopdf = require('wkhtmltopdf');
 
-            var html ="<h1>Test</h1><p>Hello world</p>"
+            var html ="<h1>Test</h1><p>Hello world</p>";
+            sails.log('report');
 
             res.setHeader('Content-disposition', 'attachment; filename=myFile.pdf');
             return require('wkhtmltopdf')(html).pipe(res);
