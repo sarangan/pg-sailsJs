@@ -214,7 +214,62 @@ module.exports = {
 
     }
 
-  }
+  },
+
+  generatereport: function(req, res){
+
+    if( req.token.hasOwnProperty('sid') ){
+      if(req.token.sid){
+
+        User.findOne({id :  req.token.sid}).then(function(user){
+
+          //check if the user is authorize to access this property
+          if(user.company_id){
+
+              var report_settings_data = Report_settings.findOne({company_id: user.company_id})
+                .then(function(report_settings_data) {
+                    return report_settings_data;
+              });
+
+              var report_settings_notes_data = Report_settings_notes.find({ company_id: user.company_id })
+                .then(function(report_settings_notes_data) {
+                    return report_settings_notes_data;
+              });
+
+              return [report_settings_data, report_settings_notes_data];
+
+          }
+          else{
+            return res.json({status: 2, text: 'you are not allow to access this info!' });
+          }
+
+        })
+        .spread(function(report_settings, report_settings_notes) {
+
+            // var newJson = {};
+            // newJson.report_settings = report_settings;
+            // newJson.report_settings_notes = report_settings_notes;
+            // return res.json({ status: 1, data: newJson });
+
+            var wkhtmltopdf = require('wkhtmltopdf');
+
+            var html ="<h1>Test</h1><p>Hello world</p>"
+
+            res.setHeader('Content-disposition', 'attachment; filename=myFile.pdf';
+            return require('wkhtmltopdf')(html).pipe(res);
+
+        })
+        .fail(function(err) {
+            console.log(err);
+            res.json({ error: err });
+        });
+
+
+      }
+    }
+
+
+  },
 
 
 
