@@ -13,7 +13,7 @@ module.exports = {
     if( req.token.hasOwnProperty('sid') ){
       if(req.token.sid){
 
-        User.findOne({id :  req.token.sid}).then(function(err, user){
+        User.findOne({id :  req.token.sid}).then(function(user){
 
           //check if the user is authorize to access this property
           if(user.company_id){
