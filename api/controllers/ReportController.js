@@ -263,13 +263,11 @@ module.exports = {
 
 
             var wkhtmltopdf = require('wkhtmltopdf');
-            var htmlContent = "<h1>Test</h1><p>Hello world</p>";
 
-            wkhtmltopdf(htmlContent, {
-                output: 'demo.pdf',
+            return wkhtmltopdf('http://ourcodeworld.com', { 
+                output: 'ourcodeworld.pdf',
                 pageSize: 'letter'
             });
-
 
         })
         .fail(function(err) {
