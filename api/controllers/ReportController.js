@@ -251,7 +251,7 @@ module.exports = {
             // newJson.report_settings_notes = report_settings_notes;
             // return res.json({ status: 1, data: newJson });
 
-            // var wkhtmltopdf = require('wkhtmltopdf');
+            var wkhtmltopdf = require('wkhtmltopdf');
             //
             // var html ="<h1>Test</h1><p>Hello world</p>";
             //
@@ -264,6 +264,12 @@ module.exports = {
                 output: 'demo.pdf',
                 pageSize: 'letter'
             });
+
+
+            // return wkhtmltopdf('http://ourcodeworld.com', {
+            //     output: 'ourcodeworld.pdf',
+            //     pageSize: 'letter'
+            // });
 
 
         })
