@@ -257,8 +257,8 @@ module.exports = {
 
             res.setHeader('Content-disposition', 'attachment; filename=report.pdf');
             //return require('wkhtmltopdf')(html).pipe(res);
-            var fs = require('fs');
-            return wkhtmltopdf(html).pipe( fs.createWriteStream('out.pdf') );
+
+            return wkhtmltopdf(html).pipe(res);
 
         })
         .fail(function(err) {
