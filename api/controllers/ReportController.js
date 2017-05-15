@@ -250,20 +250,39 @@ module.exports = {
             // newJson.report_settings = report_settings;
             // newJson.report_settings_notes = report_settings_notes;
             // return res.json({ status: 1, data: newJson });
+            // var fs = require('fs');
+            // var wkhtmltopdf = require('wkhtmltopdf');
+            // var html ="<h1>Test</h1><p>Hello world</p>";
+            //
+            // //res.attachment('report.pdf');
+            // res.set('Content-disposition', 'attachment; filename=report.pdf');
+            //
+            // // res.set({
+            // //               'Content-Type': 'application/octet-stream',
+            // //               'Content-Disposition': 'filename="report.pdf"'
+            // //            });
+            //
+            // return wkhtmltopdf(html).pipe(res);
+
             var fs = require('fs');
-            var wkhtmltopdf = require('wkhtmltopdf');
-            var html ="<h1>Test</h1><p>Hello world</p>";
+            var exec = require('child_process').exec;
+            var util = require('util');
 
-            //res.attachment('report.pdf');
-            res.set('Content-disposition', 'attachment; filename=report.pdf');
+            var dummyContent = '<!doctype html><html><head><title>Test</title><meta charset="utf-8"></head><body><p>Hello world!</p></body></html>';
+	          var htmlFileName = "page.html", pdfFileName = "page.pdf";
 
-            // res.set({
-            //               'Content-Type': 'application/octet-stream',
-            //               'Content-Disposition': 'filename="report.pdf"'
-            //            });
+            fs.writeFile(htmlFileName, dummyContent, function(err) {
+          		if(err) { throw err; }
+          		util.log("file saved to site.html");
+          	});
 
-            return wkhtmltopdf(html).pipe(res);
+            var child = exec("xvfb-run wkhtmltopdf " + htmlFileName + " " + pdfFileName, function(err, stdout, stderr) {
+          		if(err) { throw err; }
+          		util.log(stderr);
+          	});
 
+
+            res.set({'Content-Type' : 'text/plain'});
 
 
 
