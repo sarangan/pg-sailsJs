@@ -253,17 +253,16 @@ module.exports = {
             var fs = require('fs');
             var wkhtmltopdf = require('wkhtmltopdf');
             var html ="<h1>Test</h1><p>Hello world</p>";
-            //res.setHeader('Content-disposition', 'attachment; filename=report.pdf');
 
-            res.set({
-                          'Content-Type': 'application/octet-stream',
-                          'Content-Disposition': 'filename="report.pdf"'
-                       });
+            res.attachment(wkhtmltopdf(html).pipe(res));
+            //res.set('Content-disposition', 'attachment; filename=report.pdf');
 
-            return wkhtmltopdf('http://google.com/', { pageSize: 'letter' })
-           .pipe(fs.createWriteStream('out.pdf'));
+            // res.set({
+            //               'Content-Type': 'application/octet-stream',
+            //               'Content-Disposition': 'filename="report.pdf"'
+            //            });
 
-            //return wkhtmltopdf(html).pipe(res);
+            
 
 
 
