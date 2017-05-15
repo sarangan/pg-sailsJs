@@ -260,10 +260,10 @@ module.exports = {
                           'Content-Disposition': 'filename="report.pdf"'
                        });
 
-            wkhtmltopdf('http://google.com/', { pageSize: 'letter' })
+            return wkhtmltopdf('http://google.com/', { pageSize: 'letter' })
            .pipe(fs.createWriteStream('out.pdf'));
 
-            return wkhtmltopdf(html).pipe(res);
+            //return wkhtmltopdf(html).pipe(res);
 
 
 
