@@ -254,15 +254,15 @@ module.exports = {
             var wkhtmltopdf = require('wkhtmltopdf');
             var html ="<h1>Test</h1><p>Hello world</p>";
 
-            res.attachment(wkhtmltopdf(html).pipe(res));
-            //res.set('Content-disposition', 'attachment; filename=report.pdf');
+            //res.attachment('report.pdf');
+            res.set('Content-disposition', 'attachment; filename=report.pdf');
 
             // res.set({
             //               'Content-Type': 'application/octet-stream',
             //               'Content-Disposition': 'filename="report.pdf"'
             //            });
 
-            
+            return wkhtmltopdf(html).pipe(res);
 
 
 
