@@ -274,11 +274,13 @@ module.exports = {
             fs.writeFile(htmlFileName, dummyContent, function(err) {
           		if(err) { throw err; }
           		util.log("file saved to site.html");
-          	});
 
-            var child = exec("xvfb-run wkhtmltopdf " + htmlFileName + " " + pdfFileName, function(err, stdout, stderr) {
-          		if(err) { throw err; }
-          		util.log(stderr);
+              var child = exec("xvfb-run wkhtmltopdf " + htmlFileName + " " + pdfFileName, function(err, stdout, stderr) {
+                if(err) { throw err; }
+                util.log(stderr);
+              });
+
+
           	});
 
 
