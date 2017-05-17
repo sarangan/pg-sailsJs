@@ -262,7 +262,7 @@ module.exports = {
                            'Content-Disposition': 'filename="report.pdf"'
             });
 
-            wkhtmltopdf( html, { pageSize: 'letter' })
+            return wkhtmltopdf( html, { pageSize: 'letter' })
             .pipe(fs.createWriteStream('report.pdf'));
 
             //return wkhtmltopdf(html).pipe(res);
