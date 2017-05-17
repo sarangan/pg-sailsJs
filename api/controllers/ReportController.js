@@ -251,19 +251,22 @@ module.exports = {
             // newJson.report_settings_notes = report_settings_notes;
             // return res.json({ status: 1, data: newJson });
             // var fs = require('fs');
-            // var wkhtmltopdf = require('wkhtmltopdf');
-            // var html ="<h1>Test</h1><p>Hello world</p>";
+             var wkhtmltopdf = require('wkhtmltopdf');
+             var html ="<h1>Test</h1><p>Hello world</p>";
             //
             // //res.attachment('report.pdf');
-            // res.set('Content-disposition', 'attachment; filename=report.pdf');
+            //res.set('Content-disposition', 'attachment; filename=report.pdf');
             //
-            // // res.set({
-            // //               'Content-Type': 'application/octet-stream',
-            // //               'Content-Disposition': 'filename="report.pdf"'
-            // //            });
-            //
-            // return wkhtmltopdf(html).pipe(res);
+            res.set({
+                           'Content-Type': 'application/octet-stream',
+                           'Content-Disposition': 'filename="report.pdf"'
+            });
 
+            return wkhtmltopdf(html).pipe(res);
+
+
+            /*
+            working set
             var fs = require('fs');
             var exec = require('child_process').exec;
             var util = require('util');
@@ -282,6 +285,7 @@ module.exports = {
 
 
           	});
+            */
 
 
 
