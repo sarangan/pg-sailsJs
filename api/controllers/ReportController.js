@@ -126,21 +126,9 @@ module.exports = {
         User.findOne({id :  req.token.sid}).exec(function(err, user){
           if(err) return res.json(err);
 
-            //console.log( req.param('data') );
             console.log('Uploading logo');
-
-            // return res.json({ status: 1, data:  req.param('data') });
-            // var d = new Date();
-            // var current_year = d.getFullYear();
-            // var uploadToDir = '../public/resources_' + current_year;
-
-            // var uploadToDir = '/assets/images/reportlogos';
-            //
             var fs = require('fs');
-            // if (!fs.existsSync(uploadToDir)){
-            //     fs.mkdirSync(uploadToDir);
-            // }
-
+            var im = require('imagemagick');
             var path = require('path');
 
             req.file('logo').upload(
@@ -175,8 +163,17 @@ module.exports = {
                     // the destination path
                   var _dest = ImagesDirArr.join('/')  +'/assets/images/reportlogos/'+ path.basename(files[0].fd); //files[0].filename
 
-                    // not preferred but fastest way of copying file
+                  // not preferred but fastest way of copying file
                   fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
+
+                  im.resize({
+                    srcPath: _src,
+                    dstPath: ImagesDirArr.join('/')  +'/assets/images/reportlogos/'+ '300_' + path.basename(files[0].fd),
+                    width: 300
+                  }, function(err, stdout, stderr){
+                    if (err) throw err;
+                    console.log('resized fit within 300px');
+                  });
 
 
                   Report_settings.findOne({company_id: user.company_id }).exec(function(err, report_settings){
