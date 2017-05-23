@@ -118,7 +118,7 @@ module.exports = {
 
   },
 
-    uploadlogo: function(req, res){
+  uploadlogo: function(req, res){
 
     if( req.token.hasOwnProperty('sid') ){
       if(req.token.sid){
@@ -131,6 +131,27 @@ module.exports = {
             var im = require('imagemagick');
             var path = require('path');
 
+            var ImagesDirArr = __dirname.split('/'); // path to this controller
+            ImagesDirArr.pop();
+            ImagesDirArr.pop();
+
+            var upload_path =  ImagesDirArr.join('/')  + '/assets/images/reportlogos/';
+
+            if(fs.existsSync( upload_path )){
+              console.log('folder exists');
+            }
+
+            var mkdirp = require('mkdirp');
+            mkdirp(ImagesDirArr.join('/')  + '/assets/images/reportlogosx/' , function(err) {
+              // path exists unless there was an error
+              if (err)
+                console.error(err)
+              else
+                console.log('folder created!');
+
+            });
+
+
             req.file('logo').upload(
               {
                  dirname: '../public/images',//'./assets/images',
@@ -138,45 +159,41 @@ module.exports = {
               },
               function (err, files) {
 
-                  if (err){
+                if (err){
                   console.log(err);
                   return res.json(err);
                 }
 
                 //console.log(files[0]);
-               console.log(files[0].fd);
-               console.log(files[0].filename);
+                console.log(files[0].fd);
+                console.log(files[0].filename);
 
-               const uuidV4 = require('uuid/v4');
+                const uuidV4 = require('uuid/v4');
 
-               var data = {
+                var data = {
                   //img_url: files[0].fd,
                   logo_url: path.basename(files[0].fd)
                 }
 
-                  var _src = files[0].fd             // path of the uploaded file
+                var _src = files[0].fd             // path of the uploaded file
 
-                  var ImagesDirArr = __dirname.split('/'); // path to this controller
-                    ImagesDirArr.pop();
-                    ImagesDirArr.pop();
+                // the destination path
+                var _dest =  upload_path + path.basename(files[0].fd); //files[0].filename
 
-                    // the destination path
-                  var _dest = ImagesDirArr.join('/')  +'/assets/images/reportlogos/'+ path.basename(files[0].fd); //files[0].filename
+                // not preferred but fastest way of copying file
+                fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
 
-                  // not preferred but fastest way of copying file
-                  fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
-
-                  im.resize({
-                    srcPath: _src,
-                    dstPath: ImagesDirArr.join('/')  +'/assets/images/reportlogos/'+ '300_' + path.basename(files[0].fd),
-                    width: 300
-                  }, function(err, stdout, stderr){
-                    if (err) throw err;
-                    console.log('resized fit within 300px');
-                  });
+                im.resize({
+                  srcPath: _src,
+                  dstPath: upload_path + '300_' + path.basename(files[0].fd),
+                  width: 300
+                }, function(err, stdout, stderr){
+                  if (err) throw err;
+                  console.log('resized fit within 300px');
+                });
 
 
-                  Report_settings.findOne({company_id: user.company_id }).exec(function(err, report_settings){
+                Report_settings.findOne({company_id: user.company_id }).exec(function(err, report_settings){
 
                     var report_id ='';
                     if(typeof report_settings != 'undefined'){
@@ -188,23 +205,23 @@ module.exports = {
                     if(report_id){
                         //update existing one
                         Report_settings.update({report_id: report_id }, data).exec(function afterwards(err, updated){
-                            if (err) return res.json(err);
-                            return res.json(200, { status: 1, text: 'successfully uploaded' });
+                          if (err) return res.json(err);
+                          return res.json(200, { status: 1, text: 'successfully uploaded' });
                         });
                     }
                     else{
-                        //create new
-                        data['company_id'] = user.company_id;
-                        Report_settings.create(data).exec(function afterwards(err, updated){
-          								if (err) return res.json(err);
-          								return res.json(200, { status: 1, text: 'successfully uploaded' });
-          							});
+                          //create new
+                          data['company_id'] = user.company_id;
+                          Report_settings.create(data).exec(function afterwards(err, updated){
+              							if (err) return res.json(err);
+              							return res.json(200, { status: 1, text: 'successfully uploaded' });
+              						});
                     }
 
-                  });
-
-
               });
+
+
+            });
 
 
         });
