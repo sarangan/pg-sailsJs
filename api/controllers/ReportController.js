@@ -136,7 +136,7 @@ module.exports = {
 
             // var uploadToDir = '/assets/images/reportlogos';
             //
-            // var fs = require('fs');
+            var fs = require('fs');
             // if (!fs.existsSync(uploadToDir)){
             //     fs.mkdirSync(uploadToDir);
             // }
