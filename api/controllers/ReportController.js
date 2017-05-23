@@ -130,15 +130,17 @@ module.exports = {
             console.log('Uploading logo');
 
             // return res.json({ status: 1, data:  req.param('data') });
-            var d = new Date();
-            var current_year = d.getFullYear();
-            var uploadToDir = '../public/resources_' + current_year;
+            // var d = new Date();
+            // var current_year = d.getFullYear();
+            // var uploadToDir = '../public/resources_' + current_year;
+
+            var uploadToDir = '/assets/images/reportlogos';
 
             var fs = require('fs');
+            if (!fs.existsSync(uploadToDir)){
+                fs.mkdirSync(uploadToDir);
+            }
 
-            // if (!fs.existsSync(uploadToDir)){
-            //     fs.mkdirSync(uploadToDir);
-            // }
             var path = require('path');
 
             req.file('logo').upload(
@@ -171,7 +173,7 @@ module.exports = {
                     ImagesDirArr.pop();
 
                     // the destination path
-                  var _dest = ImagesDirArr.join('/')  +'/assets/images/'+ path.basename(files[0].fd); //files[0].filename
+                  var _dest = ImagesDirArr.join('/')  +'/assets/images/reportlogos/'+ path.basename(files[0].fd); //files[0].filename
 
                     // not preferred but fastest way of copying file
                   fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
