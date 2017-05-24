@@ -843,7 +843,7 @@ module.exports = {
 			 				// 		if (err) console.log(res.json(err) );
 			 				// 	});
 
-									if(req.param('gotImg') != 'undefined' ){
+									if(req.param('gotImg') == 'YES' ){
 
 										var fs = require('fs');
 				            var im = require('imagemagick');
@@ -1654,7 +1654,7 @@ module.exports = {
 								if(user.company_id ==  property_details.company_id ){
 
 
-									if(req.param('gotImg') != 'undefined' ){
+									if(req.param('gotImg') == 'YES' ){
 
 										var fs = require('fs');
 				            var im = require('imagemagick');
