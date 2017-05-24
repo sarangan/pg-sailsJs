@@ -204,12 +204,15 @@ module.exports = {
 									 	delete data.id;
 										delete data.sync;
 
-									 	data['img_url'] = files[0].fd;
-									 	data['file_name'] = path.basename(files[0].fd);
-
 							      var _src = files[0].fd; // path of the uploaded file
 							      var _dest = upload_path + path.basename(files[0].fd); // destination path
+
+										data['img_url'] = _dest;
+										data['file_name'] = path.basename(files[0].fd);
+
 						      	fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
+
+
 
 										im.resize({
 		                  srcPath: _src,
@@ -274,11 +277,11 @@ module.exports = {
 											 	delete data.id;
 												delete data.sync;
 
-											 	data['img_url'] = files[0].fd;
-											 	data['file_name'] = path.basename(files[0].fd);
-
 									      var _src = files[0].fd; // path of the uploaded file
 									      var _dest = upload_path + path.basename(files[0].fd); // destination path
+												data['img_url'] = _dest;
+											 	data['file_name'] = path.basename(files[0].fd);
+
 								      	fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
 
 												im.resize({
@@ -373,15 +376,15 @@ module.exports = {
 							 	delete data.id;
 							 	delete data.sync;
 
-								data['voice_url'] = files[0].fd;
-								data['file_name'] = path.basename(files[0].fd);
-
 								console.log(files[0].fd);
 							 	console.log(files[0].filename);
 
 								var _src = files[0].fd; // path of the uploaded file
 
 							  var _dest = upload_path + path.basename(files[0].fd);
+								data['voice_url'] = _dest;
+								data['file_name'] = path.basename(files[0].fd);
+
 							  fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
 
 								Property_sub_voice_general.create(data).exec(function(err, property_sub_voice_general_data){
@@ -426,8 +429,7 @@ module.exports = {
 									 	delete data.id;
 									 	delete data.sync;
 
-										data['voice_url'] = files[0].fd;
-										data['file_name'] = path.basename(files[0].fd);
+
 
 										console.log(files[0].fd);
 									 	console.log(files[0].filename);
@@ -435,6 +437,9 @@ module.exports = {
 										var _src = files[0].fd; // path of the uploaded file
 
 									  var _dest = upload_path + path.basename(files[0].fd);
+										data['voice_url'] = _dest;
+										data['file_name'] = path.basename(files[0].fd);
+
 									  fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
 
 										Property_sub_voice_general.create(data).exec(function(err, property_sub_voice_general_data){
@@ -838,206 +843,759 @@ module.exports = {
 			 				// 		if (err) console.log(res.json(err) );
 			 				// 	});
 
-								Property_info.create(dataPropertyInfo).exec(function(err, dataProperty){
-									if(err) return res.json(err);
-									//return res.json(200, { status: 1, property_id: propertyInfo.property_id});
+									if( req.param('gotImg') ){
 
-									// Sync.create({
-									// 	syn_id: uuidV4(),
-									// 	property_id: propertyInfo.property_id,
-									// 	table_name: 'property_info',
-									// 	key_id: propertyInfo.property_id,
-									// 	task: 'INSERT',
-									// 	pk_name: 'property_id',
-									// 	status: 1
-									// }).exec(function(err, syc_details){
-			 					// 		 if (err) console.log(res.json(err) ) ;
-			 					// 	});
+										var fs = require('fs');
+				            var im = require('imagemagick');
+				            var path = require('path');
 
-								});
+				            var ImagesDirArr = __dirname.split('/'); // path to this controller
+				            ImagesDirArr.pop();
+				            ImagesDirArr.pop();
 
-							//signature import
-							var dataSignature = {
-									sign_id: uuidV4(),
-									property_id: propertyInfo.property_id,
-									comment: '',
-									tenant_url: '',
-									lanlord_url: '',
-									clerk_url: ''
-							};
+				            var upload_path =  ImagesDirArr.join('/')  + '/assets/images/' +  propertyInfo.property_id + '/';
 
-	 						Signatures.create(dataSignature).exec(function(err, signature){
-	 							 if (err) console.log(res.json(err) ) ;
+										if(fs.existsSync( upload_path )){
+				              sails.log('folder exists');
 
-	 						// 	 Sync.create({
-								// 	syn_id: uuidV4(),
-								// 	property_id: propertyInfo.property_id,
-								// 	table_name: 'signatures',
-								// 	key_id: signature.sign_id,
-								// 	task: 'INSERT',
-								// 	pk_name: 'sign_id',
-								// 	status: 1
-								// }).exec(function(err, syc_details){
-		 					// 		 if (err) console.log(res.json(err) ) ;
-		 					// 	});
+											req.file('logo').upload(
+												{
+													 dirname: '../public/images',
+														maxBytes: 10000000
+												},
+												function (err, files) {
 
-	 						});
+													if (err){
+														console.log(err);
+														return res.json(err);
+													}
+													console.log(files[0].fd);
+													console.log(files[0].filename);
+													const uuidV4 = require('uuid/v4');
 
+													var _src = files[0].fd; // path of the uploaded file
+													var _dest =  upload_path + path.basename(files[0].fd); // the destination path
+													dataPropertyInfo['image_url'] = path.basename(files[0].fd);
 
+													fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
 
-							//meter import
-			 				 Company_meter_link.find({status: 1}).exec(function(err, Meter_types){
-			 					 var data = [];
-			 						for(var i=0,l = Meter_types.length; i < l; i++){
-			 							data.push({
-			 								prop_meter_id: uuidV4(),
-			 								property_id: propertyInfo.property_id,
-			 								com_meter_id: Meter_types[i].com_meter_id,
-			 								meter_name: Meter_types[i].meter_name,
-			 								reading_value: '',
-			 								status: 1,
-			 							});
-			 						}
+													im.resize({
+														srcPath: _src,
+														dstPath: upload_path + '300_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
+														width: 300
+													}, function(err, stdout, stderr){
+														if (err) throw err;
+														sails.log('resized fit within 300px');
+													});
 
-			 						Property_meter_link.create(data).exec(function(err, prop_meter){
-			 							 if (err) console.log(res.json(err) ) ;
+													im.resize({
+														srcPath: _src,
+														dstPath: upload_path + '600_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
+														width: 600
+													}, function(err, stdout, stderr){
+														if (err) throw err;
+														sails.log('resized fit within 600px');
+													});
 
-			 						// 	 Sync.create({
-										// 	syn_id: uuidV4(),
-										// 	property_id: propertyInfo.property_id,
-										// 	table_name: 'property_meter_link',
-										// 	key_id: prop_meter.prop_meter_id,
-										// 	task: 'INSERT',
-										// 	pk_name: 'prop_meter_id',
-										// 	status: 1
-										// }).exec(function(err, syc_details){
-				 					// 		 if (err) console.log(res.json(err) ) ;
-				 					// 	});
+													//update main process //
 
-			 						});
-			 				 });
+															Property_info.create(dataPropertyInfo).exec(function(err, dataProperty){
+																if(err) return res.json(err);
+																//return res.json(200, { status: 1, property_id: propertyInfo.property_id});
 
+																// Sync.create({
+																// 	syn_id: uuidV4(),
+																// 	property_id: propertyInfo.property_id,
+																// 	table_name: 'property_info',
+																// 	key_id: propertyInfo.property_id,
+																// 	task: 'INSERT',
+																// 	pk_name: 'property_id',
+																// 	status: 1
+																// }).exec(function(err, syc_details){
+															// 		 if (err) console.log(res.json(err) ) ;
+															// 	});
 
-							 	//general condition import
-								Company_general_condition_link.find({status: 1}).exec(function(err, General_conditions){
-									var data = [];
-									 for(var i=0,l = General_conditions.length; i < l; i++){
-										 data.push({
-										 	prop_general_id: uuidV4(),
-										 	property_id: propertyInfo.property_id,
-										 	com_general_id: General_conditions[i].com_general_id,
-										 	item_name: General_conditions[i].item_name,
-										 	options: General_conditions[i].options,
-										 	type: General_conditions[i].type,
-										 	priority: General_conditions[i].priority,
-										 	user_input: '',
-										 	comment: '',
-										 	status: 1
-										 	 });
-									 }
+															});
 
-									 Property_general_condition_link.create(data).exec(function(err, prop_general_condition){
-											if (err) console.log(res.json(err) ) ;
+														//signature import
+														var dataSignature = {
+																sign_id: uuidV4(),
+																property_id: propertyInfo.property_id,
+																comment: '',
+																tenant_url: '',
+																lanlord_url: '',
+																clerk_url: ''
+														};
 
-										// Sync.create({
-										// 	syn_id: uuidV4(),
-										// 	property_id: propertyInfo.property_id,
-										// 	table_name: 'property_general_condition_link',
-										// 	key_id: prop_general_condition.prop_general_id,
-										// 	task: 'INSERT',
-										// 	pk_name: 'prop_general_id',
-										// 	status: 1
-										// }).exec(function(err, syc_details){
-				 					// 		 if (err) console.log(res.json(err) ) ;
-				 					// 	});
+														Signatures.create(dataSignature).exec(function(err, signature){
+															 if (err) console.log(res.json(err) ) ;
 
-									 });
-								});
+														// 	 Sync.create({
+															// 	syn_id: uuidV4(),
+															// 	property_id: propertyInfo.property_id,
+															// 	table_name: 'signatures',
+															// 	key_id: signature.sign_id,
+															// 	task: 'INSERT',
+															// 	pk_name: 'sign_id',
+															// 	status: 1
+															// }).exec(function(err, syc_details){
+														// 		 if (err) console.log(res.json(err) ) ;
+														// 	});
+
+														});
 
 
-								//master items inport
-							 Company_masteritem_link.find({status: 1}).then(function(master_items){
 
-								 var data_master_items = [];
-								 for(var i=0, l = master_items.length; i < l; i++){
+														//meter import
+														 Company_meter_link.find({status: 1}).exec(function(err, Meter_types){
+															 var data = [];
+																for(var i=0,l = Meter_types.length; i < l; i++){
+																	data.push({
+																		prop_meter_id: uuidV4(),
+																		property_id: propertyInfo.property_id,
+																		com_meter_id: Meter_types[i].com_meter_id,
+																		meter_name: Meter_types[i].meter_name,
+																		reading_value: '',
+																		status: 1,
+																	});
+																}
 
-								 	var prop_master_id = uuidV4();
+																Property_meter_link.create(data).exec(function(err, prop_meter){
+																	 if (err) console.log(res.json(err) ) ;
 
-									 data_master_items.push({
-									 	prop_master_id: prop_master_id,
-									 	property_id: propertyInfo.property_id,
-									 	com_master_id: master_items[i].com_master_id,
-									 	type: 'DEFAULT',
-									 	com_type: master_items[i].type,
-									 	option: master_items[i].option,
-									 	self_prop_master_id: '0',
-									 	name: master_items[i].item_name,
-									 	priority: master_items[i].priority,
-									 	total_num: 0,
-									 	status: 1
-									 });
+																// 	 Sync.create({
+																	// 	syn_id: uuidV4(),
+																	// 	property_id: propertyInfo.property_id,
+																	// 	table_name: 'property_meter_link',
+																	// 	key_id: prop_meter.prop_meter_id,
+																	// 	task: 'INSERT',
+																	// 	pk_name: 'prop_meter_id',
+																	// 	status: 1
+																	// }).exec(function(err, syc_details){
+																// 		 if (err) console.log(res.json(err) ) ;
+																// 	});
 
-									//  Sync.create({
-									// 	syn_id: uuidV4(),
-									// 	property_id: propertyInfo.property_id,
-									// 	table_name: 'property_masteritem_link',
-									// 	key_id: prop_master_id,
-									// 	task: 'INSERT',
-									// 	pk_name: 'prop_master_id',
-									// 	status: 1
-									// }).exec(function(err, syc_details){
-			 					// 		 if (err) console.log(res.json(err) ) ;
-			 					// 	});
-
-
-								 }
-								 return Property_masteritem_link.create(data_master_items);
-
-							 })
-							 .catch( function(err){
-			 					// do something when is error
-			 					return res.json(200, { status: 2, error:'update was not successfull'});
-			 				})
-							.done(function(){
+																});
+														 });
 
 
-								Company_subitem_link.find({status: 1 }).exec(function(err, sub_items ){
-									var data_sub_items = [];
-									for(var i=0,l = sub_items.length; i < l; i++){
-										data_sub_items.push({
-											prop_subitem_id: uuidV4(),
-											property_id: propertyInfo.property_id,
-											com_subitem_id: sub_items[i].com_subitem_id,
-											item_name: sub_items[i].item_name,
-											type: sub_items[i].type,
-											priority: sub_items[i].priority,
-											status: 1
-										});
+															//general condition import
+															Company_general_condition_link.find({status: 1}).exec(function(err, General_conditions){
+																var data = [];
+																 for(var i=0,l = General_conditions.length; i < l; i++){
+																	 data.push({
+																		prop_general_id: uuidV4(),
+																		property_id: propertyInfo.property_id,
+																		com_general_id: General_conditions[i].com_general_id,
+																		item_name: General_conditions[i].item_name,
+																		options: General_conditions[i].options,
+																		type: General_conditions[i].type,
+																		priority: General_conditions[i].priority,
+																		user_input: '',
+																		comment: '',
+																		status: 1
+																		 });
+																 }
+
+																 Property_general_condition_link.create(data).exec(function(err, prop_general_condition){
+																		if (err) console.log(res.json(err) ) ;
+
+																	// Sync.create({
+																	// 	syn_id: uuidV4(),
+																	// 	property_id: propertyInfo.property_id,
+																	// 	table_name: 'property_general_condition_link',
+																	// 	key_id: prop_general_condition.prop_general_id,
+																	// 	task: 'INSERT',
+																	// 	pk_name: 'prop_general_id',
+																	// 	status: 1
+																	// }).exec(function(err, syc_details){
+																// 		 if (err) console.log(res.json(err) ) ;
+																// 	});
+
+																 });
+															});
+
+
+															//master items inport
+														 Company_masteritem_link.find({status: 1}).then(function(master_items){
+
+															 var data_master_items = [];
+															 for(var i=0, l = master_items.length; i < l; i++){
+
+																var prop_master_id = uuidV4();
+
+																 data_master_items.push({
+																	prop_master_id: prop_master_id,
+																	property_id: propertyInfo.property_id,
+																	com_master_id: master_items[i].com_master_id,
+																	type: 'DEFAULT',
+																	com_type: master_items[i].type,
+																	option: master_items[i].option,
+																	self_prop_master_id: '0',
+																	name: master_items[i].item_name,
+																	priority: master_items[i].priority,
+																	total_num: 0,
+																	status: 1
+																 });
+
+																//  Sync.create({
+																// 	syn_id: uuidV4(),
+																// 	property_id: propertyInfo.property_id,
+																// 	table_name: 'property_masteritem_link',
+																// 	key_id: prop_master_id,
+																// 	task: 'INSERT',
+																// 	pk_name: 'prop_master_id',
+																// 	status: 1
+																// }).exec(function(err, syc_details){
+															// 		 if (err) console.log(res.json(err) ) ;
+															// 	});
+
+
+															 }
+															 return Property_masteritem_link.create(data_master_items);
+
+														 })
+														 .catch( function(err){
+															// do something when is error
+															return res.json(200, { status: 2, error:'update was not successfull'});
+														})
+														.done(function(){
+
+
+															Company_subitem_link.find({status: 1 }).exec(function(err, sub_items ){
+																var data_sub_items = [];
+																for(var i=0,l = sub_items.length; i < l; i++){
+																	data_sub_items.push({
+																		prop_subitem_id: uuidV4(),
+																		property_id: propertyInfo.property_id,
+																		com_subitem_id: sub_items[i].com_subitem_id,
+																		item_name: sub_items[i].item_name,
+																		type: sub_items[i].type,
+																		priority: sub_items[i].priority,
+																		status: 1
+																	});
+																}
+
+																Property_subitem_link.create(data_sub_items).exec(function(err, prop_subs){
+																	 if (err) console.log(res.json(err) );
+
+																	// Sync.create({
+																	// 	syn_id: uuidV4(),
+																	// 	property_id: propertyInfo.property_id,
+																	// 	table_name: 'property_subitem_link',
+																	// 	key_id: prop_subs.prop_subitem_id,
+																	// 	task: 'INSERT',
+																	// 	pk_name: 'prop_subitem_id',
+																	// 	status: 1
+																	// }).exec(function(err, syc_details){
+																// 		 if (err) console.log(res.json(err) ) ;
+																// 	});
+
+																	 return res.json(200, { status: 1, property_id: propertyInfo.property_id});
+																	 //return res.json(200, {status: 'successfully updated'});
+																});
+
+															});
+
+
+														});
+
+
+													//update main process //
+
+
+
+
+												});
+
+
+										}
+										else{
+
+												var mkdirp = require('mkdirp');
+				              	mkdirp( upload_path, function(err) {
+					                if(err){
+					                  sails.error(err);
+					                  return res.json(err);
+					                }
+					                else{
+					                  sails.log('folder created!');
+
+														req.file('logo').upload(
+					                    {
+					                       dirname: '../public/images',
+					                        maxBytes: 10000000
+					                    },
+					                    function (err, files) {
+
+					                      if (err){
+					                        console.log(err);
+					                        return res.json(err);
+					                      }
+					                      console.log(files[0].fd);
+					                      console.log(files[0].filename);
+					                      const uuidV4 = require('uuid/v4');
+
+					                      var _src = files[0].fd; // path of the uploaded file
+					                      var _dest =  upload_path + path.basename(files[0].fd); // the destination path
+																dataPropertyInfo['image_url'] = path.basename(files[0].fd);
+					                      fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
+
+					                      im.resize({
+					                        srcPath: _src,
+					                        dstPath: upload_path + '300_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
+					                        width: 300
+					                      }, function(err, stdout, stderr){
+					                        if (err) throw err;
+					                        sails.log('resized fit within 300px');
+					                      });
+
+																im.resize({
+					                        srcPath: _src,
+					                        dstPath: upload_path + '600_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
+					                        width: 600
+					                      }, function(err, stdout, stderr){
+					                        if (err) throw err;
+					                        sails.log('resized fit within 600px');
+					                      });
+
+																//update main process //
+
+																		Property_info.create(dataPropertyInfo).exec(function(err, dataProperty){
+																			if(err) return res.json(err);
+																			//return res.json(200, { status: 1, property_id: propertyInfo.property_id});
+
+																			// Sync.create({
+																			// 	syn_id: uuidV4(),
+																			// 	property_id: propertyInfo.property_id,
+																			// 	table_name: 'property_info',
+																			// 	key_id: propertyInfo.property_id,
+																			// 	task: 'INSERT',
+																			// 	pk_name: 'property_id',
+																			// 	status: 1
+																			// }).exec(function(err, syc_details){
+													 					// 		 if (err) console.log(res.json(err) ) ;
+													 					// 	});
+
+																		});
+
+																	//signature import
+																	var dataSignature = {
+																			sign_id: uuidV4(),
+																			property_id: propertyInfo.property_id,
+																			comment: '',
+																			tenant_url: '',
+																			lanlord_url: '',
+																			clerk_url: ''
+																	};
+
+											 						Signatures.create(dataSignature).exec(function(err, signature){
+											 							 if (err) console.log(res.json(err) ) ;
+
+											 						// 	 Sync.create({
+																		// 	syn_id: uuidV4(),
+																		// 	property_id: propertyInfo.property_id,
+																		// 	table_name: 'signatures',
+																		// 	key_id: signature.sign_id,
+																		// 	task: 'INSERT',
+																		// 	pk_name: 'sign_id',
+																		// 	status: 1
+																		// }).exec(function(err, syc_details){
+												 					// 		 if (err) console.log(res.json(err) ) ;
+												 					// 	});
+
+											 						});
+
+
+
+																	//meter import
+													 				 Company_meter_link.find({status: 1}).exec(function(err, Meter_types){
+													 					 var data = [];
+													 						for(var i=0,l = Meter_types.length; i < l; i++){
+													 							data.push({
+													 								prop_meter_id: uuidV4(),
+													 								property_id: propertyInfo.property_id,
+													 								com_meter_id: Meter_types[i].com_meter_id,
+													 								meter_name: Meter_types[i].meter_name,
+													 								reading_value: '',
+													 								status: 1,
+													 							});
+													 						}
+
+													 						Property_meter_link.create(data).exec(function(err, prop_meter){
+													 							 if (err) console.log(res.json(err) ) ;
+
+													 						// 	 Sync.create({
+																				// 	syn_id: uuidV4(),
+																				// 	property_id: propertyInfo.property_id,
+																				// 	table_name: 'property_meter_link',
+																				// 	key_id: prop_meter.prop_meter_id,
+																				// 	task: 'INSERT',
+																				// 	pk_name: 'prop_meter_id',
+																				// 	status: 1
+																				// }).exec(function(err, syc_details){
+														 					// 		 if (err) console.log(res.json(err) ) ;
+														 					// 	});
+
+													 						});
+													 				 });
+
+
+																	 	//general condition import
+																		Company_general_condition_link.find({status: 1}).exec(function(err, General_conditions){
+																			var data = [];
+																			 for(var i=0,l = General_conditions.length; i < l; i++){
+																				 data.push({
+																				 	prop_general_id: uuidV4(),
+																				 	property_id: propertyInfo.property_id,
+																				 	com_general_id: General_conditions[i].com_general_id,
+																				 	item_name: General_conditions[i].item_name,
+																				 	options: General_conditions[i].options,
+																				 	type: General_conditions[i].type,
+																				 	priority: General_conditions[i].priority,
+																				 	user_input: '',
+																				 	comment: '',
+																				 	status: 1
+																				 	 });
+																			 }
+
+																			 Property_general_condition_link.create(data).exec(function(err, prop_general_condition){
+																					if (err) console.log(res.json(err) ) ;
+
+																				// Sync.create({
+																				// 	syn_id: uuidV4(),
+																				// 	property_id: propertyInfo.property_id,
+																				// 	table_name: 'property_general_condition_link',
+																				// 	key_id: prop_general_condition.prop_general_id,
+																				// 	task: 'INSERT',
+																				// 	pk_name: 'prop_general_id',
+																				// 	status: 1
+																				// }).exec(function(err, syc_details){
+														 					// 		 if (err) console.log(res.json(err) ) ;
+														 					// 	});
+
+																			 });
+																		});
+
+
+																		//master items inport
+																	 Company_masteritem_link.find({status: 1}).then(function(master_items){
+
+																		 var data_master_items = [];
+																		 for(var i=0, l = master_items.length; i < l; i++){
+
+																		 	var prop_master_id = uuidV4();
+
+																			 data_master_items.push({
+																			 	prop_master_id: prop_master_id,
+																			 	property_id: propertyInfo.property_id,
+																			 	com_master_id: master_items[i].com_master_id,
+																			 	type: 'DEFAULT',
+																			 	com_type: master_items[i].type,
+																			 	option: master_items[i].option,
+																			 	self_prop_master_id: '0',
+																			 	name: master_items[i].item_name,
+																			 	priority: master_items[i].priority,
+																			 	total_num: 0,
+																			 	status: 1
+																			 });
+
+																			//  Sync.create({
+																			// 	syn_id: uuidV4(),
+																			// 	property_id: propertyInfo.property_id,
+																			// 	table_name: 'property_masteritem_link',
+																			// 	key_id: prop_master_id,
+																			// 	task: 'INSERT',
+																			// 	pk_name: 'prop_master_id',
+																			// 	status: 1
+																			// }).exec(function(err, syc_details){
+													 					// 		 if (err) console.log(res.json(err) ) ;
+													 					// 	});
+
+
+																		 }
+																		 return Property_masteritem_link.create(data_master_items);
+
+																	 })
+																	 .catch( function(err){
+													 					// do something when is error
+													 					return res.json(200, { status: 2, error:'update was not successfull'});
+													 				})
+																	.done(function(){
+
+
+																		Company_subitem_link.find({status: 1 }).exec(function(err, sub_items ){
+																			var data_sub_items = [];
+																			for(var i=0,l = sub_items.length; i < l; i++){
+																				data_sub_items.push({
+																					prop_subitem_id: uuidV4(),
+																					property_id: propertyInfo.property_id,
+																					com_subitem_id: sub_items[i].com_subitem_id,
+																					item_name: sub_items[i].item_name,
+																					type: sub_items[i].type,
+																					priority: sub_items[i].priority,
+																					status: 1
+																				});
+																			}
+
+																			Property_subitem_link.create(data_sub_items).exec(function(err, prop_subs){
+																				 if (err) console.log(res.json(err) );
+
+																				// Sync.create({
+																				// 	syn_id: uuidV4(),
+																				// 	property_id: propertyInfo.property_id,
+																				// 	table_name: 'property_subitem_link',
+																				// 	key_id: prop_subs.prop_subitem_id,
+																				// 	task: 'INSERT',
+																				// 	pk_name: 'prop_subitem_id',
+																				// 	status: 1
+																				// }).exec(function(err, syc_details){
+														 					// 		 if (err) console.log(res.json(err) ) ;
+														 					// 	});
+
+																				 return res.json(200, { status: 1, property_id: propertyInfo.property_id});
+																				 //return res.json(200, {status: 'successfully updated'});
+																			});
+
+																		});
+
+
+																	});
+
+
+																//update main process //
+
+
+
+
+															});
+
+
+
+													}
+
+												});
+
+										}
+
+
+
+
+
+									}
+									else{ // no for img
+										//update main process //
+
+												Property_info.create(dataPropertyInfo).exec(function(err, dataProperty){
+													if(err) return res.json(err);
+													//return res.json(200, { status: 1, property_id: propertyInfo.property_id});
+
+													// Sync.create({
+													// 	syn_id: uuidV4(),
+													// 	property_id: propertyInfo.property_id,
+													// 	table_name: 'property_info',
+													// 	key_id: propertyInfo.property_id,
+													// 	task: 'INSERT',
+													// 	pk_name: 'property_id',
+													// 	status: 1
+													// }).exec(function(err, syc_details){
+												// 		 if (err) console.log(res.json(err) ) ;
+												// 	});
+
+												});
+
+											//signature import
+											var dataSignature = {
+													sign_id: uuidV4(),
+													property_id: propertyInfo.property_id,
+													comment: '',
+													tenant_url: '',
+													lanlord_url: '',
+													clerk_url: ''
+											};
+
+											Signatures.create(dataSignature).exec(function(err, signature){
+												 if (err) console.log(res.json(err) ) ;
+
+											// 	 Sync.create({
+												// 	syn_id: uuidV4(),
+												// 	property_id: propertyInfo.property_id,
+												// 	table_name: 'signatures',
+												// 	key_id: signature.sign_id,
+												// 	task: 'INSERT',
+												// 	pk_name: 'sign_id',
+												// 	status: 1
+												// }).exec(function(err, syc_details){
+											// 		 if (err) console.log(res.json(err) ) ;
+											// 	});
+
+											});
+
+
+
+											//meter import
+											 Company_meter_link.find({status: 1}).exec(function(err, Meter_types){
+												 var data = [];
+													for(var i=0,l = Meter_types.length; i < l; i++){
+														data.push({
+															prop_meter_id: uuidV4(),
+															property_id: propertyInfo.property_id,
+															com_meter_id: Meter_types[i].com_meter_id,
+															meter_name: Meter_types[i].meter_name,
+															reading_value: '',
+															status: 1,
+														});
+													}
+
+													Property_meter_link.create(data).exec(function(err, prop_meter){
+														 if (err) console.log(res.json(err) ) ;
+
+													// 	 Sync.create({
+														// 	syn_id: uuidV4(),
+														// 	property_id: propertyInfo.property_id,
+														// 	table_name: 'property_meter_link',
+														// 	key_id: prop_meter.prop_meter_id,
+														// 	task: 'INSERT',
+														// 	pk_name: 'prop_meter_id',
+														// 	status: 1
+														// }).exec(function(err, syc_details){
+													// 		 if (err) console.log(res.json(err) ) ;
+													// 	});
+
+													});
+											 });
+
+
+												//general condition import
+												Company_general_condition_link.find({status: 1}).exec(function(err, General_conditions){
+													var data = [];
+													 for(var i=0,l = General_conditions.length; i < l; i++){
+														 data.push({
+															prop_general_id: uuidV4(),
+															property_id: propertyInfo.property_id,
+															com_general_id: General_conditions[i].com_general_id,
+															item_name: General_conditions[i].item_name,
+															options: General_conditions[i].options,
+															type: General_conditions[i].type,
+															priority: General_conditions[i].priority,
+															user_input: '',
+															comment: '',
+															status: 1
+															 });
+													 }
+
+													 Property_general_condition_link.create(data).exec(function(err, prop_general_condition){
+															if (err) console.log(res.json(err) ) ;
+
+														// Sync.create({
+														// 	syn_id: uuidV4(),
+														// 	property_id: propertyInfo.property_id,
+														// 	table_name: 'property_general_condition_link',
+														// 	key_id: prop_general_condition.prop_general_id,
+														// 	task: 'INSERT',
+														// 	pk_name: 'prop_general_id',
+														// 	status: 1
+														// }).exec(function(err, syc_details){
+													// 		 if (err) console.log(res.json(err) ) ;
+													// 	});
+
+													 });
+												});
+
+
+												//master items inport
+											 Company_masteritem_link.find({status: 1}).then(function(master_items){
+
+												 var data_master_items = [];
+												 for(var i=0, l = master_items.length; i < l; i++){
+
+													var prop_master_id = uuidV4();
+
+													 data_master_items.push({
+														prop_master_id: prop_master_id,
+														property_id: propertyInfo.property_id,
+														com_master_id: master_items[i].com_master_id,
+														type: 'DEFAULT',
+														com_type: master_items[i].type,
+														option: master_items[i].option,
+														self_prop_master_id: '0',
+														name: master_items[i].item_name,
+														priority: master_items[i].priority,
+														total_num: 0,
+														status: 1
+													 });
+
+													//  Sync.create({
+													// 	syn_id: uuidV4(),
+													// 	property_id: propertyInfo.property_id,
+													// 	table_name: 'property_masteritem_link',
+													// 	key_id: prop_master_id,
+													// 	task: 'INSERT',
+													// 	pk_name: 'prop_master_id',
+													// 	status: 1
+													// }).exec(function(err, syc_details){
+												// 		 if (err) console.log(res.json(err) ) ;
+												// 	});
+
+
+												 }
+												 return Property_masteritem_link.create(data_master_items);
+
+											 })
+											 .catch( function(err){
+												// do something when is error
+												return res.json(200, { status: 2, error:'update was not successfull'});
+											})
+											.done(function(){
+
+
+												Company_subitem_link.find({status: 1 }).exec(function(err, sub_items ){
+													var data_sub_items = [];
+													for(var i=0,l = sub_items.length; i < l; i++){
+														data_sub_items.push({
+															prop_subitem_id: uuidV4(),
+															property_id: propertyInfo.property_id,
+															com_subitem_id: sub_items[i].com_subitem_id,
+															item_name: sub_items[i].item_name,
+															type: sub_items[i].type,
+															priority: sub_items[i].priority,
+															status: 1
+														});
+													}
+
+													Property_subitem_link.create(data_sub_items).exec(function(err, prop_subs){
+														 if (err) console.log(res.json(err) );
+
+														// Sync.create({
+														// 	syn_id: uuidV4(),
+														// 	property_id: propertyInfo.property_id,
+														// 	table_name: 'property_subitem_link',
+														// 	key_id: prop_subs.prop_subitem_id,
+														// 	task: 'INSERT',
+														// 	pk_name: 'prop_subitem_id',
+														// 	status: 1
+														// }).exec(function(err, syc_details){
+													// 		 if (err) console.log(res.json(err) ) ;
+													// 	});
+
+														 return res.json(200, { status: 1, property_id: propertyInfo.property_id});
+														 //return res.json(200, {status: 'successfully updated'});
+													});
+
+												});
+
+
+											});
+
+
+										//update main process //
+
 									}
 
-									Property_subitem_link.create(data_sub_items).exec(function(err, prop_subs){
-										 if (err) console.log(res.json(err) );
-
-										// Sync.create({
-										// 	syn_id: uuidV4(),
-										// 	property_id: propertyInfo.property_id,
-										// 	table_name: 'property_subitem_link',
-										// 	key_id: prop_subs.prop_subitem_id,
-										// 	task: 'INSERT',
-										// 	pk_name: 'prop_subitem_id',
-										// 	status: 1
-										// }).exec(function(err, syc_details){
-				 					// 		 if (err) console.log(res.json(err) ) ;
-				 					// 	});
-
-										 return res.json(200, { status: 1, property_id: propertyInfo.property_id});
-										 //return res.json(200, {status: 'successfully updated'});
-									});
-
-								});
 
 
-							});
+
+
 
 						}
 						else{
@@ -1053,6 +1611,10 @@ module.exports = {
 		}
 
 		},
+
+
+
+
 		edit: function(req, res){
 
 			var dataPropertyInfo = {
@@ -1091,10 +1653,149 @@ module.exports = {
 								//check if the user is authorize to access this property
 								if(user.company_id ==  property_details.company_id ){
 
-									Property_info.update({property_id: req.param('property_id')}, dataPropertyInfo ).exec(function afterwards(err, updated){
-											if (err) return res.json(err);
-											//return res.json(200, { status: 1, property_id: updated.property_id});
-									});
+
+									if(req.param('gotImg') ){
+
+										var fs = require('fs');
+				            var im = require('imagemagick');
+				            var path = require('path');
+
+				            var ImagesDirArr = __dirname.split('/'); // path to this controller
+				            ImagesDirArr.pop();
+				            ImagesDirArr.pop();
+
+				            var upload_path =  ImagesDirArr.join('/')  + '/assets/images/' + property_id + '/';
+
+										if(fs.existsSync( upload_path )){
+				              sails.log('folder exists');
+
+
+											req.file('logo').upload(
+		                    {
+		                       dirname: '../public/images',
+		                        maxBytes: 10000000
+		                    },
+		                    function (err, files) {
+
+		                      if (err){
+		                        console.log(err);
+		                        return res.json(err);
+		                      }
+		                      console.log(files[0].fd);
+		                      console.log(files[0].filename);
+		                      const uuidV4 = require('uuid/v4');
+
+
+		                      var _src = files[0].fd; // path of the uploaded file
+		                      var _dest =  upload_path + path.basename(files[0].fd); // the destination path
+		                      fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
+
+		                      im.resize({
+		                        srcPath: _src,
+		                        dstPath: upload_path + '300_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
+		                        width: 300
+		                      }, function(err, stdout, stderr){
+		                        if (err) throw err;
+		                        sails.log('resized fit within 300px');
+		                      });
+
+													im.resize({
+		                        srcPath: _src,
+		                        dstPath: upload_path + '600_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
+		                        width: 600
+		                      }, function(err, stdout, stderr){
+		                        if (err) throw err;
+		                        sails.log('resized fit within 600px');
+		                      });
+
+													dataPropertyInfo['image_url'] = path.basename(files[0].fd);
+													Property_info.update({property_id: req.param('property_id')}, dataPropertyInfo ).exec(function afterwards(err, updated){
+															if (err) return res.json(err);
+													});
+
+
+		                  });
+
+
+
+
+										}
+										else{
+
+											var mkdirp = require('mkdirp');
+											mkdirp( upload_path, function(err) {
+												if(err){
+													sails.error(err);
+													return res.json(err);
+												}
+												else{
+													sails.log('folder created!');
+
+													req.file('logo').upload(
+				                    {
+				                       dirname: '../public/images',
+				                        maxBytes: 10000000
+				                    },
+				                    function (err, files) {
+
+				                      if (err){
+				                        console.log(err);
+				                        return res.json(err);
+				                      }
+				                      console.log(files[0].fd);
+				                      console.log(files[0].filename);
+				                      const uuidV4 = require('uuid/v4');
+
+
+				                      var _src = files[0].fd; // path of the uploaded file
+				                      var _dest =  upload_path + path.basename(files[0].fd); // the destination path
+				                      fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
+
+				                      im.resize({
+				                        srcPath: _src,
+				                        dstPath: upload_path + '300_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
+				                        width: 300
+				                      }, function(err, stdout, stderr){
+				                        if (err) throw err;
+				                        sails.log('resized fit within 300px');
+				                      });
+
+															im.resize({
+				                        srcPath: _src,
+				                        dstPath: upload_path + '600_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
+				                        width: 600
+				                      }, function(err, stdout, stderr){
+				                        if (err) throw err;
+				                        sails.log('resized fit within 600px');
+				                      });
+
+															dataPropertyInfo['image_url'] = path.basename(files[0].fd);
+															Property_info.update({property_id: req.param('property_id')}, dataPropertyInfo ).exec(function afterwards(err, updated){
+																	if (err) return res.json(err);
+															});
+
+
+				                  });
+
+
+												}
+
+											});
+
+										}
+
+
+
+									}
+									else{
+										Property_info.update({property_id: req.param('property_id')}, dataPropertyInfo ).exec(function afterwards(err, updated){
+												if (err) return res.json(err);
+												//return res.json(200, { status: 1, property_id: updated.property_id});
+										});
+									}
+
+
+
 
 									Property.update({property_id: req.param('property_id')}, data ).exec(function afterwards(err, updated){
 											if (err) return res.json(err);
@@ -3504,18 +4205,20 @@ module.exports = {
 								 		console.log(files[0].filename);
 								 		const uuidV4 = require('uuid/v4');
 
+										var _src = files[0].fd;  // path of the uploaded file
+									 	var _dest = upload_path + path.basename(files[0].fd); // the destination path
+
 										var data = {
 										 		photo_id: uuidV4(),
 										  	property_id : req.param('property_id'),
 										  	item_id : req.param('item_id'),
 										  	parent_id: req.param('parent_id'),
 										  	type: req.param('type'),
-										  	img_url: files[0].fd,
+										  	img_url: _dest,
 										  	file_name: path.basename(files[0].fd)
 										};
 
-							      var _src = files[0].fd;  // path of the uploaded file
-							      var _dest = upload_path + path.basename(files[0].fd); // the destination path
+
 							      fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
 
 										//resize
@@ -3582,6 +4285,8 @@ module.exports = {
 										 			console.log(files[0].fd);
 											 		console.log(files[0].filename);
 											 		const uuidV4 = require('uuid/v4');
+													var _src = files[0].fd;  // path of the uploaded file
+										      var _dest = upload_path + path.basename(files[0].fd); // the destination path
 
 													var data = {
 													 		photo_id: uuidV4(),
@@ -3589,12 +4294,11 @@ module.exports = {
 													  	item_id : req.param('item_id'),
 													  	parent_id: req.param('parent_id'),
 													  	type: req.param('type'),
-													  	img_url: files[0].fd,
+													  	img_url: _dest,
 													  	file_name: path.basename(files[0].fd)
 													};
 
-										      var _src = files[0].fd;  // path of the uploaded file
-										      var _dest = upload_path + path.basename(files[0].fd); // the destination path
+
 										      fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
 
 													//resize
