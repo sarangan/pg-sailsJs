@@ -173,132 +173,156 @@ module.exports = {
 				User.findOne({id :  req.token.sid}).exec(function(err, user){
 					if(err) return res.json(err);
 
-						//console.log( req.param('data') );
 						console.log('Uploading photos');
 
-						// return res.json({ status: 1, data:  req.param('data') });
-						var d = new Date();
-						var current_year = d.getFullYear();
-						var uploadToDir = '../public/resources_' + current_year;
-
 						var fs = require('fs');
-						
-						// if (!fs.existsSync(uploadToDir)){
-						//     fs.mkdirSync(uploadToDir);
-						// }
 						var path = require('path');
+						var im = require('imagemagick');
 
-						req.file('photo').upload(
-							{
-								 dirname: '../public/images',//'./assets/images',
-								  maxBytes: 10000000
-							},
-							function (err, files) {
+						var ImagesDirArr = __dirname.split('/'); // path to this controller
+            ImagesDirArr.pop();
+            ImagesDirArr.pop();
 
-						      	if (err){
-									console.log(err);
-									return res.json(err);
-								}
+						var data = JSON.parse(req.param('data') );
+						var upload_path =  ImagesDirArr.join('/')  + '/assets/images/' + data.property_id + '/';
 
-							
-							 var data = JSON.parse(req.param('data') );
-							 delete data.id;
-							 delete data.sync;
+						if(fs.existsSync( upload_path )){
+              sails.log('folder exists');
 
-							 data['img_url'] = files[0].fd;
-							 data['file_name'] = path.basename(files[0].fd);//files[0].filename;
+							req.file('photo').upload(
+									{
+										dirname: '../public/images',
+										maxBytes: 10000000
+									},
+								function (err, files) {
 
-							 //console.log(files[0]);
-							 console.log(files[0].fd);
-							 console.log(files[0].filename);
+							    	if (err){
+											console.log(err);
+											return res.json(err);
+										}
 
-							  //var ImagesDirArr = __dirname.split('/'); // path to this controller
-						      //ImagesDirArr.pop();
-						      //ImagesDirArr.pop();
+									 	delete data.id;
+										delete data.sync;
 
-						      //var path = ImagesDirArr.join('/'); // path to root of the project
-						      var _src = files[0].fd             // path of the uploaded file  
+									 	data['img_url'] = files[0].fd;
+									 	data['file_name'] = path.basename(files[0].fd);
 
-						      var ImagesDirArr = __dirname.split('/'); // path to this controller
-						        ImagesDirArr.pop();
-						        ImagesDirArr.pop();
+							      var _src = files[0].fd; // path of the uploaded file
+							      var _dest = upload_path + path.basename(files[0].fd); // destination path
+						      	fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
 
-						        // the destination path
-						      var _dest = ImagesDirArr.join('/')  +'/assets/images/'+ path.basename(files[0].fd); //files[0].filename 
+										im.resize({
+		                  srcPath: _src,
+		                  dstPath: upload_path + '300_' + path.basename(files[0].fd),
+		                  width: 300
+		                }, function(err, stdout, stderr){
+		                  if (err) throw err;
+		                  console.log('resized fit within 300px');
+		                });
 
-						        // not preferred but fastest way of copying file
-						      fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
-
-
-							Photos.create(data).exec(function(err, photos){
-								if (err) return res.json(err);
-								 if(photos.photo_id){
-									return res.json({
-										message: files.length + ' file(s) uploaded successfully!',
-										files: files,
-										data: data
-									});
-
-								 }
-							});
-
-				  		});
+										im.resize({
+		                  srcPath: _src,
+		                  dstPath: upload_path + '600_' + path.basename(files[0].fd),
+		                  width: 600
+		                }, function(err, stdout, stderr){
+		                  if (err) throw err;
+		                  console.log('resized fit within 600px');
+		                });
 
 
-				  		//new method
+										Photos.create(data).exec(function(err, photos){
+											if (err) return res.json(err);
 
-				  		/*var uploadToDir = '../public/images'; 
-						req.file('photo').upload({
-						    saveAs:function(file, cb) {
-						        cb(null,uploadToDir+'/'+file.filename);
-						    }
-						},function whenDone(err,files){
-						    if (err) return res.serverError(err);
-						    if( files.length > 0 ){
+											if(photos.photo_id){
+												return res.json({
+														message: files.length + ' file(s) uploaded successfully!',
+														files: files,
+														data: data
+												});
+											}
 
-						        var ImagesDirArr = __dirname.split('/'); // path to this controller
-						        ImagesDirArr.pop();
-						        ImagesDirArr.pop();
-
-						        var path = ImagesDirArr.join('/'); // path to root of the project
-						        var _src = files[0].fd             // path of the uploaded file  
-
-						        // the destination path
-						        var _dest = path+'/assets/images/'+files[0].filename 
-
-						        // not preferred but fastest way of copying file
-						        fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
-						        //return res.json({msg:"File saved", data: files});
-
-						        console.log('file uploaded!');
-
-						         var data = JSON.parse(req.param('data') );
-								 delete data.id;
-								 delete data.sync;
-
-								 data['img_url'] = files[0].fd;
-								 data['file_name'] = files[0].filename;
-
-								Photos.create(data).exec(function(err, photos){
-									if (err) return res.json(err);
-
-									console.log('photo saved');
-
-									 if(photos.photo_id){
-										return res.json({
-											message: files.length + ' file(s) uploaded successfully!',
-											files: files,
-											data: data
 										});
 
-									 }
-								});
+					  		});
+
+
+            }
+						else{
+							var mkdirp = require('mkdirp');
+	            mkdirp(upload_path , function(err) {
+	              // path exists unless there was an error
+	              if (err){
+									sails.log(err);
+									return res.json(err);
+								}
+	              else{
+
+									sails.log('folder created');
+
+									req.file('photo').upload(
+											{
+												dirname: '../public/images',
+												maxBytes: 10000000
+											},
+										function (err, files) {
+
+									    	if (err){
+													console.log(err);
+													return res.json(err);
+												}
+
+											 	delete data.id;
+												delete data.sync;
+
+											 	data['img_url'] = files[0].fd;
+											 	data['file_name'] = path.basename(files[0].fd);
+
+									      var _src = files[0].fd; // path of the uploaded file
+									      var _dest = upload_path + path.basename(files[0].fd); // destination path
+								      	fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
+
+												im.resize({
+				                  srcPath: _src,
+				                  dstPath: upload_path + '300_' + path.basename(files[0].fd),
+				                  width: 300
+				                }, function(err, stdout, stderr){
+				                  if (err) throw err;
+				                  console.log('resized fit within 300px');
+				                });
+
+												im.resize({
+				                  srcPath: _src,
+				                  dstPath: upload_path + '600_' + path.basename(files[0].fd),
+				                  width: 600
+				                }, function(err, stdout, stderr){
+				                  if (err) throw err;
+				                  console.log('resized fit within 600px');
+				                });
+
+
+												Photos.create(data).exec(function(err, photos){
+													if (err) return res.json(err);
+
+													if(photos.photo_id){
+														return res.json({
+																message: files.length + ' file(s) uploaded successfully!',
+																files: files,
+																data: data
+														});
+													}
+
+												});
+
+							  		});
 
 
 
+								}
 
-						    }
-						});*/
+
+
+	            });
+						}
 
 
 
@@ -320,74 +344,118 @@ module.exports = {
 
 						console.log('Uploading voices');
 
-						// return res.json({ status: 1, data:  req.param('data') });
-
 						var fs = require('fs');
 						var path = require('path');
 
+						var ImagesDirArr = __dirname.split('/'); // path to this controller
+						ImagesDirArr.pop();
+						ImagesDirArr.pop();
+
+						var data = JSON.parse(req.param('data') );
+						var upload_path =  ImagesDirArr.join('/')  + '/assets/images/' + data.property_id + '/';
+
+						if(fs.existsSync( upload_path )){
+              sails.log('folder exists');
 
 							req.file('voice').upload(
 							{
-								 dirname: '../public/images',//'./assets/images',
+								 dirname: '../public/images',
 								  maxBytes: 10000000
 							},
 							function (err, files) {
 
 								if (err){
-									console.log( 'voice file uploading error');
+									console.log('voice file uploading error');
 									console.log(err);
 									return res.json(err);
 								}
 
-							 	var data = JSON.parse(req.param('data') );
 							 	delete data.id;
 							 	delete data.sync;
 
 								data['voice_url'] = files[0].fd;
 								data['file_name'] = path.basename(files[0].fd);
 
-								console.log( data );
-								console.log('after Uploading voices');
-
 								console.log(files[0].fd);
 							 	console.log(files[0].filename);
 
-								var _src = files[0].fd             // path of the uploaded file 
+								var _src = files[0].fd; // path of the uploaded file
 
-							    var ImagesDirArr = __dirname.split('/'); // path to this controller
-							    ImagesDirArr.pop();
-							    ImagesDirArr.pop();
-
-							    // the destination path
-							    var _dest = ImagesDirArr.join('/')  +'/assets/images/'+ path.basename(files[0].fd); //files[0].filename 
-
-							    // not preferred but fastest way of copying file
-							    fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
-
+							  var _dest = upload_path + path.basename(files[0].fd);
+							  fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
 
 								Property_sub_voice_general.create(data).exec(function(err, property_sub_voice_general_data){
 									if (err) return res.json(err);
-									 if(property_sub_voice_general_data.prop_sub_feedback_general_id){
-
+									if(property_sub_voice_general_data.prop_sub_feedback_general_id){
 										return res.json({
 											'message': files.length + ' file(s) uploaded successfully!',
 											'files': files,
 											'data': data
 										});
-
-									 }
+									}
 								});
+							});
 
 
+            }
+						else{
 
-						//console.log(files);
+							var mkdirp = require('mkdirp');
+	            mkdirp(upload_path , function(err) {
+
+	              if (err){
+									sails.log(err);
+									return res.json(err);
+								}
+	              else{
+									sails.log('folder created!');
+
+									req.file('voice').upload(
+									{
+										 dirname: '../public/images',
+										  maxBytes: 10000000
+									},
+									function (err, files) {
+
+										if (err){
+											console.log('voice file uploading error');
+											console.log(err);
+											return res.json(err);
+										}
+
+									 	delete data.id;
+									 	delete data.sync;
+
+										data['voice_url'] = files[0].fd;
+										data['file_name'] = path.basename(files[0].fd);
+
+										console.log(files[0].fd);
+									 	console.log(files[0].filename);
+
+										var _src = files[0].fd; // path of the uploaded file
+
+									  var _dest = upload_path + path.basename(files[0].fd);
+									  fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
+
+										Property_sub_voice_general.create(data).exec(function(err, property_sub_voice_general_data){
+											if (err) return res.json(err);
+											if(property_sub_voice_general_data.prop_sub_feedback_general_id){
+												return res.json({
+													'message': files.length + ' file(s) uploaded successfully!',
+													'files': files,
+													'data': data
+												});
+											}
+										});
+									});
 
 
+								}
+
+	            });
 
 
-					});
-
-
+						}
 
 				});
 
@@ -407,40 +475,129 @@ module.exports = {
 
 						console.log('Uploading property photos');
 
-						// return res.json({ status: 1, data:  req.param('data') });
+						var fs = require('fs');
+            var im = require('imagemagick');
+            var path = require('path');
 
-						req.file('photo').upload(
-							{
-								 dirname: './assets/images',
-								  maxBytes: 10000000
-							},
-							function (err, files) {
+						var ImagesDirArr = __dirname.split('/'); // path to this controller
+            ImagesDirArr.pop();
+            ImagesDirArr.pop();
 
-							if (err){
-								console.log(err);
-								return res.json(err);
-							}
+						var data = JSON.parse(req.param('data') );
+            var upload_path =  ImagesDirArr.join('/')  + '/assets/images/' + data.property_id + '/';
 
-							 var data = JSON.parse(req.param('data') );
-							 var property_id = data.property_id;
+						if(fs.existsSync( upload_path )){
+              console.log('folder exists');
 
-							 var dataPropertyInfo = {
-								 image_url: files[0].fd
-							 };
+							req.file('photo').upload(
+								{
+									dirname: '../public/images',
+									maxBytes: 10000000
+								},
+								function (err, files) {
 
-							 Property_info.update({property_id: property_id }, dataPropertyInfo ).exec(function afterwards(err, updated){
-										if (err) return res.json(err);
-										//return res.json(200, { status: 1, property_id: updated.property_id});
+									if (err){
+										sails.log(err);
+										return res.json(err);
+									}
 
-										return res.json({
-											message: files.length + ' file(s) uploaded successfully!',
-											files: files,
-											data: updated
-										});
+									var property_id = data.property_id;
+									var dataPropertyInfo = {
+									 	image_url: path.basename(files[0].fd)
+									};
 
-								});
+									var _src = files[0].fd             // path of the uploaded file
+	                var _dest =  upload_path + path.basename(files[0].fd); // the destination path
 
-					});
+	                fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
+
+	                im.resize({
+	                  srcPath: _src,
+	                  dstPath: upload_path + '300_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
+	                  width: 300
+	                }, function(err, stdout, stderr){
+	                  if (err) throw err;
+	                  sails.log('resized fit within 300px');
+	                });
+
+								 	Property_info.update({property_id: property_id }, dataPropertyInfo ).exec(function afterwards(err, updated){
+											if (err) return res.json(err);
+											return res.json({
+												message: files.length + ' file(s) uploaded successfully!',
+												files: files,
+												data: updated
+											});
+									});
+
+							});
+
+
+            }
+						else{
+
+
+							var mkdirp = require('mkdirp');
+	            mkdirp(upload_path , function(err) {
+	              // path exists unless there was an error
+	              if (err){
+									sails.log(err);
+									return res.json(err);
+								}
+	              else{
+									sails.log('folder created!');
+
+									req.file('photo').upload(
+										{
+											dirname: '../public/images',
+											maxBytes: 10000000
+										},
+										function (err, files) {
+
+											if (err){
+												sails.log(err);
+												return res.json(err);
+											}
+
+											var property_id = data.property_id;
+											var dataPropertyInfo = {
+											 	image_url: path.basename(files[0].fd)
+											};
+
+											var _src = files[0].fd             // path of the uploaded file
+			                var _dest =  upload_path + path.basename(files[0].fd); // the destination path
+
+			                fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
+
+			                im.resize({
+			                  srcPath: _src,
+			                  dstPath: upload_path + '300_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
+			                  width: 300
+			                }, function(err, stdout, stderr){
+			                  if (err) throw err;
+			                  sails.log('resized fit within 300px');
+			                });
+
+										 	Property_info.update({property_id: property_id }, dataPropertyInfo ).exec(function afterwards(err, updated){
+													if (err) return res.json(err);
+													return res.json({
+														message: files.length + ' file(s) uploaded successfully!',
+														files: files,
+														data: updated
+													});
+											});
+
+									});
+
+
+
+								}
+
+	            });
+
+
+						}
+
+
 
 				});
 
@@ -970,17 +1127,6 @@ module.exports = {
 
 		uploadlogo: function(req, res){
 
-			console.log(sails.config.appPath, '/assets/images/props_logo');
-
-			// req.file('fileName').upload({
-			//   dirname: require('path').resolve(sails.config.appPath, '/assets/images/props_logo')
-			// },function (err, uploadedFiles) {
-			//   if (err) return res.negotiate(err);
-			//
-			//   return res.json({
-			//     message: uploadedFiles.length + ' file(s) uploaded successfully!'
-			//   });
-			// });
 
 			uploadFile.upload({ dirname: '../../assets/images'},function onUploadComplete (err, files) {
     // Earlier it was ./assets/images .. Changed to ../../assets/images
@@ -1574,9 +1720,9 @@ module.exports = {
 								//check if the user is authorize to access this property
 								if(user.company_id ==  property_details.company_id ){
 
-									
+
 										var qry = "SELECT property_meter_link.prop_meter_id, property_meter_link.property_id, property_meter_link.com_meter_id, property_meter_link.meter_name, property_meter_link.reading_value, property_feedback.prop_feedback_id, property_feedback.comment, property_feedback.description FROM property_meter_link LEFT JOIN property_feedback ON property_meter_link.prop_meter_id = property_feedback.item_id where property_meter_link.status = 1 and property_meter_link.property_id='" + property_id +"'" ;
-										
+
 										Property_meter_link.query(qry, function(err, meter_items){
 
 											return res.json({status: 1, meter_items: meter_items});
@@ -1647,14 +1793,14 @@ module.exports = {
 										var insert_data = {
 											'option' : '',
 											'comment' : data_feedback['comment'],
-											'description' : data_feedback['description']										
+											'description' : data_feedback['description']
 										};
 
 										if(prop_feedback_id){
 
 											Property_feedback.update({prop_feedback_id: prop_feedback_id }, insert_data ).exec(function afterwards(err, updated){
 												if (err) return res.json(err);
-												//return res.json(200, { status: 1, text: 'successfully updated' });						
+												//return res.json(200, { status: 1, text: 'successfully updated' });
 											});
 
 											Property_meter_link.update({ prop_meter_id: data_feedback['prop_meter_id'] }, {reading_value: data_feedback['reading_value']} ).exec(function afterwards(err, updated){
@@ -1668,7 +1814,7 @@ module.exports = {
 
 											const uuidV4 = require('uuid/v4');
 											prop_feedback_id = uuidV4();
-											
+
 											var insert_data = {
 												'prop_feedback_id' : prop_feedback_id,
 												'property_id' : property_id,
@@ -1677,7 +1823,7 @@ module.exports = {
 												'comment' : (data_feedback['comment']? data_feedback['comment'] : ''),
 												'description' : (data_feedback['description']? data_feedback['description'] : ''),
 												'parent_id' : data_feedback['prop_meter_id'],
-												'type' : 'METER'									
+												'type' : 'METER'
 											};
 
 											//sails.log(insert_data);
@@ -1686,8 +1832,8 @@ module.exports = {
 												if (err){
 													sails.log(err);
 													return res.json(err);
-												} 
-													
+												}
+
 												//return res.json(200, { status: 1, text: 'successfully inserted' });
 											});
 
@@ -1904,7 +2050,7 @@ module.exports = {
 									//good to go from here
 
 									var qry = "select property_subitem_link.*, property_masteritem_link.prop_master_id, property_masteritem_link.name as master_item_name,company_subitem_link.com_master_id, property_feedback.prop_feedback_id, property_feedback.comment, property_feedback.description, property_feedback.option from property_subitem_link INNER JOIN company_subitem_link on property_subitem_link.com_subitem_id = company_subitem_link.com_subitem_id INNER JOIN property_masteritem_link ON company_subitem_link.com_master_id = property_masteritem_link.com_master_id LEFT JOIN property_feedback on property_subitem_link.prop_subitem_id = property_feedback.item_id where property_subitem_link.status =1 and property_masteritem_link.prop_master_id ='" + prop_master_id +"' and property_subitem_link.property_id='" + property_id +"' order by property_subitem_link.priority";
-									
+
 									Property_subitem_link.query(qry, function(err, sub_items){
 
 										//return res.json({status: 1, sub_items: sub_items});
@@ -1917,14 +2063,14 @@ module.exports = {
 
 										if(gen_sub_item_id){
 
-																						
+
 										    Property_sub_feedback_general.findOne({item_id: gen_sub_item_id }).exec(function afterwards(err, comments){
 										    	return res.json({status: 1, sub_items: sub_items, gen_comment:comments });
 										    });
-									    
+
 										}
 										else{
-											
+
 											return res.json({status: 1, sub_items: sub_items, gen_comment:'' });
 										}
 
@@ -1940,7 +2086,7 @@ module.exports = {
 									// 	.then( function(sub_items){
 
 									// 		sails.log('initial list of sub items  ' +  sub_items.length );
-											
+
 									// 		var gen_sub_item_id = '';
 									// 		for(var i =0, l = sub_items.length; i < l ; i++){
 									// 			if(sub_items[i].type == 'GENERAL'){
@@ -1955,7 +2101,7 @@ module.exports = {
 									// 			comments = Property_sub_feedback_general.find({ item_id: gen_sub_item_id }).then(function(comments){
 									// 		        return comments;
 									// 		    });
-											    
+
 									// 		}
 
 									// 		return [ sub_items, comments];
@@ -2076,22 +2222,22 @@ module.exports = {
 										var update_data = {
 											'option' : data_feedback['option'],
 											'comment' : data_feedback['comment'],
-											'description' : data_feedback['description']										
+											'description' : data_feedback['description']
 										};
 
 										if(prop_feedback_id){
 
 											Property_feedback.update({prop_feedback_id: prop_feedback_id }, update_data ).exec(function afterwards(err, updated){
 												if (err) return res.json(err);
-												//return res.json(200, { status: 1, text: 'successfully updated' });						
+												//return res.json(200, { status: 1, text: 'successfully updated' });
 											});
 
 										}
 										else{
 
-											
+
 											prop_feedback_id = uuidV4();
-											
+
 											var insert_data = {
 												'prop_feedback_id' : prop_feedback_id,
 												'property_id' : property_id,
@@ -2100,7 +2246,7 @@ module.exports = {
 												'comment' : (data_feedback['comment']? data_feedback['comment'] : ''),
 												'description' : (data_feedback['description']? data_feedback['description'] : ''),
 												'parent_id' : data_feedback['prop_master_id'],
-												'type' : 'SUB'									
+												'type' : 'SUB'
 											};
 
 											//sails.log(insert_data);
@@ -2109,18 +2255,18 @@ module.exports = {
 												if (err){
 													sails.log(err);
 													return res.json(err);
-												} 
-													
+												}
+
 												//return res.json(200, { status: 1, text: 'successfully inserted' });
 											});
 
-											
+
 										}
 
 
 										if(data_feedback['type'] == 'GENERAL'){
 
-											// START insert and update general comment 
+											// START insert and update general comment
 											var data_general_comment =  req.param('gen_comment');
 
 											if(data_general_comment){
@@ -2157,19 +2303,19 @@ module.exports = {
 													});
 
 												}
-											
+
 
 											}
 
-											
+
 											// END insert and update general comment
 
 										}
-										
+
 
 									}
 
-																		
+
 									return res.json(200, { status: 1, text: 'successfully updated' });
 
 
@@ -2251,7 +2397,7 @@ module.exports = {
 
 			if( req.token.hasOwnProperty('sid') ){
 				if(req.token.sid){
-					
+
 					User.findOne({id :  req.token.sid}).exec(function(err, user){
 						if(err) return res.json(err);
 
@@ -2260,7 +2406,7 @@ module.exports = {
 						//check if the user is authorize to access this property
 						if(user.company_id){
 
-							
+
 							var qry = "select company_masteritem_link.* from company_masteritem_link where company_masteritem_link.company_id ="+ user.company_id +" order by company_masteritem_link.priority";
 							Company_masteritem_link.query(qry, function(err, template_list){
 								//console.log(prop_room);
@@ -2273,7 +2419,7 @@ module.exports = {
 							return res.json({status: 2, text: 'you are not allow to access this property!' });
 						}
 
-						
+
 
 
 					});
@@ -2292,17 +2438,17 @@ module.exports = {
 
 			if( req.token.hasOwnProperty('sid') ){
 				if(req.token.sid){
-					
+
 					User.findOne({id :  req.token.sid}).exec(function(err, user){
 						if(err) return res.json(err);
-						
+
 
 						//check if the user is authorize to access this property
 						if(user.company_id){
 
-							
+
 							var master_item =  req.param('master_item');
-							
+
 							for(var i = 0, l = master_item.length; i < l ; i++ ){
 
 								var master_id = master_item[i]['com_master_id'];
@@ -2323,7 +2469,7 @@ module.exports = {
 							return res.json({status: 2, text: 'you are not allow to access this property!' });
 						}
 
-						
+
 
 
 					});
@@ -2371,7 +2517,7 @@ module.exports = {
 								if (err) return res.json(err);
 
 								return res.json(200, { status: 1, text: 'successfully updated' });
-							});							
+							});
 
 
 						}
@@ -2405,7 +2551,7 @@ module.exports = {
 
 							var com_master_id =  req.param('master_id');
 
-							
+
 							if(com_master_id){
 
 								var qry = "delete from company_masteritem_link where company_masteritem_link.company_id ="+ user.company_id +" and company_masteritem_link.com_master_id=" + com_master_id;
@@ -2415,14 +2561,14 @@ module.exports = {
 
 								});
 
-								
+
 							}
 							else{
 
 								return res.json({status: 2, text: 'you cannot delete this item!' });
 							}
-														
-														
+
+
 
 
 						}
@@ -2430,7 +2576,7 @@ module.exports = {
 							return res.json({status: 2, text: 'you are not allow to access this property!' });
 						}
 
-						
+
 					});
 
 				}
@@ -2469,7 +2615,7 @@ module.exports = {
 
 							}
 
-							return res.json(200, { status: 1, text: 'successfully updated' });													
+							return res.json(200, { status: 1, text: 'successfully updated' });
 
 
 						}
@@ -2477,7 +2623,7 @@ module.exports = {
 							return res.json({status: 2, text: 'you are not allow to access this property!' });
 						}
 
-						
+
 					});
 
 				}
@@ -2486,7 +2632,7 @@ module.exports = {
 		},
 
 
-		// to get company general condition template		
+		// to get company general condition template
 		getgeneralconditiontemplate: function(req, res){
 
 
@@ -2525,7 +2671,7 @@ module.exports = {
 
 		},
 
-		
+
 		//this is to get property template
 		updategeneralconditiontemplate: function(req, res){
 
@@ -2566,7 +2712,7 @@ module.exports = {
 							return res.json({status: 2, text: 'you are not allow to access this property!' });
 						}
 
-						
+
 					});
 
 				}
@@ -2601,7 +2747,7 @@ module.exports = {
 								if (err) return res.json(err);
 
 								return res.json(200, { status: 1, text: 'successfully updated' });
-							});							
+							});
 
 
 						}
@@ -2652,8 +2798,8 @@ module.exports = {
 
 								return res.json({status: 2, text: 'you cannot delete this item!' });
 							}
-														
-														
+
+
 
 
 						}
@@ -2661,7 +2807,7 @@ module.exports = {
 							return res.json({status: 2, text: 'you are not allow to access this property!' });
 						}
 
-						
+
 					});
 
 				}
@@ -2700,7 +2846,7 @@ module.exports = {
 
 							}
 
-							return res.json(200, { status: 1, text: 'successfully updated' });													
+							return res.json(200, { status: 1, text: 'successfully updated' });
 
 
 						}
@@ -2708,7 +2854,7 @@ module.exports = {
 							return res.json({status: 2, text: 'you are not allow to access this property!' });
 						}
 
-						
+
 					});
 
 				}
@@ -2800,7 +2946,7 @@ module.exports = {
 
 		},
 
-		//this is to insert new sub item template 
+		//this is to insert new sub item template
 		insertsubitemtemplate: function(req, res){
 
 
@@ -2826,7 +2972,7 @@ module.exports = {
 								if (err) return res.json(err);
 
 								return res.json(200, { status: 1, text: 'successfully updated' });
-							});							
+							});
 
 
 						}
@@ -2877,8 +3023,8 @@ module.exports = {
 
 								return res.json({status: 2, text: 'you cannot delete this item!' });
 							}
-														
-														
+
+
 
 
 						}
@@ -2886,7 +3032,7 @@ module.exports = {
 							return res.json({status: 2, text: 'you are not allow to access this property!' });
 						}
 
-						
+
 					});
 
 				}
@@ -2925,7 +3071,7 @@ module.exports = {
 
 							}
 
-							return res.json(200, { status: 1, text: 'successfully updated' });													
+							return res.json(200, { status: 1, text: 'successfully updated' });
 
 
 						}
@@ -2933,7 +3079,7 @@ module.exports = {
 							return res.json({status: 2, text: 'you are not allow to access this property!' });
 						}
 
-						
+
 					});
 
 				}
@@ -3025,7 +3171,7 @@ module.exports = {
 
 		},
 
-		//this is to insert new sub item template 
+		//this is to insert new sub item template
 		insertmeteritemtemplate: function(req, res){
 
 
@@ -3051,7 +3197,7 @@ module.exports = {
 								if (err) return res.json(err);
 
 								return res.json(200, { status: 1, text: 'successfully updated' });
-							});							
+							});
 
 
 						}
@@ -3104,7 +3250,7 @@ module.exports = {
 						else{
 							return res.json({status: 2, text: 'you are not allow to access this property!' });
 						}
-						
+
 					});
 
 				}
@@ -3112,7 +3258,7 @@ module.exports = {
 
 		},
 
-		
+
 		getPhotosByMaster: function(req, res){
 
 			if( req.token.hasOwnProperty('sid') ){
@@ -3137,7 +3283,7 @@ module.exports = {
 								//check if the user is authorize to access this property
 								if(user.company_id ==  property_details.company_id ){
 
-									
+
 									Photos.find({property_id: property_id, parent_id: master_id }).exec(function(err, photos){
 										if(err) return res.json(err);
 
@@ -3190,12 +3336,12 @@ module.exports = {
 								//check if the user is authorize to access this property
 								if(user.company_id ==  property_details.company_id ){
 
-									
+
 									Photos.find({property_id: property_id, item_id: item_id }).exec(function(err, photos){
 										if(err) return res.json(err);
 
 										return res.json({status: 1, photos: photos});
-									});					
+									});
 
 
 								}
@@ -3219,7 +3365,7 @@ module.exports = {
 
 		},
 
-		//this to update photo drag and drop 
+		//this to update photo drag and drop
 		updatephotodnd: function(req, res){
 
 			if( req.token.hasOwnProperty('sid') ){
@@ -3240,7 +3386,7 @@ module.exports = {
 
 								var data = {
 									item_id: item_id,
-									type: 'SUB' 
+									type: 'SUB'
 								}
 
 								Photos.update({photo_id: photo_id }, data).exec(function afterwards(err, updated){
@@ -3258,7 +3404,7 @@ module.exports = {
 						else{
 							return res.json({status: 2, text: 'you are not allow to access this property!' });
 						}
-						
+
 					});
 
 				}
@@ -3266,7 +3412,7 @@ module.exports = {
 
 		},
 
-		//this to update photo drag and drop 
+		//this to update photo drag and drop
 		photodelete: function(req, res){
 
 			if( req.token.hasOwnProperty('sid') ){
@@ -3311,7 +3457,7 @@ module.exports = {
 						else{
 							return res.json({status: 2, text: 'you are not allow to access this property!' });
 						}
-						
+
 					});
 
 				}
@@ -3327,85 +3473,174 @@ module.exports = {
 				User.findOne({id :  req.token.sid}).exec(function(err, user){
 					if(err) return res.json(err);
 
-						//console.log( req.param('data') );
-						console.log('Uploading photos');
-
-						// return res.json({ status: 1, data:  req.param('data') });
-						var d = new Date();
-						var current_year = d.getFullYear();
-						var uploadToDir = '../public/resources_' + current_year;
+						sails.log('Uploading photos');
 
 						var fs = require('fs');
-						
-						// if (!fs.existsSync(uploadToDir)){
-						//     fs.mkdirSync(uploadToDir);
-						// }
-						var path = require('path');
+            var im = require('imagemagick');
+            var path = require('path');
 
-						req.file('photo').upload(
-							{
-								 dirname: '../public/images',//'./assets/images',
-								  maxBytes: 10000000
-							},
-							function (err, files) {
+						var ImagesDirArr = __dirname.split('/'); // path to this controller
+						ImagesDirArr.pop();
+						ImagesDirArr.pop();
 
-						      	if (err){
-									console.log(err);
-									return res.json(err);
-								}
+						var upload_path =  ImagesDirArr.join('/')  + '/assets/images/' + req.param('property_id') + '/';
 
-							console.log('uploaded'); 
+						if(fs.existsSync( upload_path )){
+              sails.log('folder exists');
 
-							console.log(req.param('property_id'));
+							req.file('photo').upload(
+								{
+									 dirname: '../public/images',
+									  maxBytes: 10000000
+								},
+								function (err, files) {
+
+							     	if (err){
+											sails.log(err);
+											return res.json(err);
+										}
+
+							 			console.log(files[0].fd);
+								 		console.log(files[0].filename);
+								 		const uuidV4 = require('uuid/v4');
+
+										var data = {
+										 		photo_id: uuidV4(),
+										  	property_id : req.param('property_id'),
+										  	item_id : req.param('item_id'),
+										  	parent_id: req.param('parent_id'),
+										  	type: req.param('type'),
+										  	img_url: files[0].fd,
+										  	file_name: path.basename(files[0].fd)
+										};
+
+							      var _src = files[0].fd;  // path of the uploaded file
+							      var _dest = upload_path + path.basename(files[0].fd); // the destination path
+							      fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
+
+										//resize
+										im.resize({
+		                  srcPath: _src,
+		                  dstPath: upload_path + '600_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
+		                  width: 600
+		                }, function(err, stdout, stderr){
+		                  if (err) throw err;
+		                  sails.log('resized fit within 600px');
+		                });
 
 
-							 //console.log(files[0]);
-							 console.log(files[0].fd);
-							 console.log(files[0].filename);
-
-							 const uuidV4 = require('uuid/v4');
-
-							 var data = {
-							 	photo_id: uuidV4(),
-							  	property_id : req.param('property_id'),
-							  	item_id : req.param('item_id'),
-							  	parent_id: req.param('parent_id'),
-							  	type: req.param('type'),
-							  	img_url: files[0].fd,
-							  	file_name: path.basename(files[0].fd)
-							  }
+										im.resize({
+											srcPath: _src,
+											dstPath: upload_path + '300_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
+											width: 300
+										}, function(err, stdout, stderr){
+											if (err) throw err;
+											sails.log('resized fit within 300px');
+										});
 
 
-						      var _src = files[0].fd             // path of the uploaded file  
+										Photos.create(data).exec(function(err, photos){
+											if (err) return res.json(err);
+											 if(photos.photo_id){
+												return res.json({
+													message: files.length + ' file(s) uploaded successfully!',
+													files: files,
+													data: data,
+													status: 1
+												});
+											 }
+										});
 
-						      var ImagesDirArr = __dirname.split('/'); // path to this controller
-						        ImagesDirArr.pop();
-						        ImagesDirArr.pop();
-
-						        // the destination path
-						      var _dest = ImagesDirArr.join('/')  +'/assets/images/'+ path.basename(files[0].fd); //files[0].filename 
-
-						        // not preferred but fastest way of copying file
-						      fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
+					  		});
 
 
-							Photos.create(data).exec(function(err, photos){
-								if (err) return res.json(err);
-								 if(photos.photo_id){
-									return res.json({
-										message: files.length + ' file(s) uploaded successfully!',
-										files: files,
-										data: data,
-										status: 1
-									});
+            }
+						else{
 
-								 }
+								var mkdirp = require('mkdirp');
+								mkdirp(upload_path , function(err) {
+
+									if(err){
+										sails.log(err);
+										return res.json(err);
+									}
+									else{
+										sails.log('folder created!');
+
+										req.file('photo').upload(
+											{
+												 dirname: '../public/images',
+												  maxBytes: 10000000
+											},
+											function (err, files) {
+
+										     	if (err){
+														sails.log(err);
+														return res.json(err);
+													}
+
+										 			console.log(files[0].fd);
+											 		console.log(files[0].filename);
+											 		const uuidV4 = require('uuid/v4');
+
+													var data = {
+													 		photo_id: uuidV4(),
+													  	property_id : req.param('property_id'),
+													  	item_id : req.param('item_id'),
+													  	parent_id: req.param('parent_id'),
+													  	type: req.param('type'),
+													  	img_url: files[0].fd,
+													  	file_name: path.basename(files[0].fd)
+													};
+
+										      var _src = files[0].fd;  // path of the uploaded file
+										      var _dest = upload_path + path.basename(files[0].fd); // the destination path
+										      fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
+
+													//resize
+													im.resize({
+					                  srcPath: _src,
+					                  dstPath: upload_path + '600_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
+					                  width: 600
+					                }, function(err, stdout, stderr){
+					                  if (err) throw err;
+					                  sails.log('resized fit within 600px');
+					                });
+
+
+													im.resize({
+														srcPath: _src,
+														dstPath: upload_path + '300_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
+														width: 300
+													}, function(err, stdout, stderr){
+														if (err) throw err;
+														sails.log('resized fit within 300px');
+													});
+
+
+													Photos.create(data).exec(function(err, photos){
+														if (err) return res.json(err);
+														 if(photos.photo_id){
+															return res.json({
+																message: files.length + ' file(s) uploaded successfully!',
+																files: files,
+																data: data,
+																status: 1
+															});
+														 }
+													});
+
+								  		});
+
+
+									}
+
 							});
 
-				  		});
+						}
 
 
-				  		
+
 
 
 
@@ -3441,7 +3676,7 @@ module.exports = {
 								//check if the user is authorize to access this property
 								if(user.company_id ==  property_details.company_id ){
 
-									
+
 									Property_sub_voice_general.find({property_id: property_id, parent_id: master_id }).exec(function(err, voices){
 										if(err) return res.json(err);
 
