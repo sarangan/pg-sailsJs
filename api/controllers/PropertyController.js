@@ -3092,6 +3092,95 @@ module.exports = {
 
 		},
 
+		//this is to update single item
+		updateSignaturesList: function(req, res){
+
+			if( req.token.hasOwnProperty('sid') ){
+				if(req.token.sid){
+
+					var property_id = req.param('property_id');
+
+					if(!property_id){
+						return res.json({status: 2, text: 'property id is missing!' });
+					}
+					else{
+
+						User.findOne({id :  req.token.sid}).exec(function(err, user){
+							if(err) return res.json(err);
+
+							console.log('user', user.company_id);
+
+							Property.findOne({property_id: property_id }).exec(function(err, property_details){
+								if(err) return res.json(err);
+
+								//check if the user is authorize to access this property
+								if(user.company_id ==  property_details.company_id ){
+
+									var data_signs =  req.param('data');
+									var sign_id ='';
+									if(data_signs.hasOwnProperty('sign_id') ){
+										sign_id = data_signs['sign_id'];
+
+										delete data_signs['sign_id'];
+									}
+
+									if(sign_id){
+
+										//sails.log('updatre');
+
+										Signatures.update({sign_id: sign_id }, data_signs ).exec(function afterwards(err, updated){
+												if (err) return res.json(err);
+
+												return res.json(200, { status: 1, text: 'successfully updated' });
+
+										});
+
+
+									}
+									else{
+
+										//sails.log('insert');
+
+										const uuidV4 = require('uuid/v4');
+										sign_id = uuidV4();
+										data_signs['sign_id'] = sign_id;
+										data_signs['property_id'] = property_id;
+
+										Signatures.create( data_signs ).exec(function afterwards(err, updated){
+												if (err) return res.json(err);
+
+												//sails.log(updated);
+
+												return res.json(200, { status: 1, text: 'successfully inserted' });
+
+										});
+
+
+									}
+
+
+								}
+								else{
+									return res.json({status: 2, text: 'you are not allow to access this property!' });
+								}
+
+							});
+
+
+
+						});
+
+					}
+
+
+
+
+				}
+			}
+
+
+		},
+
 		//this is to get company template
 		getcompanytemplate: function(req, res){
 
