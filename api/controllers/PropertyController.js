@@ -1653,6 +1653,9 @@ module.exports = {
 								//check if the user is authorize to access this property
 								if(user.company_id ==  property_details.company_id ){
 
+									sails.log('should come');
+									sails.log(req.param('gotImg') );
+
 
 									if(req.param('gotImg') ){
 
