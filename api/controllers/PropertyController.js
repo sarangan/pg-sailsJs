@@ -3068,7 +3068,7 @@ module.exports = {
 									//good to go from here
 									//var qry = "select signatures.* from signatures where signatures.property_id='"+ property_id + "'";
 
-									Signatures.findOne({property_id: property_id }).exec(function(err, sings){
+									Signatures.findOne({property_id: property_id }).exec(function(err, sign_list){
 										if(err) return res.json(err);
 										return res.json({status: 1, signatures: sign_list});
 									});
