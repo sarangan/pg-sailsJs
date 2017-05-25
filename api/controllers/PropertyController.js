@@ -3119,46 +3119,51 @@ module.exports = {
 									var data_signs =  req.param('data');
 
 									var sign_id ='';
-									if(data_signs.hasOwnProperty('sign_id') ){
-										sign_id = data_signs['sign_id'];
-										delete data_signs['sign_id'];
-									}
 
-									if(sign_id){
+									Signatures.findOne({property_id: property_id }).exec(function(err, sign_details){
+										if(err) return res.json(err);
 
-										sails.log('updatre');
-										sails.log(data_signs);
+										if(sign_details.hasOwnProperty('sign_id') ){
+											sign_id = data_signs['sign_id'];
+										}
 
-										Signatures.update({sign_id: sign_id }, data_signs ).exec(function afterwards(err, updated){
-												if (err) return res.json(err);
+										if(sign_id){
 
-												return res.json(200, { status: 1, text: 'successfully updated' });
+											if(data_signs.hasOwnProperty('sign_id') ){
+												//sign_id = data_signs['sign_id'];
+												delete data_signs['sign_id'];
+											}
 
-										});
+											Signatures.update({sign_id: sign_id }, data_signs ).exec(function afterwards(err, updated){
+													if (err) return res.json(err);
 
+													return res.json(200, { status: 1, text: 'successfully updated' });
 
-									}
-									else{
-
-										sails.log('insert');
-										sails.log(data_signs);
-
-										const uuidV4 = require('uuid/v4');
-										sign_id = uuidV4();
-										data_signs['sign_id'] = sign_id;
-										data_signs['property_id'] = property_id;
-
-										Signatures.create( data_signs ).exec(function afterwards(err, updated){
-												if (err) return res.json(err);
-
-												//sails.log(updated);
-
-												return res.json(200, { status: 1, text: 'successfully inserted' });
-
-										});
+											});
 
 
-									}
+										}
+										else{
+											
+											const uuidV4 = require('uuid/v4');
+											sign_id = uuidV4();
+											data_signs['sign_id'] = sign_id;
+											data_signs['property_id'] = property_id;
+
+											Signatures.create( data_signs ).exec(function afterwards(err, updated){
+													if (err) return res.json(err);
+
+													//sails.log(updated);
+
+													return res.json(200, { status: 1, text: 'successfully inserted' });
+
+											});
+
+
+										}
+
+
+									});
 
 
 								}
