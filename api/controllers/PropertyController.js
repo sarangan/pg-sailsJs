@@ -3117,9 +3117,9 @@ module.exports = {
 								if(user.company_id ==  property_details.company_id ){
 
 									var data_signs =  req.param('data');
-									console.log(data_signs);
+									
 									var sign_id ='';
-									if(data_signs.hasOwnProperty('sign_id') ){
+									if(req.param.hasOwnProperty('sign_id') ){
 										sign_id = data_signs['sign_id'];
 
 										delete data_signs['sign_id'];
