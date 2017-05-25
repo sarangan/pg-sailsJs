@@ -3117,17 +3117,17 @@ module.exports = {
 								if(user.company_id ==  property_details.company_id ){
 
 									var data_signs =  req.param('data');
-									
-									var sign_id ='';
-									if(req.param.hasOwnProperty('sign_id') ){
-										sign_id = data_signs['sign_id'];
 
+									var sign_id ='';
+									if(data_signs.hasOwnProperty('sign_id') ){
+										sign_id = data_signs['sign_id'];
 										delete data_signs['sign_id'];
 									}
 
 									if(sign_id){
 
-										//sails.log('updatre');
+										sails.log('updatre');
+										sails.log(data_signs);
 
 										Signatures.update({sign_id: sign_id }, data_signs ).exec(function afterwards(err, updated){
 												if (err) return res.json(err);
@@ -3140,7 +3140,8 @@ module.exports = {
 									}
 									else{
 
-										//sails.log('insert');
+										sails.log('insert');
+										sails.log(data_signs);
 
 										const uuidV4 = require('uuid/v4');
 										sign_id = uuidV4();
