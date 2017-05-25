@@ -3123,7 +3123,9 @@ module.exports = {
 									Signatures.findOne({property_id: property_id }).exec(function(err, sign_details){
 										if(err) return res.json(err);
 
-										if(Object.keys(sign_details).length != 0 && sign_details.constructor === Object ){
+										sails.log(sign_details);
+
+										if(sign_details){
 											if(sign_details.hasOwnProperty('sign_id') ){
 												sign_id = data_signs['sign_id'];
 											}
