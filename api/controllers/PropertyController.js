@@ -3123,9 +3123,12 @@ module.exports = {
 									Signatures.findOne({property_id: property_id }).exec(function(err, sign_details){
 										if(err) return res.json(err);
 
-										if(sign_details.hasOwnProperty('sign_id') ){
-											sign_id = data_signs['sign_id'];
+										if(Object.keys(sign_details).length != 0 && sign_details.constructor === Object ){
+											if(sign_details.hasOwnProperty('sign_id') ){
+												sign_id = data_signs['sign_id'];
+											}
 										}
+
 
 										if(sign_id){
 
@@ -3144,7 +3147,7 @@ module.exports = {
 
 										}
 										else{
-											
+
 											const uuidV4 = require('uuid/v4');
 											sign_id = uuidV4();
 											data_signs['sign_id'] = sign_id;
@@ -3152,19 +3155,13 @@ module.exports = {
 
 											Signatures.create( data_signs ).exec(function afterwards(err, updated){
 													if (err) return res.json(err);
-
 													//sails.log(updated);
-
 													return res.json(200, { status: 1, text: 'successfully inserted' });
-
 											});
-
 
 										}
 
-
 									});
-
 
 								}
 								else{
