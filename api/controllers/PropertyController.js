@@ -2311,7 +2311,7 @@ module.exports = {
 																					var property_sub_feedback_general_data = {
 																						prop_sub_feedback_general_id: prop_sub_feedback_general_id,
 																						property_id: property_id,
-																						item_id: prop_full_details[i].prop_subitem_id,
+																						item_id: feedback_general.item_id,
 																						parent_id: insert_prop_master_id,
 																						comment: feedback_general.comment
 																					};
@@ -2339,7 +2339,7 @@ module.exports = {
 																					var property_feedback_data = {
 																						prop_feedback_id: prop_feedback_id,
 																						property_id: property_id,
-																						item_id: prop_full_details[i].prop_subitem_id,
+																						item_id: feedback_data.item_id,
 																						parent_id: insert_prop_master_id,
 																						option: feedback_data.option,
 																						maintenance_opt: feedback_data.maintenance_opt,
