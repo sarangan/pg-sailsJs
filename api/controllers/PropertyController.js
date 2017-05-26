@@ -2362,13 +2362,13 @@ module.exports = {
 
 																}// end of for loop
 
-																return res.json(200, { status: 1, text: 'successfully updated' });
+
 															}
 
 
 														});
 
-
+													return res.json(200, { status: 1, text: 'successfully updated' });
 													}
 
 												});
