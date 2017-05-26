@@ -97,7 +97,8 @@ module.exports.policies = {
    'sortsubitemstemplate' : ['tokenAuth'],
    'getvoices' : ['tokenAuth'],
    'getSignaturesList' : ['tokenAuth'],
-   'updateSignaturesList' : ['tokenAuth']
+   'updateSignaturesList' : ['tokenAuth'],
+   'updatemasteritem' : ['tokenAuth']
  },
  'ReportController': {
    'getreportsettings': ['tokenAuth'],

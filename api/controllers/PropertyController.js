@@ -232,6 +232,16 @@ module.exports = {
 		                  console.log('resized fit within 600px');
 		                });
 
+										im.crop({
+											srcPath: _src,
+											dstPath: upload_path + 'report_300_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
+											width: 300,
+											height: 300,
+										}, function(err, stdout, stderr){
+											if (err) throw err;
+											sails.log('cropped fit within 300px');
+										});
+
 
 										Photos.create(data).exec(function(err, photos){
 											if (err) return res.json(err);
@@ -301,6 +311,16 @@ module.exports = {
 				                  if (err) throw err;
 				                  console.log('resized fit within 600px');
 				                });
+
+												im.crop({
+													srcPath: _src,
+													dstPath: upload_path + 'report_300_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
+													width: 300,
+													height: 300,
+												}, function(err, stdout, stderr){
+													if (err) throw err;
+													sails.log('cropped fit within 300px');
+												});
 
 
 												Photos.create(data).exec(function(err, photos){
@@ -2170,6 +2190,212 @@ module.exports = {
 
 		},
 
+		//this is to update property template
+		updatemasteritem: function(req, res){
+
+			if( req.token.hasOwnProperty('sid') ){
+				if(req.token.sid){
+
+					var property_id = req.param('property_id');
+
+					if(!property_id){
+						return res.json({status: 2, text: 'property id is missing!' });
+					}
+					else{
+
+						User.findOne({id :  req.token.sid}).exec(function(err, user){
+							if(err) return res.json(err);
+
+							console.log('user', user.company_id);
+
+							Property.findOne({property_id: property_id }).exec(function(err, property_details){
+								if(err) return res.json(err);
+
+								//check if the user is authorize to access this property
+								if(user.company_id ==  property_details.company_id ){
+
+									var data =  req.param('data');
+									var prop_master_id = req.param('prop_master_id');
+
+									Property_masteritem_link.update({prop_master_id: prop_master_id }, data ).exec(function afterwards(err, updated){
+											if (err) return res.json(err);
+											return res.json(200, { status: 1, text: 'successfully deleted' });
+									});
+
+
+								}
+								else{
+									return res.json({status: 2, text: 'you are not allow to access this property!' });
+								}
+
+							});
+
+
+
+						});
+
+					}
+
+				}
+			}
+
+		},
+
+		//this is to copy property template
+		copyroomdetails: function(req, res){
+
+			if( req.token.hasOwnProperty('sid') ){
+				if(req.token.sid){
+
+					var property_id = req.param('property_id');
+
+					if(!property_id){
+						return res.json({status: 2, text: 'property id is missing!' });
+					}
+					else{
+
+						User.findOne({id :  req.token.sid}).exec(function(err, user){
+							if(err) return res.json(err);
+
+							console.log('user', user.company_id);
+
+							Property.findOne({property_id: property_id }).exec(function(err, property_details){
+								if(err) return res.json(err);
+
+								//check if the user is authorize to access this property
+								if(user.company_id ==  property_details.company_id ){
+
+									var room_name =  req.param('room_name');
+									var prop_master_id = req.param('prop_master_id');
+
+									Property_masteritem_link.findOne({prop_master_id: prop_master_id }).exec(function afterwards(err, master_items){
+											if (err) return res.json(err);
+
+											if(master_items){
+												const uuidV4 = require('uuid/v4');
+												var master_data = {};
+												var insert_prop_master_id =  uuidV4();
+												master_data["prop_master_id"] = insert_prop_master_id;
+												master_data["property_id"] =  property_id;
+												master_data["type"] =  master_items.type;
+												master_data["com_type"] =   master_items.com_type;
+												master_data["self_prop_master_id"] =   master_items.self_prop_master_id;
+												master_data["name"] =  room_name;
+												master_data["priority"] =   master_items.priority;
+												master_data["total_num"] =  master_items.total_num;
+												master_data["status"] =  1;
+
+												Property_masteritem_link.create(master_data).exec(function afterwards(err, updated_master_items){
+													if (err) return res.json(err);
+
+													//we have upadated the master details
+													if(updated_master_items){
+
+														var query = "select property_subitem_link.*, property_masteritem_link.prop_master_id, property_masteritem_link.name as master_item_name, company_subitem_link.com_master_id from property_subitem_link inner join company_subitem_link on property_subitem_link.com_subitem_id = company_subitem_link.com_subitem_id inner JOIN property_masteritem_link on company_subitem_link.com_master_id = property_masteritem_link.com_master_id where property_subitem_link.status =1 and property_masteritem_link.prop_master_id ='" + prop_master_id + "' order by property_subitem_link.type";
+
+														Property_subitem_link.query(query, function(err, prop_full_details){
+															if (err) return res.json(err);
+															//going to loop through the property full details
+															if(prop_full_details){
+
+																for (var i = 0; i < prop_full_details.length; i++) {
+
+																	if(prop_full_details[i].type =='GENERAL' ){
+
+																		sails.log('copy GENERAL feedback');
+																		Property_sub_feedback_general.findOne({item_id: prop_full_details[i].prop_subitem_id,  parent_id: prop_master_id }).exec(function afterwards(err, feedback_general){
+																				if (err) return res.json(err);
+
+																				if(feedback_general){
+																					var prop_sub_feedback_general_id = uuidV4();
+																					var property_sub_feedback_general_data = {
+																						prop_sub_feedback_general_id: prop_sub_feedback_general_id,
+																						property_id: property_id,
+																						item_id: prop_full_details[i].prop_subitem_id,
+																						parent_id: insert_prop_master_id,
+																						comment: feedback_general.comment
+																					};
+
+																					Property_sub_feedback_general.create(property_sub_feedback_general_data).exec(function afterwards(err, updated_items){																						if (err) return res.json(err);
+																						if (err) return res.json(err);
+																					});
+
+
+																				}
+
+																		});
+
+
+																	}
+																	else{
+
+
+																		sails.log('copy other feedback');
+																		Property_feedback.findOne({item_id: prop_full_details[i].prop_subitem_id,  parent_id: prop_master_id }).exec(function afterwards(err, feedback_data){
+																				if (err) return res.json(err);
+
+																				if(feedback_data){
+																					var prop_feedback_id = uuidV4();
+																					var property_feedback_data = {
+																						prop_feedback_id: prop_feedback_id,
+																						property_id: property_id,
+																						item_id: prop_full_details[i].prop_subitem_id,
+																						parent_id: insert_prop_master_id,
+																						option: feedback_data.option,
+																						maintenance_opt: feedback_data.maintenance_opt,
+																						comment: feedback_data.comment,
+																						type: feedback_data.type,
+																						description: feedback_data.description,
+																					};
+
+																					Property_feedback.create(property_feedback_data).exec(function afterwards(err, updated_items){																						if (err) return res.json(err);
+																						if (err) return res.json(err);
+																					});
+
+																				}
+
+																		});
+
+
+																	}
+
+
+																}// end of for loop
+
+																return res.json(200, { status: 1, text: 'successfully updated' });
+															}
+
+
+														});
+
+
+													}
+
+												});
+
+											}
+
+									});
+
+
+								}
+								else{
+									return res.json({status: 2, text: 'you are not allow to access this property!' });
+								}
+
+							});
+
+
+
+						});
+
+					}
+
+				}
+			}
+
+		},
+
 		//this is to get property template
 		getgeneralconditionlist: function(req, res){
 
@@ -3123,7 +3349,7 @@ module.exports = {
 									Signatures.findOne({property_id: property_id }).exec(function(err, sign_details){
 										if(err) return res.json(err);
 
-										sails.log(sign_details);
+
 
 										if(sign_details){
 											if(sign_details.hasOwnProperty('sign_id') ){
@@ -3785,7 +4011,7 @@ module.exports = {
 
 		},
 
-		//this is to get property template
+		//this is to delete sub item template
 		deletesubitemstemplate: function(req, res){
 
 
@@ -4336,6 +4562,16 @@ module.exports = {
 											sails.log('resized fit within 300px');
 										});
 
+										im.crop({
+											srcPath: _src,
+											dstPath: upload_path + 'report_300_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
+											width: 300,
+											height: 300,
+										}, function(err, stdout, stderr){
+											if (err) throw err;
+											sails.log('cropped fit within 300px');
+										});
+
 
 										Photos.create(data).exec(function(err, photos){
 											if (err) return res.json(err);
@@ -4414,6 +4650,16 @@ module.exports = {
 													}, function(err, stdout, stderr){
 														if (err) throw err;
 														sails.log('resized fit within 300px');
+													});
+
+													im.crop({
+														srcPath: _src,
+														dstPath: upload_path + 'report_300_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
+														width: 300,
+														height: 300,
+													}, function(err, stdout, stderr){
+														if (err) throw err;
+														sails.log('cropped fit within 300px');
 													});
 
 
