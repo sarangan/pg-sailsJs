@@ -3127,7 +3127,7 @@ module.exports = {
 
 										if(sign_details){
 											if(sign_details.hasOwnProperty('sign_id') ){
-												sign_id = data_signs['sign_id'];
+												sign_id = sign_details['sign_id'];
 											}
 										}
 
@@ -3139,7 +3139,7 @@ module.exports = {
 												delete data_signs['sign_id'];
 											}
 
-											Signatures.update({sign_id: sign_id }, data_signs ).exec(function afterwards(err, updated){
+											Signatures.update({property_id: property_id }, data_signs ).exec(function afterwards(err, updated){
 													if (err) return res.json(err);
 
 													return res.json(200, { status: 1, text: 'successfully updated' });
