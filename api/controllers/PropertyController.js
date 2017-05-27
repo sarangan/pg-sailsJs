@@ -2280,6 +2280,7 @@ module.exports = {
 												var insert_prop_master_id =  uuidV4();
 												master_data["prop_master_id"] = insert_prop_master_id;
 												master_data["property_id"] =  property_id;
+												master_data['com_master_id'] = master_items.com_master_id;
 												master_data["type"] =  master_items.type;
 												master_data["com_type"] =   master_items.com_type;
 												master_data["self_prop_master_id"] =   master_items.self_prop_master_id;
