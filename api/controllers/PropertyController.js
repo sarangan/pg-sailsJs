@@ -3217,6 +3217,10 @@ module.exports = {
 											// START insert and update general comment
 											var data_general_comment =  req.param('gen_comment');
 
+											sails.log('general comment coming');
+											sails.log(data_general_comment);
+
+
 											if(data_general_comment){
 
 												if(data_general_comment.hasOwnProperty('prop_sub_feedback_general_id') ){
@@ -3248,6 +3252,8 @@ module.exports = {
 													Property_sub_feedback_general.update(gen_data).exec(function afterwards(err, updated){
 														if (err) return res.json(err);
 														//return res.json(200, { status: 1, text: 'successfully updated' });
+														sails.log('genral comment updated');
+														sails.log(updated);
 													});
 
 												}
