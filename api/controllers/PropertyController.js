@@ -2257,7 +2257,7 @@ module.exports = {
 						User.findOne({id :  req.token.sid}).exec(function(err, user){
 							if(err) return res.json(err);
 
-							sails.log('copy itemes', user.company_id);
+							//sails.log('copy itemes', user.company_id);
 
 							Property.findOne({property_id: property_id }).exec(function(err, property_details){
 								if(err) return res.json(err);
@@ -2271,8 +2271,8 @@ module.exports = {
 									Property_masteritem_link.findOne({prop_master_id: prop_master_id }).exec(function afterwards(err, master_items){
 											if (err) return res.json(err);
 
-											sails.log('master item find itemes');
-											sails.log(master_items);
+											// sails.log('master item find itemes');
+											// sails.log(master_items);
 
 											if(master_items){
 												const uuidV4 = require('uuid/v4');
@@ -2292,8 +2292,8 @@ module.exports = {
 												Property_masteritem_link.create(master_data).exec(function afterwards(err, updated_master_items){
 													if (err) return res.json(err);
 
-													sails.log('master item create new record');
-													sails.log(updated_master_items);
+													// sails.log('master item create new record');
+													// sails.log(updated_master_items);
 
 													//we have upadated the master details
 													if(updated_master_items){
@@ -2303,7 +2303,7 @@ module.exports = {
 														Property_subitem_link.query(query, function(err, prop_full_details){
 															if (err) return res.json(err);
 
-															sails.log('sub items found');
+															//sails.log('sub items found');
 															//sails.log(prop_full_details);
 
 															//going to loop through the property full details
@@ -2314,16 +2314,16 @@ module.exports = {
 
 																	if(prop_full_details[i].type =='GENERAL' ){
 
-																		sails.log('copy GENERAL feedback');
+																		//sails.log('copy GENERAL feedback');
 																		Property_sub_feedback_general.findOne({item_id: prop_full_details[i].prop_subitem_id,  parent_id: prop_master_id }).exec(function afterwards(err, feedback_general){
 																				if (err) return res.json(err);
 
-																				sails.log('prop feedback general find');
-
-																				sails.log(feedback_general);
+																				// sails.log('prop feedback general find');
+																				//
+																				// sails.log(feedback_general);
 
 																				if(feedback_general){
-																					sails.log('feed back general object ok');
+																					//sails.log('feed back general object ok');
 
 																					var prop_sub_feedback_general_id = uuidV4();
 																					var property_sub_feedback_general_data = {
@@ -2336,7 +2336,7 @@ module.exports = {
 
 																					Property_sub_feedback_general.create(property_sub_feedback_general_data).exec(function afterwards(err, updated_items){																						if (err) return res.json(err);
 																						if (err) return res.json(err);
-																						sails.log('prop feedback general create ');
+																						//sails.log('prop feedback general create ');
 																					});
 
 
@@ -2349,11 +2349,11 @@ module.exports = {
 																	else{
 
 
-																		sails.log('copy other feedback');
+																		//sails.log('copy other feedback');
 																		Property_feedback.findOne({item_id: prop_full_details[i].prop_subitem_id,  parent_id: prop_master_id }).exec(function afterwards(err, feedback_data){
 																				if (err) return res.json(err);
-																				sails.log('prop feedback find');
-																				sails.log(feedback_data);
+																				// sails.log('prop feedback find');
+																				// sails.log(feedback_data);
 																				if(feedback_data){
 																					var prop_feedback_id = uuidV4();
 																					var property_feedback_data = {
@@ -2370,7 +2370,7 @@ module.exports = {
 
 																					Property_feedback.create(property_feedback_data).exec(function afterwards(err, updated_items){																						if (err) return res.json(err);
 																						if (err) return res.json(err);
-																						sails.log('prop feedback create ');
+																						//sails.log('prop feedback create ');
 																					});
 
 																				}
