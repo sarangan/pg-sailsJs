@@ -2297,7 +2297,7 @@ module.exports = {
 													//we have upadated the master details
 													if(updated_master_items){
 
-														var query = "select property_subitem_link.*, property_masteritem_link.prop_master_id, property_masteritem_link.name as master_item_name, company_subitem_link.com_master_id from property_subitem_link inner join company_subitem_link on property_subitem_link.com_subitem_id = company_subitem_link.com_subitem_id inner JOIN property_masteritem_link on company_subitem_link.com_master_id = property_masteritem_link.com_master_id where property_subitem_link.status =1 and property_masteritem_link.prop_master_id ='" + prop_master_id + "' order by property_subitem_link.type";
+														var query = "select property_subitem_link.*, property_masteritem_link.prop_master_id, property_masteritem_link.name as master_item_name, company_subitem_link.com_master_id from property_subitem_link inner join company_subitem_link on property_subitem_link.com_subitem_id = company_subitem_link.com_subitem_id inner JOIN property_masteritem_link on company_subitem_link.com_master_id = property_masteritem_link.com_master_id where property_subitem_link.status =1 and property_masteritem_link.prop_master_id ='" + prop_master_id + "' and property_masteritem_link.property_id ='" + property_id + "' order by property_subitem_link.type";
 
 														Property_subitem_link.query(query, function(err, prop_full_details){
 															if (err) return res.json(err);
