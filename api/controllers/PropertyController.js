@@ -3223,7 +3223,10 @@ module.exports = {
 
 											if(data_general_comment){
 
+												sails.log('its above if ');
 												if(data_general_comment.hasOwnProperty('prop_sub_feedback_general_id') ){
+
+													sails.log('its not here ');
 
 													var gen_data = {
 														comment: data_general_comment['comment']
@@ -3231,12 +3234,13 @@ module.exports = {
 
 													Property_sub_feedback_general.update({ prop_sub_feedback_general_id: data_general_comment['prop_sub_feedback_general_id'] }, gen_data ).exec(function afterwards(err, updated){
 														if (err) return res.json(err);
+														sails.log('updated general comment');
 														//return res.json(200, { status: 1, text: 'successfully updated' });
 													});
 
 												}
 												else{
-
+													sails.log('its above else ');
 													//const uuidV4 = require('uuid/v4');
 													var prop_sub_feedback_general_id = uuidV4();
 
