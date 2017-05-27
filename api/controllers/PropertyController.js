@@ -3217,16 +3217,15 @@ module.exports = {
 											// START insert and update general comment
 											var data_general_comment =  req.param('gen_comment');
 
-											sails.log('general comment coming');
-											sails.log(data_general_comment);
+										
 
 
 											if(data_general_comment){
 
-												sails.log('its above if ');
+
 												if(data_general_comment.hasOwnProperty('prop_sub_feedback_general_id') ){
 
-													sails.log('its not here ');
+
 
 													var gen_data = {
 														comment: data_general_comment['comment']
@@ -3240,7 +3239,7 @@ module.exports = {
 
 												}
 												else{
-													sails.log('its above else ');
+
 													//const uuidV4 = require('uuid/v4');
 													var prop_sub_feedback_general_id = uuidV4();
 
@@ -3253,7 +3252,9 @@ module.exports = {
 														parent_id: req.param('prop_master_id')
 													}
 
-													Property_sub_feedback_general.update(gen_data).exec(function afterwards(err, updated){
+
+
+													Property_sub_feedback_general.create(gen_data).exec(function afterwards(err, updated){
 														if (err) return res.json(err);
 														//return res.json(200, { status: 1, text: 'successfully updated' });
 														sails.log('genral comment updated');
