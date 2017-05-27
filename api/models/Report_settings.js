@@ -41,6 +41,9 @@ module.exports = {
     cover_page_text: {
       type: "string"
     },
+    include_cover_page: {
+      type: "integer"
+    },
     show_photos: {
       type: "string"
     },
