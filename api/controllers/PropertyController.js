@@ -2303,7 +2303,7 @@ module.exports = {
 															if (err) return res.json(err);
 
 															sails.log('sub items found');
-															sails.log(prop_full_details);
+															//sails.log(prop_full_details);
 
 															//going to loop through the property full details
 
@@ -2319,8 +2319,11 @@ module.exports = {
 
 																				sails.log('prop feedback general find');
 
+																				sails.log(feedback_general);
 
 																				if(feedback_general){
+																					sails.log('feed back general object ok');
+
 																					var prop_sub_feedback_general_id = uuidV4();
 																					var property_sub_feedback_general_data = {
 																						prop_sub_feedback_general_id: prop_sub_feedback_general_id,
@@ -2349,6 +2352,7 @@ module.exports = {
 																		Property_feedback.findOne({item_id: prop_full_details[i].prop_subitem_id,  parent_id: prop_master_id }).exec(function afterwards(err, feedback_data){
 																				if (err) return res.json(err);
 																				sails.log('prop feedback find');
+																				sails.log(feedback_data);
 																				if(feedback_data){
 																					var prop_feedback_id = uuidV4();
 																					var property_feedback_data = {
