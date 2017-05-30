@@ -35,18 +35,142 @@ module.exports = {
 
   register: function(req, res) {
     //TODO: Do some validation on the input
-    if (req.body.password !== req.body.confirmPassword) {
-      return res.json(200, {err: 'Password doesn\'t match'});
-    }
+		var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-    User.create({email: req.body.email, password: req.body.password}).exec(function(err, user) {
-      if (err) {
-        res.json(200, {err: err});
-        return;
-      }
-      if (user) {
-        res.json({user: user, token: sailsTokenAuth.issueToken({sid: user.id})});
-      }
-    });
+    if (req.param('password') !== req.param('confirmPassword')) {
+			return res.json({status: 2, text: 'Password doesn\'t match' });
+    }
+   	else if(!re.test(req.param('email') )  && req.param('email') ){
+			return res.json({status: 2, text: 'Invalid email address!' });
+		}
+		else if(req.param('company_name') ){
+			return res.json({status: 2, text: 'Please provide your company name' });
+		}
+		else{
+
+			var comapany_data = {
+				company_name : req.param('company_name'),
+				address : req.param('address'),
+				telephone : req.param('telephone'),
+			};
+
+			Company.create( comapany_data ).exec(function afterwards(err, company){
+					if (err) return res.json(err);
+
+					if(company.company_id){
+						var company_id = company.company_id;
+
+						//meter import
+						Meter_type.find().exec(function(err, Meter_types){
+							//console.log(Meter_types);
+							var data = [];
+							 for(var i=0,l = Meter_types.length; i < l; i++){
+								 data.push({	company_id: company_id, meter_name: Meter_types[i].meter_name});
+
+							 }
+
+							 Company_meter_link.create(data).exec(function(err, com_meter){
+									if (err) sails.log(res.json(err) ) ;
+							 });
+						});
+
+
+						//general condition import
+						General_condition.find().exec(function(err, General_conditions){
+							//console.log(Meter_types);
+							var data = [];
+							 for(var i=0,l = General_conditions.length; i < l; i++){
+								 data.push({company_id: company_id, item_name: General_conditions[i].item_name, options: General_conditions[i].options, priority: General_conditions[i].priority, type: General_conditions[i].type });
+
+							 }
+
+							 Company_general_condition_link.create(data).exec(function(err, com_meter){
+									if (err) sails.log(res.json(err) ) ;
+							 });
+						});
+
+						//master item import
+					 Master_item.find().then(function(master_items){
+
+						 var data_master_items = [];
+
+						 for(var i=0, l = master_items.length; i < l; i++){
+							 data_master_items.push({ original_master_id: master_items[i].master_id, company_id: company_id, item_name: master_items[i].item_name, type: master_items[i].type, option: master_items[i].option, priority: master_items[i].priority});
+						 }
+
+						 return Company_masteritem_link.create(data_master_items);
+
+					 })
+					 .catch( function(err){
+						 // do something when is error
+						 //return res.json(200, { status: 2, error:'update was not successfull'});
+						 return res.json({status: 2, text: 'update was not successfull' });
+					 })
+					 .done(function(){
+							 //cleanup
+							 // sub items import
+							 var qry = "select sub_item.*, company_masteritem_link.com_master_id as com_master_id from sub_item	inner join  company_masteritem_link on sub_item.master_id = company_masteritem_link.original_master_id where company_masteritem_link.company_id="+ company_id + " and company_masteritem_link.original_master_id= sub_item.master_id";
+							 Sub_item.query(qry, function(err, sub_items){
+
+								 var data = [];
+								 for(var i=0,l = sub_items.length; i < l; i++){
+									 data.push({com_master_id: sub_items[i].com_master_id, company_id: company_id, item_name: sub_items[i].item_name, type: sub_items[i].type, priority: sub_items[i].priority });
+								 }
+
+								 Company_subitem_link.create(data).exec(function(err, com_sub){
+									 if (err) console.log(res.json(err) ) ;
+
+										 //return res.json(200, {status: 'successfully updated'});
+								 });
+
+
+							 });
+
+					 });
+
+
+
+						var data = {
+							email: req.param('email'),
+							password: req.param('password'),
+							type: 'USER',
+							company_id: company_id,
+							first_name:  req.param('first_name'),
+							last_name:  req.param('last_name'),
+							contact:  req.param('contact'),
+							status: 1
+						};
+
+						User.create(data).exec(function(err, user) {
+				      if (err) {
+				        res.json(200, {err: err});
+				        return;
+				      }
+				      if (user) {
+				        //res.json({user: user, token: sailsTokenAuth.issueToken({sid: user.id}), status: 1, text: 'successfully updated' } );
+								res.json({ status: 1, text: 'successfully updated' } );
+				      }
+				    });
+
+
+					}
+
+
+
+
+
+
+
+
+
+			});
+
+		}
+
+
+
+
+
+
   }
 };
