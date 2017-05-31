@@ -380,6 +380,11 @@ module.exports = {
         })
         .spread(function(report_settings, report_settings_notes, property_info, general_conditions ) {
 
+          sails.log(report_settings);
+          sails.log(report_settings_notes);
+          sails.log(property_info);
+          sails.log(general_conditions);
+
              var fs = require('fs');
              var wkhtmltopdf = require('wkhtmltopdf');
 
