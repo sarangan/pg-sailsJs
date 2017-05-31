@@ -517,9 +517,11 @@ module.exports = {
 
                  html += general_conditiions_html;
 
+                 sails.log(general_conditiions_html);
+
                html += '</body></html>';
 
-               sails.log(html);
+               //sails.log(html);
 
             res.set({
               'Content-Type': 'application/octet-stream',
