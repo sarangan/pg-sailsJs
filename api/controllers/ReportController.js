@@ -383,7 +383,7 @@ module.exports = {
              var fs = require('fs');
              var wkhtmltopdf = require('wkhtmltopdf');
 
-             var html ='<!DOCTYPE html>
+             var html `<!DOCTYPE html>
              <html lang="en">
                <head>
                  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -442,7 +442,6 @@ module.exports = {
                    .report-tbl6 th.col3 {width: 10%;}
                    .report-tbl7 th.col1 {width: 30%;}
                    .report-tbl7 th.col2 {width: 70%;}
-                   .left-text{ }
                    .right-text{ text-align: right;}
                    .img-wrapper{width: 30%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px;}
                    .img-wrapper1{width: 20%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px;}
@@ -457,7 +456,7 @@ module.exports = {
                    .paratxt {font-size: 14px; margin-bottom: 10px;}
                  </style>
                </head>
-               <body>';
+               <body>`;
 
                //general notes
                var general_notes  ='';
