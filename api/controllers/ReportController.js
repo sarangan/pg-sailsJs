@@ -362,11 +362,11 @@ module.exports = {
               });
 
 
-
-              var general_condition_data = Property_general_condition_link.find( { where: {property_id: property_id, status: 1}, sort: 'priority ASC'  })
-                .then(function(general_condition_data) {
-                    return general_condition_data;
-              });
+              var general_condition_data = '';
+              // var general_condition_data = Property_general_condition_link.find( { where: {property_id: property_id, status: 1}, sort: 'priority ASC'  })
+              //   .then(function(general_condition_data) {
+              //       return general_condition_data;
+              // });
 
 
 
