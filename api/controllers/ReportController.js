@@ -344,6 +344,8 @@ module.exports = {
           //check if the user is authorize to access this property
           if(user.company_id){
 
+              var property_id = req.param('property_id');
+
               var report_settings_data = Report_settings.findOne({company_id: user.company_id})
                 .then(function(report_settings_data) {
                     return report_settings_data;
@@ -354,7 +356,21 @@ module.exports = {
                     return report_settings_notes_data;
               });
 
-              return [report_settings_data, report_settings_notes_data];
+              var property_info_data = Property_info.find({ property_id: property_id })
+                .then(function(property_info_data) {
+                    return property_info_data;
+              });
+
+
+
+              var general_condition_data = Property_general_condition_link.find( { where: {property_id: property_id, status: 1}, sort: 'priority ASC'  })
+                .then(function(general_condition_data) {
+                    return general_condition_data;
+              });
+
+
+
+              return [report_settings_data, report_settings_notes_data, property_info_data, general_condition_data ];
 
           }
           else{
@@ -362,55 +378,150 @@ module.exports = {
           }
 
         })
-        .spread(function(report_settings, report_settings_notes) {
+        .spread(function(report_settings, report_settings_notes, property_info, general_conditions ) {
 
-            // var newJson = {};
-            // newJson.report_settings = report_settings;
-            // newJson.report_settings_notes = report_settings_notes;
-            // return res.json({ status: 1, data: newJson });
              var fs = require('fs');
              var wkhtmltopdf = require('wkhtmltopdf');
-             var html ="<h1>Test</h1><p>Hello world</p>";
-            //
-            // //res.attachment('report.pdf');
-            //res.set('Content-disposition', 'attachment; filename=report.pdf');
-            //
+
+             var html ='<!DOCTYPE html>
+             <html lang="en">
+               <head>
+                 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+                 <TITLE>Inventory Report</TITLE>
+                 <style type="text/css" media="screen,print">
+                   html{color:#000;background:#FFF;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,
+                   pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0;}
+                   table{border-collapse:collapse;border-spacing:0;}fieldset,img{border:0;}address,caption,
+                   cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal;}li{list-style:none;}
+                   caption,th{text-align:left;}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}
+                   q:before,q:after{content:"";}abbr,acronym{border:0;font-variant:normal;}
+                   sup{vertical-align:text-top;}sub{vertical-align:text-bottom;}input,textarea,
+                   select{font-family:inherit;font-size:inherit;font-weight:inherit;}input,textarea,
+                   select{*font-size:100%;}legend{color:#000;}
+                   * { overflow: visible !important; }
+                   html,body { font-family: sans-serif; font-size:12px; }
+                   .chapter { display: block; clear: both; page-break-after: always; padding: 20px; }
+                   .block { display: block; clear: both; padding: 20px;}
+                   .heading{ font-size:25px; color: #0088CC; line-height: 28px; margin-bottom: 20px; font-weight: bold;}
+                   .sub-heading{ font-size: 25px; color: #797979; line-height: 28px; font-weight: bold;}
+                   hr { border:0; margin:0; padding:0; height:1px; color:#797979; background-color:#797979; margin-top: 7px; margin-bottom: 30px;}
+                   thead { display: table-header-group; }
+                   tfoot { display: table-row-group; }
+                   tr { page-break-inside: avoid; }
+                   .contents-table, .format-table { border: 0; width: 100%; margin-bottom: 40px; }
+                   .contents-table td, .format-table td{ padding: 10px; border-bottom: 1px solid #E5E5E5; }
+                   .contents-table tr, .format-table tr{ font-size: 14px;  padding: 10px;}
+                   .contents-table thead { background-color: #dcdcdc; }
+                   .format-table thead { background-color: #0088CC; }
+                   .contents-table th { padding: 10px; text-align: left; font-size: 14px; }
+                   .format-table th { padding: 10px; text-align: left; font-size: 16px; color: #ffffff;}
+                   .contents-table th.col1 { width: 90%; }
+                   .contents-table th.col2 { width: 10%; }
+                   .condtion-tbl th.col1 { width: 50%; }
+                   .condtion-tbl th.col2 { width: 50%; }
+                   .condtion-tbl th.col3 { width: 70%; }
+                   .report-tbl1 th.col1 {width: 20%;}
+                   .report-tbl1 th.col2 {width: 25%;}
+                   .report-tbl1 th.col3 {width: 40%;}
+                   .report-tbl1 th.col4 {width: 15%;}
+                   .report-tbl2 th.col1 {width: 20%;}
+                   .report-tbl2 th.col2 {width: 20%;}
+                   .report-tbl2 th.col3 {width: 40%;}
+                   .report-tbl2 th.col4 {width: 20%;}
+                   .report-tbl3 th.col1 {width: 20%;}
+                   .report-tbl3 th.col2 {width: 40%;}
+                   .report-tbl3 th.col3 {width: 40%;}
+                   .report-tbl4 th.col1 {width: 20%;}
+                   .report-tbl4 th.col2 {width: 40%;}
+                   .report-tbl4 th.col3 {width: 40%;}
+                   .report-tbl5 th.col1 {width: 25%;}
+                   .report-tbl5 th.col2 {width: 35%;}
+                   .report-tbl5 th.col3 {width: 40%;}
+                   .report-tbl6 th.col1 {width: 45%;}
+                   .report-tbl6 th.col2 {width: 450%;}
+                   .report-tbl6 th.col3 {width: 10%;}
+                   .report-tbl7 th.col1 {width: 30%;}
+                   .report-tbl7 th.col2 {width: 70%;}
+                   .left-text{ }
+                   .right-text{ text-align: right;}
+                   .img-wrapper{width: 30%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px;}
+                   .img-wrapper1{width: 20%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px;}
+                   .rt-1-img{ width: 100%; height: auto;  display: inline-block; max-width: 300px;}
+                   .img-inline-wrapper{ width: 90%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px; }
+                   .rt-2-tbl-img{ width: 100%; height: auto; max-width: 300px;}
+                   .report-tbl2{ margin-top: 20px;}
+                   .rt-2-top-img-wrapper{ margin-bottom: 10px; }
+                   .report-tbl3{ margin-top: 20px;}
+                   .img-tblrow-wrapper{ width: 20%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px;}
+                   .rt-3-tbl-img{ width: 100%; height: auto; max-width: 300px;}
+                   .paratxt {font-size: 14px; margin-bottom: 10px;}
+                 </style>
+               </head>
+               <body>';
+
+               //general notes
+               var general_notes  ='';
+               if(property_info['report_type']){
+                 var notes = '';
+                 for(var i =0, l = report_settings_notes.length; i < l ; i++){
+                   if(report_settings_notes[i].note_title == property_info['report_type']  && report_settings_notes[i].included == 1 ){
+                     notes =  report_settings_notes[i].note;
+                     general_notes ='<div class="chapter">
+                       <h1 class="sub-heading">General notes and guidance</h1>
+                       <hr/>
+                       <p><b>' + report_settings_notes[i].title +
+                       '</b></p><br/>
+                       <p>' + report_settings_notes[i].note +
+                       '</p></div>';
+                   }
+                 }
+                 if(!notes){
+                   general_notes  ='';
+                 }
+
+               }
+
+               if(general_notes){
+                 html += general_notes;
+               }
+               //end of general_notes
+
+               //genral conditions
+               if(report_settings.include_condition_summary == 1){
+
+                 var general_conditiions_html = '<div class="chapter">
+                   <h1 class="sub-heading">General Condition</h1>
+                   <hr/>
+                   <div>
+                     <table class="format-table condtion-tbl">
+                        <thead>
+                          <th class="col1">Condition</th>
+                          <th class="col2">Summary</th>
+                        </thead>
+                        <tbody>';
+                 for(var i =0, l = general_conditions.length; i < l ; i++){
+
+                     general_conditiions_html += '<tr>
+                       <td class="col1"><span class="left-text">'+ general_conditions[i].item_name +'</span></td>
+                       <td class="col2"><span class="right-text">'+ general_conditions[i].user_input +'</span></td>
+                     </tr>';
+                   }
+
+                   general_conditiions_html += '</tbody>
+                              </table>
+                            </div>
+                          </div>';
+                 }
+
+               html += '</body>
+             </html>';
+
             res.set({
-                           'Content-Type': 'application/octet-stream',
-                           'Content-Disposition': 'filename="report.pdf"'
+              'Content-Type': 'application/octet-stream',
+              'Content-Disposition': 'filename="report.pdf"'
             });
 
-            //return wkhtmltopdf( html, { pageSize: 'letter' })
-            //.pipe(fs.createWriteStream('report.pdf'));
-
-           return wkhtmltopdf(html).pipe(res);
-
-
-            /*
-            working set
-            var fs = require('fs');
-            var exec = require('child_process').exec;
-            var util = require('util');
-
-            var dummyContent = '<!doctype html><html><head><title>Test</title><meta charset="utf-8"></head><body><p>Hello world!</p></body></html>';
-	          var htmlFileName = "page.html", pdfFileName = "page.pdf";
-
-            fs.writeFile(htmlFileName, dummyContent, function(err) {
-          		if(err) { throw err; }
-          		util.log("file saved to site.html");
-
-              var child = exec("xvfb-run wkhtmltopdf " + htmlFileName + " " + pdfFileName, function(err, stdout, stderr) {
-                if(err) { throw err; }
-                util.log(stderr);
-              });
-
-
-          	});
-            */
-
-
-
-
+            return wkhtmltopdf(html).pipe(res);
         })
         .fail(function(err) {
             console.log(err);
