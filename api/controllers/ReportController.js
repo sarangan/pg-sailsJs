@@ -87,6 +87,7 @@ module.exports = {
                   }
                   else{
                     delete note['report_settings_notes_id'];
+                    note['company_id'] = user.company_id;
                     Report_settings_notes.create(note).exec(function updated(err, updated){
                       if (err) return res.json(err);
                     });
