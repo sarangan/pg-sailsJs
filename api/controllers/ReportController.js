@@ -508,6 +508,8 @@ module.exports = {
 
                html += '</body></html>';
 
+               sails.log(html);
+
             res.set({
               'Content-Type': 'application/octet-stream',
               'Content-Disposition': 'filename="report.pdf"'
