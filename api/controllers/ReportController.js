@@ -381,10 +381,10 @@ module.exports = {
         })
         .spread(function(report_settings, report_settings_notes, property_info, general_conditions ) {
 
-          sails.log(report_settings);
-          sails.log(report_settings_notes);
-          sails.log(property_info);
-          sails.log(general_conditions);
+          // sails.log(report_settings);
+          // sails.log(report_settings_notes);
+          // sails.log(property_info);
+          // sails.log(general_conditions);
 
              var fs = require('fs');
              var wkhtmltopdf = require('wkhtmltopdf');
@@ -487,9 +487,12 @@ module.exports = {
                  html += general_notes;
                }
                //end of general_notes
-
+                sails.log(report_settings.include_condition_summary);
+                sails.log(general_conditions.length);
                //genral conditions
                if(report_settings.include_condition_summary == 1){
+
+
 
                  var general_conditiions_html = '<div class="chapter">' +
                    '<h1 class="sub-heading">General Condition</h1>' +
