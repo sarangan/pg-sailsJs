@@ -383,7 +383,7 @@ module.exports = {
              var fs = require('fs');
              var wkhtmltopdf = require('wkhtmltopdf');
 
-             var html `<!DOCTYPE html>
+             var html =`<!DOCTYPE html>
              <html lang="en">
                <head>
                  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
