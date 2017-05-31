@@ -70,6 +70,35 @@ module.exports = {
 
             Report_settings.findOne({company_id: user.company_id }).exec(function(err, report_settings){
 
+
+              // save and update the general note values
+              var report_settings_notes = req.param('report_settings_notes');
+              if(report_settings_notes){
+
+                for(var i = 0, l = report_settings_notes.length; i < l; i++){
+                  var note = report_settings_notes[i];
+                  var report_settings_notes_id = note.report_settings_notes_id;
+                  if(report_settings_notes_id){
+                    // we got id man
+                    delete note['report_settings_notes_id'];
+                    Report_settings_notes.update({report_settings_notes_id : report_settings_notes_id }, note).exec(function updated(err, updated){
+                      if (err) return res.json(err);
+                    });
+                  }
+                  else{
+                    delete note['report_settings_notes_id'];
+                    Report_settings_notes.create(note).exec(function updated(err, updated){
+                      if (err) return res.json(err);
+                    });
+                  }
+
+                }
+
+              }
+              //end of saving general note
+
+
+
               var report_id ='';
 
               if(typeof report_settings != 'undefined'){

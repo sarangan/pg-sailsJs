@@ -545,6 +545,16 @@ module.exports = {
 	                  sails.log('resized fit within 300px');
 	                });
 
+									im.crop({
+										srcPath: _src,
+										dstPath: upload_path + 'report_300x700_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
+										width: 300,
+										height: 700,
+									}, function(err, stdout, stderr){
+										if (err) throw err;
+										sails.log('cropped fit within 300px');
+									});
+
 								 	Property_info.update({property_id: property_id }, dataPropertyInfo ).exec(function afterwards(err, updated){
 											if (err) return res.json(err);
 											return res.json({
@@ -601,6 +611,16 @@ module.exports = {
 			                  if (err) throw err;
 			                  sails.log('resized fit within 300px');
 			                });
+
+											im.crop({
+												srcPath: _src,
+												dstPath: upload_path + 'report_300x700_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
+												width: 300,
+												height: 700,
+											}, function(err, stdout, stderr){
+												if (err) throw err;
+												sails.log('cropped fit within 300px');
+											});
 
 										 	Property_info.update({property_id: property_id }, dataPropertyInfo ).exec(function afterwards(err, updated){
 													if (err) return res.json(err);
@@ -915,6 +935,16 @@ module.exports = {
 													}, function(err, stdout, stderr){
 														if (err) throw err;
 														sails.log('resized fit within 600px');
+													});
+
+													im.crop({
+														srcPath: _src,
+														dstPath: upload_path + 'report_300x700_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
+														width: 300,
+														height: 700,
+													}, function(err, stdout, stderr){
+														if (err) throw err;
+														sails.log('cropped fit within 300px');
 													});
 
 													//update main process //
@@ -1728,6 +1758,16 @@ module.exports = {
 		                        sails.log('resized fit within 600px');
 		                      });
 
+													im.crop({
+														srcPath: _src,
+														dstPath: upload_path + 'report_300x700_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
+														width: 300,
+														height: 700,
+													}, function(err, stdout, stderr){
+														if (err) throw err;
+														sails.log('cropped fit within 300px');
+													});
+
 													dataPropertyInfo['image_url'] = path.basename(files[0].fd);
 													Property_info.update({property_id: req.param('property_id')}, dataPropertyInfo ).exec(function afterwards(err, updated){
 															if (err) return res.json(err);
@@ -1788,6 +1828,16 @@ module.exports = {
 				                        if (err) throw err;
 				                        sails.log('resized fit within 600px');
 				                      });
+
+															im.crop({
+																srcPath: _src,
+																dstPath: upload_path + 'report_300x700_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
+																width: 300,
+																height: 700,
+															}, function(err, stdout, stderr){
+																if (err) throw err;
+																sails.log('cropped fit within 300px');
+															});
 
 															dataPropertyInfo['image_url'] = path.basename(files[0].fd);
 															Property_info.update({property_id: req.param('property_id')}, dataPropertyInfo ).exec(function afterwards(err, updated){
@@ -3217,7 +3267,7 @@ module.exports = {
 											// START insert and update general comment
 											var data_general_comment =  req.param('gen_comment');
 
-										
+
 
 
 											if(data_general_comment){

@@ -11,6 +11,7 @@ module.exports = {
 
     report_settings_notes_id: {
       type: "integer",
+      autoIncrement: true,
       primaryKey: true
     },
     company_id: {
