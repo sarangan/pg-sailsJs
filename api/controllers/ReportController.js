@@ -345,6 +345,9 @@ module.exports = {
           if(user.company_id){
 
               var property_id = req.param('property_id');
+              console.log('property_id');
+              console.log(property_id);
+
 
               var report_settings_data = Report_settings.findOne({company_id: user.company_id})
                 .then(function(report_settings_data) {
@@ -361,8 +364,6 @@ module.exports = {
                     return property_info_data;
               });
 
-
-              var general_condition_data = '';
               var general_condition_data = Property_general_condition_link.find( {property_id: property_id, status: 1} )
                 .then(function(general_condition_data) {
                     return general_condition_data;
