@@ -383,13 +383,13 @@ module.exports = {
              var fs = require('fs');
              var wkhtmltopdf = require('wkhtmltopdf');
 
-             var html =`<!DOCTYPE html>
-             <html lang="en">
-               <head>
-                 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-                 <TITLE>Inventory Report</TITLE>
-                 <style type="text/css" media="screen,print">
-                   html{color:#000;background:#FFF;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,
+             var html ='<!DOCTYPE html>\
+             <html lang="en">\
+               <head>\
+                 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">\
+                 <TITLE>Inventory Report</TITLE>\
+                 <style type="text/css" media="screen,print">\
+                   html{color:#000;background:#FFF;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,\
                    pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0;}
                    table{border-collapse:collapse;border-spacing:0;}fieldset,img{border:0;}address,caption,
                    cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal;}li{list-style:none;}
