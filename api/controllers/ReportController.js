@@ -515,6 +515,8 @@ module.exports = {
                    general_conditiions_html += '</tbody></table></div></div>';
                  }
 
+                 html += general_conditiions_html;
+
                html += '</body></html>';
 
                sails.log(html);
