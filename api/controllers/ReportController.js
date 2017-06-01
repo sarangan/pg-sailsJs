@@ -346,6 +346,7 @@ module.exports = {
 
               var property_id = req.param('property_id');
               var Promise = require('bluebird');
+              var qry = '';
 
               var report_settings_data = Report_settings.findOne({company_id: user.company_id})
                 .then(function(report_settings_data) {
@@ -362,23 +363,22 @@ module.exports = {
                     return property_info_data;
               });
 
-              var general_condition_data = Property_general_condition_link.find( {property_id: property_id, status: 1} )
-                .then(function(general_condition_data) {
-                    return general_condition_data;
+              qry = "select property_general_condition_link.* from property_general_condition_link where property_general_condition_link.status=1 and property_general_condition_link.property_id='"+ property_id +"' order by property_general_condition_link.priority";
+              var general_conditionQueryAsync = Promise.promisify(Property_general_condition_link.query);
+              var general_condition_data =  general_conditionQueryAsync(qry).then(function(general_condition_data) {
+                  return general_condition_data;
               });
+              
+              // var general_condition_data = Property_general_condition_link.find( {property_id: property_id, status: 1} )
+              //   .then(function(general_condition_data) {
+              //       return general_condition_data;
+              // });
 
-              var qry = "SELECT property_meter_link.prop_meter_id, property_meter_link.property_id, property_meter_link.com_meter_id, property_meter_link.meter_name, property_meter_link.reading_value, property_feedback.prop_feedback_id, property_feedback.comment, property_feedback.description FROM property_meter_link LEFT JOIN property_feedback ON property_meter_link.prop_meter_id = property_feedback.item_id where property_meter_link.status = 1 and property_meter_link.property_id='" + property_id +"'" ;
-              var userQueryAsync = Promise.promisify(Property_meter_link.query);
-
-               var meter_data =  userQueryAsync(qry).then(function(meter_data) {
-                  sails.log(meter_data);
+              qry = "SELECT property_meter_link.prop_meter_id, property_meter_link.property_id, property_meter_link.com_meter_id, property_meter_link.meter_name, property_meter_link.reading_value, property_feedback.prop_feedback_id, property_feedback.comment, property_feedback.description FROM property_meter_link LEFT JOIN property_feedback ON property_meter_link.prop_meter_id = property_feedback.item_id where property_meter_link.status = 1 and property_meter_link.property_id='" + property_id +"'" ;
+              var meterQueryAsync = Promise.promisify(Property_meter_link.query);
+              var meter_data =  meterQueryAsync(qry).then(function(meter_data) {
                   return meter_data;
               });
-
-              // var meter_data = Property_meter_link.find( {property_id: property_id, status: 1} )
-              //   .then(function(meter_data) {
-              //       return meter_data;
-              // });
 
 
 
@@ -392,8 +392,6 @@ module.exports = {
         })
         .spread(function(report_settings, report_settings_notes, property_info, general_conditions, meter_data ) {
 
-            sails.log('spread');
-            sails.log(meter_data);
 
              var fs = require('fs');
              var wkhtmltopdf = require('wkhtmltopdf');
