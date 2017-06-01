@@ -345,10 +345,7 @@ module.exports = {
           if(user.company_id){
 
               var property_id = req.param('property_id');
-              console.log('property_id');
-              console.log(property_id);
-
-
+            
               var report_settings_data = Report_settings.findOne({company_id: user.company_id})
                 .then(function(report_settings_data) {
                     return report_settings_data;
