@@ -609,55 +609,85 @@ module.exports = {
 
         var top_photos = '';
         if(temp_master_items[i].temp_top_photos){
-          for(var j =0, tl = temp_master_items.length; j < tl ; j++){
-            top_photos +=  <div style="width: 25%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px;">
-              <img src="img.jpg" alt="img" class="rt-2-tbl-img" />
-              <div>Ref#</div>
-              <div>Ref#</div>
-            </div>
+          for(var j =0, tl = temp_master_items[i].temp_top_photos.length; j < tl ; j++){
+            var photo_date = '';
+            if(temp_master_items[i].temp_top_photos[j].mb_createdAt == '0000-00-00 00:00:00' ||  !temp_master_items[i].temp_top_photos[j].mb_createdAt ){
+              photo_date = temp_master_items[i].temp_top_photos[j].createdAt;
+            }
+            else{
+              photo_date = temp_master_items[i].temp_top_photos[j].mb_createdAt;
+            }
+            if(report_settings.show_photo_date_time != 1){
+              photo_date = '';
+            }
+
+            top_photos += '<div style="width: 25%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px;">'+
+              '<img src="'+ server_image_path +  property_id + '/' + '300_' + (temp_master_items[i].temp_top_photos[j].file_name.substr(0, temp_master_items[i].temp_top_photos[j].file_name.lastIndexOf('.')) || temp_master_items[i].temp_top_photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />'
+              '<div style="font-style: italic; color: #a0a0a0;">'+ photo_date +'</div>'+
+              '<div>' +
+              '<a href="'+ server_image_path +  property_id + '/' + temp_master_items[i].temp_top_photos[j].file_name + '">Ref'+ (j + 1) +'</a>' +
+              '</div></div>';
           }
+        }
+
+        var sub_items_html = '';
+        for(var j =0, sl = temp_master_items[i].sub.length; j < sl ; j++){ // sub item loop
+           sub_items_html += '<tr>' +
+             '<td class="col1"><span class="left-text">'+ temp_master_items[i].sub[j].subitem.item_name +'</span></td>' +
+             '<td class="col2"> <span class="left-text">'+ temp_master_items[i].sub[j].feedback.option +'</span></td>' +
+             '<td class="col3"> <span class="left-text">'+ temp_master_items[i].sub[j].feedback.description +'</span></td>' +
+           '</tr>';
+
+           var photos_html = ''
+           for(var l =0, pl = temp_master_items[i].sub[j].photos.length; l < pl ; l++){
+             var photo_date = '';
+             if(temp_master_items[i].sub[j].photos[l].mb_createdAt == '0000-00-00 00:00:00' ||  !temp_master_items[i].sub[j].photos[l].mb_createdAt ){
+               photo_date = temp_master_items[i].sub[j].photos[l].createdAt;
+             }
+             else{
+               photo_date = temp_master_items[i].sub[j].photos[l].mb_createdAt;
+             }
+             if(report_settings.show_photo_date_time != 1){
+               photo_date = '';
+             }
+
+             photos_html = '<div class="img-wrapper1">' +
+                '<img src="' + + server_image_path +  property_id + '/' + '300_' + (temp_master_items[i].sub[j].photos[l].file_name.substr(0, temp_master_items[i].sub[j].photos[l].file_name.lastIndexOf('.')) || temp_master_items[i].sub[j].photos[l].file_name) + '.jpg' + '" alt="img" class="rt-1-img" />' +
+                '<div style="font-style: italic; color: #a0a0a0;">'+ photo_date +'</div>'+
+                '<div>' +
+                '<a href="'+ server_image_path +  property_id + '/' + temp_master_items[i].temp_top_photos[j].file_name + '">Ref'+ (j + 1) +'</a>' +
+                '</div>' +
+                '</div>';
+           }
+
+           sub_items_html += '<tr>' +
+             '<td class="col1"></td>' +
+             '<td colspan="2">' +
+               photos_html +
+             '</td>'+
+           '</tr>';
+
         }
 
         master_html =' <div class="chapter">' +
          '<h1 class="sub-heading">' + temp_master_items[i].name + '</h1>' +
          '<hr/><div>' +
           '<div style="margin-top: 20px; margin-bottom: 20px; width:100%;">' +
-
-             <div style="width: 25%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px;">
-               <img src="img.jpg" alt="img" class="rt-2-tbl-img" />
-               <div>Ref#</div>
-               <div>Ref#</div>
-             </div>
-
-           </div>
-
-           <div class="rt-2-des">
-             <span>
-               Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-             </span>
-           </div>
-           <table class="format-table report-tbl4">
-              <thead>
-                <th class="col1">Item</th>
-                <th class="col2">Description</th>
-                <th class="col3">Condition</th>
-              </thead>
-              <tbody>
-                 <tr>
-                   <td class="col1"><span class="left-text">Door</span></td>
-                   <td class="col2"> <span class="left-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span></td>
-                   <td class="col3"> <span class="left-text">Good man Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span></td>
-                 </tr>
-                 <tr>
-                   <td class="col1"></td>
-                   <td colspan="2">
-                     <div class="img-wrapper1">
-                       <img src="img.jpg" alt="img" class="rt-1-img" />
-                       <span>Ref#</span>
-                     </div>
-                   </td>
-                 </tr>
-       </tbody></table></div></div>
+             top_photos +
+           '</div>' +
+          ' <div class="rt-2-des">' +
+             '<span>' +
+             '</span>' +
+           '</div>' +
+           '<table class="format-table report-tbl4">' +
+              '<thead>' +
+                '<th class="col1">Item</th>' +
+                '<th class="col2">Description</th>' +
+                '<th class="col3">Condition</th>' +
+              '</thead>' +
+              '<tbody>' +
+              sub_items_html +
+       '</tbody></table></div></div>';
 
       }
 
@@ -745,6 +775,7 @@ module.exports = {
                       general_notes +
                       general_conditiions_html +
                       meter_html +
+                      master_html
                 '</body></html>';
 
             res.set({
