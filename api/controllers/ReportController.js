@@ -600,8 +600,9 @@ module.exports = {
 
 
   var master_item_html = [];
+  var master_html = '';
   for(var i =0, l = temp_master_items.length; i < l ; i++){
-    var master_html = '';
+
     if(report_settings.items_details_layout == 'STYLE 1'){
 
 
@@ -669,7 +670,7 @@ module.exports = {
 
         }
 
-        master_html =' <div class="chapter">' +
+        master_html +=' <div class="chapter">' +
          '<h1 class="sub-heading">' + temp_master_items[i].name + '</h1>' +
          '<hr/><div>' +
           '<div style="margin-top: 20px; margin-bottom: 20px; width:100%;">' +
@@ -695,6 +696,7 @@ module.exports = {
     }
 
   }// end of master
+
 
 
     var style_sub_heading_color = report_settings.page_header_color?  report_settings.page_header_color:  '#797979';
