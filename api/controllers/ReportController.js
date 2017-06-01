@@ -368,13 +368,8 @@ module.exports = {
               var general_condition_data =  general_conditionQueryAsync(qry).then(function(general_condition_data) {
                   return general_condition_data;
               });
-              
-              // var general_condition_data = Property_general_condition_link.find( {property_id: property_id, status: 1} )
-              //   .then(function(general_condition_data) {
-              //       return general_condition_data;
-              // });
 
-              qry = "SELECT property_meter_link.prop_meter_id, property_meter_link.property_id, property_meter_link.com_meter_id, property_meter_link.meter_name, property_meter_link.reading_value, property_feedback.prop_feedback_id, property_feedback.comment, property_feedback.description FROM property_meter_link LEFT JOIN property_feedback ON property_meter_link.prop_meter_id = property_feedback.item_id where property_meter_link.status = 1 and property_meter_link.property_id='" + property_id +"'" ;
+              qry = "SELECT property_meter_link.prop_meter_id, property_meter_link.property_id, property_meter_link.com_meter_id, property_meter_link.meter_name, property_meter_link.reading_value, property_feedback.prop_feedback_id, property_feedback.comment, property_feedback.description, (select photos.file_name from photos where photos.item_id = property_meter_link.prop_meter_id and photos.property_id = '" + property_id + "' and photos.file_name != '' limit 1) as photo FROM property_meter_link LEFT JOIN property_feedback ON property_meter_link.prop_meter_id = property_feedback.item_id where property_meter_link.status = 1 and property_meter_link.property_id='"+ property_id +"'" ;
               var meterQueryAsync = Promise.promisify(Property_meter_link.query);
               var meter_data =  meterQueryAsync(qry).then(function(meter_data) {
                   return meter_data;
@@ -382,7 +377,7 @@ module.exports = {
 
 
 
-              return [report_settings_data, report_settings_notes_data, property_info_data, general_condition_data,  meter_data ];
+              return [property_id, report_settings_data, report_settings_notes_data, property_info_data, general_condition_data, meter_data ];
 
           }
           else{
@@ -390,11 +385,14 @@ module.exports = {
           }
 
         })
-        .spread(function(report_settings, report_settings_notes, property_info, general_conditions, meter_data ) {
+        .spread(function(property_id, report_settings, report_settings_notes, property_info, general_conditions, meter_data ) {
 
 
              var fs = require('fs');
              var wkhtmltopdf = require('wkhtmltopdf');
+             var server_image_path = 'http://52.39.72.94:3000/images/';
+             var server_rpt_image_path = 'http://52.39.72.94:3000/images/reportlogos/';
+
 
 //start general notes----------------------------------------------------------------------------------
             var general_notes  ='';
@@ -447,6 +445,31 @@ module.exports = {
           general_conditiions_html += '</tbody></table></div></div>';
         }
 //end genral conditions----------------------------------------------------------------------------------
+
+//start meter----------------------------------------------------------------------------------
+
+    var meter_html = '';
+    if(meter_data){
+        meter_html = '<div class="chapter"><h1 class="sub-heading">Meater Reading</h1><hr/><div><table class="format-table report-tbl7"><thead><th class="col1">IMAGE</th><th class="col2">Condition</th><tbody>';
+
+        for(var i =0, l = meter_data.length; i < l ; i++){
+          if(meter_data[i].photo){
+
+             meter_html += '<tr><td><div class="img-inline-wrapper">' +
+             '<img src="' + server_image_path +  property_id + '/' + '300_' + (meter_data[i].photo.substr(0, meter_data[i].photo.lastIndexOf('.')) || meter_data[i].photo) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
+             '<a href="'+ server_image_path +  property_id + '/' + meter_data[i].photo + '">Ref'+ (i + 1) +'</a>' +
+              '</div></td><td>' +
+              '<b>Meter name : </b>'+  meter_data[i].meter_name +'<br>' +
+              '<b>Reading : </b>'+  meter_data[i].reading_value +'<br>' +
+              '<b>Description : </b>'+ meter_data[i].description + '</td></tr>';
+           }
+        }
+
+        meter_html += '</tbody></table></div></div>';
+    }
+
+//end meter----------------------------------------------------------------------------------
+
 
     var style_sub_heading_color = report_settings.page_header_color?  report_settings.page_header_color:  '#797979';
     var style_sub_heading_bg = '#ffffff';
@@ -525,6 +548,7 @@ module.exports = {
                    '</style></head><body>' +
                       general_notes +
                       general_conditiions_html +
+                      meter_html + 
                 '</body></html>';
 
             res.set({

@@ -4542,7 +4542,7 @@ module.exports = {
 								});*/
 
 
-								var qry = "delete from photos where photo_id'"+ photo_id + "'" ;
+								var qry = "delete from photos where photo_id ='"+ photo_id + "'" ;
 								Photos.query(qry, function(err, photo){
 									if (err) return res.json(err);
 
