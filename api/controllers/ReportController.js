@@ -542,9 +542,9 @@ module.exports = {
         }//loop
 
         temp_master_items.push(
-          master:  master_data[i],
+          {master: master_data[i],
           sub: temp_sub_items,
-          type: 'SUB'
+          type: 'SUB'}
         );
 
       } // sub items if end
@@ -569,11 +569,11 @@ module.exports = {
         }
 
         temp_master_items.push(
-          master:  master_data[i],
+          {master:  master_data[i],
           sub: [],
           type: 'ITEM',
           feedback: temp_feedback,
-          photos: temp_photos
+          photos: temp_photos}
         );
 
 
