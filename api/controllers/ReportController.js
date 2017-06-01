@@ -345,7 +345,7 @@ module.exports = {
           if(user.company_id){
 
               var property_id = req.param('property_id');
-            
+
               var report_settings_data = Report_settings.findOne({company_id: user.company_id})
                 .then(function(report_settings_data) {
                     return report_settings_data;
@@ -433,6 +433,13 @@ module.exports = {
         }
 //end genral conditions----------------------------------------------------------------------------------
 
+    var style_sub_heading_color = report_settings.page_header_color?  report_settings.page_header_color:  '#797979';
+    var style_sub_heading_bg = '#ffffff';
+    if(report_settings.page_header_layout == 'SOLID' ){
+      style_sub_heading_bg = report_settings.base_color? report_settings.base_color : '#ffffff';
+    }
+    var style_table_header_bg = report_settings.table_header_bg_color?  report_settings.table_header_bg_color:  '#0088CC';
+    var style_table_header_txt = report_settings.table_header_color?  report_settings.table_header_color:  '#ffffff';
 
 
 	 	html = '<!DOCTYPE html>'+
@@ -455,19 +462,13 @@ module.exports = {
                    '.chapter { display: block; clear: both; page-break-after: always; padding: 20px; margin-top: 30px; margin-bottom: 20px;}'+
                    '.block { display: block; clear: both; padding: 20px;}' +
                    '.heading{ font-size:25px; color: #0088CC; line-height: 28px; margin-bottom: 20px; font-weight: bold;}' +
-                   '.sub-heading{ font-size: 25px; color: #797979; line-height: 28px; font-weight: bold;}' +
-                   'hr { border:0; margin:0; padding:0; height:1px; color:#797979; background-color:#797979; margin-top: 7px; margin-bottom: 30px;}' +
+                   '.sub-heading{ font-size: 25px; color:' + style_sub_heading_color +'; line-height: 28px; font-weight: bold; background-color: ' + style_sub_heading_bg + '; width: 100%; }' +
+                   'hr { border:0; margin:0; padding:0; height:1px; color:'+ style_sub_heading_color + '; background-color:'+ style_sub_heading_color + '; margin-top: 7px; margin-bottom: 30px;}' +
                    'thead { display: table-header-group; }' +
                    'tfoot { display: table-row-group; }' +
                    'tr { page-break-inside: avoid; }' +
-                   '.contents-table, .format-table { border: 0; width: 100%; margin-bottom: 40px; }' +
-                   '.contents-table td, .format-table td{ padding: 10px; border-bottom: 1px solid #E5E5E5; }' +
-                   '.contents-table tr, .format-table tr{ font-size: 14px;  padding: 10px;}' +
-                   '.contents-table thead { background-color: #dcdcdc; }' +
-                   '.format-table thead { background-color: #0088CC; }' +
-                   '.contents-table th { padding: 10px; text-align: left; font-size: 14px; }' +
-                   '.format-table th { padding: 10px; text-align: left; font-size: 16px; color: #ffffff;}' +
-                   '.contents-table th.col1 { width: 90%; } .contents-table th.col2 { width: 10%; }' +
+                   '.format-table thead { background-color: '+ style_table_header_bg +'; }' +
+                   '.format-table th { padding: 10px; text-align: left; font-size: 16px; font-weight: bold; color: '+ style_table_header_txt +';}' +
                    '.condtion-tbl th.col1 { width: 50%; } .condtion-tbl th.col2 { width: 50%; }' +
                    '.condtion-tbl th.col3 { width: 70%; } .report-tbl1 th.col1 {width: 20%;}' +
                     '.report-tbl1 th.col2 {width: 25%;}' +
