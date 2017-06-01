@@ -375,9 +375,25 @@ module.exports = {
                   return meter_data;
               });
 
+              qry = "select property_masteritem_link.*, property_masteritem_link.com_type as template_type from property_masteritem_link where NOT(property_masteritem_link.option ='NUM' and property_masteritem_link.type ='DEFAULT') and property_masteritem_link.property_id ='"+ property_id +"' and property_masteritem_link.status = 1 order by property_masteritem_link.priority";
+              var masterQueryAsync = Promise.promisify(Property_masteritem_link.query);
+              var master_data =  masterQueryAsync(qry).then(function(master_data) {
+                  return master_data;
+              });
+
+              qry = "select property_masteritem_link.prop_master_id, property_masteritem_link.name as master_item_name, company_subitem_link.com_master_id,  property_masteritem_link.priority master_order, property_subitem_link.*, property_feedback.option as feedback_opt, property_feedback.maintenance_opt as feedback_maintenance_opt, property_feedback.comment as feedback_comment, property_feedback.description as feedback_description, property_feedback.type as feedback_type from property_subitem_link inner join company_subitem_link on property_subitem_link.com_subitem_id = company_subitem_link.com_subitem_id inner JOIN property_masteritem_link on company_subitem_link.com_master_id = property_masteritem_link.com_master_id inner join property_feedback on property_subitem_link.prop_subitem_id = property_feedback.item_id where property_masteritem_link.status =1 and property_subitem_link.status =1 and property_masteritem_link.property_id ='" + property_id + "' and property_subitem_link.property_id = property_masteritem_link.property_id and property_feedback.parent_id = property_masteritem_link.prop_master_id order by property_masteritem_link.name";
+              var subQueryAsync = Promise.promisify(Property_subitem_link.query);
+              var sub_items_data =  subQueryAsync(qry).then(function(sub_items_data) {
+                  return sub_items_data;
+              });
+
+              var photo_data = Photos.find({ property_id: property_id })
+                .then(function(photo_data) {
+                    return photo_data;
+              });
 
 
-              return [property_id, report_settings_data, report_settings_notes_data, property_info_data, general_condition_data, meter_data ];
+              return [property_id, report_settings_data, report_settings_notes_data, property_info_data, general_condition_data, meter_data, master_data, sub_items_data, photo_data ];
 
           }
           else{
@@ -385,7 +401,7 @@ module.exports = {
           }
 
         })
-        .spread(function(property_id, report_settings, report_settings_notes, property_info, general_conditions, meter_data ) {
+        .spread(function(property_id, report_settings, report_settings_notes, property_info, general_conditions, meter_data, master_data, sub_items_data, photo_data ) {
 
 
              var fs = require('fs');
@@ -470,6 +486,14 @@ module.exports = {
 
 //end meter----------------------------------------------------------------------------------
 
+  sails.log('----------------------------------------------------------------------------------');
+  sails.log(master_data);
+  sails.log('----------------------------------------------------------------------------------');
+  sails.log(sub_items_data);
+  sails.log('----------------------------------------------------------------------------------');
+  sails.log(photo_data);
+  sails.log('----------------------------------------------------------------------------------');
+
 
     var style_sub_heading_color = report_settings.page_header_color?  report_settings.page_header_color:  '#797979';
     var style_sub_heading_bg = '#ffffff';
@@ -548,7 +572,7 @@ module.exports = {
                    '</style></head><body>' +
                       general_notes +
                       general_conditiions_html +
-                      meter_html + 
+                      meter_html +
                 '</body></html>';
 
             res.set({
