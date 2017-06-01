@@ -345,6 +345,7 @@ module.exports = {
           if(user.company_id){
 
               var property_id = req.param('property_id');
+              var Promise = require('bluebird');
 
               var report_settings_data = Report_settings.findOne({company_id: user.company_id})
                 .then(function(report_settings_data) {
@@ -366,9 +367,22 @@ module.exports = {
                     return general_condition_data;
               });
 
+              var qry = "SELECT property_meter_link.prop_meter_id, property_meter_link.property_id, property_meter_link.com_meter_id, property_meter_link.meter_name, property_meter_link.reading_value, property_feedback.prop_feedback_id, property_feedback.comment, property_feedback.description FROM property_meter_link LEFT JOIN property_feedback ON property_meter_link.prop_meter_id = property_feedback.item_id where property_meter_link.status = 1 and property_meter_link.property_id='" + property_id +"'" ;
+              var userQueryAsync = Promise.promisify(Property_meter_link.query);
+
+               var meter_data =  userQueryAsync(qry).then(function(meter_data) {
+                  sails.log(meter_data);
+                  return meter_data;
+              });
+
+              // var meter_data = Property_meter_link.find( {property_id: property_id, status: 1} )
+              //   .then(function(meter_data) {
+              //       return meter_data;
+              // });
 
 
-              return [report_settings_data, report_settings_notes_data, property_info_data, general_condition_data ];
+
+              return [report_settings_data, report_settings_notes_data, property_info_data, general_condition_data,  meter_data ];
 
           }
           else{
@@ -376,8 +390,10 @@ module.exports = {
           }
 
         })
-        .spread(function(report_settings, report_settings_notes, property_info, general_conditions ) {
+        .spread(function(report_settings, report_settings_notes, property_info, general_conditions, meter_data ) {
 
+            sails.log('spread');
+            sails.log(meter_data);
 
              var fs = require('fs');
              var wkhtmltopdf = require('wkhtmltopdf');
@@ -422,11 +438,12 @@ module.exports = {
                                   '<tbody>';
 
             for(var i =0, l = general_conditions.length; i < l ; i++){
-
-               general_conditiions_html += '<tr>' +
-                 '<td class="col1"><span class="left-text">'+ general_conditions[i].item_name +'</span></td>' +
-                 '<td class="col2"><span class="right-text">'+ general_conditions[i].user_input +'</span></td>' +
-               '</tr>';
+              if(general_conditions[i].user_input ){
+                 general_conditiions_html += '<tr>' +
+                   '<td class="col1"><span class="left-text">'+ general_conditions[i].item_name +'</span></td>' +
+                   '<td class="col2"><span class="right-text">'+ general_conditions[i].user_input +'</span></td>' +
+                 '</tr>';
+               }
             }
 
           general_conditiions_html += '</tbody></table></div></div>';
