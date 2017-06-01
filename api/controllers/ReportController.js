@@ -359,7 +359,7 @@ module.exports = {
                     return report_settings_notes_data;
               });
 
-              var property_info_data = Property_info.find({ property_id: property_id })
+              var property_info_data = Property_info.findOne({ property_id: property_id })
                 .then(function(property_info_data) {
                     return property_info_data;
               });
@@ -381,17 +381,66 @@ module.exports = {
         })
         .spread(function(report_settings, report_settings_notes, property_info, general_conditions ) {
 
-          // sails.log(report_settings);
-          // sails.log(report_settings_notes);
-          // sails.log(property_info);
-          // sails.log(general_conditions);
 
              var fs = require('fs');
              var wkhtmltopdf = require('wkhtmltopdf');
 
-             var html ='<!DOCTYPE html>'+
-             '<html lang="en">'+
-               '<head>' +
+//start general notes----------------------------------------------------------------------------------
+            var general_notes  ='';
+            if(property_info.report_type){
+                 var notes = '';
+              	 for(var i =0, l = report_settings_notes.length; i < l ; i++){
+              	   if(report_settings_notes[i].note_title == property_info.report_type  && report_settings_notes[i].included == 1 ){
+
+              	     notes =  report_settings_notes[i].note;
+              	     general_notes ='<div class="chapter">' +
+              	       '<h1 class="sub-heading">General notes and guidance</h1>' +
+              	       '<hr/>' +
+              	       '<p><b>' + report_settings_notes[i].title +
+              	       '</b></p><br/><p>' +
+              	       report_settings_notes[i].note +
+              	       '</p></div>';
+              	   }
+              }
+
+            	if(!notes){
+            	  general_notes  ='';
+            	}
+            }
+//end of general_notes ----------------------------------------------------------------------------------
+
+//start genral conditions ----------------------------------------------------------------------------------
+       var general_conditiions_html = ''
+       if(report_settings.include_condition_summary == 1){
+
+	        general_conditiions_html = '<div class="chapter">' +
+                                  	   '<h1 class="sub-heading">General Condition</h1>' +
+                                  	   '<hr/>' +
+                                  	   '<div>' +
+                                  	     '<table class="format-table condtion-tbl">' +
+                                  '<thead>' +
+                                    '<th class="col1">Condition</th>' +
+                                    '<th class="col2">Summary</th>' +
+                                  '</thead>' +
+                                  '<tbody>';
+
+            for(var i =0, l = general_conditions.length; i < l ; i++){
+
+               general_conditiions_html += '<tr>' +
+                 '<td class="col1"><span class="left-text">'+ general_conditions[i].item_name +'</span></td>' +
+                 '<td class="col2"><span class="right-text">'+ general_conditions[i].user_input +'</span></td>' +
+               '</tr>';
+            }
+
+          general_conditiions_html += '</tbody></table></div></div>';
+        }
+//end genral conditions----------------------------------------------------------------------------------
+
+
+
+	 	html = '<!DOCTYPE html>'+
+             '<html lang="en"><style type="text/css" media="screen,print">'+
+                '<head>' +
                  '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">' +
                  '<TITLE>Inventory Report</TITLE>' +
                  '<style type="text/css" media="screen,print">' +
@@ -405,8 +454,8 @@ module.exports = {
                    'select{font-family:inherit;font-size:inherit;font-weight:inherit;}input,textarea,' +
                    'select{*font-size:100%;}legend{color:#000;}' +
                    '* { overflow: visible !important; }' +
-                   'html,body { font-family: sans-serif; font-size:12px; }' +
-                   '.chapter { display: block; clear: both; page-break-after: always; padding: 20px; }'+
+                   'html,body { font-family: serif; font-size:14px; }'+
+                   '.chapter { display: block; clear: both; page-break-after: always; padding: 20px; margin-top: 30px; margin-bottom: 20px;}'+
                    '.block { display: block; clear: both; padding: 20px;}' +
                    '.heading{ font-size:25px; color: #0088CC; line-height: 28px; margin-bottom: 20px; font-weight: bold;}' +
                    '.sub-heading{ font-size: 25px; color: #797979; line-height: 28px; font-weight: bold;}' +
@@ -441,7 +490,7 @@ module.exports = {
                    '.report-tbl5 th.col2 {width: 35%;}' +
                    '.report-tbl5 th.col3 {width: 40%;}' +
                    '.report-tbl6 th.col1 {width: 45%;}' +
-                   '.report-tbl6 th.col2 {width: 450%;}' +
+                   '.report-tbl6 th.col2 {width: 450%;}'+
                    '.report-tbl6 th.col3 {width: 10%;}' +
                    '.report-tbl7 th.col1 {width: 30%;}' +
                    '.report-tbl7 th.col2 {width: 70%;}' +
@@ -453,82 +502,26 @@ module.exports = {
                    '.rt-2-tbl-img{ width: 100%; height: auto; max-width: 300px;}' +
                    '.report-tbl2{ margin-top: 20px;}' +
                    '.rt-2-top-img-wrapper{ margin-bottom: 10px; }' +
-                   '.report-tbl3{ margin-top: 20px;}'
+                   '.report-tbl3{ margin-top: 20px;}' +
                    '.img-tblrow-wrapper{ width: 20%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px;}' +
                    '.rt-3-tbl-img{ width: 100%; height: auto; max-width: 300px;}' +
                    '.paratxt {font-size: 14px; margin-bottom: 10px;}' +
-                 '</style>' +
-               '</head>' +
-               '<body>';
-
-               //general notes
-               var general_notes  ='';
-               if(property_info['report_type']){
-                 var notes = '';
-                 for(var i =0, l = report_settings_notes.length; i < l ; i++){
-                   if(report_settings_notes[i].note_title == property_info['report_type']  && report_settings_notes[i].included == 1 ){
-                     notes =  report_settings_notes[i].note;
-                     general_notes ='<div class="chapter">' +
-                       '<h1 class="sub-heading">General notes and guidance</h1>' +
-                       '<hr/>' +
-                       '<p><b>' + report_settings_notes[i].title +
-                       '</b></p><br/><p>' +
-                       report_settings_notes[i].note +
-                       '</p></div>';
-                   }
-                 }
-                 if(!notes){
-                   general_notes  ='';
-                 }
-
-               }
-
-               if(general_notes){
-                 html += general_notes;
-               }
-               //end of general_notes
-                sails.log(report_settings.include_condition_summary);
-                sails.log(general_conditions.length);
-               //genral conditions
-               if(report_settings.include_condition_summary == 1){
-
-
-
-                 var general_conditiions_html = '<div class="chapter">' +
-                   '<h1 class="sub-heading">General Condition</h1>' +
-                   '<hr/>' +
-                   '<div>' +
-                     '<table class="format-table condtion-tbl">' +
-                        '<thead>' +
-                          '<th class="col1">Condition</th>' +
-                          '<th class="col2">Summary</th>' +
-                        '</thead>' +
-                        '<tbody>';
-                 for(var i =0, l = general_conditions.length; i < l ; i++){
-
-                     general_conditiions_html += '<tr>' +
-                       '<td class="col1"><span class="left-text">'+ general_conditions[i].item_name +'</span></td>' +
-                       '<td class="col2"><span class="right-text">'+ general_conditions[i].user_input +'</span></td>' +
-                     '</tr>';
-                   }
-
-                   general_conditiions_html += '</tbody></table></div></div>';
-                 }
-
-                 html += general_conditiions_html;
-
-                 sails.log(general_conditiions_html);
-
-               html += '</body></html>';
-
-               //sails.log(html);
+                   '</style></head><body>' +
+                      general_notes +
+                      general_conditiions_html +
+                '</body></html>';
 
             res.set({
               'Content-Type': 'application/octet-stream',
               'Content-Disposition': 'filename="report.pdf"'
             });
 
-            return wkhtmltopdf(html).pipe(res);
+          	var options = {
+              disableSmartShrinking: true,
+              encoding : 'utf-8'
+            };
+
+            return wkhtmltopdf(html, options).pipe(res);
         })
         .fail(function(err) {
             console.log(err);
