@@ -467,6 +467,9 @@ module.exports = {
                    'thead { display: table-header-group; }' +
                    'tfoot { display: table-row-group; }' +
                    'tr { page-break-inside: avoid; }' +
+                   '.format-table { border: 0; width: 100%; margin-bottom: 40px; }' +
+                   '.format-table td{ padding: 10px; border-bottom: 1px solid #E5E5E5; }' +
+                   '.format-table tr{ font-size: 14px;  padding: 10px;}' +
                    '.format-table thead { background-color: '+ style_table_header_bg +'; }' +
                    '.format-table th { padding: 10px; text-align: left; font-size: 16px; font-weight: bold; color: '+ style_table_header_txt +';}' +
                    '.condtion-tbl th.col1 { width: 50%; } .condtion-tbl th.col2 { width: 50%; }' +
