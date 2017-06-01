@@ -510,9 +510,6 @@ module.exports = {
             // yes it is belongs to our master items
 
             var sub_item_id = sub_items_data[j].prop_subitem_id;
-            var temp_sub_item = {
-              'subitems':
-            };
 
             //get the feedback data for sub items
             var temp_feedback = {};
@@ -598,7 +595,7 @@ module.exports = {
   var master_item_html = [];
   for(var i =0, l = temp_master_items.length; i < l ; i++){
     var master_html = '';
-    
+
   }
 
 
