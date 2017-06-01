@@ -697,7 +697,7 @@ module.exports = {
 
   }// end of master
 
-
+  sails.log(master_html);
 
     var style_sub_heading_color = report_settings.page_header_color?  report_settings.page_header_color:  '#797979';
     var style_sub_heading_bg = '#ffffff';
