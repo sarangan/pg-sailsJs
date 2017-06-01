@@ -381,7 +381,7 @@ module.exports = {
                   return master_data;
               });
 
-              qry = "select property_masteritem_link.prop_master_id, property_masteritem_link.name as master_item_name, company_subitem_link.com_master_id,  property_masteritem_link.priority master_order, property_subitem_link.*, property_feedback.option as feedback_opt, property_feedback.maintenance_opt as feedback_maintenance_opt, property_feedback.comment as feedback_comment, property_feedback.description as feedback_description, property_feedback.type as feedback_type from property_subitem_link inner join company_subitem_link on property_subitem_link.com_subitem_id = company_subitem_link.com_subitem_id inner JOIN property_masteritem_link on company_subitem_link.com_master_id = property_masteritem_link.com_master_id inner join property_feedback on property_subitem_link.prop_subitem_id = property_feedback.item_id where property_masteritem_link.status =1 and property_subitem_link.status =1 and property_masteritem_link.property_id ='" + property_id + "' and property_subitem_link.property_id = property_masteritem_link.property_id and property_feedback.parent_id = property_masteritem_link.prop_master_id order by property_masteritem_link.name";
+              qry = "select property_masteritem_link.prop_master_id, property_masteritem_link.name as master_item_name, company_subitem_link.com_master_id,  property_masteritem_link.priority master_order, property_subitem_link.* from property_subitem_link inner join company_subitem_link on property_subitem_link.com_subitem_id = company_subitem_link.com_subitem_id inner JOIN property_masteritem_link on company_subitem_link.com_master_id = property_masteritem_link.com_master_id where property_masteritem_link.status =1 and property_subitem_link.status =1 and property_masteritem_link.property_id ='"+ property_id +"' and property_subitem_link.property_id = property_masteritem_link.property_id order by property_masteritem_link.name";
               var subQueryAsync = Promise.promisify(Property_subitem_link.query);
               var sub_items_data =  subQueryAsync(qry).then(function(sub_items_data) {
                   return sub_items_data;
@@ -392,8 +392,13 @@ module.exports = {
                     return photo_data;
               });
 
+              var feedback_data = Property_feedback.find({ property_id: property_id })
+                .then(function(feedback_data) {
+                    return feedback_data;
+              });
 
-              return [property_id, report_settings_data, report_settings_notes_data, property_info_data, general_condition_data, meter_data, master_data, sub_items_data, photo_data ];
+
+              return [property_id, report_settings_data, report_settings_notes_data, property_info_data, general_condition_data, meter_data, master_data, sub_items_data, photo_data, feedback_data ];
 
           }
           else{
@@ -401,7 +406,7 @@ module.exports = {
           }
 
         })
-        .spread(function(property_id, report_settings, report_settings_notes, property_info, general_conditions, meter_data, master_data, sub_items_data, photo_data ) {
+        .spread(function(property_id, report_settings, report_settings_notes, property_info, general_conditions, meter_data, master_data, sub_items_data, photo_data, feedback_data ) {
 
 
              var fs = require('fs');
@@ -486,13 +491,115 @@ module.exports = {
 
 //end meter----------------------------------------------------------------------------------
 
-  sails.log('----------------------------------------------------------------------------------');
-  sails.log(master_data);
-  sails.log('----------------------------------------------------------------------------------');
-  sails.log(sub_items_data);
-  sails.log('----------------------------------------------------------------------------------');
-  sails.log(photo_data);
-  sails.log('----------------------------------------------------------------------------------');
+  var temp_master_items = [];
+  if(master_data){
+
+    for(var i =0, ml = master_data.length; i < ml ; i++){
+
+      var get_master_name = master_data[i].name;
+      var get_master_id = master_data[i].prop_master_id;
+      var get_master_type = master_data[i].com_type; // we will know if its SUB or ITEM
+
+      //lets go to sub items basket
+
+      if(get_master_type == 'SUB'){ // if it has sub items
+
+        var temp_sub_items = [];
+        for(var j =0, sl = sub_items_data.length; j < sl ; j++){ // sub item loop
+          if( sub_items_data[j].prop_master_id == get_master_id ){
+            // yes it is belongs to our master items
+
+            var sub_item_id = sub_items_data[j].prop_subitem_id;
+            var temp_sub_item = {
+              'subitems':
+            };
+
+            //get the feedback data for sub items
+            var temp_feedback = {};
+            for(var k =0, fl = feedback_data.length; k < fl ; k++){
+              if( sub_item_id == feedback_data[k].item_id && get_master_id == feedback_data[k].parent_id ){
+                //we have our feedback data now
+                temp_feedback = feedback_data[k];
+              }
+            }
+
+            //get the photos for sub item
+            var temp_photos = {};
+            for(var l =0, pl = photo_data.length; l < pl ; l++){
+              if( sub_item_id == photo_data[l].item_id && get_master_id == photo_data[l].parent_id ){
+                //we have our photo data now
+                temp_photos = photo_data[l];
+              }
+            }
+
+            temp_sub_items.push(
+              {
+                subitem: sub_items_data[j],
+                feedback: temp_feedback,
+                photos: temp_photos
+              }
+            );
+
+          } // match master id with sub item
+
+        }//loop
+
+        temp_master_items.push(
+          master:  master_data[i],
+          sub: temp_sub_items,
+          type: 'SUB'
+        );
+
+      } // sub items if end
+      else{
+
+        // no sub items just feed back only
+        var temp_feedback = {};
+        for(var ik =0, ifl = feedback_data.length; ik < ifl ; ik++){
+          if( get_master_id == feedback_data[ik].item_id ){
+            //we have our feedback data now
+            temp_feedback = feedback_data[ik];
+          }
+        }
+
+        //get the photos for sub item
+        var temp_photos = {};
+        for(var il =0, ipl = photo_data.length; il < ipl ; il++){
+          if( get_master_id == photo_data[il].item_id ){
+            //we have our photo data now
+            temp_photos = photo_data[il];
+          }
+        }
+
+        temp_master_items.push(
+          master:  master_data[i],
+          sub: [],
+          type: 'ITEM',
+          feedback: temp_feedback,
+          photos: temp_photos
+        );
+
+
+      }
+
+      //we so sort of sake of no need for now
+      // master_sub_items.sort(function(a, b) {
+      //     return parseFloat(a.priority) - parseFloat(b.priority);
+      // });
+
+
+    } // end master loop
+
+  } // end if master
+
+  sails.log('print master items');
+  sails.log(temp_master_items);
+
+  var master_item_html = [];
+  for(var i =0, l = temp_master_items.length; i < l ; i++){
+    var master_html = '';
+    
+  }
 
 
     var style_sub_heading_color = report_settings.page_header_color?  report_settings.page_header_color:  '#797979';
