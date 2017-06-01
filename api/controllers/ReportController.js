@@ -505,6 +505,8 @@ module.exports = {
       if(get_master_type == 'SUB'){ // if it has sub items
 
         var temp_sub_items = [];
+        var temp_top_photos = [];
+
         for(var j =0, sl = sub_items_data.length; j < sl ; j++){ // sub item loop
           if( sub_items_data[j].prop_master_id == get_master_id ){
             // yes it is belongs to our master items
@@ -526,6 +528,9 @@ module.exports = {
               if( sub_item_id == photo_data[l].item_id && get_master_id == photo_data[l].parent_id ){
                 //we have our photo data now
                 temp_photos = photo_data[l];
+                if(l == 0){
+                  temp_top_photos.push(photo_data[l]);
+                }
               }
             }
 
@@ -539,12 +544,15 @@ module.exports = {
 
           } // match master id with sub item
 
-        }//loop
+        }//sub item loop
 
         temp_master_items.push(
-          {master: master_data[i],
-          sub: temp_sub_items,
-          type: 'SUB'}
+          {
+            master: master_data[i],
+            sub: temp_sub_items,
+            type: 'SUB',
+            temp_top_photos: temp_top_photos
+          }
         );
 
       } // sub items if end
@@ -565,6 +573,7 @@ module.exports = {
           if( get_master_id == photo_data[il].item_id ){
             //we have our photo data now
             temp_photos = photo_data[il];
+
           }
         }
 
@@ -589,14 +598,73 @@ module.exports = {
 
   } // end if master
 
-  sails.log('print master items');
-  sails.log(temp_master_items);
 
   var master_item_html = [];
   for(var i =0, l = temp_master_items.length; i < l ; i++){
     var master_html = '';
+    if(report_settings.items_details_layout == 'STYLE 1'){
 
-  }
+
+      if(temp_master_items[i].type == 'SUB' ){
+
+        var top_photos = '';
+        if(temp_master_items[i].temp_top_photos){
+          for(var j =0, tl = temp_master_items.length; j < tl ; j++){
+            top_photos +=  <div style="width: 25%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px;">
+              <img src="img.jpg" alt="img" class="rt-2-tbl-img" />
+              <div>Ref#</div>
+              <div>Ref#</div>
+            </div>
+          }
+        }
+
+        master_html =' <div class="chapter">' +
+         '<h1 class="sub-heading">' + temp_master_items[i].name + '</h1>' +
+         '<hr/><div>' +
+          '<div style="margin-top: 20px; margin-bottom: 20px; width:100%;">' +
+
+             <div style="width: 25%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px;">
+               <img src="img.jpg" alt="img" class="rt-2-tbl-img" />
+               <div>Ref#</div>
+               <div>Ref#</div>
+             </div>
+
+           </div>
+
+           <div class="rt-2-des">
+             <span>
+               Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+             </span>
+           </div>
+           <table class="format-table report-tbl4">
+              <thead>
+                <th class="col1">Item</th>
+                <th class="col2">Description</th>
+                <th class="col3">Condition</th>
+              </thead>
+              <tbody>
+                 <tr>
+                   <td class="col1"><span class="left-text">Door</span></td>
+                   <td class="col2"> <span class="left-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span></td>
+                   <td class="col3"> <span class="left-text">Good man Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span></td>
+                 </tr>
+                 <tr>
+                   <td class="col1"></td>
+                   <td colspan="2">
+                     <div class="img-wrapper1">
+                       <img src="img.jpg" alt="img" class="rt-1-img" />
+                       <span>Ref#</span>
+                     </div>
+                   </td>
+                 </tr>
+       </tbody></table></div></div>
+
+      }
+
+
+    }
+
+  }// end of master
 
 
     var style_sub_heading_color = report_settings.page_header_color?  report_settings.page_header_color:  '#797979';
