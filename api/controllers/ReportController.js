@@ -711,8 +711,7 @@ module.exports = {
           }
 
            sub_items_html += '<tr>' +
-             '<td class="col1"></td>' +
-             '<td colspan="2">' +
+             '<td colspan="3">' +
                photos_html +
              '</td>'+
            '</tr>';
