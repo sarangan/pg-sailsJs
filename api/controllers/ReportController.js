@@ -706,14 +706,15 @@ module.exports = {
                    break;
                  }
 
-
                }
 
-            sub_items_html += '<tr>' +
-                 '<td colspan="3" style="text-align:right;">' +
-                   photos_html +
-                 '</td>'+
-               '</tr>';
+              if(sub_item.photos.length > 0){
+                sub_items_html += '<tr>' +
+                   '<td colspan="3" style="text-align:right;">' +
+                     photos_html +
+                   '</td>'+
+                 '</tr>';
+              }
 
           }
 
