@@ -533,9 +533,9 @@ module.exports = {
               if( sub_item_id == photo_data[l].item_id && get_master_id == photo_data[l].parent_id ){
                 //we have our photo data now
                 temp_photos.push(photo_data[l]);
-                if(l < 3 ){
+                //if(l < 3 ){
                   temp_top_photos.push(photo_data[l]);
-                }
+                //}
               }
             }
 
@@ -655,6 +655,7 @@ module.exports = {
 
 
         var sub_items_html = '';
+
         for(var j =0, sl = master_item.sub.length; j < sl ; j++){ // sub item loop
 
           var sub_item = master_item.sub[j];
@@ -874,6 +875,7 @@ module.exports = {
             if(master_item.temp_top_photos){
 
               for(var j =0, tl = master_item.temp_top_photos.length; j < tl ; j++){
+
                 var photo_date = '';
                 if(master_item.temp_top_photos[j].mb_createdAt == '0000-00-00 00:00:00' ||  !master_item.temp_top_photos[j].mb_createdAt ){
                   photo_date = master_item.temp_top_photos[j].createdAt;
@@ -972,16 +974,16 @@ module.exports = {
             }
 
             var photos_bottom_html = '';
-            if(sub_item.photos){
+            if(master_item.temp_top_photos){
 
-                for(var l =0, pl = sub_item.photos.length; l < pl ; l++){
+                for(var l =0, pl = master_item.temp_top_photos.length; l < pl ; l++){
 
                   var photo_date = '';
-                  if(sub_item.photos[l].mb_createdAt == '0000-00-00 00:00:00' ||  !sub_item.photos[l].mb_createdAt ){
-                    photo_date = sub_item.photos[l].createdAt;
+                  if(master_item.temp_top_photos[l].mb_createdAt == '0000-00-00 00:00:00' ||  !master_item.temp_top_photos[l].mb_createdAt ){
+                    photo_date = master_item.temp_top_photos[l].createdAt;
                   }
                   else{
-                    photo_date = sub_item.photos[l].mb_createdAt;
+                    photo_date = master_item.temp_top_photos[l].mb_createdAt;
                   }
                   if(report_settings.show_photo_date_time != 1){
                     photo_date = '';
@@ -991,9 +993,9 @@ module.exports = {
                   }
 
 
-                  if(sub_item.photos[l].file_name){
+                  if(master_item.temp_top_photos[l].file_name){
                     photos_bottom_html += '<div style="width: 20%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px; margin-top: 20px;">' +
-                       '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
+                       '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (master_item.temp_top_photos[l].file_name.substr(0, master_item.temp_top_photos[l].file_name.lastIndexOf('.')) || master_item.temp_top_photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                        '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
                        '</div>';
 
