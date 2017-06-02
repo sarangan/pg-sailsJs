@@ -693,8 +693,7 @@ module.exports = {
                    photo_date = '';
                  }
 
-                 '<img src="' + server_image_path +  property_id + '/' + '300_' + (meter_data[i].photo.substr(0, meter_data[i].photo.lastIndexOf('.')) || meter_data[i].photo) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
-
+                 
                  if( desc == 'light s asd asd asd asd stupid '){
                    sails.log(sub_item.photos[l].file_name);
                    sails.log(sub_item.photos[l].photo_id);
