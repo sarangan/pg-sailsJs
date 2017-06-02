@@ -524,11 +524,11 @@ module.exports = {
             }
 
             //get the photos for sub item
-            var temp_photos = {};
+            var temp_photos = [];
             for(var l =0, pl = photo_data.length; l < pl ; l++){
               if( sub_item_id == photo_data[l].item_id && get_master_id == photo_data[l].parent_id ){
                 //we have our photo data now
-                temp_photos = photo_data[l];
+                temp_photos.push(photo_data[l]);
                 if(l == 0){
                   temp_top_photos.push(photo_data[l]);
                 }
@@ -543,13 +543,6 @@ module.exports = {
               }
             );
 
-            sails.log('-----------------------------------------------');
-            sails.log({
-              subitem: sub_items_data[j],
-              feedback: temp_feedback,
-              photos: temp_photos
-            });
-            sails.log('-----------------------------------------------');
             // sails.log('-----------------------------------------------');
             // sails.log(temp_photos);
             // sails.log('-----------------------------------------------');
@@ -617,12 +610,13 @@ module.exports = {
     // sails.log('master items length');
     // sails.log(temp_master_items.length);
 
-    var get_master_name = temp_master_items[i].name;
     var master_item = temp_master_items[i];
     // master:
     // sub:
     // type: 'SUB',
     // temp_top_photos:
+
+    sails.log(master_item);
 
 
     if(report_settings.items_details_layout == 'STYLE 1'){
@@ -713,7 +707,7 @@ module.exports = {
         }
 
         master_html +=' <div class="chapter">' +
-         '<h1 class="sub-heading">' + master_item.name + '</h1>' +
+         '<h1 class="sub-heading">' + master_item.master.name + '</h1>' +
          '<hr/><div>' +
           '<div style="margin-top: 20px; margin-bottom: 20px; width:100%;">' +
              top_photos +
