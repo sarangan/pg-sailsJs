@@ -705,7 +705,7 @@ module.exports = {
                     '<img src="' + + server_image_path +  property_id + '/' + '300_' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-1-img" />' +
                     '<div style="font-style: italic; color: #a0a0a0;">'+ photo_date +'</div>'+
                     '<div>' +
-                    '<a href="'+ server_image_path +  property_id + '/' + master_item.temp_top_photos[j].file_name + '">Ref'+ (j + 1) +'</a>' +
+                    '<a href="'+ server_image_path +  property_id + '/' + sub_item.photos[l].file_name + '">Ref'+ (j + 1) +'</a>' +
                     '</div>' +
                     '</div>';
                }
