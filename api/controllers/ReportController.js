@@ -1805,6 +1805,7 @@ module.exports = {
                       meter_html +
                       master_html +
                       jesus_photos +
+                      signature + 
                 '</body></html>';
 
             res.set({
