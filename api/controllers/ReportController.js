@@ -716,8 +716,7 @@ module.exports = {
               if(sub_item.photos.length > 0){
                 sub_items_html += '<div style="text-align:right; margin-top: 20px; margin-bottom: 20px; width: 100%;">' +
                      photos_html +
-                   '</div>'+
-                 ;
+                   '</div>';
               }
 
           }
