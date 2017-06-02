@@ -693,19 +693,20 @@ module.exports = {
                    photo_date = '';
                  }
 
-                 
-                 if( desc == 'light s asd asd asd asd stupid '){
-                   sails.log(sub_item.photos[l].file_name);
-                   sails.log(sub_item.photos[l].photo_id);
+                 if(l < 3){
+                   photos_html += '<div class="img-wrapper1">' +
+                      '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-1-img" />' +
+                      '<div style="font-style: italic; color: #a0a0a0;">'+ photo_date +'</div>'+
+                      '<div>' +
+                      '<a href="'+ server_image_path +  property_id + '/' + sub_item.photos[l].file_name + '">Ref'+ (j + 1) +'</a>' +
+                      '</div>' +
+                      '</div>';
+                 }
+                 else{
+                   break;
                  }
 
-                 photos_html += '<div class="img-wrapper1">' +
-                    '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-1-img" />' +
-                    '<div style="font-style: italic; color: #a0a0a0;">'+ photo_date +'</div>'+
-                    '<div>' +
-                    '<a href="'+ server_image_path +  property_id + '/' + sub_item.photos[l].file_name + '">Ref'+ (j + 1) +'</a>' +
-                    '</div>' +
-                    '</div>';
+
                }
           }
 
@@ -810,7 +811,7 @@ module.exports = {
                    '.report-tbl7 th.col2 {width: 70%;}' +
                    '.right-text{ text-align: right;}' +
                    '.img-wrapper{width: 30%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px;}' +
-                   '.img-wrapper1{width: 20%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px;}' +
+                   '.img-wrapper1{width: 20%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px; min-width: 300px;}' +
                    '.rt-1-img{ width: 100%; height: auto;  display: inline-block; max-width: 300px;}' +
                    '.img-inline-wrapper{ width: 90%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px; }' +
                    '.rt-2-tbl-img{ width: 100%; height: auto; max-width: 300px;}' +
