@@ -642,7 +642,7 @@ module.exports = {
 
             top_photos += '<div style="width: 25%; padding: 10px; background-color: #e1e1e1; display: inline-block; max-width: 300px;">'+
               '<img src="'+ server_image_path +  property_id + '/' + 'report_300_' + (master_item.temp_top_photos[j].file_name.substr(0, master_item.temp_top_photos[j].file_name.lastIndexOf('.')) || master_item.temp_top_photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />' +
-              '<div style="font-style: italic; color: #a0a0a0;">'+ photo_date +'</div>'+
+              '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
               '<div>' +
               '<a href="'+ server_image_path +  property_id + '/' + temp_master_items[i].temp_top_photos[j].file_name + '">Ref'+ (j + 1) +'</a>' +
               '</div></div>';
@@ -701,7 +701,7 @@ module.exports = {
                  if(l < 3){
                    photos_html += '<div class="img-wrapper1">' +
                       '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-1-img" />' +
-                      '<div style="font-style: italic; color: #a0a0a0;">'+ photo_date +'</div>'+
+                      '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
                       '<div>' +
                       '<a href="'+ server_image_path +  property_id + '/' + sub_item.photos[l].file_name + '">Ref'+ (j + 1) +'</a>' +
                       '</div>' +
@@ -714,7 +714,7 @@ module.exports = {
                }
 
               if(sub_item.photos.length > 0){
-                sub_items_html += '<div style="text-align:right; margin-top: 20px; margin-bottom: 20px; width: 100%; padding-right: 10px; page-break-inside: avoid;">' +
+                sub_items_html += '<div style="text-align:center; margin-top: 20px; margin-bottom: 20px; width: 100%; padding-right: 10px; page-break-inside: avoid;">' +
                      photos_html +
                    '</div>';
               }
@@ -742,7 +742,7 @@ module.exports = {
              '</span>' +
            '</div>' +
            '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
-                '<div class="divtable" style="width:30%; display: inline-block;">  Item</div>' +
+                '<div class="divtable" style="width:30%; display: inline-block;">&nbsp;Item</div>' +
                 '<div class="divtable" style="width:50%; display: inline-block;">Description</div>' +
                 '<div class="divtable" style="width:20%; display: inline-block;">Condition</div>' +
               '<div>' +
@@ -823,7 +823,7 @@ module.exports = {
                if(l < 3){
                  photos_html += '<div class="img-wrapper1">' +
                     '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (master_item.photos[l].file_name.substr(0, master_item.photos[l].file_name.lastIndexOf('.')) || master_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-1-img" />' +
-                    '<div style="font-style: italic; color: #a0a0a0;">'+ photo_date +'</div>'+
+                    '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
                     '<div>' +
                     '<a href="'+ server_image_path +  property_id + '/' + master_item.photos[l].file_name + '">Ref'+ (j + 1) +'</a>' +
                     '</div>' +
@@ -836,7 +836,7 @@ module.exports = {
              }
 
             if(master_item.photos.length > 0){
-              sub_items_html += '<div style="text-align:right; padding-top: 20px; padding-bottom: 10px; width:100%; padding-right: 10px; page-break-inside: avoid; ">' +
+              sub_items_html += '<div style="text-align:center; padding-top: 20px; padding-bottom: 10px; width:100%; padding-right: 10px; page-break-inside: avoid; ">' +
                    photos_html +
                  '</div>';
             }
@@ -854,7 +854,7 @@ module.exports = {
             '</span>' +
           '</div>' +
           '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
-               '<div class="divtable" style="width:30%; display: inline-block;">  Item</div>' +
+               '<div class="divtable" style="width:30%; display: inline-block;">&nbsp;Item</div>' +
                '<div class="divtable" style="width:50%; display: inline-block;">Description</div>' +
                '<div class="divtable" style="width:20%; display: inline-block;">Condition</div>' +
              '<div>' +
@@ -899,7 +899,7 @@ module.exports = {
                    '.chapter { width: 100%; display: block; clear: both; page-break-before: always; padding: 20px; margin-top: 30px; margin-bottom: 20px;}'+
                    '.block { display: block; clear: both; padding: 20px;}' +
                    '.heading{ font-size:25px; color: #0088CC; line-height: 28px; margin-bottom: 20px; font-weight: bold;}' +
-                   '.sub-heading{ font-size: 25px; margin-top: 20px; color:' + style_sub_heading_color +'; line-height: 28px; font-weight: bold; background-color: ' + style_sub_heading_bg + '; width: 100%; }' +
+                   '.sub-heading{ font-size: 25px; margin-top: 40px; color:' + style_sub_heading_color +'; line-height: 28px; font-weight: bold; background-color: ' + style_sub_heading_bg + '; width: 100%; }' +
                    'hr { border:0; margin:0; padding:0; height:1px; color:'+ style_sub_heading_color + '; background-color:'+ style_sub_heading_color + '; margin-top: 7px; margin-bottom: 30px;}' +
                    'thead { display: table-header-group; }' +
                    'tfoot { display: table-row-group; }' +
