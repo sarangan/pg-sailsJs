@@ -519,6 +519,7 @@ module.exports = {
               if( sub_item_id == feedback_data[k].item_id && get_master_id == feedback_data[k].parent_id ){
                 //we have our feedback data now
                 temp_feedback = feedback_data[k];
+                break;
               }
             }
 
@@ -541,6 +542,13 @@ module.exports = {
                 photos: temp_photos
               }
             );
+
+            sails.log('-----------------------------------------------');
+            sails.log(temp_feedback);
+            sails.log('-----------------------------------------------');
+            // sails.log('-----------------------------------------------');
+            // sails.log(temp_photos);
+            // sails.log('-----------------------------------------------');
 
           } // match master id with sub item
 
@@ -600,7 +608,7 @@ module.exports = {
 
 
   var master_html = '';
-  for(var i =0, l = temp_master_items.length; i < l ; i++){
+  for(var i =0, masterl = temp_master_items.length; i < masterl; i++){
     sails.log('master items length');
     sails.log(temp_master_items.length);
 
@@ -610,9 +618,7 @@ module.exports = {
     // sub:
     // type: 'SUB',
     // temp_top_photos:
-    sails.log('-----------------------------------------------');
-    sails.log(master_item);
-    sails.log('-----------------------------------------------');
+
 
     if(report_settings.items_details_layout == 'STYLE 1'){
 
@@ -702,7 +708,7 @@ module.exports = {
         }
 
         master_html +=' <div class="chapter">' +
-         '<h1 class="sub-heading">' + get_master_name + '</h1>' +
+         '<h1 class="sub-heading">' + master_item.name + '</h1>' +
          '<hr/><div>' +
           '<div style="margin-top: 20px; margin-bottom: 20px; width:100%;">' +
              top_photos +
