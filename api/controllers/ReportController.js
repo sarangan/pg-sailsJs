@@ -811,7 +811,7 @@ module.exports = {
                    '.report-tbl7 th.col2 {width: 70%;}' +
                    '.right-text{ text-align: right;}' +
                    '.img-wrapper{width: 30%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px;}' +
-                   '.img-wrapper1{width: 20%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px; min-width: 300px;}' +
+                   '.img-wrapper1{width: 20%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px; min-width: 200px; height: auto;}' +
                    '.rt-1-img{ width: 100%; height: auto;  display: inline-block; max-width: 300px;}' +
                    '.img-inline-wrapper{ width: 90%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px; }' +
                    '.rt-2-tbl-img{ width: 100%; height: auto; max-width: 300px;}' +
