@@ -1554,14 +1554,14 @@ module.exports = {
           if(report_settings.photo_collection_layout ==  '2-COL'){
 
             total_photo_html += '<div style="width: 30%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px;">' +
-                 '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (total_photos[l].file_name.substr(0, total_photos[l].file_name.lastIndexOf('.')) || total_photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
+                 '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (total_photos[po].file_name.substr(0, total_photos[po].file_name.lastIndexOf('.')) || total_photos[po].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                  '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
                '</div>';
           }
           else if(report_settings.photo_collection_layout ==  '3-COL'){
 
             total_photo_html += '<div style="width: 25%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px;">' +
-              '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (total_photos[l].file_name.substr(0, total_photos[l].file_name.lastIndexOf('.')) || total_photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
+              '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (total_photos[po].file_name.substr(0, total_photos[po].file_name.lastIndexOf('.')) || total_photos[po].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
               '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
             '</div>';
 
@@ -1569,7 +1569,7 @@ module.exports = {
           else if(report_settings.photo_collection_layout ==  '4-COL'){
 
             total_photo_html += '<div style="width: 20%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px;">' +
-              '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (total_photos[l].file_name.substr(0, total_photos[l].file_name.lastIndexOf('.')) || total_photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
+              '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (total_photos[po].file_name.substr(0, total_photos[po].file_name.lastIndexOf('.')) || total_photos[po].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
               '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
             '</div>';
 
@@ -1599,7 +1599,7 @@ module.exports = {
       var photo_page = '';
       photo_page = '<h1 class="sub-heading" style="margin-top: 20px;">'+ master_item.master.name +'</h1>'+
       '<hr/>' +
-      '<div style="margin-top: 20px; width:100%;">'+
+      '<div style="margin-top: 20px; width:100%;" class="div-img-wrapper">'+
         total_photo_html +
       '</div>';
 
