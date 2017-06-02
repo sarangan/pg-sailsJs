@@ -651,7 +651,7 @@ module.exports = {
 
 
         var sub_items_html = '';
-        
+
 
         for(var j =0, sl = master_item.sub.length; j < sl ; j++){ // sub item loop
 
@@ -672,8 +672,8 @@ module.exports = {
 
            sub_items_html += '<tr>' +
              '<td class="col1"><span class="left-text">'+ sub_item.subitem.item_name +'</span></td>' +
-             '<td class="col2"> <span class="left-text">'+ option +'</span></td>' +
-             '<td class="col3"> <span class="left-text">'+ desc +'</span></td>' +
+             '<td class="col2"> <span class="left-text">'+ desc +'</span></td>' +
+             '<td class="col3"> <span class="left-text">'+ option +'</span></td>' +
            '</tr>';
 
 
@@ -681,6 +681,9 @@ module.exports = {
            if(sub_item.photos){
 
                for(var l =0, pl = sub_item.photos.length; l < pl ; l++){
+
+                 sails.log(desc);
+                  sails.log(sub_item.photos);
 
                  var photo_date = '';
                  if(sub_item.photos[l].mb_createdAt == '0000-00-00 00:00:00' ||  !sub_item.photos[l].mb_createdAt ){
@@ -792,9 +795,9 @@ module.exports = {
                    '.report-tbl3 th.col1 {width: 20%;}' +
                    '.report-tbl3 th.col2 {width: 40%;}' +
                    '.report-tbl3 th.col3 {width: 40%;}' +
-                   '.report-tbl4 th.col1 {width: 20%;}' +
+                   '.report-tbl4 th.col1 {width: 40%;}' +
                    '.report-tbl4 th.col2 {width: 40%;}' +
-                   '.report-tbl4 th.col3 {width: 40%;}' +
+                   '.report-tbl4 th.col3 {width: 20%;}' +
                    '.report-tbl5 th.col1 {width: 25%;}' +
                    '.report-tbl5 th.col2 {width: 35%;}' +
                    '.report-tbl5 th.col3 {width: 40%;}' +
