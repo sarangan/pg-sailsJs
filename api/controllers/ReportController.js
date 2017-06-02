@@ -744,11 +744,9 @@ module.exports = {
              '</span>' +
            '</div>' +
            '<div style="border: 0; width: 100%; margin-bottom: 40px;">' +
-              '<div>' +
                 '<div class="divtable" style="width:30%; display: inline-block;">Item</div>' +
                 '<div class="divtable" style="width:50%; display: inline-block;">Description</div>' +
-                '<div class="divtable" style="width:20%; display: inline-block;">Condition</th>' +
-              '</div>' +
+                '<div class="divtable" style="width:20%; display: inline-block;">Condition</div>' +
               '<div>' +
               sub_items_html +
        '</div></div></div></div>';
@@ -955,7 +953,7 @@ module.exports = {
                    'table, tr, td, th, tbody, thead, tfoot { page-break-inside: avoid !important; }' +
                    'thead, tfoot {display: table-row-group; }' +
                    'table tr img { page-break-after: avoid;}' +
-                   '.divtable { background-color: '+ style_table_header_bg +'; padding: 10px; text-align: left; font-size: 16px; font-weight: bold; color: '+ style_table_header_txt +'; }' +
+                   '.divtable { width:100%; background-color: '+ style_table_header_bg +'; padding: 10px; text-align: left; font-size: 16px; font-weight: bold; color: '+ style_table_header_txt +'; }' +
                    '</style></head><body>' +
 
                       general_notes +
@@ -973,6 +971,8 @@ module.exports = {
               disableSmartShrinking: true,
               encoding : 'utf-8'
             };
+
+            sails.log(html);
 
             return wkhtmltopdf(html, options).pipe(res);
         })
