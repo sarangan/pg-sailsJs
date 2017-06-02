@@ -1599,7 +1599,7 @@ module.exports = {
       var photo_page = '';
       photo_page = '<h1 class="sub-heading" style="margin-top: 20px;">'+ master_item.master.name +'</h1>'+
       '<hr/>' +
-      '<div style="margin-top: 20px; width:100%;" class="div-img-wrapper">'+
+      '<div style="margin-top: 20px; width:100%; text-align:left;" class="div-img-wrapper">'+
         total_photo_html +
       '</div>';
 
@@ -1622,7 +1622,7 @@ module.exports = {
     var style_table_header_txt = report_settings.table_header_color?  report_settings.table_header_color:  '#ffffff';
 
     var jesus_photos = '';
-    if(report_settings.show_photos == 'NO'){
+    if(report_settings.show_photos == 'NO' || report_settings.items_details_layout == 'STYLE 2' ){
       merger_photos_html = '';
     }
     else{
@@ -1631,6 +1631,100 @@ module.exports = {
       merger_photos_html +
       '</div></div>';
     }
+
+    var signature = '';
+    if(report_settings.include_singatures == 1){
+      signature ='<div class="chapter">' +
+        '<h1 class="sub-heading">Declaration</h1>' +
+        '<hr/>' +
+          '<p class="paratxt">' +
+            'Whilst every care has been taken to ensure the accuracy of this schedule, accuracy cannot be guaranteed by the preparer.'+
+          '</p>' +
+          '<p class="paratxt">' +
+            'The Landlord and the Tenant(s) are reminded that it is their responsibility to check the accuracy of this schedule and are advised to sign it in confirmation.' +
+          '</p>' +
+          '<p class="paratxt">' +
+            'This inventory relates only to the furniture, furnishings and all Landlord\'s equipment and contents in the property. It is no guarantee of, or report on, the adequacy of, or safety of any such equipment or contents, merely a record that such items exist in the property at the date of the inventory and the superficial content of same.' +
+          '</p>'+
+          '<p class="paratxt">' +
+            'This is to certify that we the undersigned have carefully checked the foregoing inventory and subject to the marginal notes, consider this to be a fair and correct schedule of condition of the contents therein.' +
+          '</p>' +
+          '<P class="paratxt">'+
+            'The tenant/landlord has 7 days from receipt of this inventory to notify the agent/landlord/inventory company of any discrepancies.' +
+          '</p>' +
+        '<div>'
+
+          '<table style="width: 100%; border: 0; margin-top: 40px; font-size: 14px;">'
+             '<thead>' +
+               '<th style="width: 50%;"></th>' +
+               '<th style="width: 50%;"></th>' +
+             '</thead>' +
+             '<tbody>' +
+                '<tr style="height: 50px;">' +
+                  '<td><span style="font-weight: bold; font-size: 18px; color: #555555">Landlord</span></td>' +
+                  '<td></td>' +
+                '</tr>' +
+                '<tr style="height: 80px;">' +
+                  '<td>' +
+                    '<hr style="border:0; margin:0; padding:0; height:1px; color:#555555; background-color:#555555; width: 60%; "/>' +
+                    '<span>Signature</span>' +
+                  '</td>' +
+                  '<td></td>' +
+                '</tr style="height: 80px;">' +
+                '<tr>' +
+                  '<td>' +
+                    '<hr style="border:0; margin:0; padding:0; height:1px; color:#555555; background-color:#555555; width: 60%; "/>' +
+                    '<span>Print name</span></td>' +
+                  '<td></td>' +
+                '</tr>' +
+                '<tr style="height: 80px;">' +
+                  '<td>' +
+                    '<hr style="border:0; margin:0; padding:0; height:1px; color:#555555; background-color:#555555; width: 35%; "/>' +
+                    '<span>Date</span></td>' +
+                  '<td></td>' +
+                '</tr>'+
+                '<tr style="height: 70px;">' +
+                  '<td><span style="font-weight: bold; font-size: 18px; color: #555555;">Tenant</span></td>' +
+                  '<td><span style="font-weight: bold; font-size: 18px; color: #555555;">Tenant</span></td>' +
+                '</tr>' +
+                '<tr style="height: 50px;">' +
+                  '<td>' +
+                    '<hr style="border:0; margin:0; padding:0; height:1px; color:#555555; background-color:#555555; width: 60%; "/>' +
+                    '<span>Signature</span>' +
+                  '</td>' +
+                  '<td>' +
+                    '<hr style="border:0; margin:0; padding:0; height:1px; color:#555555; background-color:#555555; width: 60%; "/>' +
+                    '<span>Signature</span>' +
+                  '</td>' +
+                '</tr>' +
+                '<tr style="height: 50px;">' +
+                  '<td>' +
+                    '<hr style="border:0; margin:0; padding:0; height:1px; color:#555555; background-color:#555555; width: 60%; "/>' +
+                    '<span>Print name</span>' +
+                  '</td>' +
+                  '<td>' +
+                    '<hr style="border:0; margin:0; padding:0; height:1px; color:#555555; background-color:#555555; width: 60%; "/>' +
+                    '<span>Print name</span>' +
+                  '</td>' +
+                '</tr>' +
+                '<tr style="height: 50px;">' +
+                  '<td>' +
+                    '<hr style="border:0; margin:0; padding:0; height:1px; color:#555555; background-color:#555555; width: 35%; "/>' +
+                    '<span>Date</span>' +
+                  '</td>' +
+                  '<td>' +
+                    '<hr style="border:0; margin:0; padding:0; height:1px; color:#555555; background-color:#555555; width: 35%; "/>' +
+                    '<span>Date</span>' +
+                  '</td>' +
+                '</tr>' +
+
+              '</tbody>' +
+            '</table>' +
+
+        '</div>' +
+      '</div>';
+    }
+
 
 	 	html = '<!DOCTYPE html>'+
              '<html lang="en"><style type="text/css" media="screen,print">'+
