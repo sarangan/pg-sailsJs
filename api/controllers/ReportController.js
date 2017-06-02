@@ -710,7 +710,7 @@ module.exports = {
 
               if(sub_item.photos.length > 0){
                 sub_items_html += '<tr>' +
-                   '<td colspan="3" style="text-align:right;">' +
+                   '<td colspan="3" style="text-align:right; padding-top: 20px; padding-bottom: 10px; ">' +
                      photos_html +
                    '</td>'+
                  '</tr>';
@@ -787,7 +787,7 @@ module.exports = {
                    'hr { border:0; margin:0; padding:0; height:1px; color:'+ style_sub_heading_color + '; background-color:'+ style_sub_heading_color + '; margin-top: 7px; margin-bottom: 30px;}' +
                    'thead { display: table-header-group; }' +
                    'tfoot { display: table-row-group; }' +
-                   //'tr { page-break-inside: avoid; }' +
+                   'tr { page-break-inside: avoid; }' +
                    '.format-table { border: 0; width: 100%; margin-bottom: 40px; }' +
                    '.format-table td{ padding: 10px; border-bottom: 1px solid #E5E5E5; }' +
                    '.format-table tr{ font-size: 14px;  padding: 10px;}' +
