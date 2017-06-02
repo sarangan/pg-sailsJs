@@ -638,7 +638,7 @@ module.exports = {
             }
 
             top_photos += '<div style="width: 25%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px;">'+
-              '<img src="'+ server_image_path +  property_id + '/' + 'report_300_' + (master_item.temp_top_photos[j].file_name.substr(0, master_item.temp_top_photos[j].file_name.lastIndexOf('.')) || master_item.temp_top_photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />'
+              '<img src="'+ server_image_path +  property_id + '/' + 'report_300_' + (master_item.temp_top_photos[j].file_name.substr(0, master_item.temp_top_photos[j].file_name.lastIndexOf('.')) || master_item.temp_top_photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />' +
               '<div style="font-style: italic; color: #a0a0a0;">'+ photo_date +'</div>'+
               '<div>' +
               '<a href="'+ server_image_path +  property_id + '/' + temp_master_items[i].temp_top_photos[j].file_name + '">Ref'+ (j + 1) +'</a>' +
@@ -727,7 +727,6 @@ module.exports = {
           fgeneral = master_item.feedback_general.comment?master_item.feedback_general.comment:'';
         }
 
-        sails.log(top_photos);
 
         master_html +='<div class="chapter">' +
          '<h1 class="sub-heading">' + master_item.master.name + '</h1>' +
@@ -770,7 +769,7 @@ module.exports = {
             }
 
             top_photos += '<div style="width: 25%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px;">'+
-              '<img src="'+ server_image_path +  property_id + '/' + 'report_300_' + (master_item.photos[j].file_name.substr(0, master_item.photos[j].file_name.lastIndexOf('.')) || master_item.photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />'
+              '<img src="'+ server_image_path +  property_id + '/' + 'report_300_' + (master_item.photos[j].file_name.substr(0, master_item.photos[j].file_name.lastIndexOf('.')) || master_item.photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />' +
               '<div style="font-style: italic; color: #a0a0a0;">'+ photo_date +'</div>'+
               '<div>' +
               '<a href="'+ server_image_path +  property_id + '/' + temp_master_items[i].photos[j].file_name + '">Ref'+ (j + 1) +'</a>' +
@@ -843,7 +842,6 @@ module.exports = {
 
         }
 
-        sails.log(top_photos);
         
         master_html +='<div class="chapter">' +
          '<h1 class="sub-heading">' + master_item.master.name + '</h1>' +
