@@ -431,8 +431,8 @@ module.exports = {
               	     general_notes ='<div class="chapter">' +
               	       '<h1 class="sub-heading">General notes and guidance</h1>' +
               	       '<hr/>' +
-              	       '<div style="width:100%;"><b>' + report_settings_notes[i].title +
-              	       '</b></div><br/><div style="width:100%; padding: 10px;">' +
+              	       '<div style="width:100%; padding: 10px; font-weight: bold;">' + report_settings_notes[i].title +
+              	       '</div><div style="width:100%; padding: 10px; margin-top: 10px;">' +
               	       report_settings_notes[i].note +
               	       '</div></div>';
               	   }
@@ -992,7 +992,7 @@ module.exports = {
 
 
                   if(sub_item.photos[l].file_name){
-                    photos_bottom_html += '<div style="width: 20%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px;">' +
+                    photos_bottom_html += '<div style="width: 20%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px; margin-top: 20px;">' +
                        '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                        '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
                        '</div>';
@@ -1025,7 +1025,7 @@ module.exports = {
                   '<div>' +
                   sub_items_html +
            '</div></div>'+
-           '<div style="margin-top: 30px; width:100%;" class="div-img-wrapper">' +
+           '<div style="margin-top: 30px; width:100%; text-align: left;" class="div-img-wrapper">' +
            photos_bottom_html +
            '</div>' +
            '</div></div>';
@@ -1135,7 +1135,7 @@ module.exports = {
 
 
                    if(master_item.photos[l].file_name){
-                     photos_bottom_html += '<div style="width: 20%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px;">' +
+                     photos_bottom_html += '<div style="width: 20%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px; margin-top: 20px;">' +
                         '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (master_item.photos[l].file_name.substr(0, master_item.photos[l].file_name.lastIndexOf('.')) || master_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                         '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
                         '</div>';
@@ -1164,7 +1164,7 @@ module.exports = {
                  '<div>' +
                  sub_items_html +
           '</div></div>'+
-          '<div style="margin-top: 30px; width:100%;" class="div-img-wrapper">' +
+          '<div style="margin-top: 30px; width:100%; text-align: left;" class="div-img-wrapper">' +
           photos_bottom_html +
           '</div>' +
           '</div></div>';
@@ -1206,7 +1206,7 @@ module.exports = {
                    'select{font-family:inherit;font-size:inherit;font-weight:inherit;}input,textarea,' +
                    'select{*font-size:100%;}legend{color:#000;}' +
                    '* { overflow: visible !important; }' +
-                   'html,body { font-family: serif; font-size:16px; }'+
+                   'html,body { font-family: serif; font-size:16px; width: 100% }'+
                    '.chapter { width: 100%; display: block; clear: both; page-break-before: always; padding: 20px; margin:0;  margin-top: 30px; margin-bottom: 20px;}'+
                    '.block { display: block; clear: both; padding: 20px;}' +
                    '.heading{ font-size:25px; color: #0088CC; line-height: 28px; margin-bottom: 20px; font-weight: bold;}' +
