@@ -519,8 +519,6 @@ module.exports = {
               if( sub_item_id == feedback_data[k].item_id && get_master_id == feedback_data[k].parent_id ){
                 //we have our feedback data now
                 temp_feedback = feedback_data[k];
-                sails.log('we found feedback for sub item ');
-                sails.log(feedback_data[k]);
               }
             }
 
@@ -612,7 +610,9 @@ module.exports = {
     // sub:
     // type: 'SUB',
     // temp_top_photos:
-
+    sails.log('-----------------------------------------------');
+    sails.log(master_item);
+    sails.log('-----------------------------------------------');
 
     if(report_settings.items_details_layout == 'STYLE 1'){
 
@@ -658,9 +658,9 @@ module.exports = {
         // photos: temp_photos
 
         for(var j =0, sl = master_item.sub.length; j < sl ; j++){ // sub item loop
-          sails.log('-----------------------------------------------');
-          sails.log(master_item.sub[j].feedback);
-          sails.log('-----------------------------------------------');
+          // sails.log('-----------------------------------------------');
+          // sails.log(master_item.sub[j].feedback);
+          // sails.log('-----------------------------------------------');
            sub_items_html += '<tr>' +
              '<td class="col1"><span class="left-text">'+ master_item.sub[j].subitem.item_name +'</span></td>' +
              '<td class="col2"> <span class="left-text">'+ master_item.sub[j].feedback.option +'</span></td>' +
