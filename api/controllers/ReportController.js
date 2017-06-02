@@ -714,7 +714,7 @@ module.exports = {
                }
 
               if(sub_item.photos.length > 0){
-                sub_items_html += '<div style="text-align:center; margin-top: 20px; margin-bottom: 20px; width: 100%; padding-right: 10px; page-break-inside: avoid;">' +
+                sub_items_html += '<div style="text-align:center; margin-top: 20px; margin-bottom: 20px; width: 100%; padding-right: 10px; page-break-inside: avoid; display:block;">' +
                      photos_html +
                    '</div>';
               }
@@ -836,7 +836,7 @@ module.exports = {
              }
 
             if(master_item.photos.length > 0){
-              sub_items_html += '<div style="text-align:center; padding-top: 20px; padding-bottom: 10px; width:100%; padding-right: 10px; page-break-inside: avoid; ">' +
+              sub_items_html += '<div style="text-align:center; padding-top: 20px; padding-bottom: 10px; width:100%; padding-right: 10px; page-break-inside: avoid; display:block;">' +
                    photos_html +
                  '</div>';
             }
@@ -965,7 +965,10 @@ module.exports = {
 
           	var options = {
               disableSmartShrinking: true,
-              encoding : 'utf-8'
+              encoding : 'utf-8',
+              headerRight: 'Header man',
+              headerSpacing: 10,
+
             };
 
             //sails.log(html);
