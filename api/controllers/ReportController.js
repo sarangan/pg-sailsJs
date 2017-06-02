@@ -661,12 +661,14 @@ module.exports = {
         for(var j =0, sl = master_item.sub.length; j < sl ; j++){ // sub item loop
 
           var sub_item = master_item.sub[j];
-
+          sails.log(sub_item.feedback.option);
+          var option =  sub_item.feedback.option? sub_item.feedback.option : 'NIL';
+          var desc = sub_item.feedback.description? sub_item.feedback.description: 'NIL';
 
            sub_items_html += '<tr>' +
              '<td class="col1"><span class="left-text">'+ sub_item.subitem.item_name +'</span></td>' +
-             '<td class="col2"> <span class="left-text">'+ sub_item.feedback.option? sub_item.feedback.option : 'NIL' +'</span></td>' +
-             '<td class="col3"> <span class="left-text">'+ sub_item.feedback.description?sub_item.feedback.description: 'NIL' +'</span></td>' +
+             '<td class="col2"> <span class="left-text">'+ option +'</span></td>' +
+             '<td class="col3"> <span class="left-text">'+ desc +'</span></td>' +
            '</tr>';
 
 
