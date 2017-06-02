@@ -682,7 +682,8 @@ module.exports = {
 
                for(var l =0, pl = sub_item.photos.length; l < pl ; l++){
 
-                 if( option == 'NEW'){
+                 sails.log(desc);
+                 if( desc == 'light s asd asd asd asd stupid '){
                    sails.log(sub_item.photos);
                  }
 
