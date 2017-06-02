@@ -519,6 +519,9 @@ module.exports = {
               if( sub_item_id == feedback_data[k].item_id && get_master_id == feedback_data[k].parent_id ){
                 //we have our feedback data now
                 temp_feedback = feedback_data[k];
+                sails.log('yes we found feed back');
+                sails.log(temp_feedback);
+
                 break;
               }
             }
@@ -572,6 +575,7 @@ module.exports = {
           if( get_master_id == feedback_data[ik].item_id ){
             //we have our feedback data now
             temp_feedback = feedback_data[ik];
+
           }
         }
 
@@ -622,16 +626,16 @@ module.exports = {
 
     if(report_settings.items_details_layout == 'STYLE 1'){
 
-      sails.log('STYLE 1');
+      //sails.log('STYLE 1');
 
       if(master_item.type == 'SUB' ){
 
-        sails.log('its SUB');
+        //sails.log('its SUB');
 
         var top_photos = '';
         if(master_item.temp_top_photos){
-          sails.log('top photos length');
-          sails.log(master_item.temp_top_photos.length);
+          // sails.log('top photos length');
+          // sails.log(master_item.temp_top_photos.length);
 
           for(var j =0, tl = master_item.temp_top_photos.length; j < tl ; j++){
             var photo_date = '';
@@ -656,8 +660,8 @@ module.exports = {
 
 
         var sub_items_html = '';
-        sails.log('sub items length');
-        sails.log(master_item.sub.length);
+        // sails.log('sub items length');
+        // sails.log(master_item.sub.length);
 
         // subitem: sub_items_data[j],
         // feedback: temp_feedback,
@@ -673,8 +677,8 @@ module.exports = {
              '<td class="col3"> <span class="left-text">'+ master_item.sub[j].feedback.description +'</span></td>' +
            '</tr>';
 
-           sails.log('sub items photos length');
-           sails.log(master_item.sub[j].photos.length);
+          //  sails.log('sub items photos length');
+          //  sails.log(master_item.sub[j].photos.length);
 
            var photos_html = ''
            for(var l =0, pl = master_item.sub[j].photos.length > 3? 3: master_item.sub[j].photos.length  ; l < pl ; l++){
