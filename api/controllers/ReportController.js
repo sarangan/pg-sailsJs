@@ -732,7 +732,7 @@ module.exports = {
            '</div>' +
           ' <div class="rt-2-des">' +
              '<span>' +
-              fgeneral
+              fgeneral +
              '</span>' +
            '</div>' +
            '<table class="format-table report-tbl4">' +
