@@ -674,7 +674,7 @@ module.exports = {
 
            sub_items_html += '<div style="width:100%;">' +
              '<div style="width: 30%; display:inline-block"><span class="left-text">'+ sub_item.subitem.item_name +'</span></div>' +
-             '<div style="width: 50%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
+             '<div style="width: 40%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
              '<div style="width: 20%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
            '</div>';
 
@@ -745,14 +745,14 @@ module.exports = {
            '</div>' +
            '<div style="border: 0; width: 100%; margin-bottom: 40px;">' +
                 '<div class="divtable" style="width:30%; display: inline-block;">Item</div>' +
-                '<div class="divtable" style="width:50%; display: inline-block;">Description</div>' +
+                '<div class="divtable" style="width:40%; display: inline-block;">Description</div>' +
                 '<div class="divtable" style="width:20%; display: inline-block;">Condition</div>' +
               '<div>' +
               sub_items_html +
        '</div></div></div></div>';
 
       }
-      else{
+      else if(master_item.type == 'ITEM' ){
         // item table
         var sub_items_html = '';
         var top_photos = '';
@@ -800,7 +800,7 @@ module.exports = {
 
         sub_items_html += '<div style="width:100%;">' +
            '<div style="width: 30%; display:inline-block"><span class="left-text">'+ master_item.master.name +'</span></div>' +
-           '<div style="width: 50%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
+           '<div style="width: 40%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
            '<div style="width: 20%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
          '</div>';
 
@@ -860,8 +860,8 @@ module.exports = {
           '<div style="border: 0; width: 100%; margin-bottom: 40px;">' +
              '<div>' +
                '<div class="divtable" style="width:30%; display: inline-block;">Item</div>' +
-               '<div class="divtable" style="width:50%; display: inline-block;">Description</div>' +
-               '<div class="divtable" style="width:20%; display: inline-block;">Condition</th>' +
+               '<div class="divtable" style="width:40%; display: inline-block;">Description</div>' +
+               '<div class="divtable" style="width:20%; display: inline-block;">Condition</div>' +
              '</div>' +
              '<div>' +
              sub_items_html +
@@ -972,7 +972,7 @@ module.exports = {
               encoding : 'utf-8'
             };
 
-            sails.log(html);
+            //sails.log(html);
 
             return wkhtmltopdf(html, options).pipe(res);
         })
