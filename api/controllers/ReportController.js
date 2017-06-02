@@ -672,11 +672,11 @@ module.exports = {
             desc = sub_item.feedback.description? sub_item.feedback.description: 'NIL';
           }
 
-           sub_items_html += '<tr>' +
-             '<td class="col1"><span class="left-text">'+ sub_item.subitem.item_name +'</span></td>' +
-             '<td class="col2"> <span class="left-text">'+ desc +'</span></td>' +
-             '<td class="col3"> <span class="left-text">'+ option +'</span></td>' +
-           '</tr>';
+           sub_items_html += '<div style="width:100%;">' +
+             '<div style="width: 30%; display:inline-block"><span class="left-text">'+ sub_item.subitem.item_name +'</span></div>' +
+             '<div style="width: 50%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
+             '<div style="width: 20%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
+           '</div>';
 
 
            var photos_html = ''
@@ -714,11 +714,11 @@ module.exports = {
                }
 
               if(sub_item.photos.length > 0){
-                sub_items_html += '<tr>' +
-                   '<td colspan="3" style="text-align:right; padding-top: 20px; padding-bottom: 10px; ">' +
+                sub_items_html += '<div>' +
+                   '<div style="text-align:right; padding-top: 20px; padding-bottom: 10px; width: 100%;">' +
                      photos_html +
-                   '</td>'+
-                 '</tr>';
+                   '</div>'+
+                 '</div>';
               }
 
           }
@@ -729,6 +729,7 @@ module.exports = {
         if(Object.keys(master_item.feedback_general).length === 0 && master_item.feedback_general.constructor === Object ){
           fgeneral = master_item.feedback_general.comment?master_item.feedback_general.comment:'';
         }
+
 
 
         master_html +='<div class="chapter">' +
@@ -742,15 +743,15 @@ module.exports = {
               fgeneral +
              '</span>' +
            '</div>' +
-           '<table class="format-table report-tbl4">' +
-              '<thead>' +
-                '<th class="col1">Item</th>' +
-                '<th class="col2">Description</th>' +
-                '<th class="col3">Condition</th>' +
-              '</thead>' +
-              '<tbody>' +
+           '<div style="border: 0; width: 100%; margin-bottom: 40px;">' +
+              '<div>' +
+                '<div class="divtable" style="width:30%;">Item</div>' +
+                '<div class="divtable" style="width:50%;">Description</div>' +
+                '<div class="divtable" style="width:20%;">Condition</th>' +
+              '</div>' +
+              '<div>' +
               sub_items_html +
-       '</tbody></table></div></div>';
+       '</div></div></div></div>';
 
       }
       else{
@@ -799,11 +800,11 @@ module.exports = {
           desc = master_item.feedback.description? master_item.feedback.description: 'NIL';
         }
 
-         sub_items_html += '<tr>' +
-           '<td class="col1"><span class="left-text">'+  master_item.master.name  +'</span></td>' +
-           '<td class="col2"> <span class="left-text">'+ desc +'</span></td>' +
-           '<td class="col3"> <span class="left-text">'+ option +'</span></td>' +
-         '</tr>';
+        sub_items_html += '<div style="width:100%;">' +
+           '<div style="width: 30%; display:inline-block"><span class="left-text">'+ master_item.master.name +'</span></div>' +
+           '<div style="width: 50%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
+           '<div style="width: 20%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
+         '</div>';
 
          var photos_html = ''
          if(master_item.photos){
@@ -839,34 +840,34 @@ module.exports = {
              }
 
             if(master_item.photos.length > 0){
-              sub_items_html += '<tr>' +
-                 '<td colspan="3" style="text-align:right; padding-top: 20px; padding-bottom: 10px; ">' +
+              sub_items_html += '<div>' +
+                 '<div style="text-align:right; padding-top: 20px; padding-bottom: 10px; width:100%;">' +
                    photos_html +
-                 '</td>'+
-               '</tr>';
+                 '</div>'+
+               '</div>';
             }
 
         }
 
-        master_html +='<div class="chapter">' +
-         '<h1 class="sub-heading">' + master_item.master.name + '</h1>' +
-         '<hr/><div>' +
-          '<div style="margin-top: 20px; margin-bottom: 20px; width:100%;">' +
-             top_photos +
-           '</div>' +
-          ' <div class="rt-2-des">' +
-             '<span>' +
-             '</span>' +
-           '</div>' +
-           '<table class="format-table report-tbl4">' +
-              '<thead>' +
-                '<th class="col1">Item</th>' +
-                '<th class="col2">Description</th>' +
-                '<th class="col3">Condition</th>' +
-              '</thead>' +
-              '<tbody>' +
-              sub_items_html +
-       '</tbody></table></div></div>';
+       master_html +='<div class="chapter">' +
+        '<h1 class="sub-heading">' + master_item.master.name + '</h1>' +
+        '<hr/><div>' +
+         '<div style="margin-top: 20px; margin-bottom: 20px; width:100%;">' +
+            top_photos +
+          '</div>' +
+         ' <div class="rt-2-des">' +
+            '<span>' +
+            '</span>' +
+          '</div>' +
+          '<div style="border: 0; width: 100%; margin-bottom: 40px;">' +
+             '<div>' +
+               '<div class="divtable" style="width:30%;">Item</div>' +
+               '<div class="divtable" style="width:50%;">Description</div>' +
+               '<div class="divtable" style="width:20%;">Condition</th>' +
+             '</div>' +
+             '<div>' +
+             sub_items_html +
+      '</div></div></div></div>';
 
 
       } //item end
@@ -954,7 +955,9 @@ module.exports = {
                    'table, tr, td, th, tbody, thead, tfoot { page-break-inside: avoid !important; }' +
                    'thead, tfoot {display: table-row-group; }' +
                    'table tr img { page-break-after: avoid;}' +
+                   '.divtable { background-color: '+ style_table_header_bg +'; padding: 10px; text-align: left; font-size: 16px; font-weight: bold; color: '+ style_table_header_txt +'; }' +
                    '</style></head><body>' +
+
                       general_notes +
                       general_conditiions_html +
                       meter_html +
