@@ -674,7 +674,7 @@ module.exports = {
 
            sub_items_html += '<div class="divrow">' +
              '<div style="width: 30%; display:inline-block"><span class="left-text">'+ sub_item.subitem.item_name +'</span></div>' +
-             '<div style="width: 40%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
+             '<div style="width: 50%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
              '<div style="width: 20%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
            '</div>';
 
@@ -714,11 +714,10 @@ module.exports = {
                }
 
               if(sub_item.photos.length > 0){
-                sub_items_html += '<div>' +
-                   '<div style="text-align:right; padding-top: 20px; padding-bottom: 10px; width: 100%;">' +
+                sub_items_html += '<div style="text-align:right; margin-top: 20px; margin-bottom: 20px; width: 100%;">' +
                      photos_html +
                    '</div>'+
-                 '</div>';
+                 ;
               }
 
           }
@@ -735,17 +734,17 @@ module.exports = {
         master_html +='<div class="chapter">' +
          '<h1 class="sub-heading">' + master_item.master.name + '</h1>' +
          '<hr/><div>' +
-          '<div style="margin-top: 20px; margin-bottom: 20px; width:100%;">' +
+          '<div style="margin-top: 30px; margin-bottom: 10px; width:100%;">' +
              top_photos +
            '</div>' +
-          ' <div class="rt-2-des">' +
+          ' <div>' +
              '<span>' +
               fgeneral +
              '</span>' +
            '</div>' +
-           '<div style="border: 0; width: 100%; margin-bottom: 40px;">' +
+           '<div style="border: 0; width: 100%; margin-top: 30px;">' +
                 '<div class="divtable" style="width:30%; display: inline-block;">Item</div>' +
-                '<div class="divtable" style="width:40%; display: inline-block;">Description</div>' +
+                '<div class="divtable" style="width:50%; display: inline-block;">Description</div>' +
                 '<div class="divtable" style="width:20%; display: inline-block;">Condition</div>' +
               '<div>' +
               sub_items_html +
@@ -800,7 +799,7 @@ module.exports = {
 
         sub_items_html += '<div class="divrow">' +
            '<div style="width: 30%; display:inline-block"><span class="left-text">'+ master_item.master.name +'</span></div>' +
-           '<div style="width: 40%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
+           '<div style="width: 50%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
            '<div style="width: 20%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
          '</div>';
 
@@ -857,7 +856,7 @@ module.exports = {
             '<span>' +
             '</span>' +
           '</div>' +
-          '<div style="border: 0; width: 100%; margin-bottom: 40px;">' +
+          '<div style="border: 0; width: 100%; margin-top: 30px;">' +
              '<div>' +
                '<div class="divtable" style="width:30%; display: inline-block;">Item</div>' +
                '<div class="divtable" style="width:40%; display: inline-block;">Description</div>' +
@@ -954,7 +953,8 @@ module.exports = {
                    'thead, tfoot {display: table-row-group; }' +
                    'table tr img { page-break-after: avoid;}' +
                    '.divtable { margin-top: 30px; width:100%; background-color: '+ style_table_header_bg +'; padding: 10px; text-align: left; font-size: 16px; font-weight: bold; color: '+ style_table_header_txt +'; }' +
-                   '.divrow {width:100%; padding: 10px; border-bottom: 1px solid #E5E5E5; }' +
+                   '.divrow {width:100%; padding: 10px; border-top: 1px solid #E5E5E5; }' +
+                   '.divrow-noborder {width:100%; padding: 10px;}' +
                    '</style></head><body>' +
 
                       general_notes +
