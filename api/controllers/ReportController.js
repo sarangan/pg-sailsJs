@@ -1112,7 +1112,7 @@ module.exports = {
 
            master_html +='<div class="chapter">' +
             '<h1 class="sub-heading">' + master_item.master.name + '</h1>' +
-            '<hr/><div>' +
+            '<hr/><div style="margin:0; width:100%;">' +
              '<div style="margin-top: 20px; margin-bottom: 20px; width:100%;">' +
                 top_photos +
               '</div>' +
@@ -1211,12 +1211,12 @@ module.exports = {
                    '.img-wrapper{width: 30%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px;}' +
                    '.img-wrapper1{width: 20%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px; min-width: 200px; height: auto;}' +
                    '.rt-1-img{ width: 100%; height: auto;  display: inline-block; max-width: 300px;}' +
-                   '.img-inline-wrapper{ width: 90%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px; }' +
+                   '.img-inline-wrapper{ width: 80%; padding: 10px; background-color: #e1e1e1; display: inline-block; max-width: 300px; }' +
                    '.rt-2-tbl-img{ width: 100%; height: auto; max-width: 300px;}' +
                    '.report-tbl2{ margin-top: 20px;}' +
                    '.rt-2-top-img-wrapper{ margin-bottom: 10px; }' +
                    '.report-tbl3{ margin-top: 20px;}' +
-                   '.img-tblrow-wrapper{ width: 20%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px;}' +
+                   '.img-tblrow-wrapper{ width: 20%; padding: 10px; background-color: #e1e1e1; display: inline-block; max-width: 300px;}' +
                    '.rt-3-tbl-img{ width: 100%; height: auto; max-width: 300px;}' +
                    '.paratxt {font-size: 14px; margin-bottom: 10px;}' +
                    'table, tr, td, th, tbody, thead, tfoot { page-break-inside: avoid !important; }' +
