@@ -745,9 +745,9 @@ module.exports = {
            '</div>' +
            '<div style="border: 0; width: 100%; margin-bottom: 40px;">' +
               '<div>' +
-                '<div class="divtable" style="width:30%;">Item</div>' +
-                '<div class="divtable" style="width:50%;">Description</div>' +
-                '<div class="divtable" style="width:20%;">Condition</th>' +
+                '<div class="divtable" style="width:30%; display: inline-block;">Item</div>' +
+                '<div class="divtable" style="width:50%; display: inline-block;">Description</div>' +
+                '<div class="divtable" style="width:20%; display: inline-block;">Condition</th>' +
               '</div>' +
               '<div>' +
               sub_items_html +
@@ -861,9 +861,9 @@ module.exports = {
           '</div>' +
           '<div style="border: 0; width: 100%; margin-bottom: 40px;">' +
              '<div>' +
-               '<div class="divtable" style="width:30%;">Item</div>' +
-               '<div class="divtable" style="width:50%;">Description</div>' +
-               '<div class="divtable" style="width:20%;">Condition</th>' +
+               '<div class="divtable" style="width:30%; display: inline-block;">Item</div>' +
+               '<div class="divtable" style="width:50%; display: inline-block;">Description</div>' +
+               '<div class="divtable" style="width:20%; display: inline-block;">Condition</th>' +
              '</div>' +
              '<div>' +
              sub_items_html +
@@ -904,7 +904,7 @@ module.exports = {
                    'select{*font-size:100%;}legend{color:#000;}' +
                    '* { overflow: visible !important; }' +
                    'html,body { font-family: serif; font-size:14px; }'+
-                   '.chapter { display: block; clear: both; page-break-before: always; padding: 20px; margin-top: 30px; margin-bottom: 20px;}'+
+                   '.chapter { width: 100%; display: block; clear: both; page-break-before: always; padding: 20px; margin-top: 30px; margin-bottom: 20px;}'+
                    '.block { display: block; clear: both; padding: 20px;}' +
                    '.heading{ font-size:25px; color: #0088CC; line-height: 28px; margin-bottom: 20px; font-weight: bold;}' +
                    '.sub-heading{ font-size: 25px; margin-top: 20px; color:' + style_sub_heading_color +'; line-height: 28px; font-weight: bold; background-color: ' + style_sub_heading_bg + '; width: 100%; }' +
