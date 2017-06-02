@@ -476,7 +476,7 @@ module.exports = {
 
     var meter_html = '';
     if(meter_data){
-        meter_html = '<div class="chapter"><h1 class="sub-heading">Meater Reading</h1><hr/><div><table class="format-table report-tbl7"><thead><th class="col1">IMAGE</th><th class="col2">Condition</th><tbody>';
+        meter_html = '<div class="chapter"><h1 class="sub-heading">Meater Reading</h1><hr/><div><table class="format-table report-tbl7"><thead><th class="col1">Image</th><th class="col2">Condition</th><tbody>';
 
         for(var i =0, l = meter_data.length; i < l ; i++){
           if(meter_data[i].photo){
@@ -533,7 +533,7 @@ module.exports = {
               if( sub_item_id == photo_data[l].item_id && get_master_id == photo_data[l].parent_id ){
                 //we have our photo data now
                 temp_photos.push(photo_data[l]);
-                if(l == 0){
+                if(l < 3 ){
                   temp_top_photos.push(photo_data[l]);
                 }
               }
@@ -648,8 +648,6 @@ module.exports = {
 
 
         var sub_items_html = '';
-
-
         for(var j =0, sl = master_item.sub.length; j < sl ; j++){ // sub item loop
 
           var sub_item = master_item.sub[j];
@@ -747,6 +745,121 @@ module.exports = {
        '</tbody></table></div></div>';
 
       }
+      else{
+        // item table
+        var sub_items_html = '';
+        var top_photos = '';
+        if(master_item.photos){
+          for(var j =0, tl = master_item.photos.length; j < tl ; j++){
+            var photo_date = '';
+            if(master_item.photos[j].mb_createdAt == '0000-00-00 00:00:00' ||  !master_item.photos[j].mb_createdAt ){
+              photo_date = master_item.photos[j].createdAt;
+            }
+            else{
+              photo_date = master_item.photos[j].mb_createdAt;
+            }
+
+            if(report_settings.show_photo_date_time != 1){
+              photo_date = '';
+            }
+
+            top_photos += '<div style="width: 25%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px;">'+
+              '<img src="'+ server_image_path +  property_id + '/' + 'report_300_' + (master_item.photos[j].file_name.substr(0, master_item.photos[j].file_name.lastIndexOf('.')) || master_item.photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />'
+              '<div style="font-style: italic; color: #a0a0a0;">'+ photo_date +'</div>'+
+              '<div>' +
+              '<a href="'+ server_image_path +  property_id + '/' + temp_master_items[i].photos[j].file_name + '">Ref'+ (j + 1) +'</a>' +
+              '</div></div>';
+
+              if(j > 2){
+                break;
+              }
+          }
+        }
+
+        var option = 'NIL';
+        var desc = 'NIL';
+
+        if(Object.keys(master_item.feedback).length === 0 && master_item.feedback.constructor === Object ){
+          option = 'NIL';
+          desc = 'NIL';
+        }
+        else{
+          option =  master_item.feedback.option? master_item.feedback.option : 'NIL';
+          desc = master_item.feedback.description? master_item.feedback.description: 'NIL';
+        }
+
+         sub_items_html += '<tr>' +
+           '<td class="col1"><span class="left-text">'+  master_item.master.name  +'</span></td>' +
+           '<td class="col2"> <span class="left-text">'+ desc +'</span></td>' +
+           '<td class="col3"> <span class="left-text">'+ option +'</span></td>' +
+         '</tr>';
+
+         var photos_html = ''
+         if(master_item.photos){
+             for(var l =0, pl = master_item.photos.length; l < pl ; l++){
+
+               var photo_date = '';
+               if(master_item.photos[l].mb_createdAt == '0000-00-00 00:00:00' ||  !master_item.photos[l].mb_createdAt ){
+                 photo_date = master_item.photos[l].createdAt;
+               }
+               else{
+                 photo_date = master_item.photos[l].mb_createdAt;
+               }
+               if(report_settings.show_photo_date_time != 1){
+                 photo_date = '';
+               }
+               else{
+                 photo_date = photo_date.toISOString().slice(0, 19).replace('T', ' ');
+               }
+
+               if(l < 3){
+                 photos_html += '<div class="img-wrapper1">' +
+                    '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (master_item.photos[l].file_name.substr(0, master_item.photos[l].file_name.lastIndexOf('.')) || master_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-1-img" />' +
+                    '<div style="font-style: italic; color: #a0a0a0;">'+ photo_date +'</div>'+
+                    '<div>' +
+                    '<a href="'+ server_image_path +  property_id + '/' + master_item.photos[l].file_name + '">Ref'+ (j + 1) +'</a>' +
+                    '</div>' +
+                    '</div>';
+               }
+               else{
+                 break;
+               }
+
+             }
+
+            if(master_item.photos.length > 0){
+              sub_items_html += '<tr>' +
+                 '<td colspan="3" style="text-align:right; padding-top: 20px; padding-bottom: 10px; ">' +
+                   photos_html +
+                 '</td>'+
+               '</tr>';
+            }
+
+        }
+
+
+        master_html +='<div class="chapter">' +
+         '<h1 class="sub-heading">' + master_item.master.name + '</h1>' +
+         '<hr/><div>' +
+          '<div style="margin-top: 20px; margin-bottom: 20px; width:100%;">' +
+             top_photos +
+           '</div>' +
+          ' <div class="rt-2-des">' +
+             '<span>' +
+             '</span>' +
+           '</div>' +
+           '<table class="format-table report-tbl4">' +
+              '<thead>' +
+                '<th class="col1">Item</th>' +
+                '<th class="col2">Description</th>' +
+                '<th class="col3">Condition</th>' +
+              '</thead>' +
+              '<tbody>' +
+              sub_items_html +
+       '</tbody></table></div></div>';
+
+
+      } //item end
 
 
     }
