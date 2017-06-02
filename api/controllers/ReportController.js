@@ -519,6 +519,8 @@ module.exports = {
               if( sub_item_id == feedback_data[k].item_id && get_master_id == feedback_data[k].parent_id ){
                 //we have our feedback data now
                 temp_feedback = feedback_data[k];
+                sails.log('we found feedback for sub item ');
+                sails.log(feedback_data[k]);
               }
             }
 
@@ -603,33 +605,42 @@ module.exports = {
   for(var i =0, l = temp_master_items.length; i < l ; i++){
     sails.log('master items length');
     sails.log(temp_master_items.length);
+
+    var get_master_name = temp_master_items[i].name;
+    var master_item = temp_master_items[i];
+    // master:
+    // sub:
+    // type: 'SUB',
+    // temp_top_photos:
+
+
     if(report_settings.items_details_layout == 'STYLE 1'){
 
       sails.log('STYLE 1');
 
-      if(temp_master_items[i].type == 'SUB' ){
+      if(master_item.type == 'SUB' ){
 
         sails.log('its SUB');
 
         var top_photos = '';
-        if(temp_master_items[i].temp_top_photos){
+        if(master_item.temp_top_photos){
           sails.log('top photos length');
-          sails.log(temp_master_items[i].temp_top_photos.length);
+          sails.log(master_item.temp_top_photos.length);
 
-          for(var j =0, tl = temp_master_items[i].temp_top_photos.length; j < tl ; j++){
+          for(var j =0, tl = master_item.temp_top_photos.length; j < tl ; j++){
             var photo_date = '';
-            if(temp_master_items[i].temp_top_photos[j].mb_createdAt == '0000-00-00 00:00:00' ||  !temp_master_items[i].temp_top_photos[j].mb_createdAt ){
-              photo_date = temp_master_items[i].temp_top_photos[j].createdAt;
+            if(master_item.temp_top_photos[j].mb_createdAt == '0000-00-00 00:00:00' ||  !master_item.temp_top_photos[j].mb_createdAt ){
+              photo_date = master_item.temp_top_photos[j].createdAt;
             }
             else{
-              photo_date = temp_master_items[i].temp_top_photos[j].mb_createdAt;
+              photo_date = master_item.temp_top_photos[j].mb_createdAt;
             }
             if(report_settings.show_photo_date_time != 1){
               photo_date = '';
             }
 
             top_photos += '<div style="width: 25%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px;">'+
-              '<img src="'+ server_image_path +  property_id + '/' + '300_' + (temp_master_items[i].temp_top_photos[j].file_name.substr(0, temp_master_items[i].temp_top_photos[j].file_name.lastIndexOf('.')) || temp_master_items[i].temp_top_photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />'
+              '<img src="'+ server_image_path +  property_id + '/' + '300_' + (master_item.temp_top_photos[j].file_name.substr(0, master_item.temp_top_photos[j].file_name.lastIndexOf('.')) || master_item.temp_top_photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />'
               '<div style="font-style: italic; color: #a0a0a0;">'+ photo_date +'</div>'+
               '<div>' +
               '<a href="'+ server_image_path +  property_id + '/' + temp_master_items[i].temp_top_photos[j].file_name + '">Ref'+ (j + 1) +'</a>' +
@@ -640,36 +651,43 @@ module.exports = {
 
         var sub_items_html = '';
         sails.log('sub items length');
-        sails.log(temp_master_items[i].sub.length);
+        sails.log(master_item.sub.length);
 
-        for(var j =0, sl = temp_master_items[i].sub.length; j < sl ; j++){ // sub item loop
+        // subitem: sub_items_data[j],
+        // feedback: temp_feedback,
+        // photos: temp_photos
+
+        for(var j =0, sl = master_item.sub.length; j < sl ; j++){ // sub item loop
+          sails.log('-----------------------------------------------');
+          sails.log(master_item.sub[j].feedback);
+          sails.log('-----------------------------------------------');
            sub_items_html += '<tr>' +
-             '<td class="col1"><span class="left-text">'+ temp_master_items[i].sub[j].subitem.item_name +'</span></td>' +
-             '<td class="col2"> <span class="left-text">'+ temp_master_items[i].sub[j].feedback.option +'</span></td>' +
-             '<td class="col3"> <span class="left-text">'+ temp_master_items[i].sub[j].feedback.description +'</span></td>' +
+             '<td class="col1"><span class="left-text">'+ master_item.sub[j].subitem.item_name +'</span></td>' +
+             '<td class="col2"> <span class="left-text">'+ master_item.sub[j].feedback.option +'</span></td>' +
+             '<td class="col3"> <span class="left-text">'+ master_item.sub[j].feedback.description +'</span></td>' +
            '</tr>';
 
            sails.log('sub items photos length');
-           sails.log(temp_master_items[i].sub[j].photos.length);
+           sails.log(master_item.sub[j].photos.length);
 
            var photos_html = ''
-           for(var l =0, pl = temp_master_items[i].sub[j].photos.length > 3? 3: temp_master_items[i].sub[j].photos.length  ; l < pl ; l++){
+           for(var l =0, pl = master_item.sub[j].photos.length > 3? 3: master_item.sub[j].photos.length  ; l < pl ; l++){
              var photo_date = '';
-             if(temp_master_items[i].sub[j].photos[l].mb_createdAt == '0000-00-00 00:00:00' ||  !temp_master_items[i].sub[j].photos[l].mb_createdAt ){
-               photo_date = temp_master_items[i].sub[j].photos[l].createdAt;
+             if(master_item.sub[j].photos[l].mb_createdAt == '0000-00-00 00:00:00' ||  !master_item.sub[j].photos[l].mb_createdAt ){
+               photo_date = master_item.sub[j].photos[l].createdAt;
              }
              else{
-               photo_date = temp_master_items[i].sub[j].photos[l].mb_createdAt;
+               photo_date = master_item.sub[j].photos[l].mb_createdAt;
              }
              if(report_settings.show_photo_date_time != 1){
                photo_date = '';
              }
 
              photos_html = '<div class="img-wrapper1">' +
-                '<img src="' + + server_image_path +  property_id + '/' + '300_' + (temp_master_items[i].sub[j].photos[l].file_name.substr(0, temp_master_items[i].sub[j].photos[l].file_name.lastIndexOf('.')) || temp_master_items[i].sub[j].photos[l].file_name) + '.jpg' + '" alt="img" class="rt-1-img" />' +
+                '<img src="' + + server_image_path +  property_id + '/' + '300_' + (master_item.sub[j].photos[l].file_name.substr(0, master_item.sub[j].photos[l].file_name.lastIndexOf('.')) || master_item.sub[j].photos[l].file_name) + '.jpg' + '" alt="img" class="rt-1-img" />' +
                 '<div style="font-style: italic; color: #a0a0a0;">'+ photo_date +'</div>'+
                 '<div>' +
-                '<a href="'+ server_image_path +  property_id + '/' + temp_master_items[i].temp_top_photos[j].file_name + '">Ref'+ (j + 1) +'</a>' +
+                '<a href="'+ server_image_path +  property_id + '/' + master_item.temp_top_photos[j].file_name + '">Ref'+ (j + 1) +'</a>' +
                 '</div>' +
                 '</div>';
            }
@@ -684,7 +702,7 @@ module.exports = {
         }
 
         master_html +=' <div class="chapter">' +
-         '<h1 class="sub-heading">' + temp_master_items[i].name + '</h1>' +
+         '<h1 class="sub-heading">' + get_master_name + '</h1>' +
          '<hr/><div>' +
           '<div style="margin-top: 20px; margin-bottom: 20px; width:100%;">' +
              top_photos +
@@ -710,8 +728,6 @@ module.exports = {
 
   }// end of master
 
-  sails.log('master_html');
-  sails.log(master_html);
 
     var style_sub_heading_color = report_settings.page_header_color?  report_settings.page_header_color:  '#797979';
     var style_sub_heading_bg = '#ffffff';
