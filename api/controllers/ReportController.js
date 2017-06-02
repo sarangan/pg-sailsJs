@@ -606,8 +606,6 @@ module.exports = {
 
   var master_html = '';
   for(var i =0, masterl = temp_master_items.length; i < masterl; i++){
-    // sails.log('master items length');
-    // sails.log(temp_master_items.length);
 
     var master_item = temp_master_items[i];
     // master:
@@ -615,8 +613,8 @@ module.exports = {
     // type: 'SUB',
     // temp_top_photos:
 
-    sails.log(master_item);
-
+    //sails.log(master_item);
+    sails.log('-----------------------------------------------');
 
     if(report_settings.items_details_layout == 'STYLE 1'){
 
@@ -665,36 +663,42 @@ module.exports = {
           // sails.log('-----------------------------------------------');
           // sails.log(master_item.sub[j].feedback);
           // sails.log('-----------------------------------------------');
+          var sub_item = master_item.sub[j];
+
            sub_items_html += '<tr>' +
-             '<td class="col1"><span class="left-text">'+ master_item.sub[j].subitem.item_name +'</span></td>' +
-             '<td class="col2"> <span class="left-text">'+ master_item.sub[j].feedback.option +'</span></td>' +
-             '<td class="col3"> <span class="left-text">'+ master_item.sub[j].feedback.description +'</span></td>' +
+             '<td class="col1"><span class="left-text">'+ sub_item.subitem.item_name +'</span></td>' +
+             '<td class="col2"> <span class="left-text">'+ sub_item.feedback.option +'</span></td>' +
+             '<td class="col3"> <span class="left-text">'+ sub_item.feedback.description +'</span></td>' +
            '</tr>';
 
           //  sails.log('sub items photos length');
-          //  sails.log(master_item.sub[j].photos.length);
-
+            sails.log(sub_item.photos);
+            sails.log('-----------------------------------------------');
+            
            var photos_html = ''
-           for(var l =0, pl = master_item.sub[j].photos.length > 3? 3: master_item.sub[j].photos.length  ; l < pl ; l++){
-             var photo_date = '';
-             if(master_item.sub[j].photos[l].mb_createdAt == '0000-00-00 00:00:00' ||  !master_item.sub[j].photos[l].mb_createdAt ){
-               photo_date = master_item.sub[j].photos[l].createdAt;
-             }
-             else{
-               photo_date = master_item.sub[j].photos[l].mb_createdAt;
-             }
-             if(report_settings.show_photo_date_time != 1){
-               photo_date = '';
-             }
+           if(sub_item.photos){
 
-             photos_html = '<div class="img-wrapper1">' +
-                '<img src="' + + server_image_path +  property_id + '/' + '300_' + (master_item.sub[j].photos[l].file_name.substr(0, master_item.sub[j].photos[l].file_name.lastIndexOf('.')) || master_item.sub[j].photos[l].file_name) + '.jpg' + '" alt="img" class="rt-1-img" />' +
-                '<div style="font-style: italic; color: #a0a0a0;">'+ photo_date +'</div>'+
-                '<div>' +
-                '<a href="'+ server_image_path +  property_id + '/' + master_item.temp_top_photos[j].file_name + '">Ref'+ (j + 1) +'</a>' +
-                '</div>' +
-                '</div>';
-           }
+               for(var l =0, pl = sub_item.photos.length > 3? 3: sub_item.photos.length  ; l < pl ; l++){
+                 var photo_date = '';
+                 if(sub_item.photos[l].mb_createdAt == '0000-00-00 00:00:00' ||  !sub_item.photos[l].mb_createdAt ){
+                   photo_date = sub_item.photos[l].createdAt;
+                 }
+                 else{
+                   photo_date = sub_item.photos[l].mb_createdAt;
+                 }
+                 if(report_settings.show_photo_date_time != 1){
+                   photo_date = '';
+                 }
+
+                 photos_html = '<div class="img-wrapper1">' +
+                    '<img src="' + + server_image_path +  property_id + '/' + '300_' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-1-img" />' +
+                    '<div style="font-style: italic; color: #a0a0a0;">'+ photo_date +'</div>'+
+                    '<div>' +
+                    '<a href="'+ server_image_path +  property_id + '/' + master_item.temp_top_photos[j].file_name + '">Ref'+ (j + 1) +'</a>' +
+                    '</div>' +
+                    '</div>';
+               }
+          }
 
            sub_items_html += '<tr>' +
              '<td class="col1"></td>' +
