@@ -714,7 +714,7 @@ module.exports = {
                }
 
               if(sub_item.photos.length > 0){
-                sub_items_html += '<div style="text-align:right; margin-top: 20px; margin-bottom: 20px; width: 100%;">' +
+                sub_items_html += '<div style="text-align:right; margin-top: 20px; margin-bottom: 20px; width: 100%; padding-right: 10px; page-break-inside: avoid;">' +
                      photos_html +
                    '</div>';
               }
@@ -742,9 +742,9 @@ module.exports = {
              '</span>' +
            '</div>' +
            '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
-                '<div class="divtable" style="width:30%; display: inline-block;"> Item</div>' +
-                '<div class="divtable" style="width:50%; display: inline-block;"> Description</div>' +
-                '<div class="divtable" style="width:20%; display: inline-block;"> Condition</div>' +
+                '<div class="divtable" style="width:30%; display: inline-block;">  Item</div>' +
+                '<div class="divtable" style="width:50%; display: inline-block;">Description</div>' +
+                '<div class="divtable" style="width:20%; display: inline-block;">Condition</div>' +
               '<div>' +
               sub_items_html +
        '</div></div></div></div>';
@@ -836,11 +836,9 @@ module.exports = {
              }
 
             if(master_item.photos.length > 0){
-              sub_items_html += '<div>' +
-                 '<div style="text-align:right; padding-top: 20px; padding-bottom: 10px; width:100%;">' +
+              sub_items_html += '<div style="text-align:right; padding-top: 20px; padding-bottom: 10px; width:100%; padding-right: 10px; page-break-inside: avoid; ">' +
                    photos_html +
-                 '</div>'+
-               '</div>';
+                 '</div>';
             }
 
         }
@@ -856,8 +854,8 @@ module.exports = {
             '</span>' +
           '</div>' +
           '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
-               '<div class="divtable" style="width:30%; display: inline-block;">Item</div>' +
-               '<div class="divtable" style="width:40%; display: inline-block;">Description</div>' +
+               '<div class="divtable" style="width:30%; display: inline-block;">  Item</div>' +
+               '<div class="divtable" style="width:50%; display: inline-block;">Description</div>' +
                '<div class="divtable" style="width:20%; display: inline-block;">Condition</div>' +
              '<div>' +
              sub_items_html +
@@ -897,7 +895,7 @@ module.exports = {
                    'select{font-family:inherit;font-size:inherit;font-weight:inherit;}input,textarea,' +
                    'select{*font-size:100%;}legend{color:#000;}' +
                    '* { overflow: visible !important; }' +
-                   'html,body { font-family: serif; font-size:14px; }'+
+                   'html,body { font-family: serif; font-size:16px; }'+
                    '.chapter { width: 100%; display: block; clear: both; page-break-before: always; padding: 20px; margin-top: 30px; margin-bottom: 20px;}'+
                    '.block { display: block; clear: both; padding: 20px;}' +
                    '.heading{ font-size:25px; color: #0088CC; line-height: 28px; margin-bottom: 20px; font-weight: bold;}' +
@@ -950,7 +948,7 @@ module.exports = {
                    'thead, tfoot {display: table-row-group; }' +
                    'table tr img { page-break-after: avoid;}' +
                    '.divtable { margin-top: 30px; width:100%; background-color: '+ style_table_header_bg +'; padding-top: 10px; padding-bottom: 10px; text-align: left; font-size: 16px; font-weight: bold; color: '+ style_table_header_txt +'; }' +
-                   '.divrow {width:100%; padding: 10px; border-top: 1px solid #E5E5E5; }' +
+                   '.divrow {width:100%; padding: 10px; border-top: 1px solid #E5E5E5;  page-break-inside: avoid; }' +
                    '.divrow-noborder {width:100%; padding: 10px;}' +
                    '</style></head><body>' +
 
