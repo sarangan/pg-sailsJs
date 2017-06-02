@@ -614,7 +614,6 @@ module.exports = {
     // temp_top_photos:
 
     //sails.log(master_item);
-    sails.log('-----------------------------------------------');
 
     if(report_settings.items_details_layout == 'STYLE 1'){
 
@@ -660,34 +659,21 @@ module.exports = {
         // photos: temp_photos
 
         for(var j =0, sl = master_item.sub.length; j < sl ; j++){ // sub item loop
-          // sails.log('-----------------------------------------------');
-          // sails.log(master_item.sub[j].feedback);
-          // sails.log('-----------------------------------------------');
+
           var sub_item = master_item.sub[j];
+
 
            sub_items_html += '<tr>' +
              '<td class="col1"><span class="left-text">'+ sub_item.subitem.item_name +'</span></td>' +
-             '<td class="col2"> <span class="left-text">'+ sub_item.feedback.option +'</span></td>' +
-             '<td class="col3"> <span class="left-text">'+ sub_item.feedback.description +'</span></td>' +
+             '<td class="col2"> <span class="left-text">'+ sub_item.feedback.option? sub_item.feedback.option : 'NIL' +'</span></td>' +
+             '<td class="col3"> <span class="left-text">'+ sub_item.feedback.description?sub_item.feedback.description: 'NIL' +'</span></td>' +
            '</tr>';
-
-          //  sails.log('sub items photos length');
 
 
            var photos_html = ''
            if(sub_item.photos){
 
-              sails.log(sub_item.photos.length);
-
                for(var l =0, pl = sub_item.photos.length; l < pl ; l++){
-
-                 sails.log(sub_item.photos[l]);
-
-                 sails.log(sub_item.photos[l].photo_id);
-
-                 sails.log(sub_item.photos[l].file_name);
-                 sails.log('-----------------------------------------------');
-                sails.log('-----------------------------------------------');
 
                  var photo_date = '';
                  if(sub_item.photos[l].mb_createdAt == '0000-00-00 00:00:00' ||  !sub_item.photos[l].mb_createdAt ){

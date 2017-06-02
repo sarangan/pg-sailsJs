@@ -4626,16 +4626,6 @@ module.exports = {
 
 										//resize
 										im.resize({
-		                  srcPath: _src,
-		                  dstPath: upload_path + '600_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
-		                  width: 600
-		                }, function(err, stdout, stderr){
-		                  if (err) throw err;
-		                  sails.log('resized fit within 600px');
-		                });
-
-
-										im.resize({
 											srcPath: _src,
 											dstPath: upload_path + '300_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
 											width: 300
@@ -4658,12 +4648,28 @@ module.exports = {
 										Photos.create(data).exec(function(err, photos){
 											if (err) return res.json(err);
 											 if(photos.photo_id){
-												return res.json({
-													message: files.length + ' file(s) uploaded successfully!',
-													files: files,
-													data: data,
-													status: 1
-												});
+
+												 im.resize({
+ 				                  srcPath: _src,
+ 				                  dstPath: upload_path + '600_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
+ 				                  width: 600
+ 				                }, function(err, stdout, stderr){
+ 				                  if (err) throw err;
+ 				                  sails.log('resized fit within 600px');
+
+													return res.json({
+														message: files.length + ' file(s) uploaded successfully!',
+														files: files,
+														data: data,
+														status: 1
+													});
+
+
+ 				                });
+
+
+
+
 											 }
 										});
 
@@ -4715,15 +4721,6 @@ module.exports = {
 										      fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
 
 													//resize
-													im.resize({
-					                  srcPath: _src,
-					                  dstPath: upload_path + '600_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
-					                  width: 600
-					                }, function(err, stdout, stderr){
-					                  if (err) throw err;
-					                  sails.log('resized fit within 600px');
-					                });
-
 
 													im.resize({
 														srcPath: _src,
@@ -4748,12 +4745,27 @@ module.exports = {
 													Photos.create(data).exec(function(err, photos){
 														if (err) return res.json(err);
 														 if(photos.photo_id){
-															return res.json({
-																message: files.length + ' file(s) uploaded successfully!',
-																files: files,
-																data: data,
-																status: 1
-															});
+
+															 im.resize({
+		 					                  srcPath: _src,
+		 					                  dstPath: upload_path + '600_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
+		 					                  width: 600
+		 					                }, function(err, stdout, stderr){
+		 					                  if (err) throw err;
+		 					                  sails.log('resized fit within 600px');
+
+																return res.json({
+																	message: files.length + ' file(s) uploaded successfully!',
+																	files: files,
+																	data: data,
+																	status: 1
+																});
+
+		 					                });
+
+
+
+
 														 }
 													});
 
