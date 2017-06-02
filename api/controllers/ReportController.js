@@ -636,6 +636,9 @@ module.exports = {
             if(report_settings.show_photo_date_time != 1){
               photo_date = '';
             }
+            else{
+              photo_date = photo_date.toISOString().slice(0, 19).replace('T', ' ');
+            }
 
             top_photos += '<div style="width: 25%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px;">'+
               '<img src="'+ server_image_path +  property_id + '/' + 'report_300_' + (master_item.temp_top_photos[j].file_name.substr(0, master_item.temp_top_photos[j].file_name.lastIndexOf('.')) || master_item.temp_top_photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />' +
@@ -767,6 +770,9 @@ module.exports = {
             if(report_settings.show_photo_date_time != 1){
               photo_date = '';
             }
+            else{
+              photo_date = photo_date.toISOString().slice(0, 19).replace('T', ' ');
+            }
 
             top_photos += '<div style="width: 25%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px;">'+
               '<img src="'+ server_image_path +  property_id + '/' + 'report_300_' + (master_item.photos[j].file_name.substr(0, master_item.photos[j].file_name.lastIndexOf('.')) || master_item.photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />' +
@@ -842,7 +848,6 @@ module.exports = {
 
         }
 
-        
         master_html +='<div class="chapter">' +
          '<h1 class="sub-heading">' + master_item.master.name + '</h1>' +
          '<hr/><div>' +
@@ -867,7 +872,7 @@ module.exports = {
       } //item end
 
 
-    }
+    }//style 1 end
 
   }// end of master
 
@@ -948,6 +953,7 @@ module.exports = {
                    '.paratxt {font-size: 14px; margin-bottom: 10px;}' +
                    'table, tr, td, th, tbody, thead, tfoot { page-break-inside: avoid !important; }' +
                    'thead, tfoot {display: table-row-group; }' +
+                   'table tr img { page-break-after: avoid;}' +
                    '</style></head><body>' +
                       general_notes +
                       general_conditiions_html +
