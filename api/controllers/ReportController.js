@@ -966,9 +966,6 @@ module.exports = {
           	var options = {
               disableSmartShrinking: true,
               encoding : 'utf-8',
-              headerRight: 'Header man',
-              headerSpacing: 10,
-
             };
 
             //sails.log(html);
