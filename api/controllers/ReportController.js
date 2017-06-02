@@ -828,6 +828,7 @@ module.exports = {
                    '.img-tblrow-wrapper{ width: 20%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px;}' +
                    '.rt-3-tbl-img{ width: 100%; height: auto; max-width: 300px;}' +
                    '.paratxt {font-size: 14px; margin-bottom: 10px;}' +
+                   'table, tr, td, th, tbody, thead, tfoot { page-break-inside: avoid !important; }' +
                    '</style></head><body>' +
                       general_notes +
                       general_conditiions_html +
