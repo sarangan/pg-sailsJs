@@ -682,8 +682,10 @@ module.exports = {
 
                for(var l =0, pl = sub_item.photos.length; l < pl ; l++){
 
-                 sails.log(desc);
-                  sails.log(sub_item.photos);
+                 if( option == 'NEW'){
+                   sails.log(sub_item.photos);
+                 }
+
 
                  var photo_date = '';
                  if(sub_item.photos[l].mb_createdAt == '0000-00-00 00:00:00' ||  !sub_item.photos[l].mb_createdAt ){
@@ -795,8 +797,8 @@ module.exports = {
                    '.report-tbl3 th.col1 {width: 20%;}' +
                    '.report-tbl3 th.col2 {width: 40%;}' +
                    '.report-tbl3 th.col3 {width: 40%;}' +
-                   '.report-tbl4 th.col1 {width: 40%;}' +
-                   '.report-tbl4 th.col2 {width: 40%;}' +
+                   '.report-tbl4 th.col1 {width: 30%;}' +
+                   '.report-tbl4 th.col2 {width: 50%;}' +
                    '.report-tbl4 th.col3 {width: 20%;}' +
                    '.report-tbl5 th.col1 {width: 25%;}' +
                    '.report-tbl5 th.col2 {width: 35%;}' +
