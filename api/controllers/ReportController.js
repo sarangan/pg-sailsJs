@@ -519,9 +519,6 @@ module.exports = {
               if( sub_item_id == feedback_data[k].item_id && get_master_id == feedback_data[k].parent_id ){
                 //we have our feedback data now
                 temp_feedback = feedback_data[k];
-                sails.log('yes we found feed back');
-                sails.log(temp_feedback);
-
                 break;
               }
             }
@@ -547,7 +544,11 @@ module.exports = {
             );
 
             sails.log('-----------------------------------------------');
-            sails.log(temp_feedback);
+            sails.log({
+              subitem: sub_items_data[j],
+              feedback: temp_feedback,
+              photos: temp_photos
+            });
             sails.log('-----------------------------------------------');
             // sails.log('-----------------------------------------------');
             // sails.log(temp_photos);
@@ -613,8 +614,8 @@ module.exports = {
 
   var master_html = '';
   for(var i =0, masterl = temp_master_items.length; i < masterl; i++){
-    sails.log('master items length');
-    sails.log(temp_master_items.length);
+    // sails.log('master items length');
+    // sails.log(temp_master_items.length);
 
     var get_master_name = temp_master_items[i].name;
     var master_item = temp_master_items[i];
