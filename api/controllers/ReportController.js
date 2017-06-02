@@ -599,17 +599,23 @@ module.exports = {
   } // end if master
 
 
-  var master_item_html = [];
   var master_html = '';
   for(var i =0, l = temp_master_items.length; i < l ; i++){
-
+    sails.log('master items length');
+    sails.log(temp_master_items.length);
     if(report_settings.items_details_layout == 'STYLE 1'){
 
+      sails.log('STYLE 1');
 
       if(temp_master_items[i].type == 'SUB' ){
 
+        sails.log('its SUB');
+
         var top_photos = '';
         if(temp_master_items[i].temp_top_photos){
+          sails.log('top photos length');
+          sails.log(temp_master_items[i].temp_top_photos.length);
+
           for(var j =0, tl = temp_master_items[i].temp_top_photos.length; j < tl ; j++){
             var photo_date = '';
             if(temp_master_items[i].temp_top_photos[j].mb_createdAt == '0000-00-00 00:00:00' ||  !temp_master_items[i].temp_top_photos[j].mb_createdAt ){
@@ -631,7 +637,11 @@ module.exports = {
           }
         }
 
+
         var sub_items_html = '';
+        sails.log('sub items length');
+        sails.log(temp_master_items[i].sub.length);
+
         for(var j =0, sl = temp_master_items[i].sub.length; j < sl ; j++){ // sub item loop
            sub_items_html += '<tr>' +
              '<td class="col1"><span class="left-text">'+ temp_master_items[i].sub[j].subitem.item_name +'</span></td>' +
@@ -639,8 +649,11 @@ module.exports = {
              '<td class="col3"> <span class="left-text">'+ temp_master_items[i].sub[j].feedback.description +'</span></td>' +
            '</tr>';
 
+           sails.log('sub items photos length');
+           sails.log(temp_master_items[i].sub[j].photos.length);
+
            var photos_html = ''
-           for(var l =0, pl = temp_master_items[i].sub[j].photos.length; l < pl ; l++){
+           for(var l =0, pl = temp_master_items[i].sub[j].photos.length > 3? 3: temp_master_items[i].sub[j].photos.length  ; l < pl ; l++){
              var photo_date = '';
              if(temp_master_items[i].sub[j].photos[l].mb_createdAt == '0000-00-00 00:00:00' ||  !temp_master_items[i].sub[j].photos[l].mb_createdAt ){
                photo_date = temp_master_items[i].sub[j].photos[l].createdAt;
