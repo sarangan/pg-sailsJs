@@ -672,9 +672,8 @@ module.exports = {
            '</tr>';
 
           //  sails.log('sub items photos length');
-            sails.log(sub_item.photos);
-            sails.log('-----------------------------------------------');
-            
+
+
            var photos_html = ''
            if(sub_item.photos){
 
@@ -689,6 +688,11 @@ module.exports = {
                  if(report_settings.show_photo_date_time != 1){
                    photo_date = '';
                  }
+
+                 sails.log(sub_item.photos[l].photo_id);
+                 sails.log('-----------------------------------------------');
+                 sails.log(sub_item.photos[l].file_name);
+                 sails.log('-----------------------------------------------');
 
                  photos_html = '<div class="img-wrapper1">' +
                     '<img src="' + + server_image_path +  property_id + '/' + '300_' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-1-img" />' +
