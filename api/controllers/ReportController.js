@@ -714,7 +714,7 @@ module.exports = {
                }
 
               if(sub_item.photos.length > 0){
-                sub_items_html += '<div style="text-align:center; margin-top: 20px; margin-bottom: 20px; width: 100%; padding-right: 10px; page-break-inside: avoid; display:block;">' +
+                sub_items_html += '<div class="div-img-wrapper">' +
                      photos_html +
                    '</div>';
               }
@@ -836,7 +836,7 @@ module.exports = {
              }
 
             if(master_item.photos.length > 0){
-              sub_items_html += '<div style="text-align:center; padding-top: 20px; padding-bottom: 10px; width:100%; padding-right: 10px; page-break-inside: avoid; display:block;">' +
+              sub_items_html += '<div class="div-img-wrapper">' +
                    photos_html +
                  '</div>';
             }
@@ -950,6 +950,7 @@ module.exports = {
                    '.divtable { margin-top: 30px; width:100%; background-color: '+ style_table_header_bg +'; padding-top: 10px; padding-bottom: 10px; text-align: left; font-size: 16px; font-weight: bold; color: '+ style_table_header_txt +'; }' +
                    '.divrow {width:100%; padding: 10px; border-top: 1px solid #E5E5E5;  page-break-inside: avoid; }' +
                    '.divrow-noborder {width:100%; padding: 10px;}' +
+                  '.div-img-wrapper {text-align:center; padding-top: 20px; padding-bottom: 10px; width:100%; padding-right: 10px; page-break-inside: avoid; page-break-after: avoid; display:block;}'+
                    '</style></head><body>' +
 
                       general_notes +
