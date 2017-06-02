@@ -640,7 +640,7 @@ module.exports = {
               photo_date = photo_date.toISOString().slice(0, 19).replace('T', ' ');
             }
 
-            top_photos += '<div style="width: 25%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px;">'+
+            top_photos += '<div style="width: 25%; padding: 10px; background-color: #e1e1e1; display: inline-block; max-width: 300px;">'+
               '<img src="'+ server_image_path +  property_id + '/' + 'report_300_' + (master_item.temp_top_photos[j].file_name.substr(0, master_item.temp_top_photos[j].file_name.lastIndexOf('.')) || master_item.temp_top_photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />' +
               '<div style="font-style: italic; color: #a0a0a0;">'+ photo_date +'</div>'+
               '<div>' +
@@ -672,7 +672,7 @@ module.exports = {
             desc = sub_item.feedback.description? sub_item.feedback.description: 'NIL';
           }
 
-           sub_items_html += '<div style="width:100%;">' +
+           sub_items_html += '<div class="divrow">' +
              '<div style="width: 30%; display:inline-block"><span class="left-text">'+ sub_item.subitem.item_name +'</span></div>' +
              '<div style="width: 40%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
              '<div style="width: 20%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
@@ -798,7 +798,7 @@ module.exports = {
           desc = master_item.feedback.description? master_item.feedback.description: 'NIL';
         }
 
-        sub_items_html += '<div style="width:100%;">' +
+        sub_items_html += '<div class="divrow">' +
            '<div style="width: 30%; display:inline-block"><span class="left-text">'+ master_item.master.name +'</span></div>' +
            '<div style="width: 40%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
            '<div style="width: 20%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
@@ -953,7 +953,8 @@ module.exports = {
                    'table, tr, td, th, tbody, thead, tfoot { page-break-inside: avoid !important; }' +
                    'thead, tfoot {display: table-row-group; }' +
                    'table tr img { page-break-after: avoid;}' +
-                   '.divtable { width:100%; background-color: '+ style_table_header_bg +'; padding: 10px; text-align: left; font-size: 16px; font-weight: bold; color: '+ style_table_header_txt +'; }' +
+                   '.divtable { margin-top: 30px; width:100%; background-color: '+ style_table_header_bg +'; padding: 10px; text-align: left; font-size: 16px; font-weight: bold; color: '+ style_table_header_txt +'; }' +
+                   '.divrow {width:100%; padding: 10px; border-bottom: 1px solid #E5E5E5; }' +
                    '</style></head><body>' +
 
                       general_notes +
