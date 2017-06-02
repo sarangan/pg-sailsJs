@@ -955,10 +955,10 @@ module.exports = {
              }
 
                sub_items_html += '<div class="divrow">' +
-                 '<div style="width: 25%; display:inline-block"><span class="left-text">'+ sub_item.subitem.item_name +'</span></div>' +
+                 '<div style="width: 20%; display:inline-block"><span class="left-text">'+ sub_item.subitem.item_name +'</span></div>' +
                  '<div style="width: 40%; display:inline-block"><span class="left-text">'+ desc +'</span></div>' +
-                 '<div style="width: 15%; display:inline-block"><span class="left-text">'+ option +'</span></div>' +
-                 '<div style="width: 20%; display:inline-block"><span class="left-text">'+ photos_html +'</span></div>' +
+                 '<div style="width: 10%; display:inline-block"><span class="left-text">'+ option +'</span></div>' +
+                 '<div style="width: 30%; display:inline-block"><span class="left-text">'+ photos_html +'</span></div>' +
                '</div>';
 
 
@@ -975,7 +975,7 @@ module.exports = {
 
             master_html +='<div class="chapter">' +
              '<h1 class="sub-heading">' + master_item.master.name + '</h1>' +
-             '<hr/><div>' +
+             '<hr/><div style="margin:0; width:100%;">' +
               '<div style="margin-top: 30px; margin-bottom: 10px; width:100%;">' +
                  top_photos +
                '</div>' +
@@ -985,10 +985,10 @@ module.exports = {
                  '</span>' +
                '</div>' +
                '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
-                    '<div class="divtable" style="width:25%; display: inline-block;">&nbsp;Item</div>' +
+                    '<div class="divtable" style="width:20%; display: inline-block;">&nbsp;Item</div>' +
                     '<div class="divtable" style="width:40%; display: inline-block;">Description</div>' +
-                    '<div class="divtable" style="width:15%; display: inline-block;">Condition</div>' +
-                    '<div class="divtable" style="width:20%; display: inline-block;">Image</div>' +
+                    '<div class="divtable" style="width:10%; display: inline-block;">Condition</div>' +
+                    '<div class="divtable" style="width:30%; display: inline-block;">Image</div>' +
                   '<div>' +
                   sub_items_html +
            '</div></div></div></div>';
@@ -1072,10 +1072,10 @@ module.exports = {
            }
 
             sub_items_html += '<div class="divrow">' +
-               '<div style="width: 25%; display:inline-block"><span class="left-text">'+ master_item.master.name +'</span></div>' +
+               '<div style="width: 20%; display:inline-block"><span class="left-text">'+ master_item.master.name +'</span></div>' +
                '<div style="width: 40%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
-               '<div style="width: 15%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
-               '<div style="width: 20%; display:inline-block"> <span class="left-text">'+ photos_html +'</span></div>' +
+               '<div style="width: 10%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
+               '<div style="width: 30%; display:inline-block"> <span class="left-text">'+ photos_html +'</span></div>' +
              '</div>';
 
              var photos_bottom_html = '';
@@ -1121,14 +1121,14 @@ module.exports = {
                 '</span>' +
               '</div>' +
               '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
-                   '<div class="divtable" style="width:25%; display: inline-block;">&nbsp;Item</div>' +
+                   '<div class="divtable" style="width:20%; display: inline-block;">&nbsp;Item</div>' +
                    '<div class="divtable" style="width:40%; display: inline-block;">Description</div>' +
-                   '<div class="divtable" style="width:15%; display: inline-block;">Condition</div>' +
-                   '<div class="divtable" style="width:20%; display: inline-block;">Image</div>' +
+                   '<div class="divtable" style="width:10%; display: inline-block;">Condition</div>' +
+                   '<div class="divtable" style="width:30%; display: inline-block;">Image</div>' +
                  '<div>' +
                  sub_items_html +
           '</div></div>'+
-          '<div style="margin-top: 20px; width:100%;">' +
+          '<div style="margin-top: 30px; width:100%;">' +
           photos_bottom_html +
           '</div>'
           '</div></div>';
@@ -1171,7 +1171,7 @@ module.exports = {
                    'select{*font-size:100%;}legend{color:#000;}' +
                    '* { overflow: visible !important; }' +
                    'html,body { font-family: serif; font-size:16px; }'+
-                   '.chapter { width: 100%; display: block; clear: both; page-break-before: always; padding: 20px; margin-top: 30px; margin-bottom: 20px;}'+
+                   '.chapter { width: 100%; display: block; clear: both; page-break-before: always; padding: 20px; margin:0;  margin-top: 30px; margin-bottom: 20px;}'+
                    '.block { display: block; clear: both; padding: 20px;}' +
                    '.heading{ font-size:25px; color: #0088CC; line-height: 28px; margin-bottom: 20px; font-weight: bold;}' +
                    '.sub-heading{ font-size: 25px; margin-top: 40px; color:' + style_sub_heading_color +'; line-height: 28px; font-weight: bold; background-color: ' + style_sub_heading_bg + '; width: 100%; }' +
