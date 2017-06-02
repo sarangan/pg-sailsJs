@@ -574,12 +574,11 @@ module.exports = {
         }
 
         //get the photos for sub item
-        var temp_photos = {};
+        var temp_photos = [];
         for(var il =0, ipl = photo_data.length; il < ipl ; il++){
           if( get_master_id == photo_data[il].item_id ){
             //we have our photo data now
-            temp_photos = photo_data[il];
-
+            temp_photos.push(photo_data[il]);
           }
         }
 
