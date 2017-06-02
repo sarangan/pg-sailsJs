@@ -1624,13 +1624,12 @@ module.exports = {
     var jesus_photos = '';
     if(report_settings.show_photos == 'NO'){
       merger_photos_html = '';
-      jesus_photos = '';
     }
     else{
       jesus_photos = '<div class="chapter">' +
       '<div class="heading" style="width:100%; border-bottom: 1px solid #000000;margin-bottom: 40px;">Index of All Photos</div>' +
       merger_photos_html +
-      '</div></div>' +
+      '</div></div>';
     }
 
 	 	html = '<!DOCTYPE html>'+
