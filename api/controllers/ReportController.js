@@ -692,6 +692,9 @@ module.exports = {
                  if(report_settings.show_photo_date_time != 1){
                    photo_date = '';
                  }
+                 else{
+                   photo_date = photo_date.toISOString().slice(0, 19).replace('T', ' ');
+                 }
 
                  if(l < 3){
                    photos_html += '<div class="img-wrapper1">' +
@@ -810,7 +813,7 @@ module.exports = {
                    '.report-tbl7 th.col2 {width: 70%;}' +
                    '.right-text{ text-align: right;}' +
                    '.img-wrapper{width: 30%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px;}' +
-                   '.img-wrapper1{width: 20%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px; min-width: 200px; height: auto;}' +
+                   '.img-wrapper1{width: 20%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px; min-width: 200px; height: auto; text-align: right;}' +
                    '.rt-1-img{ width: 100%; height: auto;  display: inline-block; max-width: 300px;}' +
                    '.img-inline-wrapper{ width: 90%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px; }' +
                    '.rt-2-tbl-img{ width: 100%; height: auto; max-width: 300px;}' +
