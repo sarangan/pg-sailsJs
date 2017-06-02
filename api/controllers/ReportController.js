@@ -1130,7 +1130,7 @@ module.exports = {
           '</div></div>'+
           '<div style="margin-top: 30px; width:100%;">' +
           photos_bottom_html +
-          '</div>'
+          '</div>' +
           '</div></div>';
 
 
