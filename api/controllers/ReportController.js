@@ -641,7 +641,7 @@ module.exports = {
             }
 
             top_photos += '<div style="width: 25%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px;">'+
-              '<img src="'+ server_image_path +  property_id + '/' + '300_' + (master_item.temp_top_photos[j].file_name.substr(0, master_item.temp_top_photos[j].file_name.lastIndexOf('.')) || master_item.temp_top_photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />'
+              '<img src="'+ server_image_path +  property_id + '/' + 'report_300_' + (master_item.temp_top_photos[j].file_name.substr(0, master_item.temp_top_photos[j].file_name.lastIndexOf('.')) || master_item.temp_top_photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />'
               '<div style="font-style: italic; color: #a0a0a0;">'+ photo_date +'</div>'+
               '<div>' +
               '<a href="'+ server_image_path +  property_id + '/' + temp_master_items[i].temp_top_photos[j].file_name + '">Ref'+ (j + 1) +'</a>' +
@@ -680,11 +680,6 @@ module.exports = {
            var photos_html = ''
            if(sub_item.photos){
 
-             sails.log(desc);
-             if( desc == 'light s asd asd asd asd stupid '){
-               sails.log(sub_item.photos);
-             }
-
                for(var l =0, pl = sub_item.photos.length; l < pl ; l++){
 
                  var photo_date = '';
@@ -698,9 +693,15 @@ module.exports = {
                    photo_date = '';
                  }
 
+                 '<img src="' + server_image_path +  property_id + '/' + '300_' + (meter_data[i].photo.substr(0, meter_data[i].photo.lastIndexOf('.')) || meter_data[i].photo) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
+
+                 if( desc == 'light s asd asd asd asd stupid '){
+                   sails.log(sub_item.photos[l].file_name);
+                   sails.log(sub_item.photos[l].photo_id);
+                 }
 
                  photos_html += '<div class="img-wrapper1">' +
-                    '<img src="' + + server_image_path +  property_id + '/' + '300_' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-1-img" />' +
+                    '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-1-img" />' +
                     '<div style="font-style: italic; color: #a0a0a0;">'+ photo_date +'</div>'+
                     '<div>' +
                     '<a href="'+ server_image_path +  property_id + '/' + sub_item.photos[l].file_name + '">Ref'+ (j + 1) +'</a>' +
