@@ -689,6 +689,9 @@ module.exports = {
                    photo_date = '';
                  }
 
+                 sails.log(sub_item.photos[l].length);
+                 sails.log(sub_item.photos[l]);
+
                  sails.log(sub_item.photos[l].photo_id);
                  sails.log('-----------------------------------------------');
                  sails.log(sub_item.photos[l].file_name);
