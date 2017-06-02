@@ -971,6 +971,39 @@ module.exports = {
               fgeneral = master_item.feedback_general.comment?master_item.feedback_general.comment:'';
             }
 
+            var photos_bottom_html = '';
+            if(sub_item.photos){
+
+                for(var l =0, pl = sub_item.photos.length; l < pl ; l++){
+
+                  var photo_date = '';
+                  if(sub_item.photos[l].mb_createdAt == '0000-00-00 00:00:00' ||  !sub_item.photos[l].mb_createdAt ){
+                    photo_date = sub_item.photos[l].createdAt;
+                  }
+                  else{
+                    photo_date = sub_item.photos[l].mb_createdAt;
+                  }
+                  if(report_settings.show_photo_date_time != 1){
+                    photo_date = '';
+                  }
+                  else{
+                    photo_date = photo_date.toISOString().slice(0, 19).replace('T', ' ');
+                  }
+
+
+                  if(sub_item.photos[l].file_name){
+                    photos_bottom_html += '<div style="width: 20%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px;">' +
+                       '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
+                       '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
+                       '</div>';
+
+                  }
+
+                }
+
+
+           }
+
 
 
             master_html +='<div class="chapter">' +
@@ -991,7 +1024,11 @@ module.exports = {
                     '<div class="divtable" style="width:30%; display: inline-block;">Image</div>' +
                   '<div>' +
                   sub_items_html +
-           '</div></div></div></div>';
+           '</div></div>'+
+           '<div style="margin-top: 30px; width:100%;" class="div-img-wrapper">' +
+           photos_bottom_html +
+           '</div>' +
+           '</div></div>';
 
           }
           else if(master_item.type == 'ITEM' ){
@@ -1102,7 +1139,6 @@ module.exports = {
                         '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (master_item.photos[l].file_name.substr(0, master_item.photos[l].file_name.lastIndexOf('.')) || master_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                         '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
                         '</div>';
-                        break;
                    }
 
                  }
@@ -1128,7 +1164,7 @@ module.exports = {
                  '<div>' +
                  sub_items_html +
           '</div></div>'+
-          '<div style="margin-top: 30px; width:100%;">' +
+          '<div style="margin-top: 30px; width:100%;" class="div-img-wrapper">' +
           photos_bottom_html +
           '</div>' +
           '</div></div>';
