@@ -741,10 +741,10 @@ module.exports = {
               fgeneral +
              '</span>' +
            '</div>' +
-           '<div style="border: 0; width: 100%; margin-top: 30px;">' +
-                '<div class="divtable" style="width:30%; display: inline-block;">Item</div>' +
-                '<div class="divtable" style="width:50%; display: inline-block;">Description</div>' +
-                '<div class="divtable" style="width:20%; display: inline-block;">Condition</div>' +
+           '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
+                '<div class="divtable" style="width:30%; display: inline-block;"> Item</div>' +
+                '<div class="divtable" style="width:50%; display: inline-block;"> Description</div>' +
+                '<div class="divtable" style="width:20%; display: inline-block;"> Condition</div>' +
               '<div>' +
               sub_items_html +
        '</div></div></div></div>';
@@ -855,12 +855,10 @@ module.exports = {
             '<span>' +
             '</span>' +
           '</div>' +
-          '<div style="border: 0; width: 100%; margin-top: 30px;">' +
-             '<div>' +
+          '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
                '<div class="divtable" style="width:30%; display: inline-block;">Item</div>' +
                '<div class="divtable" style="width:40%; display: inline-block;">Description</div>' +
                '<div class="divtable" style="width:20%; display: inline-block;">Condition</div>' +
-             '</div>' +
              '<div>' +
              sub_items_html +
       '</div></div></div></div>';
@@ -951,7 +949,7 @@ module.exports = {
                    'table, tr, td, th, tbody, thead, tfoot { page-break-inside: avoid !important; }' +
                    'thead, tfoot {display: table-row-group; }' +
                    'table tr img { page-break-after: avoid;}' +
-                   '.divtable { margin-top: 30px; width:100%; background-color: '+ style_table_header_bg +'; padding: 10px; text-align: left; font-size: 16px; font-weight: bold; color: '+ style_table_header_txt +'; }' +
+                   '.divtable { margin-top: 30px; width:100%; background-color: '+ style_table_header_bg +'; padding-top: 10px; padding-bottom: 10px; text-align: left; font-size: 16px; font-weight: bold; color: '+ style_table_header_txt +'; }' +
                    '.divrow {width:100%; padding: 10px; border-top: 1px solid #E5E5E5; }' +
                    '.divrow-noborder {width:100%; padding: 10px;}' +
                    '</style></head><body>' +
