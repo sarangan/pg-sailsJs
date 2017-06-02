@@ -397,8 +397,13 @@ module.exports = {
                     return feedback_data;
               });
 
+              var feedback_general_data = Property_sub_feedback_general.find({ property_id: property_id })
+                .then(function(feedback_general_data) {
+                    return feedback_general_data;
+              });
 
-              return [property_id, report_settings_data, report_settings_notes_data, property_info_data, general_condition_data, meter_data, master_data, sub_items_data, photo_data, feedback_data ];
+
+              return [property_id, report_settings_data, report_settings_notes_data, property_info_data, general_condition_data, meter_data, master_data, sub_items_data, photo_data, feedback_data, feedback_general_data ];
 
           }
           else{
@@ -406,7 +411,7 @@ module.exports = {
           }
 
         })
-        .spread(function(property_id, report_settings, report_settings_notes, property_info, general_conditions, meter_data, master_data, sub_items_data, photo_data, feedback_data ) {
+        .spread(function(property_id, report_settings, report_settings_notes, property_info, general_conditions, meter_data, master_data, sub_items_data, photo_data, feedback_data, feedback_general_data ) {
 
 
              var fs = require('fs');
@@ -501,7 +506,6 @@ module.exports = {
       var get_master_type = master_data[i].com_type; // we will know if its SUB or ITEM
 
       //lets go to sub items basket
-
       if(get_master_type == 'SUB'){ // if it has sub items
 
         var temp_sub_items = [];
@@ -535,6 +539,7 @@ module.exports = {
               }
             }
 
+
             temp_sub_items.push(
               {
                 subitem: sub_items_data[j],
@@ -543,20 +548,27 @@ module.exports = {
               }
             );
 
-            // sails.log('-----------------------------------------------');
-            // sails.log(temp_photos);
-            // sails.log('-----------------------------------------------');
-
           } // match master id with sub item
 
         }//sub item loop
+
+        //get the feedback general data for sub items
+        var temp_feedback_general = {};
+        for(var s=0, fgl = feedback_general_data.length; s < fgl ; s++){
+          if( get_master_id == feedback_general_data[s].parent_id ){
+            //we have our feedback general data now
+            temp_feedback_general = feedback_general_data[s];
+            break;
+          }
+        }
 
         temp_master_items.push(
           {
             master: master_data[i],
             sub: temp_sub_items,
             type: 'SUB',
-            temp_top_photos: temp_top_photos
+            temp_top_photos: temp_top_photos,
+            feedback_general: temp_feedback_general
           }
         );
 
@@ -583,20 +595,17 @@ module.exports = {
         }
 
         temp_master_items.push(
-          {master:  master_data[i],
-          sub: [],
-          type: 'ITEM',
-          feedback: temp_feedback,
-          photos: temp_photos}
+          {
+            master:  master_data[i],
+            sub: [],
+            type: 'ITEM',
+            feedback: temp_feedback,
+            photos: temp_photos,
+            feedback_general: {}
+          }
         );
 
-
       }
-
-      //we so sort of sake of no need for now
-      // master_sub_items.sort(function(a, b) {
-      //     return parseFloat(a.priority) - parseFloat(b.priority);
-      // });
 
 
     } // end master loop
@@ -608,25 +617,13 @@ module.exports = {
   for(var i =0, masterl = temp_master_items.length; i < masterl; i++){
 
     var master_item = temp_master_items[i];
-    // master:
-    // sub:
-    // type: 'SUB',
-    // temp_top_photos:
-
-    //sails.log(master_item);
 
     if(report_settings.items_details_layout == 'STYLE 1'){
 
-      //sails.log('STYLE 1');
-
       if(master_item.type == 'SUB' ){
-
-        //sails.log('its SUB');
 
         var top_photos = '';
         if(master_item.temp_top_photos){
-          // sails.log('top photos length');
-          // sails.log(master_item.temp_top_photos.length);
 
           for(var j =0, tl = master_item.temp_top_photos.length; j < tl ; j++){
             var photo_date = '';
@@ -711,17 +708,23 @@ module.exports = {
 
 
                }
-          }
 
-           sub_items_html += '<tr>' +
-             '<td colspan="3">' +
-               photos_html +
-             '</td>'+
-           '</tr>';
+            sub_items_html += '<tr>' +
+                 '<td colspan="3" style="text-align:right;">' +
+                   photos_html +
+                 '</td>'+
+               '</tr>';
+
+          }
 
         }
 
-        master_html +=' <div class="chapter">' +
+        var fgeneral = '';
+        if(Object.keys(master_item.feedback_general).length === 0 && master_item.feedback_general.constructor === Object ){
+          fgeneral = master_item.feedback_general.comment?master_item.feedback_general.comment:'';
+        }
+
+        master_html +='<div class="chapter">' +
          '<h1 class="sub-heading">' + master_item.master.name + '</h1>' +
          '<hr/><div>' +
           '<div style="margin-top: 20px; margin-bottom: 20px; width:100%;">' +
@@ -729,6 +732,7 @@ module.exports = {
            '</div>' +
           ' <div class="rt-2-des">' +
              '<span>' +
+              fgeneral
              '</span>' +
            '</div>' +
            '<table class="format-table report-tbl4">' +
@@ -778,7 +782,7 @@ module.exports = {
                    '.chapter { display: block; clear: both; page-break-after: always; padding: 20px; margin-top: 30px; margin-bottom: 20px;}'+
                    '.block { display: block; clear: both; padding: 20px;}' +
                    '.heading{ font-size:25px; color: #0088CC; line-height: 28px; margin-bottom: 20px; font-weight: bold;}' +
-                   '.sub-heading{ font-size: 25px; color:' + style_sub_heading_color +'; line-height: 28px; font-weight: bold; background-color: ' + style_sub_heading_bg + '; width: 100%; }' +
+                   '.sub-heading{ font-size: 25px; margin-top: 20px; color:' + style_sub_heading_color +'; line-height: 28px; font-weight: bold; background-color: ' + style_sub_heading_bg + '; width: 100%; }' +
                    'hr { border:0; margin:0; padding:0; height:1px; color:'+ style_sub_heading_color + '; background-color:'+ style_sub_heading_color + '; margin-top: 7px; margin-bottom: 30px;}' +
                    'thead { display: table-header-group; }' +
                    'tfoot { display: table-row-group; }' +
@@ -813,7 +817,7 @@ module.exports = {
                    '.report-tbl7 th.col2 {width: 70%;}' +
                    '.right-text{ text-align: right;}' +
                    '.img-wrapper{width: 30%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px;}' +
-                   '.img-wrapper1{width: 20%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px; min-width: 200px; height: auto; text-align: right;}' +
+                   '.img-wrapper1{width: 20%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px; min-width: 200px; height: auto;}' +
                    '.rt-1-img{ width: 100%; height: auto;  display: inline-block; max-width: 300px;}' +
                    '.img-inline-wrapper{ width: 90%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px; }' +
                    '.rt-2-tbl-img{ width: 100%; height: auto; max-width: 300px;}' +
