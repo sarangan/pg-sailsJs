@@ -680,13 +680,12 @@ module.exports = {
            var photos_html = ''
            if(sub_item.photos){
 
+             sails.log(desc);
+             if( desc == 'light s asd asd asd asd stupid '){
+               sails.log(sub_item.photos);
+             }
+
                for(var l =0, pl = sub_item.photos.length; l < pl ; l++){
-
-                 sails.log(desc);
-                 if( desc == 'light s asd asd asd asd stupid '){
-                   sails.log(sub_item.photos);
-                 }
-
 
                  var photo_date = '';
                  if(sub_item.photos[l].mb_createdAt == '0000-00-00 00:00:00' ||  !sub_item.photos[l].mb_createdAt ){
@@ -700,7 +699,7 @@ module.exports = {
                  }
 
 
-                 photos_html = '<div class="img-wrapper1">' +
+                 photos_html += '<div class="img-wrapper1">' +
                     '<img src="' + + server_image_path +  property_id + '/' + '300_' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-1-img" />' +
                     '<div style="font-style: italic; color: #a0a0a0;">'+ photo_date +'</div>'+
                     '<div>' +
