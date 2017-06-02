@@ -651,19 +651,24 @@ module.exports = {
 
 
         var sub_items_html = '';
-        // sails.log('sub items length');
-        // sails.log(master_item.sub.length);
-
-        // subitem: sub_items_data[j],
-        // feedback: temp_feedback,
-        // photos: temp_photos
+        
 
         for(var j =0, sl = master_item.sub.length; j < sl ; j++){ // sub item loop
 
           var sub_item = master_item.sub[j];
-          sails.log(sub_item.feedback.option);
-          var option =  sub_item.feedback.option? sub_item.feedback.option : 'NIL';
-          var desc = sub_item.feedback.description? sub_item.feedback.description: 'NIL';
+
+          var option = 'NIL';
+          var desc = 'NIL';
+
+          if(Object.keys(sub_item.feedback).length === 0 && sub_item.feedback.constructor === Object ){
+            //is empty object
+            option = 'NIL';
+            desc = 'NIL';
+          }
+          else{
+            option =  sub_item.feedback.option? sub_item.feedback.option : 'NIL';
+            desc = sub_item.feedback.description? sub_item.feedback.description: 'NIL';
+          }
 
            sub_items_html += '<tr>' +
              '<td class="col1"><span class="left-text">'+ sub_item.subitem.item_name +'</span></td>' +
