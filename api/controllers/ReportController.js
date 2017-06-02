@@ -677,7 +677,18 @@ module.exports = {
            var photos_html = ''
            if(sub_item.photos){
 
-               for(var l =0, pl = sub_item.photos.length > 3? 3: sub_item.photos.length  ; l < pl ; l++){
+              sails.log(sub_item.photos.length);
+
+               for(var l =0, pl = sub_item.photos.length; l < pl ; l++){
+
+                 sails.log(sub_item.photos[l]);
+
+                 sails.log(sub_item.photos[l].photo_id);
+
+                 sails.log(sub_item.photos[l].file_name);
+                 sails.log('-----------------------------------------------');
+                sails.log('-----------------------------------------------');
+
                  var photo_date = '';
                  if(sub_item.photos[l].mb_createdAt == '0000-00-00 00:00:00' ||  !sub_item.photos[l].mb_createdAt ){
                    photo_date = sub_item.photos[l].createdAt;
@@ -689,13 +700,6 @@ module.exports = {
                    photo_date = '';
                  }
 
-                 sails.log(sub_item.photos[l].length);
-                 sails.log(sub_item.photos[l]);
-
-                 sails.log(sub_item.photos[l].photo_id);
-                 sails.log('-----------------------------------------------');
-                 sails.log(sub_item.photos[l].file_name);
-                 sails.log('-----------------------------------------------');
 
                  photos_html = '<div class="img-wrapper1">' +
                     '<img src="' + + server_image_path +  property_id + '/' + '300_' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-1-img" />' +
