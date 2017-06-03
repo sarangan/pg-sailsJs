@@ -1649,6 +1649,8 @@ module.exports = {
       var tenant_img = '';
       var clerk_img = '';
 
+      sails.log(signature_data);
+
       if(signature_data){
 
       if(Object.keys(signature_data).length === 0 && signature_data.constructor === Object ){
