@@ -1602,7 +1602,7 @@ module.exports = {
 
 
       var photo_page = '';
-      photo_page = '<div style="page-break-before: always; width: 100%; margin:0;" ><h1 class="sub-heading" style="margin-top: 20px;">'+ master_item.master.name +'</h1>'+
+      photo_page = '<div style="width: 100%;" ><h1 class="sub-heading" style="margin-top: 20px;">'+ master_item.master.name +'</h1>'+
       '<hr/>' +
       '<div style="margin-top: 20px; width:100%; text-align:left;" class="div-img-wrapper">'+
         total_photo_html +
