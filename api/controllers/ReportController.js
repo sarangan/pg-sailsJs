@@ -1645,6 +1645,8 @@ module.exports = {
       var lanlord_url = '';
       var clerk_url = '';
 
+      sails.log(signature_data);
+
       if(Object.keys(signature_data).length === 0 && signature_data.constructor === Object ){
         tenant_url = signature_data.tenant_url;
         lanlord_url = signature_data.lanlord_url;
