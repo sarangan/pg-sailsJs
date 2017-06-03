@@ -43,7 +43,7 @@ module.exports = {
    	else if(!re.test(req.param('email') )  && req.param('email') ){
 			return res.json({status: 2, text: 'Invalid email address!' });
 		}
-		else if(req.param('company_name') ){
+		else if(!req.param('company_name') ){
 			return res.json({status: 2, text: 'Please provide your company name' });
 		}
 		else{
