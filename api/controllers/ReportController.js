@@ -1632,7 +1632,7 @@ module.exports = {
     }
     else{
       jesus_photos = '<div class="chapter">' +
-      '<div class="heading" style="width:100%; border-bottom: 1px solid #000000;margin-bottom: 40px;">Index of All Photos</div>' +
+      '<div class="heading" style="width:100%; border-bottom: 1px solid #000000;margin-bottom: 40px; margin-top: 40px;">Index of All Photos</div>' +
       merger_photos_html +
       '</div></div>';
     }
