@@ -1645,7 +1645,11 @@ module.exports = {
       var lanlord_url = '';
       var clerk_url = '';
 
-      sails.log(signature_data);
+      var landlord_img = '';
+      var tenant_img = '';
+      var clerk_img = '';
+
+      if(signature_data){
 
       if(Object.keys(signature_data).length === 0 && signature_data.constructor === Object ){
         tenant_url = signature_data.tenant_url;
@@ -1653,20 +1657,18 @@ module.exports = {
         clerk_url = signature_data.clerk_url;
       }
 
-      var landlord_img = '';
       if(lanlord_url){
         landlord_img = '<img src="'+ lanlord_url +'" alt="img" class="rt-2-tbl-img"  style="width: 100px; height: auto;"/>';
       }
 
-      var tenant_img = '';
       if(tenant_url){
         tenant_img = '<img src="'+ tenant_url +'" alt="img" class="rt-2-tbl-img"  style="width: 100px; height: auto;"/>';
       }
 
-      var clerk_img = '';
       if(clerk_url){
         clerk_img = '<img src="'+ clerk_url +'" alt="img" class="rt-2-tbl-img"  style="width: 100px; height: auto;"/>';
       }
+    }
 
       signature ='<div class="chapter">' +
         '<h1 class="sub-heading">Declaration</h1>' +
