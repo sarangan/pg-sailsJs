@@ -436,8 +436,8 @@ module.exports = {
               	     general_notes ='<div class="chapter">' +
               	       '<h1 class="sub-heading">General notes and guidance</h1>' +
               	       '<hr/>' +
-              	       '<div style="width:100%; padding: 10px; font-weight: bold;">' + report_settings_notes[i].title +
-              	       '</div><div style="width:100%; padding: 10px; margin-top: 10px;">' +
+              	       '<div style="width:90%; padding: 10px; font-weight: bold;">' + report_settings_notes[i].title +
+              	       '</div><div style="width:90%; padding: 10px; margin-top: 10px;">' +
               	       report_settings_notes[i].note +
               	       '</div></div>';
               	   }
