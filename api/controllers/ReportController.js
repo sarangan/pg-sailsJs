@@ -402,8 +402,13 @@ module.exports = {
                     return feedback_general_data;
               });
 
+              var signature_data = Signatures.findOne({ property_id: property_id })
+                .then(function(signature_data) {
+                    return signature_data;
+              });
 
-              return [property_id, report_settings_data, report_settings_notes_data, property_info_data, general_condition_data, meter_data, master_data, sub_items_data, photo_data, feedback_data, feedback_general_data ];
+
+              return [property_id, report_settings_data, report_settings_notes_data, property_info_data, general_condition_data, meter_data, master_data, sub_items_data, photo_data, feedback_data, feedback_general_data, signature_data ];
 
           }
           else{
@@ -411,7 +416,7 @@ module.exports = {
           }
 
         })
-        .spread(function(property_id, report_settings, report_settings_notes, property_info, general_conditions, meter_data, master_data, sub_items_data, photo_data, feedback_data, feedback_general_data ) {
+        .spread(function(property_id, report_settings, report_settings_notes, property_info, general_conditions, meter_data, master_data, sub_items_data, photo_data, feedback_data, feedback_general_data, signature_data ) {
 
 
              var fs = require('fs');
@@ -1633,7 +1638,34 @@ module.exports = {
     }
 
     var signature = '';
+
     if(report_settings.include_singatures == 1){
+
+      var tenant_url ='';
+      var lanlord_url = '';
+      var clerk_url = '';
+
+      if(Object.keys(signature_data).length === 0 && signature_data.constructor === Object ){
+        tenant_url = signature_data.tenant_url;
+        lanlord_url = signature_data.lanlord_url;
+        clerk_url = signature_data.clerk_url;
+      }
+
+      var landlord_img = '';
+      if(lanlord_url){
+        landlord_img = '<img src="'+ lanlord_url +'" alt="img" class="rt-2-tbl-img"  style="width: 100px; height: auto;"/>';
+      }
+
+      var tenant_img = '';
+      if(tenant_url){
+        tenant_img = '<img src="'+ tenant_url +'" alt="img" class="rt-2-tbl-img"  style="width: 100px; height: auto;"/>';
+      }
+
+      var clerk_img = '';
+      if(clerk_url){
+        clerk_img = '<img src="'+ clerk_url +'" alt="img" class="rt-2-tbl-img"  style="width: 100px; height: auto;"/>';
+      }
+
       signature ='<div class="chapter">' +
         '<h1 class="sub-heading">Declaration</h1>' +
         '<hr/>' +
@@ -1652,9 +1684,9 @@ module.exports = {
           '<P class="paratxt">'+
             'The tenant/landlord has 7 days from receipt of this inventory to notify the agent/landlord/inventory company of any discrepancies.' +
           '</p>' +
-        '<div>'
+        '<div>' +
 
-          '<table style="width: 100%; border: 0; margin-top: 40px; font-size: 14px;">'
+          '<table style="width: 100%; border: 0; margin-top: 40px; font-size: 14px;">' +
              '<thead>' +
                '<th style="width: 50%;"></th>' +
                '<th style="width: 50%;"></th>' +
@@ -1667,7 +1699,8 @@ module.exports = {
                 '<tr style="height: 80px;">' +
                   '<td>' +
                     '<hr style="border:0; margin:0; padding:0; height:1px; color:#555555; background-color:#555555; width: 60%; "/>' +
-                    '<span>Signature</span>' +
+                    '<span>Signature</span><br/>' +
+                    landlord_img +
                   '</td>' +
                   '<td></td>' +
                 '</tr style="height: 80px;">' +
@@ -1685,16 +1718,18 @@ module.exports = {
                 '</tr>'+
                 '<tr style="height: 70px;">' +
                   '<td><span style="font-weight: bold; font-size: 18px; color: #555555;">Tenant</span></td>' +
-                  '<td><span style="font-weight: bold; font-size: 18px; color: #555555;">Tenant</span></td>' +
+                  '<td><span style="font-weight: bold; font-size: 18px; color: #555555;">Clerk</span></td>' +
                 '</tr>' +
                 '<tr style="height: 50px;">' +
                   '<td>' +
                     '<hr style="border:0; margin:0; padding:0; height:1px; color:#555555; background-color:#555555; width: 60%; "/>' +
-                    '<span>Signature</span>' +
+                    '<span>Signature</span><br/>' +
+                    tenant_img +
                   '</td>' +
                   '<td>' +
                     '<hr style="border:0; margin:0; padding:0; height:1px; color:#555555; background-color:#555555; width: 60%; "/>' +
-                    '<span>Signature</span>' +
+                    '<span>Signature</span><br/>' +
+                     clerk_img +
                   '</td>' +
                 '</tr>' +
                 '<tr style="height: 50px;">' +
@@ -1805,7 +1840,7 @@ module.exports = {
                       meter_html +
                       master_html +
                       jesus_photos +
-                      signature + 
+                      signature +
                 '</body></html>';
 
             res.set({
