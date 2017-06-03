@@ -1836,7 +1836,7 @@ module.exports = {
                    'thead, tfoot {display: table-row-group; }' +
                    'table tr img { page-break-after: avoid;}' +
                    '.divtable { margin-top: 30px; width:100%; background-color: '+ style_table_header_bg +'; padding-top: 10px; padding-bottom: 10px; text-align: left; font-size: 16px; font-weight: bold; color: '+ style_table_header_txt +'; }' +
-                   '.divrow {width:100%; padding: 10px; border-top: 1px solid #E5E5E5;  page-break-inside: avoid; }' +
+                   '.divrow {width:100%; padding: 10px; border-top: 1px solid #E5E5E5;  page-break-inside: avoid; page-break-after: avoid; display:block; }' +
                    '.divrow-noborder {width:100%; padding: 10px;}' +
                   '.div-img-wrapper {text-align:center; padding-top: 20px; padding-bottom: 10px; width:100%; padding-right: 10px; page-break-inside: avoid; page-break-after: avoid; display:block;}'+
                    '</style></head><body>' +
