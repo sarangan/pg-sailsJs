@@ -2427,7 +2427,7 @@ module.exports = {
 																						description: feedback_data.description,
 																					};
 
-																					Property_feedback.create(property_feedback_data).exec(function afterwards(err, updated_items){																						if (err) return res.json(err);
+																					Property_feedback.create(property_feedback_data).exec(function afterwards(err, updated_items){
 																						if (err) return res.json(err);
 																						//sails.log('prop feedback create ');
 																					});
@@ -3056,7 +3056,7 @@ module.exports = {
 
 									//good to go from here
 
-									var qry = "select property_subitem_link.*, property_masteritem_link.prop_master_id, property_masteritem_link.name as master_item_name,company_subitem_link.com_master_id, property_feedback.prop_feedback_id, property_feedback.comment, property_feedback.description, property_feedback.option from property_subitem_link INNER JOIN company_subitem_link on property_subitem_link.com_subitem_id = company_subitem_link.com_subitem_id INNER JOIN property_masteritem_link ON company_subitem_link.com_master_id = property_masteritem_link.com_master_id LEFT JOIN property_feedback on property_subitem_link.prop_subitem_id = property_feedback.item_id where property_subitem_link.status =1 and property_masteritem_link.prop_master_id ='" + prop_master_id +"' and property_subitem_link.property_id='" + property_id +"' order by property_subitem_link.priority";
+									var qry = "select property_subitem_link.*, property_masteritem_link.prop_master_id, property_masteritem_link.name as master_item_name,company_subitem_link.com_master_id, property_feedback.prop_feedback_id, property_feedback.comment, property_feedback.description, property_feedback.option from property_subitem_link INNER JOIN company_subitem_link on property_subitem_link.com_subitem_id = company_subitem_link.com_subitem_id INNER JOIN property_masteritem_link ON company_subitem_link.com_master_id = property_masteritem_link.com_master_id LEFT JOIN (SELECT property_feedback.prop_feedback_id, property_feedback.item_id, property_feedback.comment, property_feedback.description, property_feedback.option, property_feedback.parent_id FROM property_feedback WHERE property_feedback.parent_id = '" + prop_master_id + "' ) as property_feedback on property_subitem_link.prop_subitem_id = property_feedback.item_id where property_subitem_link.status =1 and property_masteritem_link.prop_master_id ='" + prop_master_id +"' and property_subitem_link.property_id='" + property_id + "' order by property_subitem_link.priority";
 
 									Property_subitem_link.query(qry, function(err, sub_items){
 
