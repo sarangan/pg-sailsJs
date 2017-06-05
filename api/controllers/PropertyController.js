@@ -718,8 +718,12 @@ module.exports = {
 
 							console.log('user', user.company_id);
 
-							Property_info.query("select property_info.*, DATE_FORMAT(property_info.createdAt,'%d/%m/%Y') as created_date from property_info inner join property on property_info.property_id = property.property_id where property.company_id="+ user.company_id, function(err, properties){
+							Property_info.query("select property_info.*, DATE_FORMAT(property_info.createdAt,'%d/%m/%Y') as created_date, (SELECT sum(property_masteritem_link.total_num) FROM property_masteritem_link where property_masteritem_link.option = 'NUM' and property_masteritem_link.property_id = property_info.property_id ) as total_rooms from property_info inner join property on property_info.property_id = property.property_id where property.company_id="+ user.company_id, function(err, properties){
+
+								if(err) return res.json(err);
+
 								return res.json(properties);
+
 							});
 
 					});
@@ -997,7 +1001,7 @@ module.exports = {
 
 
 														//meter import
-														 Company_meter_link.find({status: 1}).exec(function(err, Meter_types){
+														 Company_meter_link.find({status: 1, company_id: user.company_id}).exec(function(err, Meter_types){
 															 var data = [];
 																for(var i=0,l = Meter_types.length; i < l; i++){
 																	data.push({
@@ -1030,7 +1034,7 @@ module.exports = {
 
 
 															//general condition import
-															Company_general_condition_link.find({status: 1}).exec(function(err, General_conditions){
+															Company_general_condition_link.find({status: 1, company_id: user.company_id}).exec(function(err, General_conditions){
 																var data = [];
 																 for(var i=0,l = General_conditions.length; i < l; i++){
 																	 data.push({
@@ -1067,7 +1071,7 @@ module.exports = {
 
 
 															//master items inport
-														 Company_masteritem_link.find({status: 1}).then(function(master_items){
+														 Company_masteritem_link.find({status: 1, company_id: user.company_id}).then(function(master_items){
 
 															 var data_master_items = [];
 															 for(var i=0, l = master_items.length; i < l; i++){
@@ -1112,7 +1116,7 @@ module.exports = {
 														.done(function(){
 
 
-															Company_subitem_link.find({status: 1 }).exec(function(err, sub_items ){
+															Company_subitem_link.find({status: 1, company_id: user.company_id }).exec(function(err, sub_items ){
 																var data_sub_items = [];
 																for(var i=0,l = sub_items.length; i < l; i++){
 																	data_sub_items.push({
@@ -1259,7 +1263,7 @@ module.exports = {
 
 
 																	//meter import
-													 				 Company_meter_link.find({status: 1}).exec(function(err, Meter_types){
+													 				 Company_meter_link.find({status: 1, company_id: user.company_id}).exec(function(err, Meter_types){
 													 					 var data = [];
 													 						for(var i=0,l = Meter_types.length; i < l; i++){
 													 							data.push({
@@ -1292,7 +1296,7 @@ module.exports = {
 
 
 																	 	//general condition import
-																		Company_general_condition_link.find({status: 1}).exec(function(err, General_conditions){
+																		Company_general_condition_link.find({status: 1, company_id: user.company_id}).exec(function(err, General_conditions){
 																			var data = [];
 																			 for(var i=0,l = General_conditions.length; i < l; i++){
 																				 data.push({
@@ -1329,7 +1333,7 @@ module.exports = {
 
 
 																		//master items inport
-																	 Company_masteritem_link.find({status: 1}).then(function(master_items){
+																	 Company_masteritem_link.find({status: 1, company_id: user.company_id}).then(function(master_items){
 
 																		 var data_master_items = [];
 																		 for(var i=0, l = master_items.length; i < l; i++){
@@ -1374,7 +1378,7 @@ module.exports = {
 																	.done(function(){
 
 
-																		Company_subitem_link.find({status: 1 }).exec(function(err, sub_items ){
+																		Company_subitem_link.find({status: 1, company_id: user.company_id }).exec(function(err, sub_items ){
 																			var data_sub_items = [];
 																			for(var i=0,l = sub_items.length; i < l; i++){
 																				data_sub_items.push({
@@ -1484,7 +1488,7 @@ module.exports = {
 
 
 											//meter import
-											 Company_meter_link.find({status: 1}).exec(function(err, Meter_types){
+											 Company_meter_link.find({status: 1, company_id: user.company_id}).exec(function(err, Meter_types){
 												 var data = [];
 													for(var i=0,l = Meter_types.length; i < l; i++){
 														data.push({
@@ -1517,7 +1521,7 @@ module.exports = {
 
 
 												//general condition import
-												Company_general_condition_link.find({status: 1}).exec(function(err, General_conditions){
+												Company_general_condition_link.find({status: 1, company_id: user.company_id}).exec(function(err, General_conditions){
 													var data = [];
 													 for(var i=0,l = General_conditions.length; i < l; i++){
 														 data.push({
@@ -1554,7 +1558,7 @@ module.exports = {
 
 
 												//master items inport
-											 Company_masteritem_link.find({status: 1}).then(function(master_items){
+											 Company_masteritem_link.find({status: 1, company_id: user.company_id}).then(function(master_items){
 
 												 var data_master_items = [];
 												 for(var i=0, l = master_items.length; i < l; i++){
@@ -1599,7 +1603,7 @@ module.exports = {
 											.done(function(){
 
 
-												Company_subitem_link.find({status: 1 }).exec(function(err, sub_items ){
+												Company_subitem_link.find({status: 1, company_id: user.company_id }).exec(function(err, sub_items ){
 													var data_sub_items = [];
 													for(var i=0,l = sub_items.length; i < l; i++){
 														data_sub_items.push({
