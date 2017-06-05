@@ -2010,7 +2010,12 @@ module.exports = {
 									 if(nums){
 
 									 	for(var i=0, l = nums.length; i < l ; i++){
-									 		var update_data = {total_num: nums[i].total_num };
+
+											var update_data = {total_num: 0 };
+											if(nums[i].total_num){
+												update_data = {total_num: nums[i].total_num };
+											}
+
 
 											//sails.log.debug( nums[i].prop_master_id,  nums[i].total_num);
 
