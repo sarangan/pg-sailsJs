@@ -60,6 +60,41 @@ module.exports = {
 					if(company.company_id){
 						var company_id = company.company_id;
 
+
+						//add default report
+						Report_settings.create({company_id: company_id}).exec(function afterwards(err, updated){
+							if (err) return res.json(err);
+						});
+
+						var general_notes = {
+			        '1': "Check-in Report",
+			        '2': "Check-out Report",
+			        '3': "Inventory Report",
+			        '4': "Inventory and Check-in Report",
+			        '5': "Midterm Inspection Report",
+			        '6': "Interim Report",
+			        '7': "General Overview Report",
+			        '8': "Condition Report"
+			      };
+
+						for (var key in general_notes) {
+			        if (general_notes.hasOwnProperty(key)) {
+
+			          var temp_notes = {
+			                note_title: general_notes[key],
+			                title: general_notes[key],
+			                note: '',
+			                included: 0,
+											company_id: company_id
+			              };
+
+								Report_settings_notes.create(temp_notes).exec(function updated(err, updated){
+									if (err) return res.json(err);
+								});
+
+			        }
+			      }
+
 						//meter import
 						Meter_type.find().exec(function(err, Meter_types){
 							//console.log(Meter_types);
@@ -148,6 +183,33 @@ module.exports = {
 				      }
 				      if (user) {
 				        //res.json({user: user, token: sailsTokenAuth.issueToken({sid: user.id}), status: 1, text: 'successfully updated' } );
+								var nodemailer = require('nodemailer');
+								let transporter = nodemailer.createTransport({
+								    host: 'smtp.propertyground.com',
+								    port: 25,
+								    secure: true, // secure:true for port 465, secure:false for port 587
+								    auth: {
+								        user: 'info@propertyground.com',
+								        pass: 'shannira123'
+								    }
+								});
+
+								let mailOptions = {
+								    from: '"PropertyGround" <info@propertyground.com>', // sender address
+								    to: req.param('email') + ',' + req.param('email'), // list of receivers
+								    subject: 'Welcome to PropertyGround!', // Subject line
+								    text: "Hey " + req.param('first_name') + "\n Thanks for signing up, and welcome to PropertyGround!", // plain text body
+								    html: '<b>Hey '+ req.param('first_name') + '</b><br/> Thanks for signing up, and welcome to PropertyGround!' // html body
+								};
+
+								transporter.sendMail(mailOptions, (error, info) => {
+								    if (error) {
+								      sails.log(error);
+								    }
+								   sails.log('Message %s sent: %s', info.messageId, info.response);
+								});
+
+
 								res.json({ status: 1, text: 'successfully updated' } );
 				      }
 				    });
