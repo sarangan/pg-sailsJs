@@ -744,7 +744,7 @@ module.exports = {
 
 							console.log('user', user.company_id);
 
-							Property_info.query("select property_info.*, property.description, DATE_FORMAT(property_info.createdAt,'%d/%m/%Y') as created_date, (SELECT sum(property_masteritem_link.total_num) FROM property_masteritem_link where property_masteritem_link.option = 'NUM' and property_masteritem_link.property_id = property_info.property_id ) as total_rooms, (select count(photos.photo_id) from photos where property_id = property_info.property_id) as total_photos from property_info inner join property on property_info.property_id = property.property_id where property_info.locked = 0 and property.company_id="+ user.company_id +" limit 6", function(err, properties){
+							Property_info.query("select property_info.*, property.description, DATE_FORMAT(property_info.createdAt,'%d/%m/%Y') as created_date, (SELECT sum(property_masteritem_link.total_num) FROM property_masteritem_link where property_masteritem_link.option = 'NUM' and property_masteritem_link.property_id = property_info.property_id ) as total_rooms, (select count(photos.photo_id) from photos where property_id = property_info.property_id) as total_photos from property_info inner join property on property_info.property_id = property.property_id where property_info.locked = 0 and property.company_id="+ user.company_id +" order by property_info.createdAt DESC limit 6 ", function(err, properties){
 
 								if(err) return res.json(err);
 
