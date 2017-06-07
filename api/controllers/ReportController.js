@@ -115,6 +115,14 @@ module.exports = {
                   Report_settings.update({report_id: report_id }, settings).exec(function afterwards(err, updated){
                       if (err) return res.json(err);
 
+                      EmailService.sendEmail({
+     		 							 to: 'sarangan12@gmail.com',
+     		 							 subject: 'Welcome to PropertyGround!',
+     									 text: "Hey " + "sara" + "\n Thanks for signing up, and welcome to PropertyGround!\nYou may customize your own proerty templates and reports." ,
+     									 html: '<b>Hey '+ "sara" + '</b><br/> Thanks for signing up, and welcome to PropertyGround!<br/>You may customize your own proerty templates and reports.'
+     		 						 }, function (err) {
+     		 						 });
+
                       return res.json(200, { status: 1, text: 'successfully updated' });
                   });
 

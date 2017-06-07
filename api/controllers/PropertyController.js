@@ -734,6 +734,32 @@ module.exports = {
 
 		},
 
+		recentprops: function(req, res){
+
+			if( req.token.hasOwnProperty('sid') ){
+				if(req.token.sid){
+
+					User.findOne({id :  req.token.sid}).exec(function(err, user){
+						if(err) return res.json(err);
+
+							console.log('user', user.company_id);
+
+							Property_info.query("select property_info.*, DATE_FORMAT(property_info.createdAt,'%d/%m/%Y') as created_date, (SELECT sum(property_masteritem_link.total_num) FROM property_masteritem_link where property_masteritem_link.option = 'NUM' and property_masteritem_link.property_id = property_info.property_id ) as total_rooms, (select count(photos.photo_id) from photos where property_id = property_info.property_id) as total_photos from property_info inner join property on property_info.property_id = property.property_id where property_info.locked = 0 and property.company_id="+ user.company_id, function(err, properties){
+
+								if(err) return res.json(err);
+
+								return res.json(properties);
+
+							});
+
+					});
+
+				}
+			}
+
+
+		},
+
 		getProperty: function(req, res){
 
 			if( req.token.hasOwnProperty('sid') ){
