@@ -654,14 +654,14 @@ module.exports = {
               photo_date = photo_date.toISOString().slice(0, 19).replace('T', ' ');
             }
 
-            top_photos += '<div style="width: 25%; padding: 10px; background-color: #e1e1e1; display: inline-block; max-width: 300px; margin-bottom: 20px; margin-left: 10px; ">'+
+            top_photos += '<div style="width: 25%; padding: 10px; background-color: #ffffff; display: inline-block; max-width: 300px; margin-bottom: 20px; margin-left: 10px; ">'+
               '<img src="'+ server_image_path +  property_id + '/' + 'report_300_' + (master_item.temp_top_photos[j].file_name.substr(0, master_item.temp_top_photos[j].file_name.lastIndexOf('.')) || master_item.temp_top_photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />' +
               '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
               '<div>' +
               '<a href="'+ server_image_path +  property_id + '/' + temp_master_items[i].temp_top_photos[j].file_name + '">Ref'+ (j + 1) +'</a>' +
               '</div></div>';
 
-              if(j > 2){
+              if(j >= 2){
                 break;
               }
           }
@@ -786,14 +786,14 @@ module.exports = {
               photo_date = photo_date.toISOString().slice(0, 19).replace('T', ' ');
             }
 
-            top_photos += '<div style="width: 25%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px;  margin-bottom: 20px; margin-left: 10px;">'+
+            top_photos += '<div style="width: 25%; padding: 10px; background-color: #ffffff; display: inline-block; margin: 5px; max-width: 300px;  margin-bottom: 20px; margin-left: 10px;">'+
               '<img src="'+ server_image_path +  property_id + '/' + 'report_300_' + (master_item.photos[j].file_name.substr(0, master_item.photos[j].file_name.lastIndexOf('.')) || master_item.photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />' +
               '<div style="font-style: italic; color: #a0a0a0;">'+ photo_date +'</div>'+
               '<div>' +
               '<a href="'+ server_image_path +  property_id + '/' + temp_master_items[i].photos[j].file_name + '">Ref'+ (j + 1) +'</a>' +
               '</div></div>';
 
-              if(j > 2){
+              if(j >= 2){
                 break;
               }
           }
@@ -904,14 +904,14 @@ module.exports = {
                   photo_date = photo_date.toISOString().slice(0, 19).replace('T', ' ');
                 }
 
-                top_photos += '<div style="width: 25%; padding: 10px; background-color: #e1e1e1; display: inline-block; max-width: 300px;  margin-bottom: 20px; margin-left: 10px;">'+
+                top_photos += '<div style="width: 25%; padding: 10px; background-color: #ffffff; display: inline-block; max-width: 300px;  margin-bottom: 20px; margin-left: 10px;">'+
                   '<img src="'+ server_image_path +  property_id + '/' + 'report_300_' + (master_item.temp_top_photos[j].file_name.substr(0, master_item.temp_top_photos[j].file_name.lastIndexOf('.')) || master_item.temp_top_photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />' +
                   '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
                   '<div>' +
                   '<a href="'+ server_image_path +  property_id + '/' + temp_master_items[i].temp_top_photos[j].file_name + '">Ref'+ (j + 1) +'</a>' +
                   '</div></div>';
 
-                  if(j > 2){
+                  if(j >= 2){
                     break;
                   }
               }
