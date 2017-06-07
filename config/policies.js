@@ -99,7 +99,8 @@ module.exports.policies = {
    'getSignaturesList' : ['tokenAuth'],
    'updateSignaturesList' : ['tokenAuth'],
    'updatemasteritem' : ['tokenAuth'],
-   'copyroomdetails' : ['tokenAuth']
+   'copyroomdetails' : ['tokenAuth'],
+   'recentprops' : ['tokenAuth']
  },
  'ReportController': {
    'getreportsettings': ['tokenAuth'],
