@@ -1220,7 +1220,7 @@ module.exports = {
                   '<a href="'+ server_image_path +  property_id + '/' + temp_master_items[i].temp_top_photos[j].file_name + '">Ref'+ (j + 1) +'</a>' +
                   '</div></div>';
 
-                  if(j > 2){
+                  if(j >= 2){
                     break;
                   }
               }
