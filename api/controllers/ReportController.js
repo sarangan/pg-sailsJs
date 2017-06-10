@@ -1873,8 +1873,22 @@ module.exports = {
 
             //sails.log(html);
             var fs = require('fs');
+            var exec = require('child_process').exec;
+            var util = require('util');
 
-            wkhtmltopdf(html, options).pipe(fs.createWriteStream('sara_1.pdf'));
+            var htmlFileName = "page.html", pdfFileName = "sara_1.pdf";
+
+            fs.writeFile(htmlFileName, dummyContent, function(err) {
+              if(err) { throw err; }
+                util.log("file saved to site.html");
+
+                var child = exec("xvfb-run wkhtmltopdf " + html + " " + pdfFileName, function(err, stdout, stderr) {
+                if(err) { throw err; }
+                  util.log(stderr);
+                });
+
+            });
+
 
             return wkhtmltopdf(html, options).pipe(res);
         })
