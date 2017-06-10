@@ -1878,11 +1878,11 @@ module.exports = {
 
             var htmlFileName = "page.html", pdfFileName = "sara_1.pdf";
 
-            fs.writeFile(htmlFileName, dummyContent, function(err) {
+            fs.writeFile(htmlFileName, html, function(err) {
               if(err) { throw err; }
                 util.log("file saved to site.html");
 
-                var child = exec("xvfb-run wkhtmltopdf " + html + " " + pdfFileName, function(err, stdout, stderr) {
+                var child = exec("xvfb-run wkhtmltopdf " + htmlFileName + " " + pdfFileName, function(err, stdout, stderr) {
                 if(err) { throw err; }
                   util.log(stderr);
                 });
