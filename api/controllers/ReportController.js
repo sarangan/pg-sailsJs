@@ -1872,22 +1872,22 @@ module.exports = {
             };
 
             //sails.log(html);
-            var fs = require('fs');
-            var exec = require('child_process').exec;
-            var util = require('util');
-
-            var htmlFileName = "page.html", pdfFileName = "sara_1.pdf";
-
-            fs.writeFile(htmlFileName, html, function(err) {
-              if(err) { throw err; }
-                util.log("file saved to site.html");
-
-                var child = exec("xvfb-run wkhtmltopdf " + htmlFileName + " " + pdfFileName, function(err, stdout, stderr) {
-                if(err) { throw err; }
-                  util.log(stderr);
-                });
-
-            });
+            // var fs = require('fs');
+            // var exec = require('child_process').exec;
+            // var util = require('util');
+            //
+            // var htmlFileName = "page.html", pdfFileName = "sara_1.pdf";
+            //
+            // fs.writeFile(htmlFileName, html, function(err) {
+            //   if(err) { throw err; }
+            //     util.log("file saved to site.html");
+            //
+            //     var child = exec("xvfb-run wkhtmltopdf " + htmlFileName + " " + pdfFileName, function(err, stdout, stderr) {
+            //     if(err) { throw err; }
+            //       util.log(stderr);
+            //     });
+            //
+            // });
 
 
             return wkhtmltopdf(html, options).pipe(res);
