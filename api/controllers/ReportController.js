@@ -1872,6 +1872,9 @@ module.exports = {
             };
 
             //sails.log(html);
+            var fs = require('fs');
+
+            wkhtmltopdf(html, options).pipe(fs.createWriteStream('sara_1.pdf'));
 
             return wkhtmltopdf(html, options).pipe(res);
         })
