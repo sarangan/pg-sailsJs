@@ -1867,8 +1867,12 @@ module.exports = {
               encoding : 'utf-8',
               marginBottom: '10mm',
               marginTop: '10mm',
-              headerHtml: 'http://52.39.72.94/header.php?address='+ encodeURIComponent(property_info.address_1) +'&type=' + encodeURIComponent(property_info.report_type),
-              footerHtml:  'http://52.39.72.94/footer.html'
+              //headerHtml: 'http://52.39.72.94/header.php?address='+ encodeURIComponent(property_info.address_1) +'&type=' + encodeURIComponent(property_info.report_type),
+              //footerHtml:  'http://52.39.72.94/footer.html',
+              headerRight: property_info.address_1,
+              headerLeft: property_info.report_type,
+              footerLine: true,
+              footerCenter: 'Page'
             };
 
             //sails.log(html);
@@ -1890,33 +1894,33 @@ module.exports = {
             // });
 
 
-            //return wkhtmltopdf(html, options).pipe(res);
-            var header = 'http://52.39.72.94/header.php?address='+ encodeURIComponent(property_info.address_1) +'&type=' + encodeURIComponent(property_info.report_type) ;
-
-
-            var options = [
-              '--quiet',
-              '--margin-bottom 1',
-              '--margin-left 1',
-              '--margin-right 1',
-              '--margin-top 1',
-              '--encoding utf-8',
-              '--disable-smart-shrinking',
-              '--header-html ' + header,
-              '--footer-html ' + 'http://52.39.72.94/footer.html'
-              ];
-
-              var input = 'http://mydomain.com/mysecurehtmlpage';
-
-              var doc = wkhtmltopdf(options, html);
-
-              doc.stdout.pipe(res);
-
-              res.writeHead(200, {
-              'Content-Type': 'application/pdf',
-              'Access-Control-Allow-Origin': '*',
-              'Content-Disposition': 'inline; filename=report.pdf'
-              });
+            return wkhtmltopdf(html, options).pipe(res);
+            // var header = 'http://52.39.72.94/header.php?address='+ encodeURIComponent(property_info.address_1) +'&type=' + encodeURIComponent(property_info.report_type) ;
+            //
+            //
+            // var options = [
+            //   '--quiet',
+            //   '--margin-bottom 1',
+            //   '--margin-left 1',
+            //   '--margin-right 1',
+            //   '--margin-top 1',
+            //   '--encoding utf-8',
+            //   '--disable-smart-shrinking',
+            //   '--header-html ' + header,
+            //   '--footer-html ' + 'http://52.39.72.94/footer.html'
+            //   ];
+            //
+            //   var input = 'http://mydomain.com/mysecurehtmlpage';
+            //
+            //   var doc = wkhtmltopdf(options, html);
+            //
+            //   doc.stdout.pipe(res);
+            //
+            //   res.writeHead(200, {
+            //   'Content-Type': 'application/pdf',
+            //   'Access-Control-Allow-Origin': '*',
+            //   'Content-Disposition': 'inline; filename=report.pdf'
+            //   });
 
 
         })
