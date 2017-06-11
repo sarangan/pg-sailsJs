@@ -1869,10 +1869,8 @@ module.exports = {
               marginTop: '10mm',
               //headerHtml: 'http://52.39.72.94/header.php?address='+ encodeURIComponent(property_info.address_1) +'&type=' + encodeURIComponent(property_info.report_type),
               //footerHtml:  'http://52.39.72.94/footer.html',
-               headerRight: "sara",
-              // headerLeft: property_info.report_type,
-               footerLine: true,
-               footerCenter: 'Page'
+              headerHtml: 'http://52.39.72.94/header.php?address=sara&type=assss',
+              footerHtml:  'http://52.39.72.94/footer.html',
             };
 
             //sails.log(html);
