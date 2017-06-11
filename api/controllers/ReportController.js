@@ -1871,8 +1871,8 @@ module.exports = {
               //footerHtml:  'http://52.39.72.94/footer.html',
                headerRight: "sara",
               // headerLeft: property_info.report_type,
-              // footerLine: true,
-              // footerCenter: 'Page'
+               footerLine: true,
+               footerCenter: 'Page'
             };
 
             //sails.log(html);
