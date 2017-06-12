@@ -4928,6 +4928,9 @@ module.exports = {
 										if(!user_id){
 											return res.json({status: 2, text: 'user id is missing!' });
 										}
+										else if(user_id == user.id){
+											return res.json({status: 2, text: 'Please contact the PropertyGround administrator, You cannot remove Administrator account!' });
+										}
 										else{
 											var qry = "delete from user where user.company_id ="+ user.company_id +" and user.id=" + user_id;
 
