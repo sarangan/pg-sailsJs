@@ -168,7 +168,7 @@ module.exports = {
 						var data = {
 							email: req.param('email'),
 							password: req.param('password'),
-							type: 'USER',
+							type: 'ADMIN',
 							company_id: company_id,
 							first_name:  req.param('first_name'),
 							last_name:  req.param('last_name'),
@@ -200,14 +200,6 @@ module.exports = {
 
 
 					}
-
-
-
-
-
-
-
-
 
 			});
 
