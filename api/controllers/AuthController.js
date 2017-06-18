@@ -53,8 +53,9 @@ module.exports = {
 				address : req.param('address'),
 				telephone : req.param('telephone'),
 			};
-
+			sails.log('validation ok');
 			Company.create( comapany_data ).exec(function afterwards(err, company){
+				sails.log('comapny ok');
 					if (err) return res.json(err);
 
 					if(company.company_id){
