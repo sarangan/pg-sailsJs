@@ -43,9 +43,9 @@ module.exports.connections = {
   PGMysqlServer: {
     adapter: 'sails-mysql',
     host: 'localhost',
-    user: 'root',
-    password: 'pss1@#',
-    database: 'property_ground_db',
+    user: 'propertyground_root',
+    password: 'pyfzmkNe9Entm2w',
+    database: 'propertyground_db',
     port: 3306
   },
 
