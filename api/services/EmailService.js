@@ -5,7 +5,7 @@ module.exports = {
   sendEmail: function (options, done) {
 
     let transporter = nodemailer.createTransport({
-        host: 'propertyground.co.uk',
+        host: 'whuk-46393.whukhost.com',
         port: 465,
         secure: true, // secure:true for port 465, secure:false for port 587
         auth: {
