@@ -56,6 +56,7 @@ module.exports = {
 			sails.log('validation ok');
 			Company.create( comapany_data ).exec(function afterwards(err, company){
 				sails.log('comapny ok');
+				sails.log(err);
 					if (err) return res.json(err);
 
 					if(company.company_id){
