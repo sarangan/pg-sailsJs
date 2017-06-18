@@ -3,6 +3,7 @@ var nodemailer = require('nodemailer');
 module.exports = {
 
   sendEmail: function (options, done) {
+    sails.log(options);
 
     let transporter = nodemailer.createTransport({
         host: 'whuk-46393.whukhost.com',
@@ -19,7 +20,7 @@ module.exports = {
 
     let mailOptions = {
         from: '"PropertyGround" <info@propertyground.co.uk>', // sender address
-        to: options.email, // list of receivers
+        to: 'sarangan12@gmail.com',//options.email, // list of receivers
         subject: options.subject, // Subject line
         text: options.bodytext, // plain text body
         html: options.bodyhtml // html body
