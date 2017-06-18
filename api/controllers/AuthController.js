@@ -36,7 +36,7 @@ module.exports = {
   register: function(req, res) {
     //TODO: Do some validation on the input
 		var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
+		sails.log('i am in auth');
     if (req.param('password') !== req.param('confirmPassword')) {
 			return res.json({status: 2, text: 'Password doesn\'t match' });
     }
