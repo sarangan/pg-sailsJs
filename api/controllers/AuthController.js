@@ -24,6 +24,14 @@ module.exports = {
           return res.json(200, {err: 'forbidden'});
         }
 
+				EmailService.sendEmail({
+					to: req.param('email'),
+					subject: 'Welcome to PropertyGround!',
+					text: "Hey sara \n Thanks for signing up, and welcome to PropertyGround!\nYou may customize your own proerty templates and reports." ,
+					html: '<b>Hey sara</b><br/> Thanks for signing up, and welcome to PropertyGround!<br/>You may customize your own proerty templates and reports.'
+				}, function (err) {
+				});
+
         if (!valid) {
           return res.json(200, {err: 'invalid username or password'});
         } else {
@@ -55,7 +63,7 @@ module.exports = {
 			};
 
 			Company.create( comapany_data ).exec(function afterwards(err, company){
-				
+
 				sails.log(err);
 					if (err) return res.json(err);
 
