@@ -4877,7 +4877,159 @@ module.exports = {
 				}
 			}
 
+		},
+
+		getusers: function(req, res){
+
+				if( req.token.hasOwnProperty('sid') ){
+					if(req.token.sid){
+
+							User.findOne({id :  req.token.sid}).exec(function(err, user){
+								if(err) return res.json(err);
+
+								console.log('user', user.company_id);
+
+									//check if the user is authorize to access this property
+									if(user.type ==  'ADMIN' ){
+
+										User.find({company_id: user.company_id }).exec(function(err, users){
+												if(err) return res.json(err);
+
+												return res.json({status: 1, users: users});
+										});
+
+									}
+									else{
+										return res.json({status: 2, text: 'you are not allow to access this function!' });
+									}
+
+							});
+
+
+					}
+				}
+		},
+
+		removeuser: function(req, res){
+
+				if( req.token.hasOwnProperty('sid') ){
+					if(req.token.sid){
+
+							User.findOne({id :  req.token.sid}).exec(function(err, user){
+								if(err) return res.json(err);
+
+								console.log('user', user.company_id);
+
+									//check if the user is authorize to access this property
+									if(user.type ==  'ADMIN' ){
+
+										var user_id = req.param('user_id');
+
+										if(!user_id){
+											return res.json({status: 2, text: 'user id is missing!' });
+										}
+										else if(user_id == user.id){
+											return res.json({status: 2, text: 'Please contact the PropertyGround administrator, You cannot remove Administrator account!' });
+										}
+										else{
+											var qry = "delete from user where user.company_id ="+ user.company_id +" and user.id=" + user_id;
+
+											User.query(qry, function(err, user){
+												//console.log(prop_room);
+												return res.json({ status: 1, text: 'successfully deleted' });
+
+											});
+
+										}
+
+									}
+									else{
+										return res.json({status: 2, text: 'you are not allow to access this function!' });
+									}
+
+							});
+
+
+					}
+				}
+		},
+
+		registeruser: function(req, res){
+
+				if( req.token.hasOwnProperty('sid') ){
+					if(req.token.sid){
+
+							User.findOne({id :  req.token.sid}).exec(function(err, user){
+								if(err) return res.json(err);
+
+								console.log('user', user.company_id);
+
+									//check if the user is authorize to access this property
+									if(user.type ==  'ADMIN' ){
+
+										var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+										if (req.param('password') !== req.param('confirmPassword')) {
+											return res.json({status: 2, text: 'Password doesn\'t match' });
+										}
+										else if(!re.test(req.param('email') )  && req.param('email') ){
+											return res.json({status: 2, text: 'Invalid email address!' });
+										}
+										else{
+
+											var data = {
+												email: req.param('email'),
+												password: req.param('password'),
+												type: 'USER',
+												company_id:  user.company_id,
+												first_name:  req.param('first_name'),
+												last_name:  req.param('last_name'),
+												contact:  req.param('contact'),
+												status: 1
+											};
+
+											User.create(data).exec(function(err, user) {
+									      if (err) {
+									        res.json(200, {err: err});
+									        return;
+									      }
+									      if (user) {
+
+													 EmailService.sendEmail({
+							 							 to: req.param('email'),
+							 							 subject: 'Welcome to PropertyGround!',
+														 text: "Hey " + req.param('first_name') + "\n Thanks for signing up, and welcome to PropertyGround!\nYou may customize your own proerty templates and reports." ,
+														 html: '<b>Hey '+ req.param('first_name') + '</b><br/> Thanks for signing up, and welcome to PropertyGround!<br/>You may customize your own proerty templates and reports.'
+							 						 }, function (err) {
+							 						 });
+
+
+													res.json({ status: 1, text: 'successfully updated' } );
+									      }
+									    });
+
+
+										}
+
+
+
+
+									}
+									else{
+										return res.json({status: 2, text: 'you are not allow to access this function!' });
+									}
+
+							});
+
+
+					}
+				}
 		}
+
+
+
+
+
 
 
 
