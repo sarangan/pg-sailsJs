@@ -14,6 +14,9 @@ module.exports = {
         }
     });
 
+    sails.log('email');
+    sails.log(options.email);
+
     let mailOptions = {
         from: '"PropertyGround" <info@propertyground.co.uk>', // sender address
         to: options.email, // list of receivers
