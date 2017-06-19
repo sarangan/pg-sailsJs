@@ -1867,8 +1867,8 @@ module.exports = {
               encoding : 'utf-8',
               // marginBottom: '10mm',
               // marginTop: '10mm',
-              //headerHtml: 'http://52.39.72.94/header.php?address='+ encodeURIComponent(property_info.address_1) +'&type=' + encodeURIComponent(property_info.report_type),
-              headerHtml: 'http://propertyground.co.uk/header.php?address=sara&type=assss',
+              headerHtml: 'http://52.39.72.94/header.php?address='+ encodeURIComponent(property_info.address_1) +'&type=' + encodeURIComponent(property_info.report_type),
+              //headerHtml: 'http://propertyground.co.uk/header.php?address=sara&type=assss',
               footerHtml:  'http://propertyground.co.uk/footer.html',
             };
 
