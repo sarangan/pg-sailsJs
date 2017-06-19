@@ -954,6 +954,7 @@ module.exports = {
 														dstPath: upload_path + '300_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
 														width: 300
 													}, function(err, stdout, stderr){
+														sails.log(err);
 														if (err) throw err;
 														sails.log('resized fit within 300px');
 													});
