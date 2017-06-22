@@ -4692,12 +4692,18 @@ module.exports = {
 		 											if (err) return res.json(err);
 		 											 if(photos.photo_id){
 
-		 													return res.json({
-		 														message: files.length + ' file(s) uploaded successfully!',
-		 														files: files,
-		 														data: data,
-		 														status: 1
-		 													});
+														 setTimeout(
+
+															 return res.json({
+	 		 														message: files.length + ' file(s) uploaded successfully!',
+	 		 														files: files,
+	 		 														data: data,
+	 		 														status: 1
+	 		 													});
+
+															 , 300);
+
+
 		 											 }
 		 										});
 
