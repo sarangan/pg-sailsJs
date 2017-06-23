@@ -429,8 +429,8 @@ module.exports = {
 
              var fs = require('fs');
              var wkhtmltopdf = require('wkhtmltopdf');
-             var server_image_path = 'http://propertyground.co.uk:1337/images/';
-             var server_rpt_image_path = 'http://propertyground.co.uk:1337/images/reportlogos/';
+             var server_image_path = 'http://52.39.72.94:3000/images/';
+             var server_rpt_image_path = 'http://52.39.72.94:3000/images/reportlogos/';
 
 
 //start general notes----------------------------------------------------------------------------------
@@ -686,7 +686,7 @@ module.exports = {
             option =  sub_item.feedback.option? sub_item.feedback.option : 'NIL';
             desc = sub_item.feedback.description? sub_item.feedback.description: 'NIL';
           }
-          
+
            sub_items_html += '<div class="divrow">' +
              '<div style="width: 30%; display:inline-block"><span class="left-text">'+ sub_item.subitem.item_name +'</span></div>' +
              '<div style="width: 50%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
@@ -1867,7 +1867,7 @@ module.exports = {
               encoding : 'utf-8',
               // marginBottom: '10mm',
               // marginTop: '10mm',
-              headerHtml: 'http://propertyground.co.uk/header.php?address='+ encodeURIComponent(property_info.address_1) +'&type=' + encodeURIComponent(property_info.report_type),
+              headerHtml: 'http://52.39.72.94/header.php?address='+ encodeURIComponent(property_info.address_1) +'&type=' + encodeURIComponent(property_info.report_type),
               //headerHtml: 'http://propertyground.co.uk/header.php?address=sara&type=assss',
               footerHtml:  'http://propertyground.co.uk/footer.html',
             };
