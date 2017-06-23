@@ -496,6 +496,8 @@ module.exports = {
         for(var i =0, l = meter_data.length; i < l ; i++){
           if(meter_data[i].photo){
 
+            sails.log(server_image_path +  property_id + '/' + '300_' + (meter_data[i].photo.substr(0, meter_data[i].photo.lastIndexOf('.')) || meter_data[i].photo) + '.jpg');
+
              meter_html += '<tr><td><div class="img-inline-wrapper">' +
              '<img src="' + server_image_path +  property_id + '/' + '300_' + (meter_data[i].photo.substr(0, meter_data[i].photo.lastIndexOf('.')) || meter_data[i].photo) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
              '<a href="'+ server_image_path +  property_id + '/' + meter_data[i].photo + '">Ref'+ (i + 1) +'</a>' +
@@ -655,6 +657,8 @@ module.exports = {
             else{
               photo_date = photo_date.toISOString().slice(0, 19).replace('T', ' ');
             }
+
+            sails.log(server_image_path +  property_id + '/' + 'report_300_' + (master_item.temp_top_photos[j].file_name.substr(0, master_item.temp_top_photos[j].file_name.lastIndexOf('.')) || master_item.temp_top_photos[j].file_name) + '.jpg')
 
             top_photos += '<div style="width: 25%; padding: 10px; background-color: #ffffff; display: inline-block; max-width: 300px; margin-bottom: 20px; margin-left: 10px; ">'+
               '<img src="'+ server_image_path +  property_id + '/' + 'report_300_' + (master_item.temp_top_photos[j].file_name.substr(0, master_item.temp_top_photos[j].file_name.lastIndexOf('.')) || master_item.temp_top_photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />' +
