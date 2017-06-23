@@ -4670,15 +4670,6 @@ module.exports = {
 											sails.log('resized fit within 600px');
 										});
 
-										im.crop({
-											srcPath: _src,
-											dstPath: upload_path + 'report_300_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
-											width: 300,
-											height: 300,
-										}, function(err, stdout, stderr){
-											if (err) throw err;
-											sails.log('cropped fit within 300px');
-										});
 
 										im.resize({
 										 srcPath: _src,
@@ -4688,24 +4679,33 @@ module.exports = {
 									 	}, function(err, stdout, stderr){
 										 		if (err) throw err;
 										 			 sails.log('resized fit within 300px');
-
-													 Photos.create(data).exec(function(err, photos){
-			 											if (err) return res.json(err);
-			 											 if(photos.photo_id){
-
-															  	return res.json({
-		 		 														message: files.length + ' file(s) uploaded successfully!',
-		 		 														files: files,
-		 		 														data: data,
-		 		 														status: 1
-		 		 													});
-
-
-			 											 }
-			 										});
-
 										});
 
+										im.crop({
+											srcPath: _src,
+											dstPath: upload_path + 'report_300_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
+											width: 300,
+											height: 300,
+										}, function(err, stdout, stderr){
+											if (err) throw err;
+											sails.log('cropped fit within 300px');
+
+											Photos.create(data).exec(function(err, photos){
+											 if (err) return res.json(err);
+												if(photos.photo_id){
+
+														 return res.json({
+															 message: files.length + ' file(s) uploaded successfully!',
+															 files: files,
+															 data: data,
+															 status: 1
+														 });
+
+
+												}
+										 });
+
+										});
 
 
 					  		});
