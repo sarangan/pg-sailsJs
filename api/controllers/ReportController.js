@@ -429,8 +429,9 @@ module.exports = {
 
              var fs = require('fs');
              var wkhtmltopdf = require('wkhtmltopdf');
-             var server_image_path = 'http://52.39.72.94:3000/images/';
+             var server_image_path = 'http://propertyground.co.uk:1337/images/';
              var server_rpt_image_path = 'http://52.39.72.94:3000/images/reportlogos/';
+
 
 
 //start general notes----------------------------------------------------------------------------------
