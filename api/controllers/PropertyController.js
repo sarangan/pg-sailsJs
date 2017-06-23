@@ -4766,43 +4766,46 @@ module.exports = {
 														sails.log('resized fit within 300px');
 													});
 
-													im.crop({
-														srcPath: _src,
-														dstPath: upload_path + 'report_300_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
-														width: 300,
-														height: 300,
-													}, function(err, stdout, stderr){
-														if (err) throw err;
-														sails.log('cropped fit within 300px');
-													});
+
+													im.resize({
+													 srcPath: _src,
+													 dstPath: upload_path + '600_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
+													 width: 600
+												 }, function(err, stdout, stderr){
+													 if (err) throw err;
+													 sails.log('resized fit within 600px');
+												 });
 
 
-													Photos.create(data).exec(function(err, photos){
-														if (err) return res.json(err);
-														 if(photos.photo_id){
-
-															 im.resize({
-		 					                  srcPath: _src,
-		 					                  dstPath: upload_path + '600_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
-		 					                  width: 600
-		 					                }, function(err, stdout, stderr){
-		 					                  if (err) throw err;
-		 					                  sails.log('resized fit within 600px');
-
-																return res.json({
-																	message: files.length + ' file(s) uploaded successfully!',
-																	files: files,
-																	data: data,
-																	status: 1
-																});
-
-		 					                });
+												 im.crop({
+													 srcPath: _src,
+													 dstPath: upload_path + 'report_300_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
+													 width: 300,
+													 height: 300,
+												 }, function(err, stdout, stderr){
+													 if (err) throw err;
+													 sails.log('cropped fit within 300px');
 
 
+													 Photos.create(data).exec(function(err, photos){
+ 														if (err) return res.json(err);
+ 														 if(photos.photo_id){
+
+ 															 return res.json({
+ 																 message: files.length + ' file(s) uploaded successfully!',
+ 																 files: files,
+ 																 data: data,
+ 																 status: 1
+ 															 });
+
+ 														 }
+ 													});
 
 
-														 }
-													});
+												 });
+
+
+
 
 								  		});
 
@@ -4936,7 +4939,18 @@ module.exports = {
 
 											User.query(qry, function(err, user){
 												//console.log(prop_room);
+
+												EmailService.sendEmail({
+				 		 							 to: user.email,
+				 		 							 subject: 'PropertyGround account has been suspended',
+				 									 text: "Hello" + user.first_name + "\n Your account has been removed from PropertyGround!\nYou may need to connect your administrator for further details.\n Thanks you.\nPropertyGround Team." ,
+				 									 html: '<b>Hello '+ user.first_name + '</b><br/>Your account has been removed from PropertyGround!<br/>You may need to connect your administrator for further details.<br/>Thanks you.<br/><b>PropertyGround Team</b>'
+				 		 						 }, function (err) {
+				 		 						 });
+
 												return res.json({ status: 1, text: 'successfully deleted' });
+
+
 
 											});
 
