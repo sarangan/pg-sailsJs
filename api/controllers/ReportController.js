@@ -686,15 +686,12 @@ module.exports = {
             option =  sub_item.feedback.option? sub_item.feedback.option : 'NIL';
             desc = sub_item.feedback.description? sub_item.feedback.description: 'NIL';
           }
-
-          if(option != 'NIL' &&  desc != 'NIL' ){
-            sub_items_html += '<div class="divrow">' +
-              '<div style="width: 30%; display:inline-block"><span class="left-text">'+ sub_item.subitem.item_name +'</span></div>' +
-              '<div style="width: 50%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
-              '<div style="width: 20%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
-            '</div>';
-          }
-
+          
+           sub_items_html += '<div class="divrow">' +
+             '<div style="width: 30%; display:inline-block"><span class="left-text">'+ sub_item.subitem.item_name +'</span></div>' +
+             '<div style="width: 50%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
+             '<div style="width: 20%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
+           '</div>';
 
 
            var photos_html = ''
@@ -973,14 +970,14 @@ module.exports = {
 
              }
 
-              if(desc != 'NIL' && option != 'NIL' &&  photos_html != '' ){
-                sub_items_html += '<div class="divrow">' +
-                  '<div style="width: 20%; display:inline-block"><span class="left-text">'+ sub_item.subitem.item_name +'</span></div>' +
-                  '<div style="width: 40%; display:inline-block"><span class="left-text">'+ desc +'</span></div>' +
-                  '<div style="width: 10%; display:inline-block"><span class="left-text">'+ option +'</span></div>' +
-                  '<div style="width: 30%; display:inline-block"><span class="left-text">'+ photos_html +'</span></div>' +
-                '</div>';
-              }
+               sub_items_html += '<div class="divrow">' +
+                 '<div style="width: 20%; display:inline-block"><span class="left-text">'+ sub_item.subitem.item_name +'</span></div>' +
+                 '<div style="width: 40%; display:inline-block"><span class="left-text">'+ desc +'</span></div>' +
+                 '<div style="width: 10%; display:inline-block"><span class="left-text">'+ option +'</span></div>' +
+                 '<div style="width: 30%; display:inline-block"><span class="left-text">'+ photos_html +'</span></div>' +
+               '</div>';
+
+
 
 
             }
@@ -1127,14 +1124,12 @@ module.exports = {
                 }
            }
 
-            if(desc != 'NIL' && option != 'NIL' &&  photos_html != '' ){
-              sub_items_html += '<div class="divrow">' +
-                 '<div style="width: 20%; display:inline-block"><span class="left-text">'+ master_item.master.name +'</span></div>' +
-                 '<div style="width: 40%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
-                 '<div style="width: 10%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
-                 '<div style="width: 30%; display:inline-block"> <span class="left-text">'+ photos_html +'</span></div>' +
-               '</div>';
-             }
+            sub_items_html += '<div class="divrow">' +
+               '<div style="width: 20%; display:inline-block"><span class="left-text">'+ master_item.master.name +'</span></div>' +
+               '<div style="width: 40%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
+               '<div style="width: 10%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
+               '<div style="width: 30%; display:inline-block"> <span class="left-text">'+ photos_html +'</span></div>' +
+             '</div>';
 
              var photos_bottom_html = '';
              if(master_item.photos){
@@ -1284,14 +1279,12 @@ module.exports = {
 
              }
 
-              if(desc != 'NIL' && option != 'NIL' &&  photos_html != '' ){
-                 sub_items_html += '<div class="divrow">' +
-                   '<div style="width: 20%; display:inline-block"><span class="left-text">'+ sub_item.subitem.item_name +'</span></div>' +
-                   '<div style="width: 40%; display:inline-block"><span class="left-text">'+ desc +'</span></div>' +
-                   '<div style="width: 10%; display:inline-block"><span class="left-text">'+ option +'</span></div>' +
-                   '<div style="width: 30%; display:inline-block"><span class="left-text">'+ photos_html +'</span></div>' +
-                 '</div>';
-              }
+               sub_items_html += '<div class="divrow">' +
+                 '<div style="width: 20%; display:inline-block"><span class="left-text">'+ sub_item.subitem.item_name +'</span></div>' +
+                 '<div style="width: 40%; display:inline-block"><span class="left-text">'+ desc +'</span></div>' +
+                 '<div style="width: 10%; display:inline-block"><span class="left-text">'+ option +'</span></div>' +
+                 '<div style="width: 30%; display:inline-block"><span class="left-text">'+ photos_html +'</span></div>' +
+               '</div>';
 
 
 
@@ -1403,14 +1396,12 @@ module.exports = {
                 }
            }
 
-           if(desc != 'NIL' && option != 'NIL' &&  photos_html != '' ){
-              sub_items_html += '<div class="divrow">' +
-                 '<div style="width: 20%; display:inline-block"><span class="left-text">'+ master_item.master.name +'</span></div>' +
-                 '<div style="width: 40%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
-                 '<div style="width: 10%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
-                 '<div style="width: 30%; display:inline-block"> <span class="left-text">'+ photos_html +'</span></div>' +
-               '</div>';
-           }
+            sub_items_html += '<div class="divrow">' +
+               '<div style="width: 20%; display:inline-block"><span class="left-text">'+ master_item.master.name +'</span></div>' +
+               '<div style="width: 40%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
+               '<div style="width: 10%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
+               '<div style="width: 30%; display:inline-block"> <span class="left-text">'+ photos_html +'</span></div>' +
+             '</div>';
 
            master_html +='<div class="chapter">' +
             '<h1 class="sub-heading">' + master_item.master.name + '</h1>' +
