@@ -429,8 +429,8 @@ module.exports = {
 
              var fs = require('fs');
              var wkhtmltopdf = require('wkhtmltopdf');
-             //var server_image_path = 'http://109.203.114.77:1337/images/';
-             var server_image_path = "http://propertyground.co.uk:1337/images/";
+             var server_image_path = 'http://52.39.72.94:3000/images/';
+             //var server_image_path = "http://propertyground.co.uk:1337/images/";
              var server_rpt_image_path = "http://propertyground.co.uk:1337/images/reportlogos/";
 
 
@@ -496,7 +496,7 @@ module.exports = {
         for(var i =0, l = meter_data.length; i < l ; i++){
           if(meter_data[i].photo){
 
-            sails.log(server_image_path +  property_id + '/' + '300_' + (meter_data[i].photo.substr(0, meter_data[i].photo.lastIndexOf('.')) || meter_data[i].photo) + '.jpg');
+            //sails.log(server_image_path +  property_id + '/' + '300_' + (meter_data[i].photo.substr(0, meter_data[i].photo.lastIndexOf('.')) || meter_data[i].photo) + '.jpg');
 
              meter_html += '<tr><td><div class="img-inline-wrapper">' +
              '<img src="' + server_image_path +  property_id + '/' + '300_' + (meter_data[i].photo.substr(0, meter_data[i].photo.lastIndexOf('.')) || meter_data[i].photo) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
@@ -658,7 +658,7 @@ module.exports = {
               photo_date = photo_date.toISOString().slice(0, 19).replace('T', ' ');
             }
 
-            sails.log(server_image_path +  property_id + '/' + 'report_300_' + (master_item.temp_top_photos[j].file_name.substr(0, master_item.temp_top_photos[j].file_name.lastIndexOf('.')) || master_item.temp_top_photos[j].file_name) + '.jpg')
+            //sails.log(server_image_path +  property_id + '/' + 'report_300_' + (master_item.temp_top_photos[j].file_name.substr(0, master_item.temp_top_photos[j].file_name.lastIndexOf('.')) || master_item.temp_top_photos[j].file_name) + '.jpg')
 
             top_photos += '<div style="width: 25%; padding: 10px; background-color: #ffffff; display: inline-block; max-width: 300px; margin-bottom: 20px; margin-left: 10px; ">'+
               '<img src="'+ server_image_path +  property_id + '/' + 'report_300_' + (master_item.temp_top_photos[j].file_name.substr(0, master_item.temp_top_photos[j].file_name.lastIndexOf('.')) || master_item.temp_top_photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />' +
@@ -1880,7 +1880,7 @@ module.exports = {
 
 
 
-            sails.log(html);
+            //sails.log(html);
             // var fs = require('fs');
             // var exec = require('child_process').exec;
             // var util = require('util');
