@@ -1878,7 +1878,9 @@ module.exports = {
               footerHtml:  'http://propertyground.co.uk/footer.html',
             };
 
-            //sails.log(html);
+
+
+            sails.log(html);
             // var fs = require('fs');
             // var exec = require('child_process').exec;
             // var util = require('util');
