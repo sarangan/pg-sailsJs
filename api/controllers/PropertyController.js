@@ -4683,6 +4683,7 @@ module.exports = {
 										im.resize({
 										 srcPath: _src,
 										 dstPath:  upload_path + '300_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
+										 quality: 0.6,
 										 width: 300
 									 	}, function(err, stdout, stderr){
 										 		if (err) throw err;
