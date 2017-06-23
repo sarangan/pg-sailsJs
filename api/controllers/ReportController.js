@@ -429,8 +429,8 @@ module.exports = {
 
              var fs = require('fs');
              var wkhtmltopdf = require('wkhtmltopdf');
-             var server_image_path = 'http://52.39.72.94:3000/images/';
-             var server_rpt_image_path = 'http://52.39.72.94:3000/images/reportlogos/';
+             var server_image_path = 'http://propertyground.co.uk:1337/images/';
+             var server_rpt_image_path ='http://propertyground.co.uk:1337/images/reportlogos/';
 
 
 //start general notes----------------------------------------------------------------------------------
@@ -1867,7 +1867,7 @@ module.exports = {
               encoding : 'utf-8',
               // marginBottom: '10mm',
               // marginTop: '10mm',
-              headerHtml: 'http://52.39.72.94/header.php?address='+ encodeURIComponent(property_info.address_1) +'&type=' + encodeURIComponent(property_info.report_type),
+              headerHtml: 'http://propertyground.co.uk/header.php?address='+ encodeURIComponent(property_info.address_1) +'&type=' + encodeURIComponent(property_info.report_type),
               //headerHtml: 'http://propertyground.co.uk/header.php?address=sara&type=assss',
               footerHtml:  'http://propertyground.co.uk/footer.html',
             };
