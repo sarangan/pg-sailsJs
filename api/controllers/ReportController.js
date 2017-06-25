@@ -1876,23 +1876,23 @@ module.exports = {
               headerHtml: 'http://propertyground.co.uk/header.php?address='+ encodeURIComponent(property_info.address_1) +'&type=' + encodeURIComponent(property_info.report_type),
               //headerHtml: 'http://propertyground.co.uk/header.php?address=sara&type=assss',
               footerHtml:  'http://propertyground.co.uk/footer.html',
-              output: 'report.pdf'
+              //output: 'report.pdf'
             };
 
 
-            wkhtmltopdf(html, options,  function (err, stream){
-              if (err){
-                sails.log(err);
-              }
-
-              sails.log('file created');
-
-              res.download('report.pdf');
-
-              //res.attachment('report.pdf');
-
-
-            });
+            // wkhtmltopdf(html, options,  function (err, stream){
+            //   if (err){
+            //     sails.log(err);
+            //   }
+            //
+            //   sails.log('file created');
+            //
+            //   res.download('report.pdf');
+            //
+            //   //res.attachment('report.pdf');
+            //
+            //
+            // });
 
             //sails.log(html);
             // var fs = require('fs');
@@ -1913,7 +1913,7 @@ module.exports = {
             // });
 
 
-            //return wkhtmltopdf(html, options).pipe(res);
+            return wkhtmltopdf(html, options).pipe(res);
 
 
         })
