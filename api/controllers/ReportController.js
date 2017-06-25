@@ -1885,7 +1885,9 @@ module.exports = {
                 sails.log(err);
               }
 
-              sails.log(stream);
+              //sails.log(stream);
+
+              res.attachment(report.pdf);
 
 
             });
