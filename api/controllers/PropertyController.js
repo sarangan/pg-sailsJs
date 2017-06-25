@@ -4686,6 +4686,7 @@ module.exports = {
 											dstPath: upload_path + 'report_300_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
 											width: 300,
 											height: 300,
+											quality: 0.6,
 										}, function(err, stdout, stderr){
 											if (err) throw err;
 											sails.log('cropped fit within 300px');
@@ -4782,6 +4783,7 @@ module.exports = {
 													 dstPath: upload_path + 'report_300_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
 													 width: 300,
 													 height: 300,
+													 quality: 0.6,
 												 }, function(err, stdout, stderr){
 													 if (err) throw err;
 													 sails.log('cropped fit within 300px');
