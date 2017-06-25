@@ -1885,9 +1885,11 @@ module.exports = {
                 sails.log(err);
               }
 
-              //sails.log(stream);
+              sails.log('file created');
 
-              res.attachment('report.pdf');
+              res.download('report.pdf');
+
+              //res.attachment('report.pdf');
 
 
             });
