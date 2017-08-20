@@ -103,7 +103,8 @@ module.exports.policies = {
    'recentprops' : ['tokenAuth'],
    'getusers' : ['tokenAuth'],
    'registeruser' : ['tokenAuth'],
-   'removeuser' : ['tokenAuth']
+   'removeuser' : ['tokenAuth'],
+   'changepassword' : ['tokenAuth']
  },
  'ReportController': {
    'getreportsettings': ['tokenAuth'],

@@ -5040,15 +5040,54 @@ module.exports = {
 
 					}
 				}
+		},
+
+		changepassword: function(req, res){
+
+				if( req.token.hasOwnProperty('sid') ){
+					if(req.token.sid){
+
+						if(req.param('oldpassword') && req.param('password') && req.param('confirmPassword') ){
+
+
+							User.findOne({id :  req.token.sid}).exec(function(err, user){
+								if(err) return res.json(err);
+								console.log('user', user.company_id);
+
+								if (req.param('oldpassword') !==  user.password ) {
+									return res.json({status: 2, text: 'Old Password is wrong' });
+						    }
+								else if (req.param('password') !== req.param('confirmPassword')) {
+									return res.json({status: 2, text: 'Password doesn\'t match' });
+						    }
+								else{
+
+									var data = {
+										password: req.param('password'),
+									}
+
+									User.update({id: user.id }, data).exec(function afterwards(err, updated){
+										if (err) return res.json(err);
+
+										return res.json({ status: 1, text: 'successfully updated', token: sailsTokenAuth.issueToken({sid: user.id})  });
+
+									});
+
+								}
+
+							});
+
+						}
+						else{
+							return res.json({status: 2, text: 'missing required fileds' });
+						}
+
+
+					}
+
+				}
+
 		}
-
-
-
-
-
-
-
-
 
 
 };
