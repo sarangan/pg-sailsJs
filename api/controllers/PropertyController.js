@@ -4945,8 +4945,8 @@ module.exports = {
 												EmailService.sendEmail({
 				 		 							 to: user.email,
 				 		 							 subject: 'PropertyGround account has been suspended',
-				 									 text: "Hello" + user.first_name + "\n Your account has been removed from PropertyGround!\nYou may need to connect your administrator for further details.\n Thanks you.\nPropertyGround Team." ,
-				 									 html: '<b>Hello '+ user.first_name + '</b><br/>Your account has been removed from PropertyGround!<br/>You may need to connect your administrator for further details.<br/>Thanks you.<br/><b>PropertyGround Team</b>'
+				 									 text: "Hello" + user.first_name + "\n Your account has been removed from PropertyGround!\nYou may need to connect your administrator for further details.\n Thank you.\nPropertyGround Team." ,
+				 									 html: '<b>Hello '+ user.first_name + '</b><br/>Your account has been removed from PropertyGround!<br/>You may need to connect your administrator for further details.<br/>Thank you.<br/><b>PropertyGround Team</b>'
 				 		 						 }, function (err) {
 				 		 						 });
 
@@ -5068,6 +5068,14 @@ module.exports = {
 
 									User.update({id: user.id }, data).exec(function afterwards(err, updated){
 										if (err) return res.json(err);
+
+										EmailService.sendEmail({
+											 to: user.email,
+											 subject: 'Your password changed',
+											 text: "Hello" + user.first_name + "\n Your account password has changed recently!\nYou may need to connect your administrator if you see feel anything suspicious.\n Thank you.\nPropertyGround Team." ,
+											 html: '<b>Hello '+ user.first_name + '</b><br/>Your account password has changed recently!<br/>You may need to connect your administrator if you see feel anything suspicious.<br/>Thank you.<br/><b>PropertyGround Team</b>'
+										 }, function (err) {
+										 });
 
 										return res.json({ status: 1, text: 'successfully updated', token: sailsTokenAuth.issueToken({sid: user.id})  });
 
