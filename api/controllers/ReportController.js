@@ -371,6 +371,11 @@ module.exports = {
                     return property_info_data;
               });
 
+              var company_data = Company.findOne({ company_id: user.company_id })
+                .then(function(company_data) {
+                    return company_data;
+              });
+
               qry = "select property_general_condition_link.* from property_general_condition_link where property_general_condition_link.status=1 and property_general_condition_link.property_id='"+ property_id +"' order by property_general_condition_link.priority";
               var general_conditionQueryAsync = Promise.promisify(Property_general_condition_link.query);
               var general_condition_data =  general_conditionQueryAsync(qry).then(function(general_condition_data) {
@@ -416,7 +421,7 @@ module.exports = {
               });
 
 
-              return [property_id, report_settings_data, report_settings_notes_data, property_info_data, general_condition_data, meter_data, master_data, sub_items_data, photo_data, feedback_data, feedback_general_data, signature_data ];
+              return [user, company_data, property_id, report_settings_data, report_settings_notes_data, property_info_data, general_condition_data, meter_data, master_data, sub_items_data, photo_data, feedback_data, feedback_general_data, signature_data ];
 
           }
           else{
@@ -424,7 +429,7 @@ module.exports = {
           }
 
         })
-        .spread(function(property_id, report_settings, report_settings_notes, property_info, general_conditions, meter_data, master_data, sub_items_data, photo_data, feedback_data, feedback_general_data, signature_data ) {
+        .spread(function(user, company_data, property_id, report_settings, report_settings_notes, property_info, general_conditions, meter_data, master_data, sub_items_data, photo_data, feedback_data, feedback_general_data, signature_data ) {
 
 
              var fs = require('fs');
@@ -435,7 +440,7 @@ module.exports = {
 
 
 
-//start general notes----------------------------------------------------------------------------------
+             //start general notes----------------------------------------------------------------------------------
             var general_notes  ='';
             if(property_info.report_type){
                  var notes = '';
@@ -1877,8 +1882,7 @@ module.exports = {
               //headerHtml: 'http://propertyground.co.uk/header.php?address=sara&type=assss',
               footerHtml:  'http://propertyground.co.uk/footer.html',
               //output: 'report.pdf'
-              toc : true,
-              xslStyleSheet: '/home/propertyground/public_html/tocstyle.xsl'
+
             };
 
 
@@ -1914,8 +1918,253 @@ module.exports = {
             //
             // });
 
+            var fs = require('fs');
+            var xls_file_path =  '/home/propertyground/public_html/' + user.id + '.xsl';
+            sails.log("xls path " +  xls_file_path );
 
-            return wkhtmltopdf(html, options).pipe(res);
+            var front_photo = '';
+            if(property_info.image_url){
+              front_photo =  server_image_path +  property_id + '/' + 'report_300x700_' + (property_info.image_url.substr(0, property_info.image_url.lastIndexOf('.')) || property_info.image_url) + '.jpg';
+            }
+            else{
+              front_photo = server_image_path +  property_id + '/' + '600_' + (total_photos[0].file_name.substr(0, total_photos[0].file_name.lastIndexOf('.')) || total_photos[0].file_name) + '.jpg'
+            }
+
+            var logo_photo = '';
+            if(report_settings.logo_url){
+              logo_photo =  server_rpt_image_path   + '300_' + (report_settings.logo_url.substr(0, report_settings.logo_url.lastIndexOf('.')) || report_settings.logo_url) + '.jpg';
+            }
+            else{
+              logo_photo = '/home/propertyground/public_html/images/property-ground-logo.png' ;
+            }
+
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth()+1; //January is 0!
+            var yyyy = today.getFullYear();
+            if(dd<10) {
+                dd = '0'+dd
+            }
+            if(mm<10) {
+                mm = '0'+mm
+            }
+            var report_date = mm + '/' + dd + '/' + yyyy;
+            if(!property_info.report_date || property_info.report_date != '0000-00-00 00:00:00'){
+              report_date = property_info.report_date;
+            }
+
+
+            var xls_str = '<?xml version="1.0" encoding="UTF-8"?>' +
+            '<xsl:stylesheet version="2.0"  xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:outline="http://wkhtmltopdf.org/outline" xmlns="http://www.w3.org/1999/xhtml">' +
+            '<xsl:output doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" indent="yes" />' +
+              '<xsl:template match="outline:outline">' +
+                '<html> <head> <title>Table of Contents</title> <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />' +
+                  '<style>' +
+                      ' html,body { font-family: sans-serif; font-size:12px; }' +
+                      ' h1 { text-align: left; font-family: sans-serif; font-size:25px; color: #0088CC; line-height: 28px; margin-bottom: 30px; font-weight: bold; }' +
+                      ' .heading { text-align: left; font-family: sans-serif; font-size:25px; color: #0088CC; line-height: 28px; margin-bottom: 30px; font-weight: bold; }' +
+                      ' .border-line { border-bottom: 1px dashed #797979;}' +
+                      ' span { float: right;}' +
+                      ' li { list-style: none; margin-top: 7px; margin-bottom: 25px; }' +
+                      ' ul { font-size: 15px; font-family: sans-serif; color: #797979; line-height: 20px; font-weight: bold; }' +
+                      ' ul ul {font-size: 80%; } ul {padding-left: 0em;} ul ul {padding-left: 1em;}' +
+                      ' a {text-decoration:none; color: #797979;}' +
+                      ' .chapter { display: block; clear: both; page-break-after: always; padding: 20px;}' +
+                    '</style>' +
+                  '</head>' +
+                  '<body>' +
+                    '<div class="chapter">';
+
+            if(report_settings.front_page_layout == 'TEMPLATE 1'){
+              xls_str += '<table style="width: 100%; border: 0; margin-top: 20px;">' +
+                 '<thead>' +
+                   '<th style="width: 30%;"></th>' +
+                   '<th style="width: 70%;"></th>' +
+                 '</thead>' +
+                 '<tbody>' +
+                    '<tr>' +
+                      '<td style="text-align: left;">' +
+                        '<div style="width: 100%; padding: 10px; background-color: #ffffff; ">' +
+                          '<img src="' + logo_photo + '" alt="img" style="width: 150px; height: auto; max-width: 150px;"/>' +
+                        '</div>' +
+                      '</td>' +
+                      '<td style="text-align: right; border-top: 1px solid #2196F3; border-bottom: 1px solid #2196F3; padding: 10px;">' +
+                        '<div style="background-color: #ffffff; color: #000000; ">' +
+                          '<div style="font-size: 16px; font-weight: bold; margin-bottom: 5px; letter-spacing: 1px; ">' + company_data.company_name + '</div>' +
+                          '<div style="font-size: 16px; margin-bottom: 5px;">' + company_data.address + '</div>' +
+                          '<div style="font-size: 16px; margin-bottom: 5px;">' + company_data.telephone + '</div>' +
+                        '</div>' +
+                      '</td>' +
+                    '</tr>' +
+                  '</tbody>' +
+              '</table>' +
+              '<div style="width: 100%; border: 0; margin-top: 45px; text-align:center;">' +
+                '<div style="width: 100%; border: 0; text-align:center;">' +
+                  '<div style="color: #000000; margin-bottom: 10px;  padding-top: 10px; padding-bottom: 10px; padding-right: 10px; padding-left: 10px; display:inline-block; ">' +
+                    '<div style="font-size: 25px; font-weight: bold; margin-bottom: 5px; letter-spacing: 1px; ">' + property_info.report_type + '</div>' +
+                  '</div>' +
+                '</div>' +
+                '<br/>' +
+                '<div style="width: 100%; border: 0; text-align:center;">' +
+                  '<div style="padding: 0px; background-color: #ffffff; border-bottom: 4px solid #2196F3; border-top: 4px solid #2196F3; display: inline-block;">' +
+                    '<img src="' + front_photo + '" alt="img" style="width: 100%; height: auto;  display: inline-block; max-width: 600px;" />' +
+                  '</div>' +
+                '</div>' +
+                '<div style="width: 100%; text-align:center; border-top: 1px solid #2196F3; margin-top: 40px;">' +
+                  '<div style="background-color: #ffffff; color: #000000; text-align:left; margin-top: 10px; padding-top: 10px; padding-bottom: 10px; padding-right: 10px; padding-left: 10px; display:inline-block; ">' +
+                    '<div style="font-size: 16px; margin-bottom: 5px;">' + property_info.address_1 + ' ' + property_info.address_2 + '</div>' +
+                    '<div style="font-size: 16px; margin-bottom: 5px;">' + property_info.city + ' ' + property_info.postalcode + '</div>' +
+                    '<div style="font-size: 16px; margin-bottom: 5px;">Prepared by: ' + user.first_name + ' ' + user.last_name + '</div>' +
+                    '<div style="font-size: 16px; margin-bottom: 5px;">Date of Inspection: ' + report_date + '</div>' +
+                  '</div>' +
+                '</div>' +
+              '</div>';
+
+            }
+            else if(report_settings.front_page_layout == 'TEMPLATE 3'){
+              xls_str += '<table style="width: 100%; border: 0; margin-top: 20px;">' +
+                 '<thead>' +
+                   '<th style="width: 30%;"></th>' +
+                   '<th style="width: 70%;"></th>' +
+                 '</thead>' +
+                 '<tbody>' +
+                    '<tr>' +
+                      '<td style="text-align: left;">' +
+                        '<div style="width: 100%; padding: 10px; background-color: #ffffff; ">' +
+                          '<img src="' + logo_photo + '" alt="img" style="width: 150px; height: auto; max-width: 150px;"/>' +
+                        '</div>' +
+                      '</td>' +
+                      '<td style="text-align: right; border-top: 1px solid #2196F3; border-bottom: 1px solid #2196F3; padding: 10px;">' +
+                        '<div style="background-color: #ffffff; color: #000000; ">' +
+                          '<div style="font-size: 16px; font-weight: bold; margin-bottom: 5px; letter-spacing: 1px; ">' + company_data.company_name + '</div>' +
+                          '<div style="font-size: 16px; margin-bottom: 5px;">' + company_data.address + '</div>' +
+                          '<div style="font-size: 16px; margin-bottom: 5px;">' + company_data.telephone + '</div>' +
+                        '</div>' +
+                      '</td>' +
+                    '</tr>' +
+                  '</tbody>' +
+              '</table>' +
+              '<div style="width: 100%; border: 0; margin-top: 45px; text-align:center;">' +
+                '<div style="width: 100%; border: 0; text-align:center;">' +
+                  '<div style="background-color: #d0d0d0; color: #000000; margin-bottom: 20px;  padding-top: 10px; padding-bottom: 10px; padding-right: 10px; padding-left: 10px; display:inline-block; ">' +
+                    '<div style="font-size: 23px; font-weight: bold; margin-bottom: 5px; letter-spacing: 1px; ">' + property_info.report_type + '</div>' +
+                    '<div style="font-size: 18px;">Date of Inspection: ' + report_date + '</div>' +
+                    '<div style="font-size: 18px;">Prepared by: '+ user.first_name + ' ' + user.last_name + '</div>' +
+                  '</div>' +
+                '</div>' +
+                '<br/>' +
+                '<div style="width: 100%; border: 0; text-align:center;">' +
+                  '<div style="padding: 10px; background-color: #ffffff; border: 1px solid #efefef; display: inline-block;">' +
+                    '<img src="' + front_photo + '" alt="img" style="width: 100%; height: auto;  display: inline-block; max-width: 300px;" />' +
+                  '</div>' +
+                '</div>' +
+                '<div style="width: 100%; border: 0; text-align:center;">' +
+                  '<div style="background-color: #ffffff; color: #000000; margin-top: 40px; text-align:left; padding-top: 10px; padding-bottom: 10px; padding-right: 10px; padding-left: 10px; display:inline-block; ">' +
+                    '<div style="font-size: 16px; margin-bottom: 5px;">'+ property_info.address_1 + ' ' + property_info.address_2 + '</div>' +
+                    '<div style="font-size: 16px; margin-bottom: 5px;">'+ property_info.city + ' ' + property_info.postalcode + '</div>' +
+                  '</div>' +
+                '</div>' +
+              '</div>';
+            }
+            else if(report_settings.front_page_layout == 'TEMPLATE 2'){
+              xls_str += '<table style="width: 100%; border: 0; margin-top: 20px;">' +
+                 '<thead>' +
+                   '<th style="width: 30%;"></th>' +
+                   '<th style="width: 70%;"></th>' +
+                 '</thead>' +
+                 '<tbody>' +
+                    '<tr>' +
+                      '<td style="text-align: left;">' +
+                        '<div style="width: 100%; padding: 10px; background-color: #ffffff; ">' +
+                          '<img src="' + logo_photo + '" alt="img" style="width: 150px; height: auto; max-width: 150px;"/>' +
+                        '</div>' +
+                      '</td>' +
+                      '<td style="text-align: right; border-top: 1px solid #2196F3; border-bottom: 1px solid #2196F3; padding: 10px;">' +
+                        '<div style="background-color: #ffffff; color: #000000; ">' +
+                          '<div style="font-size: 16px; font-weight: bold; margin-bottom: 5px; letter-spacing: 1px; ">' + company_data.company_name + '</div>' +
+                          '<div style="font-size: 16px; margin-bottom: 5px;">' + company_data.address + '</div>' +
+                          '<div style="font-size: 16px; margin-bottom: 5px;">' +  company_data.telephone + '</div>' +
+                        '</div>' +
+                      '</td>' +
+                    '</tr>' +
+                  '</tbody>' +
+              '</table>' +
+              '<table style="width: 100%; border: 0; margin-top: 100px;">' +
+                 '<thead>' +
+                   '<th style="width: 50%;"></th>' +
+                   '<th style="width: 50%;"></th>' +
+                 '</thead>' +
+                 '<tbody>' +
+                    '<tr>' +
+                      '<td style="text-align: right;">' +
+                        '<div style="width: 70%; padding: 10px; background-color: #ffffff; border: 1px solid #efefef; display: inline-block; margin: 5px">' +
+                          '<img src="' + front_photo + '" alt="img" style="width: 100%; height: auto;  display: inline-block; max-width: 300px;" />' +
+                        '</div>' +
+                      '</td>' +
+                      '<td style="width: 50%; text-align: left;">' +
+                        '<div style="text-align: left; margin-top: 10px; padding-left: 20px; margin-bottom: 30px; ">' +
+                          '<img src="' + logo_photo + '" alt="img" style="width: 150px; height: auto; max-width: 150px;"/>' +
+                        '</div>' +
+                        '<div style="background-color: #d0d0d0; color: #000000; margin-bottom: 20px;  padding-left: 20px; padding-top: 20px; padding-bottom: 20px; padding-right: 10px;  width: 90%;">' +
+                          '<div style="font-size: 23px; font-weight: bold; margin-bottom: 5px; letter-spacing: 1px; ">' + property_info.report_type  + '</div>' +
+                          '<div style="font-size: 20px;">Date of Inspection: ' + report_date + '</div>' +
+                          '<div style="font-size: 20px;">Address: ' + property_info.address_1 + ' ' + property_info.address_2 + '</div>' +
+                        '</div>' +
+                      '</td>' +
+                    '</tr>' +
+                  '</tbody>' +
+              '</table>';
+            }
+
+            xls_str += '</div>' +
+            '<div class="chapter">' +
+              '<div class="heading">Table of Contents</div>' +
+              '<ul><xsl:apply-templates select="outline:item/outline:item"/></ul>' +
+            '</div>' +
+          '</body>' +
+        '</html>' +
+      '</xsl:template>' +
+      '<xsl:template match="outline:item">' +
+        '<li>' +
+          '<xsl:if test="@title!=''">' +
+            '<div class="border-line">' +
+              '<a>' +
+                '<xsl:if test="@link">' +
+                  '<xsl:attribute name="href"><xsl:value-of select="@link"/></xsl:attribute>' +
+                '</xsl:if>' +
+                '<xsl:if test="@backLink">' +
+                  '<xsl:attribute name="name"><xsl:value-of select="@backLink"/></xsl:attribute>' +
+                '</xsl:if>' +
+                '<xsl:value-of select="@title" />' +
+              '</a>' +
+              '<span> <xsl:value-of select="@page" /> </span>' +
+            '</div>' +
+          '</xsl:if>' +
+          '<ul>' +
+            '<xsl:comment>added to prevent self-closing tags in QtXmlPatterns</xsl:comment>' +
+            '<xsl:apply-templates select="outline:item"/>' +
+          '</ul>' +
+        '</li>' +
+      '</xsl:template>' +
+    '</xsl:stylesheet>';
+
+            fs.truncate(xls_file_path, 0, function() {
+                fs.writeFile(xls_file_path, xls_str, function (err) {
+                    if(err){
+                      sails.log("Error writing file: " + err);
+                    }
+                    else{
+                      options['toc'] = true;
+                      options['xslStyleSheet'] = xls_file_path; //'/home/propertyground/public_html/tocstyle.xsl';
+                    }
+
+                    return wkhtmltopdf(html, options).pipe(res);
+
+                });
+            });
+
+
+
 
 
         })
