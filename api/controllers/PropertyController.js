@@ -5044,6 +5044,7 @@ module.exports = {
 
 		changepassword: function(req, res){
 
+
 				if( req.token.hasOwnProperty('sid') ){
 					if(req.token.sid){
 
@@ -5054,34 +5055,46 @@ module.exports = {
 								if(err) return res.json(err);
 								console.log('user', user.company_id);
 
-								if (req.param('oldpassword') !==  user.password ) {
-									return res.json({status: 2, text: 'Old Password is wrong' });
-						    }
-								else if (req.param('password') !== req.param('confirmPassword')) {
-									return res.json({status: 2, text: 'Password doesn\'t match' });
-						    }
-								else{
+								User.validPassword(req.param('oldpassword') , user, function(err, valid) {
+					        if (err) {
+										return res.json({status: 2, text: 'forbidden' });
+					        }
 
-									var data = {
-										password: req.param('password'),
+					        if (!valid) {
+					          return res.json({ status: 2, text: 'invalid username or password'});
+					        }
+									else if (req.param('password') !== req.param('confirmPassword')) {
+										return res.json({status: 2, text: 'Password doesn\'t match' });
+							    }
+									else{
+
+										var data = {
+											password: req.param('password'),
+										}
+
+										User.update({id: user.id }, data).exec(function afterwards(err, updated){
+											if (err) return res.json(err);
+
+											EmailService.sendEmail({
+												 to: user.email,
+												 subject: 'Your password changed',
+												 text: "Hello" + user.first_name + "\n Your account password has changed recently!\nYou may need to connect your administrator if you see feel anything suspicious.\n Thank you.\nPropertyGround Team." ,
+												 html: '<b>Hello '+ user.first_name + '</b><br/>Your account password has changed recently!<br/>You may need to connect your administrator if you see feel anything suspicious.<br/>Thank you.<br/><b>PropertyGround Team</b>'
+											 }, function (err) {
+											 });
+
+											return res.json({ status: 1, text: 'successfully updated', token: sailsTokenAuth.issueToken({sid: user.id})  });
+
+										});
+
 									}
 
-									User.update({id: user.id }, data).exec(function afterwards(err, updated){
-										if (err) return res.json(err);
 
-										EmailService.sendEmail({
-											 to: user.email,
-											 subject: 'Your password changed',
-											 text: "Hello" + user.first_name + "\n Your account password has changed recently!\nYou may need to connect your administrator if you see feel anything suspicious.\n Thank you.\nPropertyGround Team." ,
-											 html: '<b>Hello '+ user.first_name + '</b><br/>Your account password has changed recently!<br/>You may need to connect your administrator if you see feel anything suspicious.<br/>Thank you.<br/><b>PropertyGround Team</b>'
-										 }, function (err) {
-										 });
+					      });
 
-										return res.json({ status: 1, text: 'successfully updated', token: sailsTokenAuth.issueToken({sid: user.id})  });
 
-									});
 
-								}
+
 
 							});
 
