@@ -1920,7 +1920,7 @@ module.exports = {
 
             var fs = require('fs');
             var xls_file_path =  '/home/propertyground/public_html/' + user.id + '.xsl';
-            sails.log("xls path " +  xls_file_path );
+
 
             var front_photo = '';
             if(property_info.image_url){
@@ -1937,6 +1937,9 @@ module.exports = {
             else{
               logo_photo = '/home/propertyground/public_html/images/property-ground-logo.png' ;
             }
+
+
+            sails.log("xls path " + front_photo );
 
             var today = new Date();
             var dd = today.getDate();
@@ -1975,7 +1978,7 @@ module.exports = {
                   '<body>' +
                     '<div class="chapter">';
 
-            if(report_settings.front_page_layout == 'TEMPLATE 1'){
+            if(report_settings.front_page_layout == 'TEMPLATE 3'){
               xls_str += '<table style="width: 100%; border: 0; margin-top: 20px;">' +
                  '<thead>' +
                    '<th style="width: 30%;"></th>' +
@@ -2021,7 +2024,7 @@ module.exports = {
               '</div>';
 
             }
-            else if(report_settings.front_page_layout == 'TEMPLATE 3'){
+            else if(report_settings.front_page_layout == 'TEMPLATE 2'){
               xls_str += '<table style="width: 100%; border: 0; margin-top: 20px;">' +
                  '<thead>' +
                    '<th style="width: 30%;"></th>' +
@@ -2066,7 +2069,7 @@ module.exports = {
                 '</div>' +
               '</div>';
             }
-            else if(report_settings.front_page_layout == 'TEMPLATE 2'){
+            else if(report_settings.front_page_layout == 'TEMPLATE 1'){
               xls_str += '<table style="width: 100%; border: 0; margin-top: 20px;">' +
                  '<thead>' +
                    '<th style="width: 30%;"></th>' +
