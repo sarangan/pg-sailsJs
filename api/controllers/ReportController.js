@@ -2126,7 +2126,7 @@ module.exports = {
       '</xsl:template>' +
       '<xsl:template match="outline:item">' +
         '<li>' +
-          '<xsl:if test="@title!=''">' +
+          '<xsl:if test="@title!=\'\'">' +
             '<div class="border-line">' +
               '<a>' +
                 '<xsl:if test="@link">' +
