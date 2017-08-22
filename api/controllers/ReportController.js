@@ -1924,10 +1924,10 @@ module.exports = {
 
             var front_photo = '';
             if(property_info.image_url){
-              front_photo =  server_image_path +  property_id + '/' + 'report_300x700_' + (property_info.image_url.substr(0, property_info.image_url.lastIndexOf('.')) || property_info.image_url) + '.jpg';
+              front_photo =  server_image_path +  property_id + '/' + '300_' + (property_info.image_url.substr(0, property_info.image_url.lastIndexOf('.')) || property_info.image_url) + '.jpg';
             }
             else{
-              front_photo = server_image_path +  property_id + '/' + '600_' + (total_photos[0].file_name.substr(0, total_photos[0].file_name.lastIndexOf('.')) || total_photos[0].file_name) + '.jpg'
+              front_photo = server_image_path +  property_id + '/' + '300_' + (total_photos[0].file_name.substr(0, total_photos[0].file_name.lastIndexOf('.')) || total_photos[0].file_name) + '.jpg'
             }
 
             var logo_photo = '';
