@@ -1877,6 +1877,8 @@ module.exports = {
               //headerHtml: 'http://propertyground.co.uk/header.php?address=sara&type=assss',
               footerHtml:  'http://propertyground.co.uk/footer.html',
               //output: 'report.pdf'
+              toc : true,
+              xslStyleSheet: 'http://propertyground.co.uk/tocstyle.xsl'
             };
 
 
