@@ -1878,7 +1878,7 @@ module.exports = {
               footerHtml:  'http://propertyground.co.uk/footer.html',
               //output: 'report.pdf'
               toc : true,
-              xslStyleSheet: 'http://propertyground.co.uk/tocstyle.xsl'
+              xslStyleSheet: '/home/propertyground/public_html/tocstyle.xsl'
             };
 
 
