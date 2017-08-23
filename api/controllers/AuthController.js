@@ -207,10 +207,56 @@ module.exports = {
 
 		}
 
+  },
+	forgetpassword: function(req, res) {
+    var email = req.param('email');
+
+    if (!email ) {
+      return res.json({status: 2, text: 'email required'});
+    }
+		else{
+
+			User.findOneByEmail(email, function(err, user) {
+
+	      if (!user) {
+	        return res.json({status: 2, text: 'invalid email'});
+	      }
+				else{
+
+					var password = '';
+					var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	 				for (var i = 9; i > 0; --i){
+						password += chars[Math.floor(Math.random() * chars.length)];
+					}
+
+					var data = {
+						password: password,
+					}
+
+					User.update({id: user.id }, data).exec(function afterwards(err, updated){
+						if (err) return res.json(err);
+
+						EmailService.sendEmail({
+							 to: user.email,
+							 subject: 'Reset password',
+							 text: "Hello" + user.first_name + ",\n Your new password is : " + password +  "\nWe have reset your account password.\nYou may use this password to login to PropertyGround dashboard and change your password.\n Thank you.\nPropertyGround Team." ,
+							 html: '<b>Hello '+ user.first_name + '</b><br/>Your new password is : ' + password + '<br/>We have reset your account password.<br/>You may use this password to login to PropertyGround dashboard and change your password.<br/>Thank you.<br/><b>PropertyGround Team</b>'
+						 }, function (err) {
+						 });
+
+						return res.json({ status: 1, text: 'successfully reset', token: sailsTokenAuth.issueToken({sid: user.id})  });
+
+					});
 
 
+				}
 
 
+	    });
 
-  }
+		}
+
+
+  },
+
 };
