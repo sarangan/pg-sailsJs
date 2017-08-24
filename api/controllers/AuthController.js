@@ -244,7 +244,9 @@ module.exports = {
 						 }, function (err) {
 						 });
 
-						return res.json({ status: 1, text: 'successfully reset', token: sailsTokenAuth.issueToken({sid: user.id})  });
+						var token = sailsTokenAuth.issueToken({sid: user.id});
+
+						return res.json({ status: 1, text: 'password reset successfully' } );
 
 					});
 
