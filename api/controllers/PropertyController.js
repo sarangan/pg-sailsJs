@@ -3092,13 +3092,14 @@ module.exports = {
 										for(var i =0, l = sub_items.length; i < l ; i++){
 											if(sub_items[i].type == 'GENERAL'){
 												gen_sub_item_id = sub_items[i].prop_subitem_id;
+												sails.log('found general id ' +  gen_sub_item_id);
 											}
 										}
 
 										if(gen_sub_item_id){
 
 
-										    Property_sub_feedback_general.findOne({item_id: gen_sub_item_id }).exec(function afterwards(err, comments){
+										    Property_sub_feedback_general.findOne({item_id: gen_sub_item_id, parent_id: prop_master_id,  property_id: property_id }).exec(function afterwards(err, comments){
 										    	return res.json({status: 1, sub_items: sub_items, gen_comment:comments });
 										    });
 
