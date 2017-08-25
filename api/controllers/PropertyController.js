@@ -1968,7 +1968,7 @@ module.exports = {
 								if(err) return res.json(err);
 
 								//check if the user is authorize to access this property
-								if(user.company_id ==  property_details.company_id ){
+								if(user.company_id ==  property_details.company_id  && user.type ==  'ADMIN' ){
 
 									//good to go from here
 									//var qry = "select property_masteritem_link.*, company_masteritem_link.item_name, company_masteritem_link.type, company_masteritem_link.option from property_masteritem_link inner join company_masteritem_link on property_masteritem_link.com_master_id = company_masteritem_link.com_master_id where property_masteritem_link.type='DEFAULT' and property_masteritem_link.property_id =" + property_id + " order by property_masteritem_link.com_master_id, company_masteritem_link.option ";
@@ -2023,7 +2023,7 @@ module.exports = {
 								if(err) return res.json(err);
 
 								//check if the user is authorize to access this property
-								if(user.company_id ==  property_details.company_id ){
+								if(user.company_id ==  property_details.company_id && user.type ==  'ADMIN' ){
 
 
 									var nums = req.param('nums');

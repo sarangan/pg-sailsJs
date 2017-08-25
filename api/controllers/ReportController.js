@@ -64,7 +64,7 @@ module.exports = {
           if(err) return res.json(err);
 
           //check if the user is authorize to access this property
-          if(user.company_id){
+          if(user.company_id && user.type == 'ADMIN'){
 
             var settings = req.param('report_settings');
 
