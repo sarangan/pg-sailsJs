@@ -2010,7 +2010,7 @@ module.exports = {
                 '<br/>' +
                 '<div style="width: 100%; border: 0; text-align:center;">' +
                   '<div style="padding: 0px; background-color: #ffffff; border-bottom: 4px solid #2196F3; border-top: 4px solid #2196F3; display: inline-block;">' +
-                    '<img src="' + front_photo + '" alt="img" style="width: 100%; height: auto;  display: inline-block; max-width: 600px;" />' +
+                    '<img src="' + front_photo + '" alt="img" style="width: 600px; height: auto;  display: inline-block; max-width: 600px;" />' +
                   '</div>' +
                 '</div>' +
                 '<div style="width: 100%; text-align:center; border-top: 1px solid #2196F3; margin-top: 40px;">' +
