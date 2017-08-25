@@ -1988,7 +1988,7 @@ module.exports = {
                     '<tr>' +
                       '<td style="text-align: left;">' +
                         '<div style="width: 100%; padding: 10px; background-color: #ffffff; ">' +
-                          '<img src="' + logo_photo + '" alt="img" style="width: 150px; height: auto; max-width: 150px;"/>' +
+                          '<img src="' + logo_photo + '" alt="img" style="width: 100px; height: auto; max-width: 100px;"/>' +
                         '</div>' +
                       '</td>' +
                       '<td style="text-align: right; border-top: 1px solid #2196F3; border-bottom: 1px solid #2196F3; padding: 10px;">' +
@@ -2034,7 +2034,7 @@ module.exports = {
                     '<tr>' +
                       '<td style="text-align: left;">' +
                         '<div style="width: 100%; padding: 10px; background-color: #ffffff; ">' +
-                          '<img src="' + logo_photo + '" alt="img" style="width: 150px; height: auto; max-width: 150px;"/>' +
+                          '<img src="' + logo_photo + '" alt="img" style="width: 120px; height: auto; max-width: 120px;"/>' +
                         '</div>' +
                       '</td>' +
                       '<td style="text-align: right; border-top: 1px solid #2196F3; border-bottom: 1px solid #2196F3; padding: 10px;">' +
@@ -2079,7 +2079,7 @@ module.exports = {
                     '<tr>' +
                       '<td style="text-align: left;">' +
                         '<div style="width: 100%; padding: 10px; background-color: #ffffff; ">' +
-                          '<img src="' + logo_photo + '" alt="img" style="width: 150px; height: auto; max-width: 150px;"/>' +
+                          '<img src="' + logo_photo + '" alt="img" style="width: 100px; height: auto; max-width: 100px;"/>' +
                         '</div>' +
                       '</td>' +
                       '<td style="text-align: right; border-top: 1px solid #2196F3; border-bottom: 1px solid #2196F3; padding: 10px;">' +
@@ -2106,7 +2106,7 @@ module.exports = {
                       '</td>' +
                       '<td style="width: 50%; text-align: left;">' +
                         '<div style="text-align: left; margin-top: 10px; padding-left: 20px; margin-bottom: 30px; ">' +
-                          '<img src="' + logo_photo + '" alt="img" style="width: 150px; height: auto; max-width: 150px;"/>' +
+                          '<img src="' + logo_photo + '" alt="img" style="width: 120px; height: auto; max-width: 120px;"/>' +
                         '</div>' +
                         '<div style="background-color: #d0d0d0; color: #000000; margin-bottom: 20px;  padding-left: 20px; padding-top: 20px; padding-bottom: 20px; padding-right: 10px;  width: 90%;">' +
                           '<div style="font-size: 23px; font-weight: bold; margin-bottom: 5px; letter-spacing: 1px; ">' + property_info.report_type  + '</div>' +
