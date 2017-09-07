@@ -378,7 +378,8 @@ module.exports = {
 
                   Subscription_plan.findOne({ splan_id: splan_id  }).exec(function(err, subs_plan){
         						//if(err) return res.json(err);
-                    sails.log(err);
+                    if(err)
+                      sails.log(err);
 
                     sails.log('susb plan ok');
                     sails.log(subs_plan);
@@ -390,8 +391,11 @@ module.exports = {
                         // check if there is any pending payment then update it otherwise no report
                         // sliver works seprately from other plans
 
-                        Sliver_report_log.findOne({ company_id: user.company_id, status : 0 }).exec(function(err, sliver_rep){
+                        //Sliver_report_log.findOne({ company_id: user.company_id, status : 0 }).exec(function(err, sliver_rep){
+                        Sliver_report_log.query("select Sliver_report_log.* from Sliver_report_log where Sliver_report_log.company_id=" + user.company_id + " order by Sliver_report_log.s_report_id DESC limit 1", function(err, temp_sliver_rep){
                           if(err) return res.json(err);
+
+                          var sliver_rep = temp_sliver_rep[0];
 
                           if(sliver_rep.s_report_id){
 
@@ -528,6 +532,19 @@ module.exports = {
 
                               if( (reps + 1) <= subs_plan.reports ){
                                 //okay to generate report TODO
+                                var data_gold_report_log = {
+                                  company_id: user.company_id,
+                                  property_id: property_id,
+                                  month: mm,
+                                  year: yyyy
+                                };
+
+                                Gold_report_log.create(data_gold_report_log).exec(function(err, Gold_report_log_create){
+                                  if(err){
+                                    sails.log(err);
+                                  }
+                                  sails.log('report generate gold updated');
+                                });
 
                                 //-------------------------------- REPORT DATA ----------------------------------
                                 var report_settings_data = Report_settings.findOne({company_id: user.company_id})
