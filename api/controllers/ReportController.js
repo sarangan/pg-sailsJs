@@ -881,7 +881,8 @@ module.exports = {
         })
         .spread(function(user, company_data, property_id, report_settings, report_settings_notes, property_info, general_conditions, meter_data, master_data, sub_items_data, photo_data, feedback_data, feedback_general_data, signature_data ) {
 
-
+            sails.log("i am in spread");
+            
              var fs = require('fs');
              var wkhtmltopdf = require('wkhtmltopdf');
              //var server_image_path = 'http://52.39.72.94:3000/images/';
