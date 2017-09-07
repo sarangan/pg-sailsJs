@@ -369,7 +369,7 @@ module.exports = {
 
                 if(temp_subs){
                   subs = temp_subs[0];
-                  created_date = subs.created_date;
+                  created_date = subs.createdAt;
                   splan_id = subs.splan_id;
                 }
 
