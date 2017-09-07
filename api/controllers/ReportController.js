@@ -393,11 +393,11 @@ module.exports = {
 
                         //Sliver_report_log.findOne({ company_id: user.company_id, status : 0 }).exec(function(err, sliver_rep){
                         Sliver_report_log.query("select Sliver_report_log.* from Sliver_report_log where Sliver_report_log.company_id=" + user.company_id + " order by Sliver_report_log.s_report_id DESC limit 1", function(err, temp_sliver_rep){
-                          if(err) return res.json(err);
+                          if(err) sails.log(err);
 
                           var sliver_rep = temp_sliver_rep[0];
 
-                          if(sliver_rep.s_report_id){
+                          if(sliver_rep && sliver_rep.s_report_id){
 
                             var data = {
             									status: 1
