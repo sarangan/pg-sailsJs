@@ -402,7 +402,7 @@ module.exports = {
                             sliver_rep = temp_sliver_rep[0];
                           }
 
-                          if(sliver_rep && sliver_rep.s_report_id){
+                          if(sliver_rep && sliver_rep.s_report_id && sliver_rep.status == 0){
 
                             var data = {
             									status: 1
