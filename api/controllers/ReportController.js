@@ -373,12 +373,13 @@ module.exports = {
                   splan_id = subs.splan_id;
                 }
 
-
-
     						if(splan_id){
 
                   Subscription_plan.findOne({  splan_id: splan_id  }).exec(function(err, subs_plan){
         						if(err) return res.json(err);
+
+                    sails.log('susb plan ok');
+                    sails.log(subs_plan);
 
                     if(subs_plan.splan_id){
 
