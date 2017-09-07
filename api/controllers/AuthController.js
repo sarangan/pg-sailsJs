@@ -27,7 +27,9 @@ module.exports = {
         if (!valid) {
           return res.json(200, {err: 'invalid username or password'});
         } else {
-          res.json({user: user, token: sailsTokenAuth.issueToken({sid: user.id})});
+
+					res.json({user: user, token: sailsTokenAuth.issueToken({sid: user.id})});
+
         }
       });
     })

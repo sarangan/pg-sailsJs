@@ -18,6 +18,7 @@ module.exports = {
           //check if the user is authorize to access this property
           if(user.company_id){
 
+
               var report_settings_data = Report_settings.findOne({company_id: user.company_id})
                 .then(function(report_settings_data) {
                     return report_settings_data;
@@ -356,72 +357,491 @@ module.exports = {
               var Promise = require('bluebird');
               var qry = '';
 
-              var report_settings_data = Report_settings.findOne({company_id: user.company_id})
-                .then(function(report_settings_data) {
-                    return report_settings_data;
-              });
 
-              var report_settings_notes_data = Report_settings_notes.find({ company_id: user.company_id })
-                .then(function(report_settings_notes_data) {
-                    return report_settings_notes_data;
-              });
+              Subscriptions.find({ where:{company_id: user.company_id }, sort: 'subs_id DESC', limit: 1 }).exec(function(err, subs){
+    						if(err) return res.json(err);
 
-              var property_info_data = Property_info.findOne({ property_id: property_id })
-                .then(function(property_info_data) {
-                    return property_info_data;
-              });
+    						console.log('subs', subs);
 
-              var company_data = Company.findOne({ company_id: user.company_id })
-                .then(function(company_data) {
-                    return company_data;
-              });
+                if(Array.isArray(subs) ){
+                  subs = subs[0];
+                }
 
-              qry = "select property_general_condition_link.* from property_general_condition_link where property_general_condition_link.status=1 and property_general_condition_link.property_id='"+ property_id +"' order by property_general_condition_link.priority";
-              var general_conditionQueryAsync = Promise.promisify(Property_general_condition_link.query);
-              var general_condition_data =  general_conditionQueryAsync(qry).then(function(general_condition_data) {
-                  return general_condition_data;
-              });
+                var created_date = subs.created_date;
+                var splan_id = subs.splan_id;
 
-              qry = "SELECT property_meter_link.prop_meter_id, property_meter_link.property_id, property_meter_link.com_meter_id, property_meter_link.meter_name, property_meter_link.reading_value, property_feedback.prop_feedback_id, property_feedback.comment, property_feedback.description, (select photos.file_name from photos where photos.item_id = property_meter_link.prop_meter_id and photos.property_id = '" + property_id + "' and photos.file_name != '' limit 1) as photo FROM property_meter_link LEFT JOIN property_feedback ON property_meter_link.prop_meter_id = property_feedback.item_id where property_meter_link.status = 1 and property_meter_link.property_id='"+ property_id +"'" ;
-              var meterQueryAsync = Promise.promisify(Property_meter_link.query);
-              var meter_data =  meterQueryAsync(qry).then(function(meter_data) {
-                  return meter_data;
-              });
+    						if(splan_id){
 
-              qry = "select property_masteritem_link.*, property_masteritem_link.com_type as template_type from property_masteritem_link where NOT(property_masteritem_link.option ='NUM' and property_masteritem_link.type ='DEFAULT') and property_masteritem_link.property_id ='"+ property_id +"' and property_masteritem_link.status = 1 order by property_masteritem_link.priority";
-              var masterQueryAsync = Promise.promisify(Property_masteritem_link.query);
-              var master_data =  masterQueryAsync(qry).then(function(master_data) {
-                  return master_data;
-              });
+                  Subscription_plan.findOne({  splan_id: splan_id  }).exec(function(err, subs_plan){
+        						if(err) return res.json(err);
 
-              qry = "select property_masteritem_link.prop_master_id, property_masteritem_link.name as master_item_name, company_subitem_link.com_master_id,  property_masteritem_link.priority master_order, property_subitem_link.* from property_subitem_link inner join company_subitem_link on property_subitem_link.com_subitem_id = company_subitem_link.com_subitem_id inner JOIN property_masteritem_link on company_subitem_link.com_master_id = property_masteritem_link.com_master_id where property_masteritem_link.status =1 and property_subitem_link.status =1 and property_masteritem_link.property_id ='"+ property_id +"' and property_subitem_link.property_id = property_masteritem_link.property_id order by property_masteritem_link.name";
-              var subQueryAsync = Promise.promisify(Property_subitem_link.query);
-              var sub_items_data =  subQueryAsync(qry).then(function(sub_items_data) {
-                  return sub_items_data;
-              });
-
-              var photo_data = Photos.find({ property_id: property_id })
-                .then(function(photo_data) {
-                    return photo_data;
-              });
-
-              var feedback_data = Property_feedback.find({ property_id: property_id })
-                .then(function(feedback_data) {
-                    return feedback_data;
-              });
-
-              var feedback_general_data = Property_sub_feedback_general.find({ property_id: property_id })
-                .then(function(feedback_general_data) {
-                    return feedback_general_data;
-              });
-
-              var signature_data = Signatures.findOne({ property_id: property_id })
-                .then(function(signature_data) {
-                    return signature_data;
-              });
+                    if(subs_plan.splan_id){
 
 
-              return [user, company_data, property_id, report_settings_data, report_settings_notes_data, property_info_data, general_condition_data, meter_data, master_data, sub_items_data, photo_data, feedback_data, feedback_general_data, signature_data ];
+                      if( subs_plan.splan_id == 1000 ){ // sliver for one report
+                        // check if there is any pending payment then update it otherwise no report
+                        // sliver works seprately from other plans
+
+                        Sliver_report_log.findOne({ company_id: user.company_id, status : 0 }).exec(function(err, sliver_rep){
+                          if(err) return res.json(err);
+
+                          if(sliver_rep.s_report_id){
+
+                            var data = {
+            									status: 1
+            								}
+
+                            Sliver_report_log.update({s_report_id: sliver_rep.s_report_id }, data).exec(function afterwards(err, updated){
+            									if (err) return res.json(err);
+                              sails.log('sliver report updated successfully');
+                              // we are ok to  generate report
+                              sails.log('okay to generate report');
+                              //here we will start to generate report TODO
+
+
+                              //-------------------------------- REPORT DATA ----------------------------------
+                              var report_settings_data = Report_settings.findOne({company_id: user.company_id})
+                                .then(function(report_settings_data) {
+                                    return report_settings_data;
+                              });
+
+                              var report_settings_notes_data = Report_settings_notes.find({ company_id: user.company_id })
+                                .then(function(report_settings_notes_data) {
+                                    return report_settings_notes_data;
+                              });
+
+                              var property_info_data = Property_info.findOne({ property_id: property_id })
+                                .then(function(property_info_data) {
+                                    return property_info_data;
+                              });
+
+                              var company_data = Company.findOne({ company_id: user.company_id })
+                                .then(function(company_data) {
+                                    return company_data;
+                              });
+
+                              qry = "select property_general_condition_link.* from property_general_condition_link where property_general_condition_link.status=1 and property_general_condition_link.property_id='"+ property_id +"' order by property_general_condition_link.priority";
+                              var general_conditionQueryAsync = Promise.promisify(Property_general_condition_link.query);
+                              var general_condition_data =  general_conditionQueryAsync(qry).then(function(general_condition_data) {
+                                  return general_condition_data;
+                              });
+
+                              qry = "SELECT property_meter_link.prop_meter_id, property_meter_link.property_id, property_meter_link.com_meter_id, property_meter_link.meter_name, property_meter_link.reading_value, property_feedback.prop_feedback_id, property_feedback.comment, property_feedback.description, (select photos.file_name from photos where photos.item_id = property_meter_link.prop_meter_id and photos.property_id = '" + property_id + "' and photos.file_name != '' limit 1) as photo FROM property_meter_link LEFT JOIN property_feedback ON property_meter_link.prop_meter_id = property_feedback.item_id where property_meter_link.status = 1 and property_meter_link.property_id='"+ property_id +"'" ;
+                              var meterQueryAsync = Promise.promisify(Property_meter_link.query);
+                              var meter_data =  meterQueryAsync(qry).then(function(meter_data) {
+                                  return meter_data;
+                              });
+
+                              qry = "select property_masteritem_link.*, property_masteritem_link.com_type as template_type from property_masteritem_link where NOT(property_masteritem_link.option ='NUM' and property_masteritem_link.type ='DEFAULT') and property_masteritem_link.property_id ='"+ property_id +"' and property_masteritem_link.status = 1 order by property_masteritem_link.priority";
+                              var masterQueryAsync = Promise.promisify(Property_masteritem_link.query);
+                              var master_data =  masterQueryAsync(qry).then(function(master_data) {
+                                  return master_data;
+                              });
+
+                              qry = "select property_masteritem_link.prop_master_id, property_masteritem_link.name as master_item_name, company_subitem_link.com_master_id,  property_masteritem_link.priority master_order, property_subitem_link.* from property_subitem_link inner join company_subitem_link on property_subitem_link.com_subitem_id = company_subitem_link.com_subitem_id inner JOIN property_masteritem_link on company_subitem_link.com_master_id = property_masteritem_link.com_master_id where property_masteritem_link.status =1 and property_subitem_link.status =1 and property_masteritem_link.property_id ='"+ property_id +"' and property_subitem_link.property_id = property_masteritem_link.property_id order by property_masteritem_link.name";
+                              var subQueryAsync = Promise.promisify(Property_subitem_link.query);
+                              var sub_items_data =  subQueryAsync(qry).then(function(sub_items_data) {
+                                  return sub_items_data;
+                              });
+
+                              var photo_data = Photos.find({ property_id: property_id })
+                                .then(function(photo_data) {
+                                    return photo_data;
+                              });
+
+                              var feedback_data = Property_feedback.find({ property_id: property_id })
+                                .then(function(feedback_data) {
+                                    return feedback_data;
+                              });
+
+                              var feedback_general_data = Property_sub_feedback_general.find({ property_id: property_id })
+                                .then(function(feedback_general_data) {
+                                    return feedback_general_data;
+                              });
+
+                              var signature_data = Signatures.findOne({ property_id: property_id })
+                                .then(function(signature_data) {
+                                    return signature_data;
+                              });
+
+
+                              return [user, company_data, property_id, report_settings_data, report_settings_notes_data, property_info_data, general_condition_data, meter_data, master_data, sub_items_data, photo_data, feedback_data, feedback_general_data, signature_data ];
+
+                              //-------------------------------- REPORT DATA ----------------------------------
+
+
+
+            								});
+
+
+                          }
+                          else{
+                              //there is no peding payment
+                              sails.log('sliver report no pending payment');
+                              EmailService.sendEmail({
+                                 to: user.email,
+                                 subject: 'PropertyGround account payment',
+                                 text: "Hello" + user.first_name + "\n You do not have enough credit to generate report!\nPlease pay before generate reports.\nhttp://propertyground.co.uk/pay/" + encodeURIComponent(user.email) + "\nThank you.\nPropertyGround Team." ,
+                                 html: '<b>Hello '+ user.first_name + '</b><br/>You do not have enough credit to generate report!<br/>Please pay before generate reports.<br/><a href="http://propertyground.co.uk/pay/' + encodeURIComponent(user.email) + '" target="_blank">Click here to pay</a><br/>Thank you.<br/><b>PropertyGround Team</b>'
+                               }, function (err) {
+                              });
+
+                          }
+
+                        });
+
+                      }
+                      else if( subs_plan.splan_id == 2000 ){ // gold
+
+                        var today = new Date();
+                        var mm = today.getMonth()+1; //January is 0!
+                        var yyyy = today.getFullYear();
+
+                        //check if last plan is for current month
+                        var plan_date = new Date(created_date);
+                        var get_last_sub_month = plan_date.getMonth() + 1;
+                        var get_last_sub_year = plan_date.getFullYear();
+
+                        if( get_last_sub_month == mm  && get_last_sub_year == yyyy ){
+                          //got same month and year
+                          sails.log('gold report same month and year');
+                          // now we check how many reports
+
+                          Gold_report_log.count({
+                            company_id: user.company_id,
+                            month: get_last_sub_month,
+                            year: get_last_sub_year
+                          }).exec(function(err, reps){
+                            if(err) return res.json(err);
+
+                            sails.log("number of reports gold generated ", reps );
+
+                            if(reps){
+
+                              if( (reps + 1) <= subs_plan.reports ){
+                                //okay to generate report TODO
+
+                                //-------------------------------- REPORT DATA ----------------------------------
+                                var report_settings_data = Report_settings.findOne({company_id: user.company_id})
+                                  .then(function(report_settings_data) {
+                                      return report_settings_data;
+                                });
+
+                                var report_settings_notes_data = Report_settings_notes.find({ company_id: user.company_id })
+                                  .then(function(report_settings_notes_data) {
+                                      return report_settings_notes_data;
+                                });
+
+                                var property_info_data = Property_info.findOne({ property_id: property_id })
+                                  .then(function(property_info_data) {
+                                      return property_info_data;
+                                });
+
+                                var company_data = Company.findOne({ company_id: user.company_id })
+                                  .then(function(company_data) {
+                                      return company_data;
+                                });
+
+                                qry = "select property_general_condition_link.* from property_general_condition_link where property_general_condition_link.status=1 and property_general_condition_link.property_id='"+ property_id +"' order by property_general_condition_link.priority";
+                                var general_conditionQueryAsync = Promise.promisify(Property_general_condition_link.query);
+                                var general_condition_data =  general_conditionQueryAsync(qry).then(function(general_condition_data) {
+                                    return general_condition_data;
+                                });
+
+                                qry = "SELECT property_meter_link.prop_meter_id, property_meter_link.property_id, property_meter_link.com_meter_id, property_meter_link.meter_name, property_meter_link.reading_value, property_feedback.prop_feedback_id, property_feedback.comment, property_feedback.description, (select photos.file_name from photos where photos.item_id = property_meter_link.prop_meter_id and photos.property_id = '" + property_id + "' and photos.file_name != '' limit 1) as photo FROM property_meter_link LEFT JOIN property_feedback ON property_meter_link.prop_meter_id = property_feedback.item_id where property_meter_link.status = 1 and property_meter_link.property_id='"+ property_id +"'" ;
+                                var meterQueryAsync = Promise.promisify(Property_meter_link.query);
+                                var meter_data =  meterQueryAsync(qry).then(function(meter_data) {
+                                    return meter_data;
+                                });
+
+                                qry = "select property_masteritem_link.*, property_masteritem_link.com_type as template_type from property_masteritem_link where NOT(property_masteritem_link.option ='NUM' and property_masteritem_link.type ='DEFAULT') and property_masteritem_link.property_id ='"+ property_id +"' and property_masteritem_link.status = 1 order by property_masteritem_link.priority";
+                                var masterQueryAsync = Promise.promisify(Property_masteritem_link.query);
+                                var master_data =  masterQueryAsync(qry).then(function(master_data) {
+                                    return master_data;
+                                });
+
+                                qry = "select property_masteritem_link.prop_master_id, property_masteritem_link.name as master_item_name, company_subitem_link.com_master_id,  property_masteritem_link.priority master_order, property_subitem_link.* from property_subitem_link inner join company_subitem_link on property_subitem_link.com_subitem_id = company_subitem_link.com_subitem_id inner JOIN property_masteritem_link on company_subitem_link.com_master_id = property_masteritem_link.com_master_id where property_masteritem_link.status =1 and property_subitem_link.status =1 and property_masteritem_link.property_id ='"+ property_id +"' and property_subitem_link.property_id = property_masteritem_link.property_id order by property_masteritem_link.name";
+                                var subQueryAsync = Promise.promisify(Property_subitem_link.query);
+                                var sub_items_data =  subQueryAsync(qry).then(function(sub_items_data) {
+                                    return sub_items_data;
+                                });
+
+                                var photo_data = Photos.find({ property_id: property_id })
+                                  .then(function(photo_data) {
+                                      return photo_data;
+                                });
+
+                                var feedback_data = Property_feedback.find({ property_id: property_id })
+                                  .then(function(feedback_data) {
+                                      return feedback_data;
+                                });
+
+                                var feedback_general_data = Property_sub_feedback_general.find({ property_id: property_id })
+                                  .then(function(feedback_general_data) {
+                                      return feedback_general_data;
+                                });
+
+                                var signature_data = Signatures.findOne({ property_id: property_id })
+                                  .then(function(signature_data) {
+                                      return signature_data;
+                                });
+
+
+                                return [user, company_data, property_id, report_settings_data, report_settings_notes_data, property_info_data, general_condition_data, meter_data, master_data, sub_items_data, photo_data, feedback_data, feedback_general_data, signature_data ];
+
+                                //-------------------------------- REPORT DATA ----------------------------------
+
+
+
+
+                              }
+                              else{
+                                sails.log("number of reports gold generated ");
+                                EmailService.sendEmail({
+                                   to: user.email,
+                                   subject: 'PropertyGround account payment',
+                                   text: "Hello" + user.first_name + "\n You do not have enough credit to generate report!\nPlease pay before generate reports.\nhttp://propertyground.co.uk/pay/" + encodeURIComponent(user.email) + "\nThank you.\nPropertyGround Team." ,
+                                   html: '<b>Hello '+ user.first_name + '</b><br/>You do not have enough credit to generate report!<br/>Please pay before generate reports.<br/><a href="http://propertyground.co.uk/pay/' + encodeURIComponent(user.email) + '" target="_blank">Click here to pay</a><br/>Thank you.<br/><b>PropertyGround Team</b>'
+                                 }, function (err) {
+                                });
+
+                              }
+
+                            }
+                            else{
+                              sails.log("may be can generate report gold ");
+                              //now we can generate report
+                              //TODO
+
+                              //-------------------------------- REPORT DATA ----------------------------------
+                              var report_settings_data = Report_settings.findOne({company_id: user.company_id})
+                                .then(function(report_settings_data) {
+                                    return report_settings_data;
+                              });
+
+                              var report_settings_notes_data = Report_settings_notes.find({ company_id: user.company_id })
+                                .then(function(report_settings_notes_data) {
+                                    return report_settings_notes_data;
+                              });
+
+                              var property_info_data = Property_info.findOne({ property_id: property_id })
+                                .then(function(property_info_data) {
+                                    return property_info_data;
+                              });
+
+                              var company_data = Company.findOne({ company_id: user.company_id })
+                                .then(function(company_data) {
+                                    return company_data;
+                              });
+
+                              qry = "select property_general_condition_link.* from property_general_condition_link where property_general_condition_link.status=1 and property_general_condition_link.property_id='"+ property_id +"' order by property_general_condition_link.priority";
+                              var general_conditionQueryAsync = Promise.promisify(Property_general_condition_link.query);
+                              var general_condition_data =  general_conditionQueryAsync(qry).then(function(general_condition_data) {
+                                  return general_condition_data;
+                              });
+
+                              qry = "SELECT property_meter_link.prop_meter_id, property_meter_link.property_id, property_meter_link.com_meter_id, property_meter_link.meter_name, property_meter_link.reading_value, property_feedback.prop_feedback_id, property_feedback.comment, property_feedback.description, (select photos.file_name from photos where photos.item_id = property_meter_link.prop_meter_id and photos.property_id = '" + property_id + "' and photos.file_name != '' limit 1) as photo FROM property_meter_link LEFT JOIN property_feedback ON property_meter_link.prop_meter_id = property_feedback.item_id where property_meter_link.status = 1 and property_meter_link.property_id='"+ property_id +"'" ;
+                              var meterQueryAsync = Promise.promisify(Property_meter_link.query);
+                              var meter_data =  meterQueryAsync(qry).then(function(meter_data) {
+                                  return meter_data;
+                              });
+
+                              qry = "select property_masteritem_link.*, property_masteritem_link.com_type as template_type from property_masteritem_link where NOT(property_masteritem_link.option ='NUM' and property_masteritem_link.type ='DEFAULT') and property_masteritem_link.property_id ='"+ property_id +"' and property_masteritem_link.status = 1 order by property_masteritem_link.priority";
+                              var masterQueryAsync = Promise.promisify(Property_masteritem_link.query);
+                              var master_data =  masterQueryAsync(qry).then(function(master_data) {
+                                  return master_data;
+                              });
+
+                              qry = "select property_masteritem_link.prop_master_id, property_masteritem_link.name as master_item_name, company_subitem_link.com_master_id,  property_masteritem_link.priority master_order, property_subitem_link.* from property_subitem_link inner join company_subitem_link on property_subitem_link.com_subitem_id = company_subitem_link.com_subitem_id inner JOIN property_masteritem_link on company_subitem_link.com_master_id = property_masteritem_link.com_master_id where property_masteritem_link.status =1 and property_subitem_link.status =1 and property_masteritem_link.property_id ='"+ property_id +"' and property_subitem_link.property_id = property_masteritem_link.property_id order by property_masteritem_link.name";
+                              var subQueryAsync = Promise.promisify(Property_subitem_link.query);
+                              var sub_items_data =  subQueryAsync(qry).then(function(sub_items_data) {
+                                  return sub_items_data;
+                              });
+
+                              var photo_data = Photos.find({ property_id: property_id })
+                                .then(function(photo_data) {
+                                    return photo_data;
+                              });
+
+                              var feedback_data = Property_feedback.find({ property_id: property_id })
+                                .then(function(feedback_data) {
+                                    return feedback_data;
+                              });
+
+                              var feedback_general_data = Property_sub_feedback_general.find({ property_id: property_id })
+                                .then(function(feedback_general_data) {
+                                    return feedback_general_data;
+                              });
+
+                              var signature_data = Signatures.findOne({ property_id: property_id })
+                                .then(function(signature_data) {
+                                    return signature_data;
+                              });
+
+
+                              return [user, company_data, property_id, report_settings_data, report_settings_notes_data, property_info_data, general_condition_data, meter_data, master_data, sub_items_data, photo_data, feedback_data, feedback_general_data, signature_data ];
+
+                              //-------------------------------- REPORT DATA ----------------------------------
+
+
+                            }
+
+                          });
+
+
+
+
+                        }
+                        else{
+                          // this is not for this month so we tell him no plan
+                          sails.log('gold report no pending gold payment');
+                          EmailService.sendEmail({
+                             to: user.email,
+                             subject: 'PropertyGround account payment',
+                             text: "Hello" + user.first_name + "\n You do not have enough credit to generate report!\nPlease pay before generate reports.\nhttp://propertyground.co.uk/pay/" + encodeURIComponent(user.email) + "\nThank you.\nPropertyGround Team." ,
+                             html: '<b>Hello '+ user.first_name + '</b><br/>You do not have enough credit to generate report!<br/>Please pay before generate reports.<br/><a href="http://propertyground.co.uk/pay/' + encodeURIComponent(user.email) + '" target="_blank">Click here to pay</a><br/>Thank you.<br/><b>PropertyGround Team</b>'
+                           }, function (err) {
+                          });
+
+                        }
+
+
+                      }
+                      else if( subs_plan.splan_id == 3000 ){ // platinum
+
+                        // this platinum plan
+                        // unlimited reports within month
+
+                        var today = new Date();
+                        var mm = today.getMonth()+1; //January is 0!
+                        var yyyy = today.getFullYear();
+
+                        //check if last plan is for current month
+                        var plan_date = new Date(created_date);
+                        var get_last_sub_month = plan_date.getMonth() + 1;
+                        var get_last_sub_year = plan_date.getFullYear();
+
+                        if( get_last_sub_month == mm  && get_last_sub_year == yyyy ){
+                          // here we got same month and year so generate report
+                          //TODO
+
+
+                          //-------------------------------- REPORT DATA ----------------------------------
+                          var report_settings_data = Report_settings.findOne({company_id: user.company_id})
+                            .then(function(report_settings_data) {
+                                return report_settings_data;
+                          });
+
+                          var report_settings_notes_data = Report_settings_notes.find({ company_id: user.company_id })
+                            .then(function(report_settings_notes_data) {
+                                return report_settings_notes_data;
+                          });
+
+                          var property_info_data = Property_info.findOne({ property_id: property_id })
+                            .then(function(property_info_data) {
+                                return property_info_data;
+                          });
+
+                          var company_data = Company.findOne({ company_id: user.company_id })
+                            .then(function(company_data) {
+                                return company_data;
+                          });
+
+                          qry = "select property_general_condition_link.* from property_general_condition_link where property_general_condition_link.status=1 and property_general_condition_link.property_id='"+ property_id +"' order by property_general_condition_link.priority";
+                          var general_conditionQueryAsync = Promise.promisify(Property_general_condition_link.query);
+                          var general_condition_data =  general_conditionQueryAsync(qry).then(function(general_condition_data) {
+                              return general_condition_data;
+                          });
+
+                          qry = "SELECT property_meter_link.prop_meter_id, property_meter_link.property_id, property_meter_link.com_meter_id, property_meter_link.meter_name, property_meter_link.reading_value, property_feedback.prop_feedback_id, property_feedback.comment, property_feedback.description, (select photos.file_name from photos where photos.item_id = property_meter_link.prop_meter_id and photos.property_id = '" + property_id + "' and photos.file_name != '' limit 1) as photo FROM property_meter_link LEFT JOIN property_feedback ON property_meter_link.prop_meter_id = property_feedback.item_id where property_meter_link.status = 1 and property_meter_link.property_id='"+ property_id +"'" ;
+                          var meterQueryAsync = Promise.promisify(Property_meter_link.query);
+                          var meter_data =  meterQueryAsync(qry).then(function(meter_data) {
+                              return meter_data;
+                          });
+
+                          qry = "select property_masteritem_link.*, property_masteritem_link.com_type as template_type from property_masteritem_link where NOT(property_masteritem_link.option ='NUM' and property_masteritem_link.type ='DEFAULT') and property_masteritem_link.property_id ='"+ property_id +"' and property_masteritem_link.status = 1 order by property_masteritem_link.priority";
+                          var masterQueryAsync = Promise.promisify(Property_masteritem_link.query);
+                          var master_data =  masterQueryAsync(qry).then(function(master_data) {
+                              return master_data;
+                          });
+
+                          qry = "select property_masteritem_link.prop_master_id, property_masteritem_link.name as master_item_name, company_subitem_link.com_master_id,  property_masteritem_link.priority master_order, property_subitem_link.* from property_subitem_link inner join company_subitem_link on property_subitem_link.com_subitem_id = company_subitem_link.com_subitem_id inner JOIN property_masteritem_link on company_subitem_link.com_master_id = property_masteritem_link.com_master_id where property_masteritem_link.status =1 and property_subitem_link.status =1 and property_masteritem_link.property_id ='"+ property_id +"' and property_subitem_link.property_id = property_masteritem_link.property_id order by property_masteritem_link.name";
+                          var subQueryAsync = Promise.promisify(Property_subitem_link.query);
+                          var sub_items_data =  subQueryAsync(qry).then(function(sub_items_data) {
+                              return sub_items_data;
+                          });
+
+                          var photo_data = Photos.find({ property_id: property_id })
+                            .then(function(photo_data) {
+                                return photo_data;
+                          });
+
+                          var feedback_data = Property_feedback.find({ property_id: property_id })
+                            .then(function(feedback_data) {
+                                return feedback_data;
+                          });
+
+                          var feedback_general_data = Property_sub_feedback_general.find({ property_id: property_id })
+                            .then(function(feedback_general_data) {
+                                return feedback_general_data;
+                          });
+
+                          var signature_data = Signatures.findOne({ property_id: property_id })
+                            .then(function(signature_data) {
+                                return signature_data;
+                          });
+
+
+                          return [user, company_data, property_id, report_settings_data, report_settings_notes_data, property_info_data, general_condition_data, meter_data, master_data, sub_items_data, photo_data, feedback_data, feedback_general_data, signature_data ];
+
+                          //-------------------------------- REPORT DATA ----------------------------------
+
+                        }
+                        else{
+
+                          sails.log('platninum report no pending gold payment');
+                          EmailService.sendEmail({
+                             to: user.email,
+                             subject: 'PropertyGround account payment',
+                             text: "Hello" + user.first_name + "\n You do not have enough credit to generate report!\nPlease pay before generate reports.\nhttp://propertyground.co.uk/pay/" + encodeURIComponent(user.email) + "\nThank you.\nPropertyGround Team." ,
+                             html: '<b>Hello '+ user.first_name + '</b><br/>You do not have enough credit to generate report!<br/>Please pay before generate reports.<br/><a href="http://propertyground.co.uk/pay/' + encodeURIComponent(user.email) + '" target="_blank">Click here to pay</a><br/>Thank you.<br/><b>PropertyGround Team</b>'
+                           }, function (err) {
+                          });
+
+                        }
+
+
+
+                      }
+
+
+                    }
+                    else{
+                      return res.json({status: 2, text: 'no Subscription plan!' });
+                    }
+
+                  });
+
+
+                }
+                else{
+
+                  EmailService.sendEmail({
+                     to: user.email,
+                     subject: 'PropertyGround account payment',
+                     text: "Hello" + user.first_name + "\n You do not have enough credit to generate report!\nPlease pay before generate reports.\nhttp://propertyground.co.uk/pay/" + encodeURIComponent(user.email) + "\nThank you.\nPropertyGround Team." ,
+                     html: '<b>Hello '+ user.first_name + '</b><br/>You do not have enough credit to generate report!<br/>Please pay before generate reports.<br/><a href="http://propertyground.co.uk/pay/' + encodeURIComponent(user.email) + '" target="_blank">Click here to pay</a><br/>Thank you.<br/><b>PropertyGround Team</b>'
+                   }, function (err) {
+                   });
+
+                  return res.json({status: 2, text: 'Please pay before you generate reports!' });
+                }
+
+
+              }); // got any subscriptions ???
+
+
+
 
           }
           else{
