@@ -357,8 +357,8 @@ module.exports = {
               var Promise = require('bluebird');
               var qry = '';
 
-
-              Subscriptions.find({ where:{company_id: user.company_id }, sort: 'subs_id DESC', limit: 1 }).exec(function(err, subs){
+              Subscriptions.query("select subscriptions.* from subscriptions where subscriptions.company_id="+ user.company_id +" order by subscriptions.subs_id DESC limit 1", function(err, subs){
+              //Subscriptions.find({ where:{company_id: user.company_id }, sort: 'subs_id DESC', limit: 1 }).exec(function(err, subs){
     						if(err) return res.json(err);
 
     						console.log('subs', subs);
