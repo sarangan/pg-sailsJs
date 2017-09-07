@@ -357,18 +357,23 @@ module.exports = {
               var Promise = require('bluebird');
               var qry = '';
 
-              Subscriptions.query("select subscriptions.* from subscriptions where subscriptions.company_id="+ user.company_id +" order by subscriptions.subs_id DESC limit 1", function(err, subs){
+              Subscriptions.query("select subscriptions.* from subscriptions where subscriptions.company_id="+ user.company_id +" order by subscriptions.subs_id DESC limit 1", function(err, temp_subs){
               //Subscriptions.find({ where:{company_id: user.company_id }, sort: 'subs_id DESC', limit: 1 }).exec(function(err, subs){
     						if(err) return res.json(err);
 
-    						console.log('subs', subs);
+    						console.log('subs', temp_subs);
 
-                if(Array.isArray(subs) ){
-                  subs = subs[0];
+                var created_date = '';
+                var splan_id = 0;
+                var subs = {};
+
+                if(temp_subs){
+                  subs = temp_subs[0];
+                  created_date = subs.created_date;
+                  splan_id = subs.splan_id;
                 }
 
-                var created_date = subs.created_date;
-                var splan_id = subs.splan_id;
+
 
     						if(splan_id){
 
