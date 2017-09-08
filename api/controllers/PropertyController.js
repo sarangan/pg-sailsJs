@@ -5141,6 +5141,39 @@ module.exports = {
 				}
 			}
 
+		},
+
+		payments: function(req, res){
+
+			if( req.token.hasOwnProperty('sid') ){
+				if(req.token.sid){
+
+						User.findOne({id :  req.token.sid}).exec(function(err, user){
+							if(err) return res.json(err);
+
+							console.log('user', user.company_id);
+
+								//check if the user is authorize to access this property
+								if(user.type ==  'ADMIN' ){
+
+									Payments.find({company_id: user.company_id }).exec(function(err, payments){
+											if(err) return res.json(err);
+
+											return res.json({status: 1, payments: payments});
+									});
+
+								}
+								else{
+									return res.json({status: 2, text: 'you are not allow to access this function!' });
+								}
+
+						});
+
+
+				}
+			}
+
+
 		}
 
 

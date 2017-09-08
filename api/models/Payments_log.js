@@ -39,7 +39,7 @@ module.exports = {
     },
     user_id: {
       type: "integer"
-    },
+    }
     // created_date: {
     //   type: "datetime"
     // }
