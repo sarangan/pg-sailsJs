@@ -5116,6 +5116,31 @@ module.exports = {
 
 				}
 
+		},
+
+		susbcriptions: function(req, res){
+
+			if( req.token.hasOwnProperty('sid') ){
+				if(req.token.sid){
+
+						User.findOne({id :  req.token.sid}).exec(function(err, user){
+							if(err) return res.json(err);
+
+							console.log('user', user.company_id);
+
+							Subscriptions.query("select subscriptions.*, DATE_FORMAT(subscriptions.createdAt,'%d/%m/%Y') as alt_created_date, subscription_plan.title, subscription_plan.price, subscription_plan.months, subscription_plan.reports, subscription_plan.type, (SELECT count(gold_report_log.g_report_id) FROM gold_report_log where gold_report_log.month = MONTH(subscriptions.createdAt) and gold_report_log.year = YEAR(subscriptions.createdAt) and gold_report_log.company_id= subscriptions.company_id) as total_gold_reports, (select sliver_report_log.status from sliver_report_log where sliver_report_log.company_id = subscriptions.company_id order by sliver_report_log.s_report_id DESC limit 1 ) as total_sliver_reports from subscriptions inner join subscription_plan on subscriptions.splan_id = subscription_plan.splan_id where subscriptions.company_id="+ user.company_id +" order by subscriptions.subs_id DESC limit 1", function(err, plans){
+
+								return res.json({status: 1, plans: plans});
+
+							});
+
+
+						});
+
+
+				}
+			}
+
 		}
 
 
