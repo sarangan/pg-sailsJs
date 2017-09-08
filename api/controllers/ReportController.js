@@ -475,6 +475,8 @@ module.exports = {
              var server_image_path = "http://propertyground.co.uk:1337/images/";
              var server_rpt_image_path = "http://propertyground.co.uk:1337/images/reportlogos/";
 
+             var can_view_report = 0;
+
 
              //check ---------------- payment plans
 
@@ -502,6 +504,7 @@ module.exports = {
                    var data = {
                      status: 1
                    };
+                   can_view_report = 1;
 
                    Sliver_report_log.update({s_report_id: sliver_rep.s_report_id }, data).exec(function afterwards(err, updated){
                      if (err) sails.log(err);
@@ -511,10 +514,13 @@ module.exports = {
                      //here we will start to generate report TODO
                    });
 
+
+
                  }
                  else{
                      //there is no peding payment
                      sails.log('sliver report no pending payment');
+                    can_view_report = 0;
                      EmailService.sendEmail({
                         to: user.email,
                         subject: 'PropertyGround account payment',
@@ -522,6 +528,8 @@ module.exports = {
                         html: '<b>Hello '+ user.first_name + '</b><br/>You do not have enough credit to generate report!<br/>Please pay before generate reports.<br/><a href="http://propertyground.co.uk/pay/' + encodeURIComponent(user.email) + '" target="_blank">Click here to pay</a><br/>Thank you.<br/><b>PropertyGround Team</b>'
                       }, function (err) {
                      });
+
+
 
                  }
 
@@ -546,6 +554,8 @@ module.exports = {
 
                        if( (gold_report_log_data.length + 1) <= subs.reports ){
 
+                         can_view_report = 1;
+
                          //okay to generate report TODO
                          var data_gold_report_log = {
                            company_id: user.company_id,
@@ -564,6 +574,8 @@ module.exports = {
                        }
                        else{
 
+                         can_view_report = 0;
+
                          sails.log("number of reports gold generated ");
                          EmailService.sendEmail({
                             to: user.email,
@@ -580,11 +592,13 @@ module.exports = {
                    }
                    else{
                      sails.log("may be can generate report gold ");
+                     can_view_report = 1;
 
                    }
 
                  }
                  else{
+                   can_view_report = 0;
                    sails.log('gold report no pending gold payment');
                    EmailService.sendEmail({
                       to: user.email,
@@ -615,8 +629,11 @@ module.exports = {
                  if( get_last_sub_month == mm  && get_last_sub_year == yyyy ){
                    // here we got same month and year so generate report
                    sails.log('gold report ok to generate');
+
+                   can_view_report = 1;
                  }
                  else{
+                   can_view_report = 0;
                    sails.log('platninum report no pending gold payment');
                    EmailService.sendEmail({
                       to: user.email,
@@ -632,6 +649,7 @@ module.exports = {
 
                }
                else{
+                 can_view_report = 0;
                  // no plans yet man
                  EmailService.sendEmail({
                    to: user.email,
@@ -651,6 +669,7 @@ module.exports = {
              }
              else{
 
+               can_view_report = 0;
                 EmailService.sendEmail({
                   to: user.email,
                   subject: 'PropertyGround account payment',
@@ -2384,24 +2403,31 @@ module.exports = {
 
 
 
+            sails.log("can view ???");
+            sails.log(can_view_report);
 
+            if(can_view_report == 1){
+              //report generate ---------------------------------------
+              fs.truncate(xls_file_path, 0, function() {
+                  fs.writeFile(xls_file_path, xls_str, function (err) {
+                      if(err){
+                        sails.log("Error writing file: " + err);
+                      }
+                      else{
+                        options['toc'] = true;
+                        options['xslStyleSheet'] = xls_file_path; //'/home/propertyground/public_html/tocstyle.xsl';
+                      }
 
-            //report generate ---------------------------------------
-            fs.truncate(xls_file_path, 0, function() {
-                fs.writeFile(xls_file_path, xls_str, function (err) {
-                    if(err){
-                      sails.log("Error writing file: " + err);
-                    }
-                    else{
-                      options['toc'] = true;
-                      options['xslStyleSheet'] = xls_file_path; //'/home/propertyground/public_html/tocstyle.xsl';
-                    }
+                      return wkhtmltopdf(html, options).pipe(res);
 
-                    return wkhtmltopdf(html, options).pipe(res);
+                  });
+              });
+              //report generate ---------------------------------------
 
-                });
-            });
-            //report generate ---------------------------------------
+          }
+          else{
+              res.json({ error: 'subscription error' });
+          }
 
 
 
