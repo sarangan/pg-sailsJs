@@ -359,7 +359,7 @@ module.exports = {
 
               Subscriptions.query("select subscriptions.* from subscriptions where subscriptions.company_id="+ user.company_id +" order by subscriptions.subs_id DESC limit 1", function(err, temp_subs){
               //Subscriptions.find({ where:{company_id: user.company_id }, sort: 'subs_id DESC', limit: 1 }).exec(function(err, subs){
-    						if(err) return res.json(err);
+    						if(err) sails.log(err);
 
     						console.log('subs', temp_subs);
 
@@ -406,10 +406,10 @@ module.exports = {
 
                             var data = {
             									status: 1
-            								}
+            								};
 
                             Sliver_report_log.update({s_report_id: sliver_rep.s_report_id }, data).exec(function afterwards(err, updated){
-            									if (err) return res.json(err);
+            									if (err) sails.log(err);
                               sails.log('sliver report updated successfully');
                               // we are ok to  generate report
                               sails.log('okay to generate report');
@@ -481,7 +481,9 @@ module.exports = {
                                     return signature_data;
                               });
 
-
+                              sails.log('before  generate report ');
+                              sails.log(company_data);
+                              
                               return [user, company_data, property_id, report_settings_data, report_settings_notes_data, property_info_data, general_condition_data, meter_data, master_data, sub_items_data, photo_data, feedback_data, feedback_general_data, signature_data ];
 
                               //-------------------------------- REPORT DATA ----------------------------------
@@ -882,7 +884,7 @@ module.exports = {
         .spread(function(user, company_data, property_id, report_settings, report_settings_notes, property_info, general_conditions, meter_data, master_data, sub_items_data, photo_data, feedback_data, feedback_general_data, signature_data ) {
 
             sails.log("i am in spread");
-            
+
              var fs = require('fs');
              var wkhtmltopdf = require('wkhtmltopdf');
              //var server_image_path = 'http://52.39.72.94:3000/images/';
