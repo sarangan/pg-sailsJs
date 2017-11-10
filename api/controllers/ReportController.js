@@ -451,10 +451,13 @@ module.exports = {
                 return gold_report_log_data;
               });
 
+              var report_log_data = Report_log.findOne({ property_id: property_id })
+                .then(function(report_log_data) {
+                    return report_log_data;
+              });
 
 
-
-              return [gold_report_log_data, sliver_report_log_data, subscriptions_data, user, company_data, property_id, report_settings_data, report_settings_notes_data, property_info_data, general_condition_data, meter_data, master_data, sub_items_data, photo_data, feedback_data, feedback_general_data, signature_data ];
+              return [report_log_data, gold_report_log_data, sliver_report_log_data, subscriptions_data, user, company_data, property_id, report_settings_data, report_settings_notes_data, property_info_data, general_condition_data, meter_data, master_data, sub_items_data, photo_data, feedback_data, feedback_general_data, signature_data ];
 
               //-------------------------------- REPORT DATA ----------------------------------
 
@@ -465,7 +468,7 @@ module.exports = {
           }
 
         })
-        .spread(function(gold_report_log_data, sliver_report_log_data, subscriptions_data, user, company_data, property_id, report_settings, report_settings_notes, property_info, general_conditions, meter_data, master_data, sub_items_data, photo_data, feedback_data, feedback_general_data, signature_data ) {
+        .spread(function(report_log_data, gold_report_log_data, sliver_report_log_data, subscriptions_data, user, company_data, property_id, report_settings, report_settings_notes, property_info, general_conditions, meter_data, master_data, sub_items_data, photo_data, feedback_data, feedback_general_data, signature_data ) {
 
             sails.log("i am in spread");
 
@@ -477,106 +480,62 @@ module.exports = {
 
              var can_view_report = 0;
 
-
-             //check ---------------- payment plans
-
-             var created_date = '';
-             var splan_id = 0;
-             var subs = {};
-
-             if(subscriptions_data){
-               subs =  subscriptions_data[0];
-               created_date = subs.createdAt;
-               splan_id = subs.splan_id;
+             if(report_log_data && report_log_data.property_id){
+               // we already generated this report before
+                can_view_report = 1;
              }
+             else{
 
-             if(splan_id){
+               Report_log.create({property_id: property_id }).exec(function(err, report_log_create){
+                 if(err){
+                   sails.log(err);
+                 }
+                 sails.log('report generate log updated');
 
-               if( splan_id == 1000 ){ // sliver for one report
 
-                 var sliver_rep = {};
-                 if(sliver_report_log_data){
-                   sliver_rep = sliver_report_log_data[0];
+                 //check ---------------- payment plans
+
+                 var created_date = '';
+                 var splan_id = 0;
+                 var subs = {};
+
+                 if(subscriptions_data){
+                   subs =  subscriptions_data[0];
+                   created_date = subs.createdAt;
+                   splan_id = subs.splan_id;
                  }
 
-                 if(sliver_rep && sliver_rep.s_report_id && sliver_rep.status == 0){
+                 if(splan_id){
 
-                   var data = {
-                     status: 1
-                   };
-                   can_view_report = 1;
+                   if( splan_id == 1000 ){ // sliver for one report
 
-                   Sliver_report_log.update({s_report_id: sliver_rep.s_report_id }, data).exec(function afterwards(err, updated){
-                     if (err) sails.log(err);
-                     sails.log('sliver report updated successfully');
-                     // we are ok to  generate report
-                     sails.log('okay to generate report');
-                     //here we will start to generate report TODO
-                   });
+                     var sliver_rep = {};
+                     if(sliver_report_log_data){
+                       sliver_rep = sliver_report_log_data[0];
+                     }
 
+                     if(sliver_rep && sliver_rep.s_report_id && sliver_rep.status == 0){
 
+                       var data = {
+                         status: 1
+                       };
+                       can_view_report = 1;
 
-                 }
-                 else{
-                     //there is no peding payment
-                     sails.log('sliver report no pending payment');
-                    can_view_report = 0;
-                     EmailService.sendEmail({
-                        to: user.email,
-                        subject: 'PropertyGround account payment',
-                        text: "Hello" + user.first_name + "\n You do not have enough credit to generate report!\nPlease pay before generate reports.\nhttp://propertyground.co.uk/pay/" + encodeURIComponent(user.email) + "\nThank you.\nPropertyGround Team." ,
-                        html: '<b>Hello '+ user.first_name + '</b><br/>You do not have enough credit to generate report!<br/>Please pay before generate reports.<br/><a href="http://propertyground.co.uk/pay/' + encodeURIComponent(user.email) + '" target="_blank">Click here to pay</a><br/>Thank you.<br/><b>PropertyGround Team</b>'
-                      }, function (err) {
-                     });
+                       Sliver_report_log.update({s_report_id: sliver_rep.s_report_id }, data).exec(function afterwards(err, updated){
+                         if (err) sails.log(err);
+                         sails.log('sliver report updated successfully');
+                         // we are ok to  generate report
+                         sails.log('okay to generate report');
+                         //here we will start to generate report TODO
+                       });
 
 
 
-                 }
-
-
-               }
-               else if(splan_id == 2000){
-
-                 var today = new Date();
-                 var mm = today.getMonth()+1; //January is 0!
-                 var yyyy = today.getFullYear();
-
-                 var plan_date = new Date(created_date);
-                 var get_last_sub_month = plan_date.getMonth() + 1;
-                 var get_last_sub_year = plan_date.getFullYear();
-
-                 if( get_last_sub_month == mm  && get_last_sub_year == yyyy ){
-
-
-                   if(gold_report_log_data){
-
-                     sails.log("number of reports gold generated ", gold_report_log_data.length );
-
-                       if( (gold_report_log_data.length + 1) <= subs.reports ){
-
-                         can_view_report = 1;
-
-                         //okay to generate report TODO
-                         var data_gold_report_log = {
-                           company_id: user.company_id,
-                           property_id: property_id,
-                           month: mm,
-                           year: yyyy
-                         };
-
-                         Gold_report_log.create(data_gold_report_log).exec(function(err, Gold_report_log_create){
-                           if(err){
-                             sails.log(err);
-                           }
-                           sails.log('report generate gold updated');
-                         });
-
-                       }
-                       else{
-
-                         can_view_report = 0;
-
-                         sails.log("number of reports gold generated ");
+                     }
+                     else{
+                         //there is no peding payment
+                         sails.log('sliver report no pending payment');
+                        can_view_report = 0;
                          EmailService.sendEmail({
                             to: user.email,
                             subject: 'PropertyGround account payment',
@@ -584,109 +543,175 @@ module.exports = {
                             html: '<b>Hello '+ user.first_name + '</b><br/>You do not have enough credit to generate report!<br/>Please pay before generate reports.<br/><a href="http://propertyground.co.uk/pay/' + encodeURIComponent(user.email) + '" target="_blank">Click here to pay</a><br/>Thank you.<br/><b>PropertyGround Team</b>'
                           }, function (err) {
                          });
-                         return res.json({status: 2, text: 'you do not have enough credit to generate report!' });
+
+
+
+                     }
+
+
+                   }
+                   else if(splan_id == 2000){
+
+                     var today = new Date();
+                     var mm = today.getMonth()+1; //January is 0!
+                     var yyyy = today.getFullYear();
+
+                     var plan_date = new Date(created_date);
+                     var get_last_sub_month = plan_date.getMonth() + 1;
+                     var get_last_sub_year = plan_date.getFullYear();
+
+                     if( get_last_sub_month == mm  && get_last_sub_year == yyyy ){
+
+
+                       if(gold_report_log_data){
+
+                         sails.log("number of reports gold generated ", gold_report_log_data.length );
+
+                           if( (gold_report_log_data.length + 1) <= subs.reports ){
+
+                             can_view_report = 1;
+
+                             //okay to generate report TODO
+                             var data_gold_report_log = {
+                               company_id: user.company_id,
+                               property_id: property_id,
+                               month: mm,
+                               year: yyyy
+                             };
+
+                             Gold_report_log.create(data_gold_report_log).exec(function(err, Gold_report_log_create){
+                               if(err){
+                                 sails.log(err);
+                               }
+                               sails.log('report generate gold updated');
+                             });
+
+                           }
+                           else{
+
+                             can_view_report = 0;
+
+                             sails.log("number of reports gold generated ");
+                             EmailService.sendEmail({
+                                to: user.email,
+                                subject: 'PropertyGround account payment',
+                                text: "Hello" + user.first_name + "\n You do not have enough credit to generate report!\nPlease pay before generate reports.\nhttp://propertyground.co.uk/pay/" + encodeURIComponent(user.email) + "\nThank you.\nPropertyGround Team." ,
+                                html: '<b>Hello '+ user.first_name + '</b><br/>You do not have enough credit to generate report!<br/>Please pay before generate reports.<br/><a href="http://propertyground.co.uk/pay/' + encodeURIComponent(user.email) + '" target="_blank">Click here to pay</a><br/>Thank you.<br/><b>PropertyGround Team</b>'
+                              }, function (err) {
+                             });
+                             return res.json({status: 2, text: 'you do not have enough credit to generate report!' });
+
+                           }
+
 
                        }
+                       else{
+                         sails.log("may be can generate report gold ");
+                         can_view_report = 1;
+
+                       }
+
+                     }
+                     else{
+                       can_view_report = 0;
+                       sails.log('gold report no pending gold payment');
+                       EmailService.sendEmail({
+                          to: user.email,
+                          subject: 'PropertyGround account payment',
+                          text: "Hello" + user.first_name + "\n You do not have enough credit to generate report!\nPlease pay before generate reports.\nhttp://propertyground.co.uk/pay/" + encodeURIComponent(user.email) + "\nThank you.\nPropertyGround Team." ,
+                          html: '<b>Hello '+ user.first_name + '</b><br/>You do not have enough credit to generate report!<br/>Please pay before generate reports.<br/><a href="http://propertyground.co.uk/pay/' + encodeURIComponent(user.email) + '" target="_blank">Click here to pay</a><br/>Thank you.<br/><b>PropertyGround Team</b>'
+                        }, function (err) {
+                       });
+                       return res.json({status: 2, text: 'you do not have enough credit to generate report!' });
+
+                     }
+
+
+
+
+                   }
+                   else if(splan_id == 3000 ){
+
+                     var today = new Date();
+                     var mm = today.getMonth()+1; //January is 0!
+                     var yyyy = today.getFullYear();
+
+                     //check if last plan is for current month
+                     var plan_date = new Date(created_date);
+                     var get_last_sub_month = plan_date.getMonth() + 1;
+                     var get_last_sub_year = plan_date.getFullYear();
+
+                     if( get_last_sub_month == mm  && get_last_sub_year == yyyy ){
+                       // here we got same month and year so generate report
+                       sails.log('gold report ok to generate');
+
+                       can_view_report = 1;
+                     }
+                     else{
+                       can_view_report = 0;
+                       sails.log('platninum report no pending gold payment');
+                       EmailService.sendEmail({
+                          to: user.email,
+                          subject: 'PropertyGround account payment',
+                          text: "Hello" + user.first_name + "\n You do not have enough credit to generate report!\nPlease pay before generate reports.\nhttp://propertyground.co.uk/pay/" + encodeURIComponent(user.email) + "\nThank you.\nPropertyGround Team." ,
+                          html: '<b>Hello '+ user.first_name + '</b><br/>You do not have enough credit to generate report!<br/>Please pay before generate reports.<br/><a href="http://propertyground.co.uk/pay/' + encodeURIComponent(user.email) + '" target="_blank">Click here to pay</a><br/>Thank you.<br/><b>PropertyGround Team</b>'
+                        }, function (err) {
+                       });
+                       return res.json({status: 2, text: 'you do not have enough credit to generate report!' });
+
+                     }
 
 
                    }
                    else{
-                     sails.log("may be can generate report gold ");
-                     can_view_report = 1;
+                     can_view_report = 0;
+                     // no plans yet man
+                     EmailService.sendEmail({
+                       to: user.email,
+                       subject: 'PropertyGround account payment',
+                       text: "Hello" + user.first_name + "\n You do not have enough credit to generate report!\nPlease pay before generate reports.\nhttp://propertyground.co.uk/pay/" + encodeURIComponent(user.email) + "\nThank you.\nPropertyGround Team." ,
+                       html: '<b>Hello '+ user.first_name + '</b><br/>You do not have enough credit to generate report!<br/>Please pay before generate reports.<br/><a href="http://propertyground.co.uk/pay/' + encodeURIComponent(user.email) + '" target="_blank">Click here to pay</a><br/>Thank you.<br/><b>PropertyGround Team</b>'
+                     }, function (err) {
+                     });
+
+                     return res.json({status: 2, text: 'no Subscription plan!' });
 
                    }
 
+
+
+
                  }
                  else{
+
                    can_view_report = 0;
-                   sails.log('gold report no pending gold payment');
-                   EmailService.sendEmail({
+                    EmailService.sendEmail({
                       to: user.email,
                       subject: 'PropertyGround account payment',
                       text: "Hello" + user.first_name + "\n You do not have enough credit to generate report!\nPlease pay before generate reports.\nhttp://propertyground.co.uk/pay/" + encodeURIComponent(user.email) + "\nThank you.\nPropertyGround Team." ,
                       html: '<b>Hello '+ user.first_name + '</b><br/>You do not have enough credit to generate report!<br/>Please pay before generate reports.<br/><a href="http://propertyground.co.uk/pay/' + encodeURIComponent(user.email) + '" target="_blank">Click here to pay</a><br/>Thank you.<br/><b>PropertyGround Team</b>'
                     }, function (err) {
-                   });
-                   return res.json({status: 2, text: 'you do not have enough credit to generate report!' });
+                    });
+
+                   return res.json({status: 2, text: 'Please pay before you generate reports!' });
 
                  }
 
 
+                 // check payment plans
 
 
-               }
-               else if(splan_id == 3000 ){
 
-                 var today = new Date();
-                 var mm = today.getMonth()+1; //January is 0!
-                 var yyyy = today.getFullYear();
-
-                 //check if last plan is for current month
-                 var plan_date = new Date(created_date);
-                 var get_last_sub_month = plan_date.getMonth() + 1;
-                 var get_last_sub_year = plan_date.getFullYear();
-
-                 if( get_last_sub_month == mm  && get_last_sub_year == yyyy ){
-                   // here we got same month and year so generate report
-                   sails.log('gold report ok to generate');
-
-                   can_view_report = 1;
-                 }
-                 else{
-                   can_view_report = 0;
-                   sails.log('platninum report no pending gold payment');
-                   EmailService.sendEmail({
-                      to: user.email,
-                      subject: 'PropertyGround account payment',
-                      text: "Hello" + user.first_name + "\n You do not have enough credit to generate report!\nPlease pay before generate reports.\nhttp://propertyground.co.uk/pay/" + encodeURIComponent(user.email) + "\nThank you.\nPropertyGround Team." ,
-                      html: '<b>Hello '+ user.first_name + '</b><br/>You do not have enough credit to generate report!<br/>Please pay before generate reports.<br/><a href="http://propertyground.co.uk/pay/' + encodeURIComponent(user.email) + '" target="_blank">Click here to pay</a><br/>Thank you.<br/><b>PropertyGround Team</b>'
-                    }, function (err) {
-                   });
-                   return res.json({status: 2, text: 'you do not have enough credit to generate report!' });
-
-                 }
+               });
 
 
-               }
-               else{
-                 can_view_report = 0;
-                 // no plans yet man
-                 EmailService.sendEmail({
-                   to: user.email,
-                   subject: 'PropertyGround account payment',
-                   text: "Hello" + user.first_name + "\n You do not have enough credit to generate report!\nPlease pay before generate reports.\nhttp://propertyground.co.uk/pay/" + encodeURIComponent(user.email) + "\nThank you.\nPropertyGround Team." ,
-                   html: '<b>Hello '+ user.first_name + '</b><br/>You do not have enough credit to generate report!<br/>Please pay before generate reports.<br/><a href="http://propertyground.co.uk/pay/' + encodeURIComponent(user.email) + '" target="_blank">Click here to pay</a><br/>Thank you.<br/><b>PropertyGround Team</b>'
-                 }, function (err) {
-                 });
-
-                 return res.json({status: 2, text: 'no Subscription plan!' });
-
-               }
 
 
 
 
              }
-             else{
+              // end exisiting report check
 
-               can_view_report = 0;
-                EmailService.sendEmail({
-                  to: user.email,
-                  subject: 'PropertyGround account payment',
-                  text: "Hello" + user.first_name + "\n You do not have enough credit to generate report!\nPlease pay before generate reports.\nhttp://propertyground.co.uk/pay/" + encodeURIComponent(user.email) + "\nThank you.\nPropertyGround Team." ,
-                  html: '<b>Hello '+ user.first_name + '</b><br/>You do not have enough credit to generate report!<br/>Please pay before generate reports.<br/><a href="http://propertyground.co.uk/pay/' + encodeURIComponent(user.email) + '" target="_blank">Click here to pay</a><br/>Thank you.<br/><b>PropertyGround Team</b>'
-                }, function (err) {
-                });
-
-               return res.json({status: 2, text: 'Please pay before you generate reports!' });
-
-             }
-
-
-
-
-
-             // check payment plans
 
 
 
