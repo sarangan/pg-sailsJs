@@ -2433,22 +2433,26 @@ module.exports = {
 
             if(can_view_report == 1){
               //report generate ---------------------------------------
-              fs.truncate(xls_file_path, 0, function() {
-                  fs.writeFile(xls_file_path, xls_str, function (err) {
-                      if(err){
-                        sails.log("Error writing file: " + err);
-                      }
-                      else{
-                        options['toc'] = true;
-                        options['xslStyleSheet'] = xls_file_path; //'/home/propertyground/public_html/tocstyle.xsl';
-                      }
 
-                      return wkhtmltopdf(html, options).pipe(res);
+              try {
+                  fs.truncate(xls_file_path, 0, function() {
+                      fs.writeFile(xls_file_path, xls_str, function (err) {
+                          if(err){
+                            sails.log("Error writing file: " + err);
+                          }
+                          else{
+                            options['toc'] = true;
+                            options['xslStyleSheet'] = xls_file_path; //'/home/propertyground/public_html/tocstyle.xsl';
+                          }
 
+                          return wkhtmltopdf(html, options).pipe(res);
+
+                      });
                   });
-              });
-              //report generate ---------------------------------------
-
+                  //report generate ---------------------------------------
+                } catch (err) {
+                  // Handle the error here.
+                }
           }
           else{
               res.json({ error: 'subscription error' });
