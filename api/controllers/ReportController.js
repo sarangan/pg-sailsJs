@@ -481,7 +481,7 @@ module.exports = {
              var can_view_report = 0;
 
              sails.log(report_log_data);
-             
+
 
              if(report_log_data && report_log_data.property_id && report_log_data.property_id == property_id){
                // we already generated this report before
@@ -490,13 +490,6 @@ module.exports = {
              }
              else{
 
-               Report_log.create({property_id: property_id }).exec(function(err, report_log_create){
-                 if(err){
-                   sails.log(err);
-                 }
-                 sails.log('report generate log updated');
-
-               });
 
 
                //check ---------------- payment plans
@@ -535,6 +528,14 @@ module.exports = {
                        // we are ok to  generate report
                        sails.log('okay to generate report');
                        //here we will start to generate report TODO
+                     });
+
+                     Report_log.create({property_id: property_id }).exec(function(err, report_log_create){
+                       if(err){
+                         sails.log(err);
+                       }
+                       sails.log('report generate log updated');
+
                      });
 
 
@@ -593,6 +594,14 @@ module.exports = {
                                sails.log(err);
                              }
                              sails.log('report generate gold updated');
+                           });
+
+                           Report_log.create({property_id: property_id }).exec(function(err, report_log_create){
+                             if(err){
+                               sails.log(err);
+                             }
+                             sails.log('report generate log updated');
+
                            });
 
                          }
@@ -655,6 +664,15 @@ module.exports = {
                      sails.log('gold report ok to generate');
 
                      can_view_report = 1;
+
+                     Report_log.create({property_id: property_id }).exec(function(err, report_log_create){
+                       if(err){
+                         sails.log(err);
+                       }
+                       sails.log('report generate log updated');
+
+                     });
+                     
                    }
                    else{
                      can_view_report = 0;
