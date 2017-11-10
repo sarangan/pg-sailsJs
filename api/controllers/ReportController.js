@@ -480,7 +480,7 @@ module.exports = {
 
              var can_view_report = 0;
 
-             if(report_log_data && report_log_data.property_id){
+             if(report_log_data && report_log_data.property_id && report_log_data.property_id == property_id){
                // we already generated this report before
                 can_view_report = 1;
              }
