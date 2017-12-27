@@ -17,129 +17,370 @@ module.exports = {
 				User.findOne({id :  req.token.sid}).exec(function(err, user){
 					if(err) return res.json(err);
 
-						//console.log('company id receving', user.company_id);
-
-						// return res.json({ status: 1, data:  req.param('data') });
-
-						var synid = req.param('sync');
-						var key = req.param('key');
 						var table = req.param('table');
-
 						var data =  req.param('data');
-						delete data.id;
+						data = JSON.parse(data);
 						delete data.sync;
 
 						//console.log(data);
 
-						if(req.param('table') &&  req.param('task') ){
+						if(req.param('table') ){
 
-							 if( req.param('task') == 'INSERT'){
 
 								 //	var dataPropertyInfo = req.param('data');
 
 									switch (req.param('table')) {
 										case 'property':
 
-														Property.create(data).exec(function(err, property){
-															if (err) return res.json(err);
-															if(property.property_id){
-																	return res.json({ status: 1, synid: synid, key: key, table: table  });
-															}
+														Property.findOne({property_id: data.property_id }).exec(function(err, property_details){
+															if(err) return res.json(err);
+
+
+																if(property_details.property_id){
+
+																	delete data['property_id'];
+
+																	Property.update({property_id: property_details.property_id }, data ).exec(function afterwards(err, updated){
+																			if (err) return res.json(err);
+
+																			return res.json({ status: 1, text: 'successfully updated' });
+
+																	});
+
+
+																}
+																else{
+
+																	Property.create(data).exec(function(err, property){
+																		if (err) return res.json(err);
+																		if(property.property_id){
+																				return res.json({ status: 1, text: 'successfully created' });
+																		}
+																	});
+
+																}
+
+
+
 														});
-											break;
+
+														break;
 
 
 										case 'property_info':
 
-													Property_info.create(data).exec(function(err, propertyInfo){
-														if (err) return res.json(err);
-														if(propertyInfo.property_id){
-																return res.json({ status: 1,  synid: synid, key: key, table: table, data: propertyInfo  });
+													Property_info.findOne({property_id: data.property_id }).exec(function(err, propertyinfo_details){
+														if(err) return res.json(err);
+
+														if(propertyinfo_details.property_id){
+
+															delete data['property_id'];
+
+															Property_info.update({property_id: propertyinfo_details.property_id }, data ).exec(function afterwards(err, updated){
+																	if (err) return res.json(err);
+
+																	return res.json({ status: 1, text: 'successfully updated' });
+
+															});
+
 														}
+														else{
+
+															Property_info.create(data).exec(function(err, propertyInfo){
+																if (err) return res.json(err);
+																if(propertyInfo.property_id){
+																		return res.json({ status: 1, text: 'successfully created' });
+																}
+															});
+
+														}
+
 													});
+
+
 												break;
 
 										case 'property_masteritem_link':
 
-													Property_masteritem_link.create(data).exec(function(err, property_masteritem){
-														if (err) return res.json(err);
-														if(property_masteritem.property_id){
-																return res.json({ status: 1,  synid: synid, key: key, table: table  });
+													Property_masteritem_link.findOne({prop_master_id: data.prop_master_id }).exec(function(err, property_masteritem){
+														if(err) return res.json(err);
+
+														if(property_masteritem.prop_master_id){
+
+															delete data['prop_master_id'];
+
+															Property_masteritem_link.update({prop_master_id: property_masteritem.prop_master_id }, data ).exec(function afterwards(err, updated){
+																	if (err) return res.json(err);
+
+																	return res.json({ status: 1, text: 'successfully updated' });
+
+															});
+
 														}
+														else{
+
+															Property_masteritem_link.create(data).exec(function(err, property_masteritem){
+																if (err) return res.json(err);
+																if(property_masteritem.prop_master_id){
+																		return res.json({ status: 1, text: 'successfully created' });
+																}
+															});
+
+														}
+
 													});
+
 												break;
 
 									case 'property_subitem_link':
 
-												Property_subitem_link.create(data).exec(function(err, property_subitem){
-													if (err) return res.json(err);
-													if(property_subitem.property_id){
-															return res.json({ status: 1,  synid: synid, key: key, table: table  });
+
+												Property_subitem_link.findOne({prop_subitem_id: data.prop_subitem_id }).exec(function(err, property_subitem){
+													if(err) return res.json(err);
+
+													if(property_subitem.prop_subitem_id){
+
+														delete data['prop_subitem_id'];
+
+														Property_subitem_link.update({prop_subitem_id: property_subitem.prop_subitem_id }, data ).exec(function afterwards(err, updated){
+																if (err) return res.json(err);
+
+																return res.json({ status: 1, text: 'successfully updated' });
+
+														});
+
 													}
+													else{
+
+														Property_subitem_link.create(data).exec(function(err, property_subitem){
+															if (err) return res.json(err);
+															if(property_subitem.prop_subitem_id){
+																	return res.json({ status: 1, text: 'successfully created' });
+															}
+														});
+
+													}
+
 												});
+
+
+											break;
+
+									case 'property_general_condition_link':
+
+												Property_general_condition_link.findOne({prop_general_id: data.prop_general_id }).exec(function(err, property_general_condition_link){
+													if(err) return res.json(err);
+
+													if(property_general_condition_link.prop_general_id){
+
+														delete data['prop_general_id'];
+
+														Property_general_condition_link.update({prop_general_id: property_general_condition_link.prop_general_id }, data ).exec(function afterwards(err, updated){
+																if (err) return res.json(err);
+
+																return res.json({ status: 1, text: 'successfully updated' });
+
+														});
+
+													}
+													else{
+
+														Property_general_condition_link.create(data).exec(function(err, property_general_condition_link){
+															if (err) return res.json(err);
+															if(property_general_condition_link.prop_general_id){
+																	return res.json({ status: 1, text: 'successfully created' });
+															}
+														});
+
+													}
+
+												});
+
 											break;
 
 
 									case 'property_meter_link':
 
-												Property_meter_link.create(data).exec(function(err, property_meter){
-													if (err) return res.json(err);
-													if(property_meter.property_id){
-															return res.json({ status: 1,  synid: synid, key: key, table: table  });
+
+												Property_meter_link.findOne({prop_meter_id: data.prop_meter_id }).exec(function(err, property_meter){
+													if(err) return res.json(err);
+
+													if(property_meter.prop_meter_id){
+
+														delete data['prop_meter_id'];
+
+														Property_meter_link.update({prop_meter_id: property_meter.prop_meter_id }, data ).exec(function afterwards(err, updated){
+																if (err) return res.json(err);
+
+																return res.json({ status: 1, text: 'successfully updated' });
+
+														});
+
 													}
+													else{
+
+														Property_meter_link.create(data).exec(function(err, property_meter){
+															if (err) return res.json(err);
+															if(property_meter.prop_meter_id){
+																	return res.json({ status: 1, text: 'successfully created' });
+															}
+														});
+
+													}
+
 												});
+
+
 											break;
 
-								case 'property_general_condition_link':
 
-											Property_general_condition_link.create(data).exec(function(err, property_general_condition_link){
-												if (err) return res.json(err);
-												if(property_general_condition_link.prop_general_id){
-														return res.json({ status: 1,  synid: synid, key: key, table: table  });
-												}
-											});
-										break;
 
 								case 'property_feedback':
 
-											Property_feedback.create(data).exec(function(err, property_feedback){
-												if (err) return res.json(err);
+
+											Property_feedback.findOne({prop_meter_id: data.prop_meter_id }).exec(function(err, property_feedback){
+												if(err) return res.json(err);
+
 												if(property_feedback.prop_feedback_id){
-														return res.json({ status: 1,  synid: synid, key: key, table: table  });
+
+													delete data['prop_feedback_id'];
+
+													Property_feedback.update({prop_feedback_id: property_feedback.prop_feedback_id }, data ).exec(function afterwards(err, updated){
+															if (err) return res.json(err);
+
+															return res.json({ status: 1, text: 'successfully updated' });
+
+													});
+
 												}
+												else{
+
+													Property_feedback.create(data).exec(function(err, property_feedback){
+														if (err) return res.json(err);
+														if(property_feedback.prop_feedback_id){
+																return res.json({ status: 1, text: 'successfully created' });
+														}
+													});
+
+												}
+
 											});
+
+
 										break;
 
 
 								case 'property_sub_feedback_general':
 
-											Property_sub_feedback_general.create(data).exec(function(err, property_sub_feedback_general){
-												if (err) return res.json(err);
+											Property_sub_feedback_general.findOne({prop_sub_feedback_general_id: data.prop_sub_feedback_general_id }).exec(function(err, property_sub_feedback_general){
+												if(err) return res.json(err);
+
 												if(property_sub_feedback_general.prop_sub_feedback_general_id){
-														return res.json({ status: 1,  synid: synid, key: key, table: table  });
+
+													delete data['prop_sub_feedback_general_id'];
+
+													Property_sub_feedback_general.update({prop_sub_feedback_general_id: property_sub_feedback_general.prop_sub_feedback_general_id }, data ).exec(function afterwards(err, updated){
+															if (err) return res.json(err);
+
+															return res.json({ status: 1, text: 'successfully updated' });
+
+													});
+
 												}
+												else{
+
+													Property_sub_feedback_general.create(data).exec(function(err, property_sub_feedback_general){
+														if (err) return res.json(err);
+														if(property_sub_feedback_general.prop_sub_feedback_general_id){
+																return res.json({ status: 1, text: 'successfully created' });
+														}
+													});
+
+												}
+
 											});
+
+
 										break;
 
 
 								case 'property_sub_voice_general':
 
-											 Property_sub_voice_general.create(data).exec(function(err, property_sub_voice_general_data){
-											 	if (err) return res.json(err);
-											 	 if(property_sub_voice_general_data.prop_sub_feedback_general_id){
-											 	 		return res.json({ status: 1,  synid: synid, key: key, table: table  });
-											 	 }
-											 });
+
+											 Property_sub_voice_general.findOne({prop_sub_feedback_general_id: data.prop_sub_feedback_general_id }).exec(function(err, property_sub_voice_general_data){
+ 												if(err) return res.json(err);
+
+ 												if(property_sub_voice_general_data.prop_sub_feedback_general_id){
+
+ 													delete data['prop_sub_feedback_general_id'];
+
+ 													Property_sub_voice_general.update({prop_sub_feedback_general_id: property_sub_voice_general_data.prop_sub_feedback_general_id }, data ).exec(function afterwards(err, updated){
+ 															if (err) return res.json(err);
+
+ 															return res.json({ status: 1, text: 'successfully updated' });
+
+ 													});
+
+ 												}
+ 												else{
+
+ 													Property_sub_voice_general.create(data).exec(function(err, property_sub_voice_general_data){
+ 														if (err) return res.json(err);
+ 														if(property_sub_voice_general_data.prop_sub_feedback_general_id){
+ 																return res.json({ status: 1, text: 'successfully created' });
+ 														}
+ 													});
+
+ 												}
+
+ 											});
+
+
 										break;
+
+								case 'signatures':
+
+													Signatures.findOne({sign_id: data.sign_id }).exec(function(err, signatures){
+														if(err) return res.json(err);
+
+														if(signatures.sign_id){
+
+															delete data['sign_id'];
+
+															Signatures.update({sign_id: signatures.sign_id }, data ).exec(function afterwards(err, updated){
+																	if (err) return res.json(err);
+
+																	return res.json({ status: 1, text: 'successfully updated' });
+
+															});
+
+														}
+														else{
+
+															Signatures.create(data).exec(function(err, signatures){
+																if (err) return res.json(err);
+																if(signatures.sign_id){
+																		return res.json({ status: 1, text: 'successfully created' });
+																}
+															});
+
+														}
+
+													});
+
+
+												break;
 
 								case 'photos':
 											console.log('photos uploading');
-											Photos.create(data).exec(function(err, photos){
-												if (err) return res.json(err);
-												if(photos.photo_id){
-														return res.json({ status: 1,  synid: synid , key: key, table: table, data: data  });
-												}
-											});
+											// Photos.create(data).exec(function(err, photos){
+											// 	if (err) return res.json(err);
+											// 	if(photos.photo_id){
+											// 			return res.json({ status: 1,  synid: synid , key: key, table: table, data: data  });
+											// 	}
+											// });
+
+
 										break;
 
 
@@ -151,7 +392,7 @@ module.exports = {
 
 
 
-							 }
+
 
 						 }
 
@@ -4661,7 +4902,7 @@ module.exports = {
 									 	var _dest = upload_path + path.basename(files[0].fd); // the destination path
 
 										var data = {
-										 		photo_id: uuidV4(),
+										 		photo_id: req.param('photo_id') ? req.param('photo_id') : uuidV4(),
 										  	property_id : req.param('property_id'),
 										  	item_id : req.param('item_id'),
 										  	parent_id: req.param('parent_id'),
@@ -4757,7 +4998,7 @@ module.exports = {
 										      var _dest = upload_path + path.basename(files[0].fd); // the destination path
 
 													var data = {
-													 		photo_id: uuidV4(),
+													 		photo_id: req.param('photo_id') ? req.param('photo_id') : uuidV4(),
 													  	property_id : req.param('property_id'),
 													  	item_id : req.param('item_id'),
 													  	parent_id: req.param('parent_id'),
@@ -5174,7 +5415,50 @@ module.exports = {
 			}
 
 
-		}
+		},
+
+		finishSync: function(req, res){
+
+			if( req.token.hasOwnProperty('sid') ){
+				if(req.token.sid){
+
+						User.findOne({id :  req.token.sid}).exec(function(err, user){
+							if(err) return res.json(err);
+
+							console.log('user', user.company_id);
+
+							Property_info.findOne({property_id: req.param('property_id') }).exec(function(err, propertyinfo_details){
+								if(err) return res.json(err);
+
+								if(propertyinfo_details.property_id){
+
+
+									EmailService.sendEmail({
+										 to: user.email,
+										 subject: propertyinfo_details.address_1 + ' - Property successfully synced!',
+										 text: "Hello" + user.first_name + "\n Your "+ propertyinfo_details.address_1 + " - Property has been successfully synced with server!.\n You can access your property details from http://propertyground.co.uk dashboard. \nThank you.\nPropertyGround Team." ,
+										 html: '<b>Hello '+ user.first_name + '</b><br/>Your "+ propertyinfo_details.address_1 + " - Property has been successfully synced with server!<br/>You can access your property details from http://propertyground.co.uk dashboard.<br/>Thank you.<br/><b>PropertyGround Team</b>'
+									 }, function (err) {
+									 });
+
+									 return res.json({ status: 1, text: 'successfully sent mail'  });
+
+
+								}
+								else{
+									return res.json({ status: 2, text: 'could not sent mail'  });
+								}
+
+							});
+
+
+						});
+
+
+				}
+			}
+
+		},
 
 
 };
