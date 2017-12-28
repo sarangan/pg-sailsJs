@@ -36,7 +36,7 @@ module.exports = {
 															if(err) return res.json(err);
 
 
-																if(property_details.property_id){
+																if(property_details && property_details.hasOwnProperty('property_id') &&  property_details.property_id){
 
 																	delete data['property_id'];
 
@@ -72,7 +72,7 @@ module.exports = {
 													Property_info.findOne({property_id: data.property_id }).exec(function(err, propertyinfo_details){
 														if(err) return res.json(err);
 
-														if(propertyinfo_details.property_id){
+														if(propertyinfo_details && propertyinfo_details.hasOwnProperty('property_id') && propertyinfo_details.property_id){
 
 															delete data['property_id'];
 
@@ -105,7 +105,7 @@ module.exports = {
 													Property_masteritem_link.findOne({prop_master_id: data.prop_master_id }).exec(function(err, property_masteritem){
 														if(err) return res.json(err);
 
-														if(property_masteritem.prop_master_id){
+														if(property_masteritem && property_masteritem.hasOwnProperty('prop_master_id') && property_masteritem.prop_master_id){
 
 															delete data['prop_master_id'];
 
@@ -138,7 +138,7 @@ module.exports = {
 												Property_subitem_link.findOne({prop_subitem_id: data.prop_subitem_id }).exec(function(err, property_subitem){
 													if(err) return res.json(err);
 
-													if(property_subitem.prop_subitem_id){
+													if(property_subitem && property_subitem.hasOwnProperty('prop_subitem_id') && property_subitem.prop_subitem_id){
 
 														delete data['prop_subitem_id'];
 
@@ -171,9 +171,8 @@ module.exports = {
 												Property_general_condition_link.findOne({prop_general_id: data.prop_general_id }).exec(function(err, property_general_condition_link){
 													if(err) return res.json(err);
 
-													console.log(property_general_condition_link);
 
-													if(property_general_condition_link.prop_general_id){
+													if(property_general_condition_link && property_general_condition_link.hasOwnProperty('prop_general_id') && property_general_condition_link.prop_general_id){
 
 														delete data['prop_general_id'];
 
@@ -207,7 +206,7 @@ module.exports = {
 												Property_meter_link.findOne({prop_meter_id: data.prop_meter_id }).exec(function(err, property_meter){
 													if(err) return res.json(err);
 
-													if(property_meter.prop_meter_id){
+													if( property_meter && property_meter.hasOwnProperty('prop_meter_id') && property_meter.prop_meter_id){
 
 														delete data['prop_meter_id'];
 
@@ -243,7 +242,7 @@ module.exports = {
 											Property_feedback.findOne({prop_meter_id: data.prop_meter_id }).exec(function(err, property_feedback){
 												if(err) return res.json(err);
 
-												if(property_feedback.prop_feedback_id){
+												if(property_feedback && property_feedback.hasOwnProperty('prop_feedback_id') && property_feedback.prop_feedback_id){
 
 													delete data['prop_feedback_id'];
 
@@ -277,7 +276,7 @@ module.exports = {
 											Property_sub_feedback_general.findOne({prop_sub_feedback_general_id: data.prop_sub_feedback_general_id }).exec(function(err, property_sub_feedback_general){
 												if(err) return res.json(err);
 
-												if(property_sub_feedback_general.prop_sub_feedback_general_id){
+												if(property_sub_feedback_general && property_sub_feedback_general.hasOwnProperty('prop_sub_feedback_general_id') && property_sub_feedback_general.prop_sub_feedback_general_id){
 
 													delete data['prop_sub_feedback_general_id'];
 
@@ -310,7 +309,7 @@ module.exports = {
 													Signatures.findOne({sign_id: data.sign_id }).exec(function(err, signatures){
 														if(err) return res.json(err);
 
-														if(signatures.sign_id){
+														if(signatures && signatures.hasOwnProperty('sign_id') && signatures.sign_id){
 
 															delete data['sign_id'];
 
