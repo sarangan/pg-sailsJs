@@ -5387,32 +5387,67 @@ module.exports = {
 
 							console.log('user', user.company_id);
 
-							Property_info.findOne({property_id: req.param('property_id') }).exec(function(err, propertyinfo_details){
+							Property.findOne({property_id: req.param('property_id') }).exec(function(err, property_details){
 								if(err) return res.json(err);
 
-								sails.log('sails finished sync');
-								sails.log(propertyinfo_details);
 
-								if(propertyinfo_details){
+									if(!property_details){
 
+										var data = {
+											property_id:  req.param('property_id'),
+											description: req.param('description'),
+											company_id: user.company_id,
+											mb_createdAt: req.param('mb_createdAt'),
+										};
 
-									EmailService.sendEmail({
-										 to: user.email,
-										 subject: propertyinfo_details.address_1 + ' - Property successfully synced!',
-										 text: "Hello" + user.first_name + "\n Your " + propertyinfo_details.address_1 + " - Property has been successfully synced with server!.\n You can access your property details from http://propertyground.co.uk dashboard. \nThank you.\nPropertyGround Team." ,
-										 html: '<b>Hello ' + user.first_name + '</b><br/>Your '+ propertyinfo_details.address_1 + ' - Property has been successfully synced with server!<br/>You can access your property details from http://propertyground.co.uk dashboard.<br/>Thank you.<br/><b>PropertyGround Team</b>'
-									 }, function (err) {
-									 });
-
-									 return res.json({ status: 1, text: 'successfully sent mail'  });
+										Property.create(data).exec(function(err, property){
+											if (err) return res.json(err);
+											if(property.property_id){
 
 
-								}
-								else{
-									return res.json({ status: 2, text: 'could not sent mail'  });
-								}
+												Property_info.findOne({property_id: req.param('property_id') }).exec(function(err, propertyinfo_details){
+													if(err) return res.json(err);
+
+													sails.log('sails finished sync');
+													sails.log(propertyinfo_details);
+
+													if(propertyinfo_details){
+
+
+														EmailService.sendEmail({
+															 to: user.email,
+															 subject: propertyinfo_details.address_1 + ' - Property successfully synced!',
+															 text: "Hello" + user.first_name + "\n Your " + propertyinfo_details.address_1 + " - Property has been successfully synced with server!.\n You can access your property details from http://propertyground.co.uk dashboard. \nThank you.\nPropertyGround Team." ,
+															 html: '<b>Hello ' + user.first_name + '</b><br/>Your '+ propertyinfo_details.address_1 + ' - Property has been successfully synced with server!<br/>You can access your property details from http://propertyground.co.uk dashboard.<br/>Thank you.<br/><b>PropertyGround Team</b>'
+														 }, function (err) {
+														 });
+
+														 return res.json({ status: 1, text: 'successfully sent mail'  });
+
+
+													}
+													else{
+														return res.json({ status: 2, text: 'could not sent mail'  });
+													}
+
+												});
+
+
+
+												
+											}
+										});
+
+
+									}
+
+
 
 							});
+
+
+
+
 
 
 						});
