@@ -5399,8 +5399,8 @@ module.exports = {
 									EmailService.sendEmail({
 										 to: user.email,
 										 subject: propertyinfo_details.address_1 + ' - Property successfully synced!',
-										 text: "Hello" + user.first_name + "\n Your "+ propertyinfo_details.address_1 + " - Property has been successfully synced with server!.\n You can access your property details from http://propertyground.co.uk dashboard. \nThank you.\nPropertyGround Team." ,
-										 html: '<b>Hello '+ user.first_name + '</b><br/>Your "+ propertyinfo_details.address_1 + " - Property has been successfully synced with server!<br/>You can access your property details from http://propertyground.co.uk dashboard.<br/>Thank you.<br/><b>PropertyGround Team</b>'
+										 text: "Hello" + user.first_name + "\n Your " + propertyinfo_details.address_1 + " - Property has been successfully synced with server!.\n You can access your property details from http://propertyground.co.uk dashboard. \nThank you.\nPropertyGround Team." ,
+										 html: '<b>Hello ' + user.first_name + '</b><br/>Your '+ propertyinfo_details.address_1 + ' - Property has been successfully synced with server!<br/>You can access your property details from http://propertyground.co.uk dashboard.<br/>Thank you.<br/><b>PropertyGround Team</b>'
 									 }, function (err) {
 									 });
 
