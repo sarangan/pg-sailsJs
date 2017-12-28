@@ -303,41 +303,6 @@ module.exports = {
 
 										break;
 
-
-								case 'property_sub_voice_general':
-
-
-											 Property_sub_voice_general.findOne({prop_sub_feedback_general_id: data.prop_sub_feedback_general_id }).exec(function(err, property_sub_voice_general_data){
- 												if(err) return res.json(err);
-
- 												if(property_sub_voice_general_data.prop_sub_feedback_general_id){
-
- 													delete data['prop_sub_feedback_general_id'];
-
- 													Property_sub_voice_general.update({prop_sub_feedback_general_id: property_sub_voice_general_data.prop_sub_feedback_general_id }, data ).exec(function afterwards(err, updated){
- 															if (err) return res.json(err);
-
- 															return res.json({ status: 1, text: 'successfully updated' });
-
- 													});
-
- 												}
- 												else{
-
- 													Property_sub_voice_general.create(data).exec(function(err, property_sub_voice_general_data){
- 														if (err) return res.json(err);
- 														if(property_sub_voice_general_data.prop_sub_feedback_general_id){
- 																return res.json({ status: 1, text: 'successfully created' });
- 														}
- 													});
-
- 												}
-
- 											});
-
-
-										break;
-
 								case 'signatures':
 
 													Signatures.findOne({sign_id: data.sign_id }).exec(function(err, signatures){
@@ -370,18 +335,6 @@ module.exports = {
 
 
 												break;
-
-								case 'photos':
-											console.log('photos uploading');
-											// Photos.create(data).exec(function(err, photos){
-											// 	if (err) return res.json(err);
-											// 	if(photos.photo_id){
-											// 			return res.json({ status: 1,  synid: synid , key: key, table: table, data: data  });
-											// 	}
-											// });
-
-
-										break;
 
 
 										default:
@@ -489,6 +442,7 @@ module.exports = {
 
 											if(photos.photo_id){
 												return res.json({
+														status: 1,
 														message: files.length + ' file(s) uploaded successfully!',
 														files: files,
 														data: data
@@ -569,6 +523,7 @@ module.exports = {
 
 													if(photos.photo_id){
 														return res.json({
+																status: 1,
 																message: files.length + ' file(s) uploaded successfully!',
 																files: files,
 																data: data
@@ -615,8 +570,8 @@ module.exports = {
 						ImagesDirArr.pop();
 						ImagesDirArr.pop();
 
-						var data = JSON.parse(req.param('data') );
-						var upload_path =  ImagesDirArr.join('/')  + '/assets/images/' + data.property_id + '/';
+						var property_id = req.param('property_id');
+						var upload_path =  ImagesDirArr.join('/')  + '/assets/images/' + property_id + '/';
 
 						if(fs.existsSync( upload_path )){
               sails.log('folder exists');
@@ -634,15 +589,18 @@ module.exports = {
 									return res.json(err);
 								}
 
-							 	delete data.id;
-							 	delete data.sync;
-
 								console.log(files[0].fd);
 							 	console.log(files[0].filename);
 
 								var _src = files[0].fd; // path of the uploaded file
 
 							  var _dest = upload_path + path.basename(files[0].fd);
+								var data = {};
+								data['prop_sub_feedback_general_id'] = req.param('prop_sub_feedback_general_id');
+								data['property_id'] = req.param('property_id');
+								data['item_id'] = req.param('item_id');
+								data['parent_id'] = req.param('parent_id');
+								data['mb_createdAt'] = req.param('mb_createdAt');
 								data['voice_url'] = _dest;
 								data['file_name'] = path.basename(files[0].fd);
 
@@ -652,9 +610,8 @@ module.exports = {
 									if (err) return res.json(err);
 									if(property_sub_voice_general_data.prop_sub_feedback_general_id){
 										return res.json({
-											'message': files.length + ' file(s) uploaded successfully!',
-											'files': files,
-											'data': data
+											'status' : 1,
+											'message': 'file(s) uploaded successfully!'
 										});
 									}
 								});
@@ -687,10 +644,12 @@ module.exports = {
 											return res.json(err);
 										}
 
-									 	delete data.id;
-									 	delete data.sync;
-
-
+										var data = {};
+										data['prop_sub_feedback_general_id'] = req.param('prop_sub_feedback_general_id');
+										data['property_id'] = req.param('property_id');
+										data['item_id'] = req.param('item_id');
+										data['parent_id'] = req.param('parent_id');
+										data['mb_createdAt'] = req.param('mb_createdAt');
 
 										console.log(files[0].fd);
 									 	console.log(files[0].filename);
@@ -707,9 +666,8 @@ module.exports = {
 											if (err) return res.json(err);
 											if(property_sub_voice_general_data.prop_sub_feedback_general_id){
 												return res.json({
-													'message': files.length + ' file(s) uploaded successfully!',
-													'files': files,
-													'data': data
+													'status' : 1,
+													'message': 'file uploaded successfully!',
 												});
 											}
 										});
@@ -749,8 +707,8 @@ module.exports = {
             ImagesDirArr.pop();
             ImagesDirArr.pop();
 
-						var data = JSON.parse(req.param('data') );
-            var upload_path =  ImagesDirArr.join('/')  + '/assets/images/' + data.property_id + '/';
+						var property_id = req.param('property_id') ;
+            var upload_path =  ImagesDirArr.join('/')  + '/assets/images/' + property_id + '/';
 
 						if(fs.existsSync( upload_path )){
               console.log('folder exists');
@@ -767,7 +725,6 @@ module.exports = {
 										return res.json(err);
 									}
 
-									var property_id = data.property_id;
 									var dataPropertyInfo = {
 									 	image_url: path.basename(files[0].fd)
 									};
@@ -799,6 +756,7 @@ module.exports = {
 								 	Property_info.update({property_id: property_id }, dataPropertyInfo ).exec(function afterwards(err, updated){
 											if (err) return res.json(err);
 											return res.json({
+												status: 1,
 												message: files.length + ' file(s) uploaded successfully!',
 												files: files,
 												data: updated
@@ -834,7 +792,7 @@ module.exports = {
 												return res.json(err);
 											}
 
-											var property_id = data.property_id;
+
 											var dataPropertyInfo = {
 											 	image_url: path.basename(files[0].fd)
 											};
@@ -866,6 +824,7 @@ module.exports = {
 										 	Property_info.update({property_id: property_id }, dataPropertyInfo ).exec(function afterwards(err, updated){
 													if (err) return res.json(err);
 													return res.json({
+														status: 1,
 														message: files.length + ' file(s) uploaded successfully!',
 														files: files,
 														data: updated
