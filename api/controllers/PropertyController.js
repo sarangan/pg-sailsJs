@@ -5390,7 +5390,10 @@ module.exports = {
 							Property_info.findOne({property_id: req.param('property_id') }).exec(function(err, propertyinfo_details){
 								if(err) return res.json(err);
 
-								if(propertyinfo_details.property_id){
+								sails.log('sails finished sync');
+								sails.log(propertyinfo_details);
+
+								if(propertyinfo_details){
 
 
 									EmailService.sendEmail({
