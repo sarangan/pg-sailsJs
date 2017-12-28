@@ -171,6 +171,8 @@ module.exports = {
 												Property_general_condition_link.findOne({prop_general_id: data.prop_general_id }).exec(function(err, property_general_condition_link){
 													if(err) return res.json(err);
 
+													console.log(property_general_condition_link);
+
 													if(property_general_condition_link.prop_general_id){
 
 														delete data['prop_general_id'];
