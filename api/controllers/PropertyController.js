@@ -239,7 +239,7 @@ module.exports = {
 								case 'property_feedback':
 
 
-											Property_feedback.findOne({prop_meter_id: data.prop_meter_id }).exec(function(err, property_feedback){
+											Property_feedback.findOne({prop_feedback_id: data.prop_feedback_id }).exec(function(err, property_feedback){
 												if(err) return res.json(err);
 
 												if(property_feedback && property_feedback.hasOwnProperty('prop_feedback_id') && property_feedback.prop_feedback_id){
