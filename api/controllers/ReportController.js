@@ -672,7 +672,7 @@ module.exports = {
                        sails.log('report generate log updated');
 
                      });
-                     
+
                    }
                    else{
                      can_view_report = 0;
@@ -985,6 +985,7 @@ module.exports = {
 
           var option = 'NIL';
           var desc = 'NIL';
+          var need_maintance = '';
 
           if(Object.keys(sub_item.feedback).length === 0 && sub_item.feedback.constructor === Object ){
             //is empty object
@@ -993,14 +994,17 @@ module.exports = {
           }
           else{
             option =  sub_item.feedback.option? sub_item.feedback.option : 'NIL';
-            desc = sub_item.feedback.description? sub_item.feedback.description: 'NIL';
+            desc = sub_item.feedback.comment? sub_item.feedback.comment: 'NIL';
+            need_maintance = sub_item.feedback.description ? (sub_item.feedback.description.toLowerCase() == 'true' ? 'Need maintenance' : '') : '';
           }
 
            sub_items_html += '<div class="divrow">' +
              '<div style="width: 30%; display:inline-block"><span class="left-text">'+ sub_item.subitem.item_name +'</span></div>' +
-             '<div style="width: 50%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
-             '<div style="width: 20%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
+             '<div style="width: 50%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
+             '<div style="width: 20%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
            '</div>';
+
+           sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="color:#EB6331">'+ need_maintance +'</span></div>';
 
 
            var photos_html = ''
@@ -1110,6 +1114,7 @@ module.exports = {
 
         var option = 'NIL';
         var desc = 'NIL';
+        var need_maintance = '';
 
         if(Object.keys(master_item.feedback).length === 0 && master_item.feedback.constructor === Object ){
           option = 'NIL';
@@ -1117,7 +1122,8 @@ module.exports = {
         }
         else{
           option =  master_item.feedback.option? master_item.feedback.option : 'NIL';
-          desc = master_item.feedback.description? master_item.feedback.description: 'NIL';
+          desc = master_item.feedback.comment? master_item.feedback.comment: 'NIL';
+          need_maintance = master_item.feedback.description ? (master_item.feedback.description.toLowerCase() == 'true' ? 'Need maintenance' : '') : '';
         }
 
         sub_items_html += '<div class="divrow">' +
@@ -1125,6 +1131,8 @@ module.exports = {
            '<div style="width: 50%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
            '<div style="width: 20%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
          '</div>';
+
+         sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="color:#EB6331">'+ need_maintance +'</span></div>';
 
          var photos_html = ''
          if(master_item.photos){
@@ -1234,6 +1242,7 @@ module.exports = {
 
               var option = 'NIL';
               var desc = 'NIL';
+              var need_maintance = '';
 
               if(Object.keys(sub_item.feedback).length === 0 && sub_item.feedback.constructor === Object ){
                 //is empty object
@@ -1242,7 +1251,8 @@ module.exports = {
               }
               else{
                 option =  sub_item.feedback.option? sub_item.feedback.option : 'NIL';
-                desc = sub_item.feedback.description? sub_item.feedback.description: 'NIL';
+                desc = sub_item.feedback.comment? sub_item.feedback.comment: 'NIL';
+                need_maintance = sub_item.feedback.description ? (sub_item.feedback.description.toLowerCase() == 'true' ? 'Need maintenance' : '') : '';
               }
 
 
@@ -1286,6 +1296,7 @@ module.exports = {
                  '<div style="width: 30%; display:inline-block"><span class="left-text">'+ photos_html +'</span></div>' +
                '</div>';
 
+               sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="color:#EB6331">'+ need_maintance +'</span></div>';
 
 
 
@@ -1543,6 +1554,7 @@ module.exports = {
 
               var option = 'NIL';
               var desc = 'NIL';
+              var need_maintance = '';
 
               if(Object.keys(sub_item.feedback).length === 0 && sub_item.feedback.constructor === Object ){
                 //is empty object
@@ -1551,7 +1563,8 @@ module.exports = {
               }
               else{
                 option =  sub_item.feedback.option? sub_item.feedback.option : 'NIL';
-                desc = sub_item.feedback.description? sub_item.feedback.description: 'NIL';
+                desc = sub_item.feedback.comment? sub_item.feedback.comment: 'NIL';
+                need_maintance = sub_item.feedback.description ? (sub_item.feedback.description.toLowerCase() == 'true' ? 'Need maintenance' : '') : '';
               }
 
 
@@ -1595,7 +1608,7 @@ module.exports = {
                  '<div style="width: 30%; display:inline-block"><span class="left-text">'+ photos_html +'</span></div>' +
                '</div>';
 
-
+               sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="color:#EB6331">'+ need_maintance +'</span></div>';
 
 
             }
@@ -1664,6 +1677,7 @@ module.exports = {
 
             var option = 'NIL';
             var desc = 'NIL';
+            var need_maintance = '';
 
             if(Object.keys(master_item.feedback).length === 0 && master_item.feedback.constructor === Object ){
               option = 'NIL';
@@ -1671,7 +1685,9 @@ module.exports = {
             }
             else{
               option =  master_item.feedback.option? master_item.feedback.option : 'NIL';
-              desc = master_item.feedback.description? master_item.feedback.description: 'NIL';
+              desc = master_item.feedback.comment? master_item.feedback.comment: 'NIL';
+              need_maintance = sub_item.feedback.description ? (sub_item.feedback.description.toLowerCase() == 'true' ? 'Need maintenance' : '') : '';
+
             }
 
             var photos_html = '';
@@ -1712,6 +1728,8 @@ module.exports = {
                '<div style="width: 30%; display:inline-block"> <span class="left-text">'+ photos_html +'</span></div>' +
              '</div>';
 
+            sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="color:#EB6331">'+ need_maintance +'</span></div>';
+
            master_html +='<div class="chapter">' +
             '<h1 class="sub-heading">' + master_item.master.name + '</h1>' +
             '<hr/><div style="margin:0; width:100%;">' +
@@ -1750,6 +1768,7 @@ module.exports = {
 
             var option = 'NIL';
             var desc = 'NIL';
+            var need_maintance = '';
 
             if(Object.keys(sub_item.feedback).length === 0 && sub_item.feedback.constructor === Object ){
               //is empty object
@@ -1758,7 +1777,8 @@ module.exports = {
             }
             else{
               option =  sub_item.feedback.option? sub_item.feedback.option : 'NIL';
-              desc = sub_item.feedback.description? sub_item.feedback.description: 'NIL';
+              desc = sub_item.feedback.comment? sub_item.feedback.comment: 'NIL';
+              need_maintance = sub_item.feedback.description ? (sub_item.feedback.description.toLowerCase() == 'true' ? 'Need maintenance' : '') : '';
             }
 
              sub_items_html += '<div class="divrow">' +
@@ -1766,6 +1786,8 @@ module.exports = {
                '<div style="width: 50%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
                '<div style="width: 20%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
              '</div>';
+
+             sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="color:#EB6331">'+ need_maintance +'</span></div>';
 
           }
 
@@ -2286,7 +2308,7 @@ module.exports = {
                     '<tr>' +
                       '<td style="text-align: left;">' +
                         '<div style="width: 100%; padding: 10px; background-color: #ffffff; ">' +
-                          '<img src="' + logo_photo + '" alt="img" style="width: 100px; height: auto; max-width: 100px;"/>' +
+                          '<img src="' + logo_photo + '" alt="img" style="width: 50px; height: auto; max-width: 50px;"/>' +
                         '</div>' +
                       '</td>' +
                       '<td style="text-align: right; border-top: 1px solid #2196F3; border-bottom: 1px solid #2196F3; padding: 10px;">' +
@@ -2332,7 +2354,7 @@ module.exports = {
                     '<tr>' +
                       '<td style="text-align: left;">' +
                         '<div style="width: 100%; padding: 10px; background-color: #ffffff; ">' +
-                          '<img src="' + logo_photo + '" alt="img" style="width: 120px; height: auto; max-width: 120px;"/>' +
+                          '<img src="' + logo_photo + '" alt="img" style="width: 80px; height: auto; max-width: 80px;"/>' +
                         '</div>' +
                       '</td>' +
                       '<td style="text-align: right; border-top: 1px solid #2196F3; border-bottom: 1px solid #2196F3; padding: 10px;">' +
