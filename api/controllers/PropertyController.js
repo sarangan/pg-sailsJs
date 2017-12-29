@@ -145,6 +145,8 @@ module.exports = {
 														Property_subitem_link.update({prop_subitem_id: property_subitem.prop_subitem_id }, data ).exec(function afterwards(err, updated){
 																if (err) return res.json(err);
 
+																sails.log("sub item updated");
+
 																return res.json({ status: 1, text: 'successfully updated' });
 
 														});
@@ -155,6 +157,7 @@ module.exports = {
 														Property_subitem_link.create(data).exec(function(err, property_subitem){
 															if (err) return res.json(err);
 															if(property_subitem.prop_subitem_id){
+																	sails.log("sub item created");
 																	return res.json({ status: 1, text: 'successfully created' });
 															}
 														});
@@ -5434,7 +5437,7 @@ module.exports = {
 
 
 
-												
+
 											}
 										});
 
