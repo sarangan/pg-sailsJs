@@ -1004,7 +1004,7 @@ module.exports = {
              '<div style="width: 20%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
            '</div>';
 
-           sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="color:#EB6331">'+ need_maintance +'</span></div>';
+           sub_items_html +='<div style="width: 100%; display:block; padding: 10px; text-align: right; "> <span class="left-text" style="color:#EB6331">'+ need_maintance +'</span></div>';
 
 
            var photos_html = ''
@@ -1071,8 +1071,8 @@ module.exports = {
            '</div>' +
            '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
                 '<div class="divtable" style="width:30%; display: inline-block;">&nbsp;Item</div>' +
-                '<div class="divtable" style="width:50%; display: inline-block;">Description</div>' +
-                '<div class="divtable" style="width:20%; display: inline-block;">Condition</div>' +
+                '<div class="divtable" style="width:50%; display: inline-block;">Condition</div>' +
+                '<div class="divtable" style="width:20%; display: inline-block;">Description</div>' +
               '<div>' +
               sub_items_html +
        '</div></div></div></div>';
@@ -1128,8 +1128,8 @@ module.exports = {
 
         sub_items_html += '<div class="divrow">' +
            '<div style="width: 30%; display:inline-block"><span class="left-text">'+ master_item.master.name +'</span></div>' +
-           '<div style="width: 50%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
-           '<div style="width: 20%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
+           '<div style="width: 50%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
+           '<div style="width: 20%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
          '</div>';
 
          sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="color:#EB6331">'+ need_maintance +'</span></div>';
@@ -1187,8 +1187,8 @@ module.exports = {
           '</div>' +
           '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
                '<div class="divtable" style="width:30%; display: inline-block;">&nbsp;Item</div>' +
-               '<div class="divtable" style="width:50%; display: inline-block;">Description</div>' +
-               '<div class="divtable" style="width:20%; display: inline-block;">Condition</div>' +
+               '<div class="divtable" style="width:50%; display: inline-block;">Condition</div>' +
+               '<div class="divtable" style="width:20%; display: inline-block;">Description</div>' +
              '<div>' +
              sub_items_html +
       '</div></div></div></div>';
@@ -1291,8 +1291,8 @@ module.exports = {
 
                sub_items_html += '<div class="divrow">' +
                  '<div style="width: 20%; display:inline-block"><span class="left-text">'+ sub_item.subitem.item_name +'</span></div>' +
-                 '<div style="width: 40%; display:inline-block"><span class="left-text">'+ desc +'</span></div>' +
-                 '<div style="width: 10%; display:inline-block"><span class="left-text">'+ option +'</span></div>' +
+                 '<div style="width: 40%; display:inline-block"><span class="left-text">'+ option +'</span></div>' +
+                 '<div style="width: 10%; display:inline-block"><span class="left-text">'+ desc +'</span></div>' +
                  '<div style="width: 30%; display:inline-block"><span class="left-text">'+ photos_html +'</span></div>' +
                '</div>';
 
@@ -1355,8 +1355,8 @@ module.exports = {
                '</div>' +
                '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
                     '<div class="divtable" style="width:20%; display: inline-block;">&nbsp;Item</div>' +
-                    '<div class="divtable" style="width:40%; display: inline-block;">Description</div>' +
-                    '<div class="divtable" style="width:10%; display: inline-block;">Condition</div>' +
+                    '<div class="divtable" style="width:40%; display: inline-block;">Condition</div>' +
+                    '<div class="divtable" style="width:10%; display: inline-block;">Description</div>' +
                     '<div class="divtable" style="width:30%; display: inline-block;">Image</div>' +
                   '<div>' +
                   sub_items_html +
@@ -1446,8 +1446,8 @@ module.exports = {
 
             sub_items_html += '<div class="divrow">' +
                '<div style="width: 20%; display:inline-block"><span class="left-text">'+ master_item.master.name +'</span></div>' +
-               '<div style="width: 40%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
-               '<div style="width: 10%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
+               '<div style="width: 40%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
+               '<div style="width: 10%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
                '<div style="width: 30%; display:inline-block"> <span class="left-text">'+ photos_html +'</span></div>' +
              '</div>';
 
@@ -1494,8 +1494,8 @@ module.exports = {
               '</div>' +
               '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
                    '<div class="divtable" style="width:20%; display: inline-block;">&nbsp;Item</div>' +
-                   '<div class="divtable" style="width:40%; display: inline-block;">Description</div>' +
-                   '<div class="divtable" style="width:10%; display: inline-block;">Condition</div>' +
+                   '<div class="divtable" style="width:40%; display: inline-block;">Condition</div>' +
+                   '<div class="divtable" style="width:10%; display: inline-block;">Description</div>' +
                    '<div class="divtable" style="width:30%; display: inline-block;">Image</div>' +
                  '<div>' +
                  sub_items_html +
@@ -1603,8 +1603,8 @@ module.exports = {
 
                sub_items_html += '<div class="divrow">' +
                  '<div style="width: 20%; display:inline-block"><span class="left-text">'+ sub_item.subitem.item_name +'</span></div>' +
-                 '<div style="width: 40%; display:inline-block"><span class="left-text">'+ desc +'</span></div>' +
-                 '<div style="width: 10%; display:inline-block"><span class="left-text">'+ option +'</span></div>' +
+                 '<div style="width: 40%; display:inline-block"><span class="left-text">'+ option +'</span></div>' +
+                 '<div style="width: 10%; display:inline-block"><span class="left-text">'+ desc +'</span></div>' +
                  '<div style="width: 30%; display:inline-block"><span class="left-text">'+ photos_html +'</span></div>' +
                '</div>';
 
@@ -1632,8 +1632,8 @@ module.exports = {
                '</div>' +
                '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
                     '<div class="divtable" style="width:20%; display: inline-block;">&nbsp;Item</div>' +
-                    '<div class="divtable" style="width:40%; display: inline-block;">Description</div>' +
-                    '<div class="divtable" style="width:10%; display: inline-block;">Condition</div>' +
+                    '<div class="divtable" style="width:40%; display: inline-block;">Condition</div>' +
+                    '<div class="divtable" style="width:10%; display: inline-block;">Description</div>' +
                     '<div class="divtable" style="width:30%; display: inline-block;">Image</div>' +
                   '<div>' +
                   sub_items_html +
@@ -1723,8 +1723,8 @@ module.exports = {
 
             sub_items_html += '<div class="divrow">' +
                '<div style="width: 20%; display:inline-block"><span class="left-text">'+ master_item.master.name +'</span></div>' +
-               '<div style="width: 40%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
-               '<div style="width: 10%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
+               '<div style="width: 40%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
+               '<div style="width: 10%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
                '<div style="width: 30%; display:inline-block"> <span class="left-text">'+ photos_html +'</span></div>' +
              '</div>';
 
@@ -1742,8 +1742,8 @@ module.exports = {
               '</div>' +
               '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
                    '<div class="divtable" style="width:20%; display: inline-block;">&nbsp;Item</div>' +
-                   '<div class="divtable" style="width:40%; display: inline-block;">Description</div>' +
-                   '<div class="divtable" style="width:10%; display: inline-block;">Condition</div>' +
+                   '<div class="divtable" style="width:40%; display: inline-block;">Condition</div>' +
+                   '<div class="divtable" style="width:10%; display: inline-block;">Description</div>' +
                    '<div class="divtable" style="width:30%; display: inline-block;">Image</div>' +
                  '<div>' +
                  sub_items_html +
@@ -1783,8 +1783,8 @@ module.exports = {
 
              sub_items_html += '<div class="divrow">' +
                '<div style="width: 30%; display:inline-block"><span class="left-text">'+ sub_item.subitem.item_name +'</span></div>' +
-               '<div style="width: 50%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
-               '<div style="width: 20%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
+               '<div style="width: 50%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
+               '<div style="width: 20%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
              '</div>';
 
              sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="color:#EB6331">'+ need_maintance +'</span></div>';
@@ -1808,8 +1808,8 @@ module.exports = {
              '</div>' +
              '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
                   '<div class="divtable" style="width:30%; display: inline-block;">&nbsp;Item</div>' +
-                  '<div class="divtable" style="width:50%; display: inline-block;">Description</div>' +
-                  '<div class="divtable" style="width:20%; display: inline-block;">Condition</div>' +
+                  '<div class="divtable" style="width:50%; display: inline-block;">Condition</div>' +
+                  '<div class="divtable" style="width:20%; display: inline-block;">Description</div>' +
                 '<div>' +
                 sub_items_html +
          '</div></div></div></div>';
@@ -1833,8 +1833,8 @@ module.exports = {
 
           sub_items_html += '<div class="divrow">' +
              '<div style="width: 30%; display:inline-block"><span class="left-text">'+ master_item.master.name +'</span></div>' +
-             '<div style="width: 50%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
-             '<div style="width: 20%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
+             '<div style="width: 50%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
+             '<div style="width: 20%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
            '</div>';
 
          master_html +='<div class="chapter">' +
@@ -1846,8 +1846,8 @@ module.exports = {
             '</div>' +
             '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
                  '<div class="divtable" style="width:30%; display: inline-block;">&nbsp;Item</div>' +
-                 '<div class="divtable" style="width:50%; display: inline-block;">Description</div>' +
-                 '<div class="divtable" style="width:20%; display: inline-block;">Condition</div>' +
+                 '<div class="divtable" style="width:50%; display: inline-block;">Condition</div>' +
+                 '<div class="divtable" style="width:20%; display: inline-block;">Description</div>' +
                '<div>' +
                sub_items_html +
         '</div></div></div></div>';
