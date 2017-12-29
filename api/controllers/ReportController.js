@@ -1004,7 +1004,7 @@ module.exports = {
              '<div style="width: 20%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
            '</div>';
 
-           sub_items_html +='<div style="width: 100%; display:block; padding: 10px; text-align: right; "> <span class="left-text" style="color:#EB6331">'+ need_maintance +'</span></div>';
+           sub_items_html +='<div style="width: 100%; display:block; padding: 10px; "> <span class="left-text" style="color:#EB6331">'+ need_maintance +'</span></div>';
 
 
            var photos_html = ''
@@ -2308,7 +2308,7 @@ module.exports = {
                     '<tr>' +
                       '<td style="text-align: left;">' +
                         '<div style="width: 100%; padding: 10px; background-color: #ffffff; ">' +
-                          '<img src="' + logo_photo + '" alt="img" style="width: 50px; height: auto; max-width: 50px;"/>' +
+                          '<img src="' + logo_photo + '" alt="img" style="width: 100px; height: auto; max-width: 100px;"/>' +
                         '</div>' +
                       '</td>' +
                       '<td style="text-align: right; border-top: 1px solid #2196F3; border-bottom: 1px solid #2196F3; padding: 10px;">' +
@@ -2330,7 +2330,7 @@ module.exports = {
                 '<br/>' +
                 '<div style="width: 100%; border: 0; text-align:center;">' +
                   '<div style="padding: 0px; background-color: #ffffff; border-bottom: 4px solid #2196F3; border-top: 4px solid #2196F3; display: inline-block;">' +
-                    '<img src="' + front_photo + '" alt="img" style="width: 600px; height: auto;  display: inline-block; max-width: 600px;" />' +
+                    '<img src="' + front_photo + '" alt="img" style="width: 450px; height: auto;  display: inline-block; max-width: 450px;" />' +
                   '</div>' +
                 '</div>' +
                 '<div style="width: 100%; text-align:center; border-top: 1px solid #2196F3; margin-top: 40px;">' +
@@ -2354,7 +2354,7 @@ module.exports = {
                     '<tr>' +
                       '<td style="text-align: left;">' +
                         '<div style="width: 100%; padding: 10px; background-color: #ffffff; ">' +
-                          '<img src="' + logo_photo + '" alt="img" style="width: 80px; height: auto; max-width: 80px;"/>' +
+                          '<img src="' + logo_photo + '" alt="img" style="width: 100px; height: auto; max-width: 100px;"/>' +
                         '</div>' +
                       '</td>' +
                       '<td style="text-align: right; border-top: 1px solid #2196F3; border-bottom: 1px solid #2196F3; padding: 10px;">' +
