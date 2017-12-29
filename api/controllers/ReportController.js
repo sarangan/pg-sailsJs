@@ -2330,7 +2330,7 @@ module.exports = {
                 '<br/>' +
                 '<div style="width: 100%; border: 0; text-align:center;">' +
                   '<div style="padding: 0px; background-color: #ffffff; border-bottom: 4px solid #2196F3; border-top: 4px solid #2196F3; display: inline-block;">' +
-                    '<img src="' + front_photo + '" alt="img" style="width: 450px; height: auto;  display: inline-block; max-width: 450px;" />' +
+                    '<img src="' + front_photo + '" alt="img" style="width: 600px; height: auto; max-height: 400px;  display: inline-block; max-width: 600px;" />' +
                   '</div>' +
                 '</div>' +
                 '<div style="width: 100%; text-align:center; border-top: 1px solid #2196F3; margin-top: 40px;">' +
@@ -2378,7 +2378,7 @@ module.exports = {
                 '<br/>' +
                 '<div style="width: 100%; border: 0; text-align:center;">' +
                   '<div style="padding: 10px; background-color: #ffffff; border: 1px solid #efefef; display: inline-block;">' +
-                    '<img src="' + front_photo + '" alt="img" style="width: 100%; height: auto;  display: inline-block; max-width: 300px;" />' +
+                    '<img src="' + front_photo + '" alt="img" style="width: 100%; height: auto; max-height: 400px; display: inline-block; max-width: 300px;" />' +
                   '</div>' +
                 '</div>' +
                 '<div style="width: 100%; border: 0; text-align:center;">' +
@@ -2421,7 +2421,7 @@ module.exports = {
                     '<tr>' +
                       '<td style="text-align: right;">' +
                         '<div style="width: 70%; padding: 10px; background-color: #ffffff; border: 1px solid #efefef; display: inline-block; margin: 5px">' +
-                          '<img src="' + front_photo + '" alt="img" style="width: 100%; height: auto;  display: inline-block; max-width: 300px;" />' +
+                          '<img src="' + front_photo + '" alt="img" style="width: 100%; height: auto; max-height: 400px; display: inline-block; max-width: 300px;" />' +
                         '</div>' +
                       '</td>' +
                       '<td style="width: 50%; text-align: left;">' +
