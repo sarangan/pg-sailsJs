@@ -1000,7 +1000,7 @@ module.exports = {
 								if(user.company_id ==  property_details.company_id ){
 
 									//good to go from here
-									Property_info.query("select property_info.*, DATE_FORMAT(property_info.createdAt,'%d/%m/%Y') as created_date, DATE_FORMAT(property_info.report_date,'%d/%m/%Y') as report_date, property.description from property_info inner join property on property_info.property_id = property.property_id where property.property_id='"+ property_id + "'", function(err, property){
+									Property_info.query("select property_info.*, DATE_FORMAT(property_info.createdAt,'%d/%m/%Y') as created_date, property.description from property_info inner join property on property_info.property_id = property.property_id where property.property_id='"+ property_id + "'", function(err, property){
 										return res.json({status: 1, property: property[0]});
 									});
 
