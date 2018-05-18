@@ -766,6 +766,8 @@ module.exports = {
        var general_conditiions_html = ''
        if(report_settings.include_condition_summary == 1){
 
+         var got_any_gen_data = false;
+
 	        general_conditiions_html = '<div class="chapter">' +
                                   	   '<h1 class="sub-heading">General Condition</h1>' +
                                   	   '<hr/>' +
@@ -779,6 +781,7 @@ module.exports = {
 
             for(var i =0, l = general_conditions.length; i < l ; i++){
               if(general_conditions[i].user_input ){
+                got_any_gen_data = true;
                  general_conditiions_html += '<tr>' +
                    '<td class="col1"><span class="left-text">'+ general_conditions[i].item_name +'</span></td>' +
                    '<td class="col2"><span class="right-text">'+ general_conditions[i].user_input +'</span></td>' +
@@ -787,6 +790,11 @@ module.exports = {
             }
 
           general_conditiions_html += '</tbody></table></div></div>';
+
+          if(!got_any_gen_data){
+            general_conditiions_html = '';
+          }
+
         }
 //end genral conditions----------------------------------------------------------------------------------
 
@@ -796,9 +804,11 @@ module.exports = {
     if(meter_data){
         meter_html = '<div class="chapter"><h1 class="sub-heading">Meater Reading</h1><hr/><div><table class="format-table report-tbl7"><thead><th class="col1">Image</th><th class="col2">Condition</th><tbody>';
 
-        for(var i =0, l = meter_data.length; i < l ; i++){
-          if(meter_data[i].photo){
+        var check_meter_data = false;
 
+        for(var i =0, l = meter_data.length; i < l ; i++){
+          if(meter_data[i].photo || meter_data[i].reading_value ){
+            check_meter_data = true;
             //sails.log(server_image_path +  property_id + '/' + '300_' + (meter_data[i].photo.substr(0, meter_data[i].photo.lastIndexOf('.')) || meter_data[i].photo) + '.jpg');
 
              meter_html += '<tr><td><div class="img-inline-wrapper">' +
@@ -812,6 +822,10 @@ module.exports = {
         }
 
         meter_html += '</tbody></table></div></div>';
+
+        if(!check_meter_data){
+          meter_html = '';
+        }
     }
 
 //end meter----------------------------------------------------------------------------------
@@ -935,7 +949,10 @@ module.exports = {
 
   var master_html = '';
   var merger_photos_html = '';
+  var check_master_item_data_exists = false;
   for(var i =0, masterl = temp_master_items.length; i < masterl; i++){
+
+    check_master_item_data_exists = false;
 
     var master_item = temp_master_items[i];
 
@@ -983,28 +1000,37 @@ module.exports = {
 
           var sub_item = master_item.sub[j];
 
-          var option = 'NIL';
-          var desc = 'NIL';
+          var option = '-';
+          var desc = '-';
           var need_maintance = '';
 
           if(Object.keys(sub_item.feedback).length === 0 && sub_item.feedback.constructor === Object ){
             //is empty object
-            option = 'NIL';
-            desc = 'NIL';
+            option = '-';
+            desc = '-';
           }
           else{
-            option =  sub_item.feedback.option? sub_item.feedback.option : 'NIL';
-            desc = sub_item.feedback.comment? sub_item.feedback.comment: 'NIL';
+            option =  sub_item.feedback.option? sub_item.feedback.option : '-';
+            desc = sub_item.feedback.comment? sub_item.feedback.comment: '-';
             need_maintance = sub_item.feedback.description ? (sub_item.feedback.description.toLowerCase() == 'true' ? 'Need maintenance' : '') : '';
           }
 
-           sub_items_html += '<div class="divrow">' +
+           var temp_sub_items_html = '<div class="divrow">' +
              '<div style="width: 30%; display:inline-block"><span class="left-text">'+ sub_item.subitem.item_name +'</span></div>' +
              '<div style="width: 50%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
              '<div style="width: 20%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
            '</div>';
+           temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px; "> <span class="left-text" style="color:#EB6331">'+ need_maintance +'</span></div>';
 
-           sub_items_html +='<div style="width: 100%; display:block; padding: 10px; "> <span class="left-text" style="color:#EB6331">'+ need_maintance +'</span></div>';
+
+           if(sub_item.feedback.option.trim().length === 0 && sub_item.feedback.comment.trim().length === 0 && !need_maintance){
+
+             sub_items_html += '';
+           }
+           else{
+             sub_items_html += temp_sub_items_html;
+             check_master_item_data_exists = true;
+           }
 
 
            var photos_html = ''
@@ -1049,33 +1075,42 @@ module.exports = {
 
           }
 
-        }
+        } //end master item loop
 
         var fgeneral = '';
         if(Object.keys(master_item.feedback_general).length === 0 && master_item.feedback_general.constructor === Object ){
           fgeneral = master_item.feedback_general.comment?master_item.feedback_general.comment:'';
         }
 
+        if(!fgeneral){
+          check_master_item_data_exists = true;
+        }
 
 
-        master_html +='<div class="chapter">' +
-         '<h1 class="sub-heading">' + master_item.master.name + '</h1>' +
-         '<hr/><div>' +
-          '<div style="margin-top: 30px; margin-bottom: 10px; width:100%;">' +
-             top_photos +
-           '</div>' +
-          ' <div>' +
-             '<span>' +
-              fgeneral +
-             '</span>' +
-           '</div>' +
-           '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
-                '<div class="divtable" style="width:30%; display: inline-block;">&nbsp;Item</div>' +
-                '<div class="divtable" style="width:50%; display: inline-block;">Condition</div>' +
-                '<div class="divtable" style="width:20%; display: inline-block;">Description</div>' +
-              '<div>' +
-              sub_items_html +
-       '</div></div></div></div>';
+        if(check_master_item_data_exists){
+
+          master_html +='<div class="chapter">' +
+           '<h1 class="sub-heading">' + master_item.master.name + '</h1>' +
+           '<hr/><div>' +
+            '<div style="margin-top: 30px; margin-bottom: 10px; width:100%;">' +
+               top_photos +
+             '</div>' +
+            ' <div>' +
+               '<span>' +
+                fgeneral +
+               '</span>' +
+             '</div>' +
+             '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
+                  '<div class="divtable" style="width:30%; display: inline-block;">&nbsp;Item</div>' +
+                  '<div class="divtable" style="width:50%; display: inline-block;">Condition</div>' +
+                  '<div class="divtable" style="width:20%; display: inline-block;">Description</div>' +
+                '<div>' +
+                sub_items_html +
+         '</div></div></div></div>';
+
+        }
+
+
 
       }
       else if(master_item.type == 'ITEM' ){
@@ -1112,27 +1147,37 @@ module.exports = {
           }
         }
 
-        var option = 'NIL';
-        var desc = 'NIL';
-        var need_maintance = '';
+        var option = '-';
+        var desc = '-';
+        var need_maintance = '-';
 
         if(Object.keys(master_item.feedback).length === 0 && master_item.feedback.constructor === Object ){
-          option = 'NIL';
-          desc = 'NIL';
+          option = '-';
+          desc = '-';
         }
         else{
-          option =  master_item.feedback.option? master_item.feedback.option : 'NIL';
-          desc = master_item.feedback.comment? master_item.feedback.comment: 'NIL';
+          option =  master_item.feedback.option? master_item.feedback.option : '-';
+          desc = master_item.feedback.comment? master_item.feedback.comment: '-';
           need_maintance = master_item.feedback.description ? (master_item.feedback.description.toLowerCase() == 'true' ? 'Need maintenance' : '') : '';
         }
 
-        sub_items_html += '<div class="divrow">' +
+        var temp_sub_items_html = '<div class="divrow">' +
            '<div style="width: 30%; display:inline-block"><span class="left-text">'+ master_item.master.name +'</span></div>' +
            '<div style="width: 50%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
            '<div style="width: 20%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
          '</div>';
 
          sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="color:#EB6331">'+ need_maintance +'</span></div>';
+
+         if(master_item.feedback.option.trim().length === 0 && master_item.feedback.comment.trim().length === 0 && !need_maintance){
+
+           sub_items_html += '';
+         }
+         else{
+           sub_items_html += temp_sub_items_html;
+           check_master_item_data_exists = true;
+         }
+
 
          var photos_html = ''
          if(master_item.photos){
@@ -1175,23 +1220,29 @@ module.exports = {
 
         }
 
-       master_html +='<div class="chapter">' +
-        '<h1 class="sub-heading">' + master_item.master.name + '</h1>' +
-        '<hr/><div>' +
-         '<div style="margin-top: 20px; margin-bottom: 20px; width:100%;">' +
-            top_photos +
-          '</div>' +
-         ' <div class="rt-2-des">' +
-            '<span>' +
-            '</span>' +
-          '</div>' +
-          '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
-               '<div class="divtable" style="width:30%; display: inline-block;">&nbsp;Item</div>' +
-               '<div class="divtable" style="width:50%; display: inline-block;">Condition</div>' +
-               '<div class="divtable" style="width:20%; display: inline-block;">Description</div>' +
-             '<div>' +
-             sub_items_html +
-      '</div></div></div></div>';
+        if(check_master_item_data_exists){
+
+          master_html +='<div class="chapter">' +
+           '<h1 class="sub-heading">' + master_item.master.name + '</h1>' +
+           '<hr/><div>' +
+            '<div style="margin-top: 20px; margin-bottom: 20px; width:100%;">' +
+               top_photos +
+             '</div>' +
+            ' <div class="rt-2-des">' +
+               '<span>' +
+               '</span>' +
+             '</div>' +
+             '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
+                  '<div class="divtable" style="width:30%; display: inline-block;">&nbsp;Item</div>' +
+                  '<div class="divtable" style="width:50%; display: inline-block;">Condition</div>' +
+                  '<div class="divtable" style="width:20%; display: inline-block;">Description</div>' +
+                '<div>' +
+                sub_items_html +
+         '</div></div></div></div>';
+
+        }
+
+
 
 
       } //item end
@@ -1240,18 +1291,18 @@ module.exports = {
 
               var sub_item = master_item.sub[j];
 
-              var option = 'NIL';
-              var desc = 'NIL';
+              var option = '-';
+              var desc = '-';
               var need_maintance = '';
 
               if(Object.keys(sub_item.feedback).length === 0 && sub_item.feedback.constructor === Object ){
                 //is empty object
-                option = 'NIL';
-                desc = 'NIL';
+                option = '-';
+                desc = '-';
               }
               else{
-                option =  sub_item.feedback.option? sub_item.feedback.option : 'NIL';
-                desc = sub_item.feedback.comment? sub_item.feedback.comment: 'NIL';
+                option = sub_item.feedback.option? sub_item.feedback.option : '-';
+                desc = sub_item.feedback.comment? sub_item.feedback.comment: '-';
                 need_maintance = sub_item.feedback.description ? (sub_item.feedback.description.toLowerCase() == 'true' ? 'Need maintenance' : '') : '';
               }
 
@@ -1289,16 +1340,25 @@ module.exports = {
 
              }
 
-               sub_items_html += '<div class="divrow">' +
+               var temp_sub_items_html = '<div class="divrow">' +
                  '<div style="width: 20%; display:inline-block"><span class="left-text">'+ sub_item.subitem.item_name +'</span></div>' +
                  '<div style="width: 40%; display:inline-block"><span class="left-text">'+ option +'</span></div>' +
                  '<div style="width: 10%; display:inline-block"><span class="left-text">'+ desc +'</span></div>' +
                  '<div style="width: 30%; display:inline-block"><span class="left-text">'+ photos_html +'</span></div>' +
                '</div>';
 
-               sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="color:#EB6331">'+ need_maintance +'</span></div>';
+               temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="color:#EB6331">'+ need_maintance +'</span></div>';
 
+               if(sub_item.feedback.option.trim().length === 0 && sub_item.feedback.comment.trim().length === 0 && !need_maintance){
 
+                 sub_items_html += '';
+               }
+               else{
+                 sub_items_html += temp_sub_items_html;
+                 check_master_item_data_exists = true;
+               }
+
+               sub_items_html = temp_sub_items_html;
 
             }
 
@@ -1341,30 +1401,35 @@ module.exports = {
            }
 
 
+           if(check_master_item_data_exists){
 
-            master_html +='<div class="chapter">' +
-             '<h1 class="sub-heading">' + master_item.master.name + '</h1>' +
-             '<hr/><div style="margin:0; width:100%;">' +
-              '<div style="margin-top: 30px; margin-bottom: 10px; width:100%;">' +
-                 top_photos +
-               '</div>' +
-              ' <div>' +
-                 '<span>' +
-                  fgeneral +
-                 '</span>' +
-               '</div>' +
-               '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
-                    '<div class="divtable" style="width:20%; display: inline-block;">&nbsp;Item</div>' +
-                    '<div class="divtable" style="width:40%; display: inline-block;">Condition</div>' +
-                    '<div class="divtable" style="width:10%; display: inline-block;">Description</div>' +
-                    '<div class="divtable" style="width:30%; display: inline-block;">Image</div>' +
-                  '<div>' +
-                  sub_items_html +
-           '</div></div>'+
-           '<div style="margin-top: 30px; width:100%; text-align: left;" class="div-img-wrapper">' +
-           photos_bottom_html +
-           '</div>' +
-           '</div></div>';
+             master_html +='<div class="chapter">' +
+              '<h1 class="sub-heading">' + master_item.master.name + '</h1>' +
+              '<hr/><div style="margin:0; width:100%;">' +
+               '<div style="margin-top: 30px; margin-bottom: 10px; width:100%;">' +
+                  top_photos +
+                '</div>' +
+               ' <div>' +
+                  '<span>' +
+                   fgeneral +
+                  '</span>' +
+                '</div>' +
+                '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
+                     '<div class="divtable" style="width:20%; display: inline-block;">&nbsp;Item</div>' +
+                     '<div class="divtable" style="width:40%; display: inline-block;">Condition</div>' +
+                     '<div class="divtable" style="width:10%; display: inline-block;">Description</div>' +
+                     '<div class="divtable" style="width:30%; display: inline-block;">Image</div>' +
+                   '<div>' +
+                   sub_items_html +
+            '</div></div>'+
+            '<div style="margin-top: 30px; width:100%; text-align: left;" class="div-img-wrapper">' +
+            photos_bottom_html +
+            '</div>' +
+            '</div></div>';
+
+           }
+
+
 
           }
           else if(master_item.type == 'ITEM' ){
@@ -1401,16 +1466,16 @@ module.exports = {
               }
             }
 
-            var option = 'NIL';
-            var desc = 'NIL';
+            var option = '-';
+            var desc = '-';
 
             if(Object.keys(master_item.feedback).length === 0 && master_item.feedback.constructor === Object ){
-              option = 'NIL';
-              desc = 'NIL';
+              option = '-';
+              desc = '-';
             }
             else{
-              option =  master_item.feedback.option? master_item.feedback.option : 'NIL';
-              desc = master_item.feedback.description? master_item.feedback.description: 'NIL';
+              option =  master_item.feedback.option? master_item.feedback.option : '-';
+              desc = master_item.feedback.description? master_item.feedback.description: '-';
             }
 
             var photos_html = '';
@@ -1444,12 +1509,20 @@ module.exports = {
                 }
            }
 
-            sub_items_html += '<div class="divrow">' +
+            var temp_sub_items_html = '<div class="divrow">' +
                '<div style="width: 20%; display:inline-block"><span class="left-text">'+ master_item.master.name +'</span></div>' +
                '<div style="width: 40%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
                '<div style="width: 10%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
                '<div style="width: 30%; display:inline-block"> <span class="left-text">'+ photos_html +'</span></div>' +
              '</div>';
+
+             if(master_item.feedback.option.length === 0 && master_item.feedback.description.trim().length === 0 ){
+               sub_items_html += '';
+             }
+             else{
+               sub_items_html += temp_sub_items_html;
+               check_master_item_data_exists = true;
+             }
 
              var photos_bottom_html = '';
              if(master_item.photos){
@@ -1482,28 +1555,34 @@ module.exports = {
 
             }
 
-           master_html +='<div class="chapter">' +
-            '<h1 class="sub-heading">' + master_item.master.name + '</h1>' +
-            '<hr/><div style="margin:0; width:100%;">' +
-             '<div style="margin-top: 20px; margin-bottom: 20px; width:100%;">' +
-                top_photos +
-              '</div>' +
-             ' <div class="rt-2-des">' +
-                '<span>' +
-                '</span>' +
-              '</div>' +
-              '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
-                   '<div class="divtable" style="width:20%; display: inline-block;">&nbsp;Item</div>' +
-                   '<div class="divtable" style="width:40%; display: inline-block;">Condition</div>' +
-                   '<div class="divtable" style="width:10%; display: inline-block;">Description</div>' +
-                   '<div class="divtable" style="width:30%; display: inline-block;">Image</div>' +
-                 '<div>' +
-                 sub_items_html +
-          '</div></div>'+
-          '<div style="margin-top: 30px; width:100%; text-align: left;" class="div-img-wrapper">' +
-          photos_bottom_html +
-          '</div>' +
-          '</div></div>';
+            if(check_master_item_data_exists){
+
+              master_html +='<div class="chapter">' +
+               '<h1 class="sub-heading">' + master_item.master.name + '</h1>' +
+               '<hr/><div style="margin:0; width:100%;">' +
+                '<div style="margin-top: 20px; margin-bottom: 20px; width:100%;">' +
+                   top_photos +
+                 '</div>' +
+                ' <div class="rt-2-des">' +
+                   '<span>' +
+                   '</span>' +
+                 '</div>' +
+                 '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
+                      '<div class="divtable" style="width:20%; display: inline-block;">&nbsp;Item</div>' +
+                      '<div class="divtable" style="width:40%; display: inline-block;">Condition</div>' +
+                      '<div class="divtable" style="width:10%; display: inline-block;">Description</div>' +
+                      '<div class="divtable" style="width:30%; display: inline-block;">Image</div>' +
+                    '<div>' +
+                    sub_items_html +
+             '</div></div>'+
+             '<div style="margin-top: 30px; width:100%; text-align: left;" class="div-img-wrapper">' +
+             photos_bottom_html +
+             '</div>' +
+             '</div></div>';
+
+            }
+
+
 
 
           } //item end
@@ -1552,18 +1631,18 @@ module.exports = {
 
               var sub_item = master_item.sub[j];
 
-              var option = 'NIL';
-              var desc = 'NIL';
+              var option = '-';
+              var desc = '-';
               var need_maintance = '';
 
               if(Object.keys(sub_item.feedback).length === 0 && sub_item.feedback.constructor === Object ){
                 //is empty object
-                option = 'NIL';
-                desc = 'NIL';
+                option = '-';
+                desc = '-';
               }
               else{
-                option =  sub_item.feedback.option? sub_item.feedback.option : 'NIL';
-                desc = sub_item.feedback.comment? sub_item.feedback.comment: 'NIL';
+                option =  sub_item.feedback.option? sub_item.feedback.option : '-';
+                desc = sub_item.feedback.comment? sub_item.feedback.comment: '-';
                 need_maintance = sub_item.feedback.description ? (sub_item.feedback.description.toLowerCase() == 'true' ? 'Need maintenance' : '') : '';
               }
 
@@ -1601,14 +1680,24 @@ module.exports = {
 
              }
 
-               sub_items_html += '<div class="divrow">' +
+
+
+               var temp_sub_items_html = '<div class="divrow">' +
                  '<div style="width: 20%; display:inline-block"><span class="left-text">'+ sub_item.subitem.item_name +'</span></div>' +
                  '<div style="width: 40%; display:inline-block"><span class="left-text">'+ option +'</span></div>' +
                  '<div style="width: 10%; display:inline-block"><span class="left-text">'+ desc +'</span></div>' +
                  '<div style="width: 30%; display:inline-block"><span class="left-text">'+ photos_html +'</span></div>' +
                '</div>';
 
-               sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="color:#EB6331">'+ need_maintance +'</span></div>';
+               temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="color:#EB6331">'+ need_maintance +'</span></div>';
+
+               if(sub_item.feedback.option.length === 0 && sub_item.feedback.comment.trim().length === 0 && !need_maintance){
+                 sub_items_html += '';
+               }
+               else{
+                 sub_items_html += temp_sub_items_html;
+                 check_master_item_data_exists = true;
+               }
 
 
             }
@@ -1618,27 +1707,35 @@ module.exports = {
               fgeneral = master_item.feedback_general.comment?master_item.feedback_general.comment:'';
             }
 
+            if(fgeneral){
+              check_master_item_data_exists = true;
+            }
 
-            master_html +='<div class="chapter">' +
-             '<h1 class="sub-heading">' + master_item.master.name + '</h1>' +
-             '<hr/><div style="margin:0; width:100%;">' +
-              '<div style="margin-top: 30px; margin-bottom: 10px; width:100%;">' +
-                 top_photos +
-               '</div>' +
-              ' <div>' +
-                 '<span>' +
-                  fgeneral +
-                 '</span>' +
-               '</div>' +
-               '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
-                    '<div class="divtable" style="width:20%; display: inline-block;">&nbsp;Item</div>' +
-                    '<div class="divtable" style="width:40%; display: inline-block;">Condition</div>' +
-                    '<div class="divtable" style="width:10%; display: inline-block;">Description</div>' +
-                    '<div class="divtable" style="width:30%; display: inline-block;">Image</div>' +
-                  '<div>' +
-                  sub_items_html +
-           '</div></div>'+
-           '</div></div>';
+
+            if(check_master_item_data_exists){
+              master_html +='<div class="chapter">' +
+               '<h1 class="sub-heading">' + master_item.master.name + '</h1>' +
+               '<hr/><div style="margin:0; width:100%;">' +
+                '<div style="margin-top: 30px; margin-bottom: 10px; width:100%;">' +
+                   top_photos +
+                 '</div>' +
+                ' <div>' +
+                   '<span>' +
+                    fgeneral +
+                   '</span>' +
+                 '</div>' +
+                 '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
+                      '<div class="divtable" style="width:20%; display: inline-block;">&nbsp;Item</div>' +
+                      '<div class="divtable" style="width:40%; display: inline-block;">Condition</div>' +
+                      '<div class="divtable" style="width:10%; display: inline-block;">Description</div>' +
+                      '<div class="divtable" style="width:30%; display: inline-block;">Image</div>' +
+                    '<div>' +
+                    sub_items_html +
+             '</div></div>'+
+             '</div></div>';
+            }
+
+
 
           }
           else if(master_item.type == 'ITEM' ){
@@ -1675,19 +1772,18 @@ module.exports = {
               }
             }
 
-            var option = 'NIL';
-            var desc = 'NIL';
+            var option = '-';
+            var desc = '-';
             var need_maintance = '';
 
             if(Object.keys(master_item.feedback).length === 0 && master_item.feedback.constructor === Object ){
-              option = 'NIL';
-              desc = 'NIL';
+              option = '-';
+              desc = '-';
             }
             else{
-              option =  master_item.feedback.option? master_item.feedback.option : 'NIL';
-              desc = master_item.feedback.comment? master_item.feedback.comment: 'NIL';
+              option =  master_item.feedback.option? master_item.feedback.option : '-';
+              desc = master_item.feedback.comment? master_item.feedback.comment: '-';
               need_maintance = sub_item.feedback.description ? (sub_item.feedback.description.toLowerCase() == 'true' ? 'Need maintenance' : '') : '';
-
             }
 
             var photos_html = '';
@@ -1721,35 +1817,44 @@ module.exports = {
                 }
            }
 
-            sub_items_html += '<div class="divrow">' +
+            var temp_sub_items_html = '<div class="divrow">' +
                '<div style="width: 20%; display:inline-block"><span class="left-text">'+ master_item.master.name +'</span></div>' +
                '<div style="width: 40%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
                '<div style="width: 10%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
                '<div style="width: 30%; display:inline-block"> <span class="left-text">'+ photos_html +'</span></div>' +
              '</div>';
 
-            sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="color:#EB6331">'+ need_maintance +'</span></div>';
+            temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="color:#EB6331">'+ need_maintance +'</span></div>';
 
-           master_html +='<div class="chapter">' +
-            '<h1 class="sub-heading">' + master_item.master.name + '</h1>' +
-            '<hr/><div style="margin:0; width:100%;">' +
-             '<div style="margin-top: 20px; margin-bottom: 20px; width:100%;">' +
-                top_photos +
-              '</div>' +
-             ' <div class="rt-2-des">' +
-                '<span>' +
-                '</span>' +
-              '</div>' +
-              '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
-                   '<div class="divtable" style="width:20%; display: inline-block;">&nbsp;Item</div>' +
-                   '<div class="divtable" style="width:40%; display: inline-block;">Condition</div>' +
-                   '<div class="divtable" style="width:10%; display: inline-block;">Description</div>' +
-                   '<div class="divtable" style="width:30%; display: inline-block;">Image</div>' +
-                 '<div>' +
-                 sub_items_html +
-          '</div></div>'+
-          '</div></div>';
+            if(master_item.feedback.option.length === 0 && master_item.feedback.comment.trim().length === 0 && !need_maintance){
+              sub_items_html += '';
+            }
+            else{
+              sub_items_html += temp_sub_items_html;
+              check_master_item_data_exists = true;
+            }
 
+            if(check_master_item_data_exists){
+              master_html +='<div class="chapter">' +
+               '<h1 class="sub-heading">' + master_item.master.name + '</h1>' +
+               '<hr/><div style="margin:0; width:100%;">' +
+                '<div style="margin-top: 20px; margin-bottom: 20px; width:100%;">' +
+                   top_photos +
+                 '</div>' +
+                ' <div class="rt-2-des">' +
+                   '<span>' +
+                   '</span>' +
+                 '</div>' +
+                 '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
+                      '<div class="divtable" style="width:20%; display: inline-block;">&nbsp;Item</div>' +
+                      '<div class="divtable" style="width:40%; display: inline-block;">Condition</div>' +
+                      '<div class="divtable" style="width:10%; display: inline-block;">Description</div>' +
+                      '<div class="divtable" style="width:30%; display: inline-block;">Image</div>' +
+                    '<div>' +
+                    sub_items_html +
+             '</div></div>'+
+             '</div></div>';
+            }
 
           } //item end
 
@@ -1766,28 +1871,37 @@ module.exports = {
 
             var sub_item = master_item.sub[j];
 
-            var option = 'NIL';
-            var desc = 'NIL';
+            var option = '-';
+            var desc = '-';
             var need_maintance = '';
 
             if(Object.keys(sub_item.feedback).length === 0 && sub_item.feedback.constructor === Object ){
               //is empty object
-              option = 'NIL';
-              desc = 'NIL';
+              option = '-';
+              desc = '-';
             }
             else{
-              option =  sub_item.feedback.option? sub_item.feedback.option : 'NIL';
-              desc = sub_item.feedback.comment? sub_item.feedback.comment: 'NIL';
+              option =  sub_item.feedback.option? sub_item.feedback.option : '-';
+              desc = sub_item.feedback.comment? sub_item.feedback.comment: '-';
               need_maintance = sub_item.feedback.description ? (sub_item.feedback.description.toLowerCase() == 'true' ? 'Need maintenance' : '') : '';
             }
 
-             sub_items_html += '<div class="divrow">' +
+             var temp_sub_items_html = '<div class="divrow">' +
                '<div style="width: 30%; display:inline-block"><span class="left-text">'+ sub_item.subitem.item_name +'</span></div>' +
                '<div style="width: 50%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
                '<div style="width: 20%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
              '</div>';
 
-             sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="color:#EB6331">'+ need_maintance +'</span></div>';
+             temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="color:#EB6331">'+ need_maintance +'</span></div>';
+
+             if(sub_item.feedback.option.length === 0 && sub_item.feedback.comment.trim().length === 0 && !need_maintance){
+               sub_items_html += '';
+             }
+             else{
+               sub_items_html += temp_sub_items_html;
+               check_master_item_data_exists = true;
+             }
+
 
           }
 
@@ -1796,14 +1910,67 @@ module.exports = {
             fgeneral = master_item.feedback_general.comment?master_item.feedback_general.comment:'';
           }
 
+          if(fgeneral){
+            check_master_item_data_exists = true;
+          }
 
 
+          if(check_master_item_data_exists){
+            master_html +='<div class="chapter">' +
+             '<h1 class="sub-heading">' + master_item.master.name + '</h1>' +
+             '<hr/><div style="margin-top: 30px; margin-bottom: 10px; width:100%;">' +
+              ' <div>' +
+                 '<span>' +
+                  fgeneral +
+                 '</span>' +
+               '</div>' +
+               '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
+                    '<div class="divtable" style="width:30%; display: inline-block;">&nbsp;Item</div>' +
+                    '<div class="divtable" style="width:50%; display: inline-block;">Condition</div>' +
+                    '<div class="divtable" style="width:20%; display: inline-block;">Description</div>' +
+                  '<div>' +
+                  sub_items_html +
+           '</div></div></div></div>';
+          }
+
+
+        }
+        else if(master_item.type == 'ITEM' ){
+          // item table
+          var sub_items_html = '';
+
+          var option = '-';
+          var desc = '-';
+
+          if(Object.keys(master_item.feedback).length === 0 && master_item.feedback.constructor === Object ){
+            option = '-';
+            desc = '-';
+          }
+          else{
+            option =  master_item.feedback.option? master_item.feedback.option : '-';
+            desc = master_item.feedback.description? master_item.feedback.description: '-';
+          }
+
+          var temp_sub_items_html = '<div class="divrow">' +
+             '<div style="width: 30%; display:inline-block"><span class="left-text">'+ master_item.master.name +'</span></div>' +
+             '<div style="width: 50%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
+             '<div style="width: 20%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
+           '</div>';
+
+           if(master_item.feedback.option.length === 0 && master_item.feedback.description.trim().length === 0 ){
+             sub_items_html += '';
+           }
+           else{
+             sub_items_html += temp_sub_items_html;
+             check_master_item_data_exists = true;
+           }
+
+        if(check_master_item_data_exists){
           master_html +='<div class="chapter">' +
            '<h1 class="sub-heading">' + master_item.master.name + '</h1>' +
-           '<hr/><div style="margin-top: 30px; margin-bottom: 10px; width:100%;">' +
-            ' <div>' +
+           '<hr/><div style="margin-top: 20px; margin-bottom: 20px; width:100%;">' +
+            ' <div class="rt-2-des">' +
                '<span>' +
-                fgeneral +
                '</span>' +
              '</div>' +
              '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
@@ -1813,44 +1980,8 @@ module.exports = {
                 '<div>' +
                 sub_items_html +
          '</div></div></div></div>';
-
         }
-        else if(master_item.type == 'ITEM' ){
-          // item table
-          var sub_items_html = '';
 
-          var option = 'NIL';
-          var desc = 'NIL';
-
-          if(Object.keys(master_item.feedback).length === 0 && master_item.feedback.constructor === Object ){
-            option = 'NIL';
-            desc = 'NIL';
-          }
-          else{
-            option =  master_item.feedback.option? master_item.feedback.option : 'NIL';
-            desc = master_item.feedback.description? master_item.feedback.description: 'NIL';
-          }
-
-          sub_items_html += '<div class="divrow">' +
-             '<div style="width: 30%; display:inline-block"><span class="left-text">'+ master_item.master.name +'</span></div>' +
-             '<div style="width: 50%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
-             '<div style="width: 20%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
-           '</div>';
-
-         master_html +='<div class="chapter">' +
-          '<h1 class="sub-heading">' + master_item.master.name + '</h1>' +
-          '<hr/><div style="margin-top: 20px; margin-bottom: 20px; width:100%;">' +
-           ' <div class="rt-2-des">' +
-              '<span>' +
-              '</span>' +
-            '</div>' +
-            '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
-                 '<div class="divtable" style="width:30%; display: inline-block;">&nbsp;Item</div>' +
-                 '<div class="divtable" style="width:50%; display: inline-block;">Condition</div>' +
-                 '<div class="divtable" style="width:20%; display: inline-block;">Description</div>' +
-               '<div>' +
-               sub_items_html +
-        '</div></div></div></div>';
 
 
         } //item end
