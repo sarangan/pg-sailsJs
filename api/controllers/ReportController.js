@@ -1023,7 +1023,7 @@ module.exports = {
            temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px; "> <span class="left-text" style="color:#EB6331">'+ need_maintance +'</span></div>';
 
 
-           if(sub_item.feedback.option.trim().length === 0 && sub_item.feedback.comment.trim().length === 0 && !need_maintance){
+           if(!sub_item.feedback.option && !sub_item.feedback.comment && !need_maintance){
 
              sub_items_html += '';
            }
@@ -1169,7 +1169,7 @@ module.exports = {
 
          sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="color:#EB6331">'+ need_maintance +'</span></div>';
 
-         if(master_item.feedback.option.trim().length === 0 && master_item.feedback.comment.trim().length === 0 && !need_maintance){
+         if(!master_item.feedback.option && !master_item.feedback.comment && !need_maintance){
 
            sub_items_html += '';
          }
@@ -1349,7 +1349,7 @@ module.exports = {
 
                temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="color:#EB6331">'+ need_maintance +'</span></div>';
 
-               if(sub_item.feedback.option.trim().length === 0 && sub_item.feedback.comment.trim().length === 0 && !need_maintance){
+               if(!sub_item.feedback.option && !sub_item.feedback.comment && !need_maintance){
 
                  sub_items_html += '';
                }
@@ -1516,7 +1516,7 @@ module.exports = {
                '<div style="width: 30%; display:inline-block"> <span class="left-text">'+ photos_html +'</span></div>' +
              '</div>';
 
-             if(master_item.feedback.option.length === 0 && master_item.feedback.description.trim().length === 0 ){
+             if(!master_item.feedback.option && !master_item.feedback.description ){
                sub_items_html += '';
              }
              else{
@@ -1691,7 +1691,7 @@ module.exports = {
 
                temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="color:#EB6331">'+ need_maintance +'</span></div>';
 
-               if(sub_item.feedback.option.length === 0 && sub_item.feedback.comment.trim().length === 0 && !need_maintance){
+               if(!sub_item.feedback.option && !sub_item.feedback.comment && !need_maintance){
                  sub_items_html += '';
                }
                else{
@@ -1826,7 +1826,7 @@ module.exports = {
 
             temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="color:#EB6331">'+ need_maintance +'</span></div>';
 
-            if(master_item.feedback.option.length === 0 && master_item.feedback.comment.trim().length === 0 && !need_maintance){
+            if(!master_item.feedback.option && !master_item.feedback.comment && !need_maintance){
               sub_items_html += '';
             }
             else{
@@ -1894,7 +1894,7 @@ module.exports = {
 
              temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="color:#EB6331">'+ need_maintance +'</span></div>';
 
-             if(sub_item.feedback.option.length === 0 && sub_item.feedback.comment.trim().length === 0 && !need_maintance){
+             if(!sub_item.feedback.option && !sub_item.feedback.comment && !need_maintance){
                sub_items_html += '';
              }
              else{
@@ -1957,7 +1957,7 @@ module.exports = {
              '<div style="width: 20%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
            '</div>';
 
-           if(master_item.feedback.option.length === 0 && master_item.feedback.description.trim().length === 0 ){
+           if(!master_item.feedback.option && !master_item.feedback.description ){
              sub_items_html += '';
            }
            else{
