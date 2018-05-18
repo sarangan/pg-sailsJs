@@ -2378,7 +2378,10 @@ module.exports = {
               front_photo =  server_image_path +  property_id + '/' + '300_' + (property_info.image_url.substr(0, property_info.image_url.lastIndexOf('.')) || property_info.image_url) + '.jpg';
             }
             else{
-              front_photo = server_image_path +  property_id + '/' + '300_' + (total_photos[0].file_name.substr(0, total_photos[0].file_name.lastIndexOf('.')) || total_photos[0].file_name) + '.jpg'
+
+              front_photo = server_image_path +  property_id + '/' + '300_' + (total_photos[0].file_name.substr(0, total_photos[0].file_name.lastIndexOf('.')) || total_photos[0].file_name) + '.jpg';
+              sails.log(front_photo);
+
             }
 
             var logo_photo = '';
