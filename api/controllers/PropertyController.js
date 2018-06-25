@@ -4842,6 +4842,7 @@ module.exports = {
 
 						var upload_path =  ImagesDirArr.join('/')  + '/assets/images/' + req.param('property_id') + '/';
 
+
 						if(fs.existsSync( upload_path )){
               sails.log('folder exists');
 
@@ -5033,7 +5034,7 @@ module.exports = {
 
 							});
 
-						}
+						} //else end
 
 
 
@@ -5444,7 +5445,7 @@ module.exports = {
 
 									}
 									else{
-										return res.json({ status: 3, text: 'Property already exists'  });
+										return res.json({ status: 1, text: 'Property already exists'  });
 									}
 
 
