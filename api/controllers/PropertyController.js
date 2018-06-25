@@ -5443,6 +5443,9 @@ module.exports = {
 
 
 									}
+									else{
+										return res.json({ status: 3, text: 'Property already exists'  });
+									}
 
 
 
