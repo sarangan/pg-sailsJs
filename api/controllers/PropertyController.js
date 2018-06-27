@@ -1407,7 +1407,7 @@ module.exports = {
 																	});
 
 																});
-																
+
 
 
 															});
@@ -1639,38 +1639,57 @@ module.exports = {
 																	.done(function(){
 
 
-																		Company_subitem_link.find({status: 1, company_id: user.company_id }).exec(function(err, sub_items ){
-																			var data_sub_items = [];
-																			for(var i=0,l = sub_items.length; i < l; i++){
-																				data_sub_items.push({
-																					prop_subitem_id: uuidV4(),
-																					property_id: propertyInfo.property_id,
-																					com_subitem_id: sub_items[i].com_subitem_id,
-																					item_name: sub_items[i].item_name,
-																					type: sub_items[i].type,
-																					priority: sub_items[i].priority,
-																					status: 1
+																		Property_masteritem_link.find({property_id: propertyInfo.property_id }).then(function(master_items){
+
+
+																			Company_subitem_link.find({status: 1, company_id: user.company_id }).exec(function(err, sub_items ){
+																				var data_sub_items = [];
+																				for(var i=0,l = sub_items.length; i < l; i++){
+
+																					for(var m=0, n = master_items.length; m < n; m++){
+
+																						if(master_items[m].com_master_id == sub_items[i].com_master_id){
+
+																							data_sub_items.push({
+																								prop_subitem_id: uuidV4(),
+																								property_id: propertyInfo.property_id,
+																								com_subitem_id: sub_items[i].com_subitem_id,
+																								prop_master_id: master_items[m].prop_master_id,
+																								item_name: sub_items[i].item_name,
+																								type: sub_items[i].type,
+																								priority: sub_items[i].priority,
+																								status: 1
+																							});
+
+																						}
+
+
+																					}
+
+																				}
+
+																				Property_subitem_link.create(data_sub_items).exec(function(err, prop_subs){
+																					 if (err) console.log(res.json(err) );
+
+																					// Sync.create({
+																					// 	syn_id: uuidV4(),
+																					// 	property_id: propertyInfo.property_id,
+																					// 	table_name: 'property_subitem_link',
+																					// 	key_id: prop_subs.prop_subitem_id,
+																					// 	task: 'INSERT',
+																					// 	pk_name: 'prop_subitem_id',
+																					// 	status: 1
+																					// }).exec(function(err, syc_details){
+																				// 		 if (err) console.log(res.json(err) ) ;
+																				// 	});
+
+																					 return res.json(200, { status: 1, property_id: propertyInfo.property_id});
+																					 //return res.json(200, {status: 'successfully updated'});
 																				});
-																			}
 
-																			Property_subitem_link.create(data_sub_items).exec(function(err, prop_subs){
-																				 if (err) console.log(res.json(err) );
-
-																				// Sync.create({
-																				// 	syn_id: uuidV4(),
-																				// 	property_id: propertyInfo.property_id,
-																				// 	table_name: 'property_subitem_link',
-																				// 	key_id: prop_subs.prop_subitem_id,
-																				// 	task: 'INSERT',
-																				// 	pk_name: 'prop_subitem_id',
-																				// 	status: 1
-																				// }).exec(function(err, syc_details){
-														 					// 		 if (err) console.log(res.json(err) ) ;
-														 					// 	});
-
-																				 return res.json(200, { status: 1, property_id: propertyInfo.property_id});
-																				 //return res.json(200, {status: 'successfully updated'});
 																			});
+
+
 
 																		});
 
@@ -1864,38 +1883,57 @@ module.exports = {
 											.done(function(){
 
 
-												Company_subitem_link.find({status: 1, company_id: user.company_id }).exec(function(err, sub_items ){
-													var data_sub_items = [];
-													for(var i=0,l = sub_items.length; i < l; i++){
-														data_sub_items.push({
-															prop_subitem_id: uuidV4(),
-															property_id: propertyInfo.property_id,
-															com_subitem_id: sub_items[i].com_subitem_id,
-															item_name: sub_items[i].item_name,
-															type: sub_items[i].type,
-															priority: sub_items[i].priority,
-															status: 1
+												Property_masteritem_link.find({property_id: propertyInfo.property_id }).then(function(master_items){
+
+
+													Company_subitem_link.find({status: 1, company_id: user.company_id }).exec(function(err, sub_items ){
+														var data_sub_items = [];
+														for(var i=0,l = sub_items.length; i < l; i++){
+
+															for(var m=0, n = master_items.length; m < n; m++){
+
+																if(master_items[m].com_master_id == sub_items[i].com_master_id){
+
+																	data_sub_items.push({
+																		prop_subitem_id: uuidV4(),
+																		property_id: propertyInfo.property_id,
+																		com_subitem_id: sub_items[i].com_subitem_id,
+																		prop_master_id: master_items[m].prop_master_id,
+																		item_name: sub_items[i].item_name,
+																		type: sub_items[i].type,
+																		priority: sub_items[i].priority,
+																		status: 1
+																	});
+
+																}
+
+
+															}
+
+														}
+
+														Property_subitem_link.create(data_sub_items).exec(function(err, prop_subs){
+															 if (err) console.log(res.json(err) );
+
+															// Sync.create({
+															// 	syn_id: uuidV4(),
+															// 	property_id: propertyInfo.property_id,
+															// 	table_name: 'property_subitem_link',
+															// 	key_id: prop_subs.prop_subitem_id,
+															// 	task: 'INSERT',
+															// 	pk_name: 'prop_subitem_id',
+															// 	status: 1
+															// }).exec(function(err, syc_details){
+														// 		 if (err) console.log(res.json(err) ) ;
+														// 	});
+
+															 return res.json(200, { status: 1, property_id: propertyInfo.property_id});
+															 //return res.json(200, {status: 'successfully updated'});
 														});
-													}
 
-													Property_subitem_link.create(data_sub_items).exec(function(err, prop_subs){
-														 if (err) console.log(res.json(err) );
-
-														// Sync.create({
-														// 	syn_id: uuidV4(),
-														// 	property_id: propertyInfo.property_id,
-														// 	table_name: 'property_subitem_link',
-														// 	key_id: prop_subs.prop_subitem_id,
-														// 	task: 'INSERT',
-														// 	pk_name: 'prop_subitem_id',
-														// 	status: 1
-														// }).exec(function(err, syc_details){
-													// 		 if (err) console.log(res.json(err) ) ;
-													// 	});
-
-														 return res.json(200, { status: 1, property_id: propertyInfo.property_id});
-														 //return res.json(200, {status: 'successfully updated'});
 													});
+
+
 
 												});
 
