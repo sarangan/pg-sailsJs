@@ -1905,6 +1905,9 @@ module.exports = {
 																		status: 1
 																	});
 
+																	sails.log('updating sub items');
+																	sails.log(data_sub_items[i]);
+
 																}
 
 
