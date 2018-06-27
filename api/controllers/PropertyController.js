@@ -140,8 +140,6 @@ module.exports = {
 
 													if(property_subitem){
 
-														sails.log("sub item found");
-
 														delete data['prop_subitem_id'];
 
 														Property_subitem_link.update({prop_subitem_id: property_subitem.prop_subitem_id }, data ).exec(function afterwards(err, updated){
@@ -160,8 +158,6 @@ module.exports = {
 															if (err) return res.json(err);
 															if(property_subitem.prop_subitem_id){
 																	sails.log("sub item created");
-																	sails.log(property_subitem);
-																	sails.log('---------------');
 																	return res.json({ status: 1, text: 'successfully created' });
 															}
 														});

@@ -21,6 +21,10 @@ module.exports = {
       type: "integer",
       required: true
     },
+    prop_master_id:{
+      type: "string",
+      required: true
+    },
     item_name: {
       type: "string"
     },
