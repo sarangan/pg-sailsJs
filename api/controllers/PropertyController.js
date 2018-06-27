@@ -1648,7 +1648,7 @@ module.exports = {
 
 																					for(var m=0, n = master_items.length; m < n; m++){
 
-																						if(master_items[m].com_master_id == sub_items[i].com_master_id){
+																						if(master_items[m].com_master_id == sub_items[i].com_master_id && master_items[m].type != 'DEFAULT' &&  master_items[m].option != "NUM" ){
 
 																							data_sub_items.push({
 																								prop_subitem_id: uuidV4(),
@@ -1892,7 +1892,7 @@ module.exports = {
 
 															for(var m=0, n = master_items.length; m < n; m++){
 
-																if(master_items[m].com_master_id == sub_items[i].com_master_id){
+																if(master_items[m].com_master_id == sub_items[i].com_master_id && master_items[m].type != 'DEFAULT' &&  master_items[m].option != "NUM" ){
 
 																	data_sub_items.push({
 																		prop_subitem_id: uuidV4(),
