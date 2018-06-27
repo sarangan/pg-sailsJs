@@ -3362,6 +3362,8 @@ module.exports = {
 
 									var qry = "SELECT property_subitem_link.*, property_masteritem_link.name, property_feedback.prop_feedback_id, property_feedback.comment, property_feedback.description, property_feedback.option FROM property_subitem_link inner join property_masteritem_link on property_subitem_link.prop_master_id = property_masteritem_link.prop_master_id left join property_feedback on property_subitem_link.prop_subitem_id = property_feedback.item_id WHERE property_subitem_link.status =1 and property_subitem_link.prop_master_id ='" + prop_master_id +"' and property_subitem_link.property_id='" + property_id + "' order by property_subitem_link.priority";
 
+									sails.log(qry);
+
 									Property_subitem_link.query(qry, function(err, sub_items){
 
 										//return res.json({status: 1, sub_items: sub_items});
