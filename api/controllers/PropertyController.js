@@ -1367,7 +1367,7 @@ module.exports = {
 
 																		for(var m=0, n = master_items.length; m < n; m++){
 
-																			if(master_items[m].com_master_id == sub_items[i].com_master_id && (master_items[m].type == 'SELF' ||  master_items[m].com_type = "ITEM") ){
+																			if(master_items[m].com_master_id == sub_items[i].com_master_id && (master_items[m].type == 'SELF' ||  master_items[m].com_type == "ITEM") ){
 
 																				data_sub_items.push({
 																					prop_subitem_id: uuidV4(),
@@ -1648,7 +1648,7 @@ module.exports = {
 
 																					for(var m=0, n = master_items.length; m < n; m++){
 
-																						if(master_items[m].com_master_id == sub_items[i].com_master_id && (master_items[m].type == 'SELF' ||  master_items[m].com_type = "ITEM") ){
+																						if(master_items[m].com_master_id == sub_items[i].com_master_id && (master_items[m].type == 'SELF' ||  master_items[m].com_type == "ITEM") ){
 
 																							data_sub_items.push({
 																								prop_subitem_id: uuidV4(),
@@ -1892,7 +1892,7 @@ module.exports = {
 
 															for(var m=0, n = master_items.length; m < n; m++){
 
-																if(master_items[m].com_master_id == sub_items[i].com_master_id && (master_items[m].type == 'SELF' ||  master_items[m].com_type = "ITEM") ){
+																if(master_items[m].com_master_id == sub_items[i].com_master_id && (master_items[m].type == 'SELF' ||  master_items[m].com_type == "ITEM") ){
 																	data_sub_items.push({
 																		prop_subitem_id: uuidV4(),
 																		property_id: propertyInfo.property_id,
