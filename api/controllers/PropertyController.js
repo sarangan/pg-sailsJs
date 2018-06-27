@@ -1000,7 +1000,7 @@ module.exports = {
 								if(user.company_id ==  property_details.company_id ){
 
 									//good to go from here
-									Property_info.query("select property_info.property_id, property_info.address_1, property_info.address_2, property_info.city, property_info.postalcode, property_info.report_type, DATE_FORMAT(property_info.report_date,'%d/%m/%Y'), property_info.image_url, property_info.sign_url, property_info.locked, property_info.mb_createdAt, property_info.createdAt, property_info.updatedAt, DATE_FORMAT(property_info.createdAt,'%d/%m/%Y') as created_date,  DATE_FORMAT(property_info.createdAt,'%d/%m/%Y') as created_date, property.description from property_info inner join property on property_info.property_id = property.property_id where property.property_id='"+ property_id + "'", function(err, property){
+									Property_info.query("select property_info.property_id, property_info.address_1, property_info.address_2, property_info.city, property_info.postalcode, property_info.report_type, DATE_FORMAT(property_info.report_date,'%d/%m/%Y') as report_date, property_info.image_url, property_info.sign_url, property_info.locked, property_info.mb_createdAt, property_info.createdAt, property_info.updatedAt, DATE_FORMAT(property_info.createdAt,'%d/%m/%Y') as created_date,  DATE_FORMAT(property_info.createdAt,'%d/%m/%Y') as created_date, property.description from property_info inner join property on property_info.property_id = property.property_id where property.property_id='"+ property_id + "'", function(err, property){
 										return res.json({status: 1, property: property[0]});
 									});
 
