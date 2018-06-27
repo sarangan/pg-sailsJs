@@ -1358,7 +1358,7 @@ module.exports = {
 														})
 														.done(function(){
 
-															Property_masteritem_link.find({property_id: propertyInfo.property_id }).then(function(master_items){
+															Property_masteritem_link.find({property_id: propertyInfo.property_id}).then(function(master_items){
 
 
 																Company_subitem_link.find({status: 1, company_id: user.company_id }).exec(function(err, sub_items ){
@@ -1367,7 +1367,7 @@ module.exports = {
 
 																		for(var m=0, n = master_items.length; m < n; m++){
 
-																			if(master_items[m].com_master_id == sub_items[i].com_master_id){
+																			if(master_items[m].com_master_id == sub_items[i].com_master_id && master_items[m].type != 'DEFAULT' &&  master_items[m].option == "NUM" ){
 
 																				data_sub_items.push({
 																					prop_subitem_id: uuidV4(),
