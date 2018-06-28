@@ -2418,10 +2418,9 @@ module.exports = {
             if(!property_info.report_date || property_info.report_date != '0000-00-00 00:00:00'){
               report_date = property_info.report_date;
               sails.log(report_date);
-              var dateParts = new Date(report_date);
-              sails.log(dateParts);
-              report_date = dateParts.getDate() + '-', dateParts.getMonth()+1 + '-', dateParts.getFullYear();
-
+              var dateParts = new Date(report_date);              
+              report_date = report_date.toISOString().slice(0, 19).replace('T', ' '); //dateParts.getDate() + '-', dateParts.getMonth()+1 + '-', dateParts.getFullYear();
+              sails.log(report_date);
             }
 
 
