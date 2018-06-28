@@ -1023,7 +1023,10 @@ module.exports = {
              '<div style="width: 30%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
              '<div style="width: 40%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
            '</div>';
-           temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px; "> <span class="left-text" style="background-color:#ea5455; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
+
+           if(sub_item.feedback.description){
+                 temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px; "> <span class="left-text" style="background-color:#ea5455; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
+           }
 
 
            if(!sub_item.feedback.option && !sub_item.feedback.comment && !need_maintance){
@@ -1170,7 +1173,9 @@ module.exports = {
            '<div style="width: 40%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
          '</div>';
 
-         sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="background-color:#ea5455; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
+         if(master_item.feedback.description){
+           sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="background-color:#ea5455; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
+         }
 
          if(!master_item.feedback.option && !master_item.feedback.comment && !need_maintance){
 
@@ -2516,7 +2521,7 @@ module.exports = {
               '</table>' +
               '<div style="width: 100%; border: 0; margin-top: 45px; text-align:center;">' +
                 '<div style="width: 100%; border: 0; text-align:center;">' +
-                  '<div style="background-color: #d0d0d0; color: #000000; margin-bottom: 20px;  padding-top: 10px; padding-bottom: 10px; padding-right: 10px; padding-left: 10px; display:inline-block; ">' +
+                  '<div style="background-color: #f7f7f7; color: #000000; margin-bottom: 20px;  padding-top: 10px; padding-bottom: 10px; padding-right: 10px; padding-left: 10px; display:inline-block; ">' +
                     '<div style="font-size: 23px; font-weight: bold; margin-bottom: 5px; letter-spacing: 1px; ">' + property_info.report_type + '</div>' +
                     '<div style="font-size: 18px;">Date of Inspection: ' + report_date + '</div>' +
                     '<div style="font-size: 18px;">Prepared by: '+ user.first_name + ' ' + user.last_name + '</div>' +
@@ -2575,7 +2580,7 @@ module.exports = {
                         '<div style="text-align: left; margin-top: 10px; padding-left: 20px; margin-bottom: 30px; ">' +
                           '<img src="' + logo_photo + '" alt="img" style="width: 120px; height: auto; max-width: 120px;"/>' +
                         '</div>' +
-                        '<div style="background-color: #d0d0d0; color: #000000; margin-bottom: 20px;  padding-left: 20px; padding-top: 20px; padding-bottom: 20px; padding-right: 10px;  width: 90%;">' +
+                        '<div style="background-color: #f7f7f7; color: #000000; margin-bottom: 20px;  padding-left: 20px; padding-top: 20px; padding-bottom: 20px; padding-right: 10px;  width: 90%;">' +
                           '<div style="font-size: 23px; font-weight: bold; margin-bottom: 5px; letter-spacing: 1px; ">' + property_info.report_type  + '</div>' +
                           '<div style="font-size: 20px;">Date of Inspection: ' + report_date + '</div>' +
                           '<div style="font-size: 20px;">Address: ' + property_info.address_1 + ' ' + property_info.address_2 + '</div>' +
