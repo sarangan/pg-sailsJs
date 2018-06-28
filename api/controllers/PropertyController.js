@@ -1362,31 +1362,35 @@ module.exports = {
 
 
 																Company_subitem_link.find({status: 1, company_id: user.company_id }).exec(function(err, sub_items ){
+
 																	var data_sub_items = [];
+
 																	for(var i=0,l = sub_items.length; i < l; i++){
 
 																		for(var m=0, n = master_items.length; m < n; m++){
 
+																			sails.log(master_items[m]);
+
 																			if(master_items[m].com_master_id == sub_items[i].com_master_id ){
 
-		 																	if( master_items[m].option == "NUM" && master_items[m].type == 'DEFAULT' ){
-		 	 																}
-		 	 																else{
-		 																		data_sub_items.push({
-		 																			prop_subitem_id: uuidV4(),
-		 																			property_id: propertyInfo.property_id,
-		 																			com_subitem_id: sub_items[i].com_subitem_id,
-		 																			prop_master_id: master_items[m].prop_master_id,
-		 																			item_name: sub_items[i].item_name,
-		 																			type: sub_items[i].type,
-		 																			priority: sub_items[i].priority,
-		 																			status: 1
-		 																		});
+			 																	if( master_items[m].option == "NUM" && master_items[m].type == 'DEFAULT' ){
+			 	 																}
+			 	 																else{
+			 																		data_sub_items.push({
+			 																			prop_subitem_id: uuidV4(),
+			 																			property_id: propertyInfo.property_id,
+			 																			com_subitem_id: sub_items[i].com_subitem_id,
+			 																			prop_master_id: master_items[m].prop_master_id,
+			 																			item_name: sub_items[i].item_name,
+			 																			type: sub_items[i].type,
+			 																			priority: sub_items[i].priority,
+			 																			status: 1
+			 																		});
 
-		 																		sails.log('updating sub items');
-		 																		sails.log(data_sub_items[i]);
+			 																		sails.log('updating sub items');
+			 																		sails.log(data_sub_items[i]);
 
-		 																	}
+			 																	}
 
 		 																}
 
@@ -1913,6 +1917,10 @@ module.exports = {
 																 if( master_items[m].option == "NUM" && master_items[m].type == 'DEFAULT' ){
 																 }
 																 else{
+
+																	 sails.log('master items');
+																	 sails.log(master_items[m]);
+
 																	 data_sub_items.push({
 																		 prop_subitem_id: uuidV4(),
 																		 property_id: propertyInfo.property_id,
@@ -1925,7 +1933,7 @@ module.exports = {
 																	 });
 
 																	 sails.log('updating sub items');
-																	 sails.log(data_sub_items[i]);
+																	 sails.log(data_sub_items[data_sub_items.length - 1]);
 
 																 }
 
@@ -1938,18 +1946,6 @@ module.exports = {
 
 														Property_subitem_link.create(data_sub_items).exec(function(err, prop_subs){
 															 if (err) console.log(res.json(err) );
-
-															// Sync.create({
-															// 	syn_id: uuidV4(),
-															// 	property_id: propertyInfo.property_id,
-															// 	table_name: 'property_subitem_link',
-															// 	key_id: prop_subs.prop_subitem_id,
-															// 	task: 'INSERT',
-															// 	pk_name: 'prop_subitem_id',
-															// 	status: 1
-															// }).exec(function(err, syc_details){
-														// 		 if (err) console.log(res.json(err) ) ;
-														// 	});
 
 															 return res.json(200, { status: 1, property_id: propertyInfo.property_id});
 															 //return res.json(200, {status: 'successfully updated'});
