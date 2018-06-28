@@ -1373,9 +1373,7 @@ module.exports = {
 
 																			if(master_items[m].com_master_id == sub_items[i].com_master_id ){
 
-			 																	if( master_items[m].option == "NUM" && master_items[m].type == 'DEFAULT' ){
-			 	 																}
-			 	 																else{
+
 			 																		data_sub_items.push({
 			 																			prop_subitem_id: uuidV4(),
 			 																			property_id: propertyInfo.property_id,
@@ -1390,10 +1388,7 @@ module.exports = {
 			 																		sails.log('updating sub items');
 			 																		sails.log(data_sub_items[i]);
 
-			 																	}
-
 		 																}
-
 
 																		}
 
@@ -1662,9 +1657,6 @@ module.exports = {
 
 																						if(master_items[m].com_master_id == sub_items[i].com_master_id ){
 
-						 																	if( master_items[m].option == "NUM" && master_items[m].type == 'DEFAULT' ){
-						 	 																}
-						 	 																else{
 						 																		data_sub_items.push({
 						 																			prop_subitem_id: uuidV4(),
 						 																			property_id: propertyInfo.property_id,
@@ -1679,10 +1671,7 @@ module.exports = {
 						 																		sails.log('updating sub items');
 						 																		sails.log(data_sub_items[i]);
 
-						 																	}
-
-					 																}
-
+					 																	}
 
 																					}
 
@@ -1914,10 +1903,6 @@ module.exports = {
 
 																if(master_items[m].com_master_id == sub_items[i].com_master_id ){
 
-																 if( master_items[m].option == "NUM" && master_items[m].type == 'DEFAULT' ){
-																 }
-																 else{
-
 																	 sails.log('master items');
 																	 sails.log(master_items[m]);
 
@@ -1934,8 +1919,6 @@ module.exports = {
 
 																	 sails.log('updating sub items');
 																	 sails.log(data_sub_items[data_sub_items.length - 1]);
-
-																 }
 
 															 }
 
@@ -2382,17 +2365,36 @@ module.exports = {
 															Property_masteritem_link.create(num_data).exec(function(err, prop_master_num){
 																if (err) console.log(err);
 
-																// Sync.create({
-																// 	syn_id: uuidV4(),
-																// 	property_id: propertyInfo.property_id,
-																// 	table_name: 'property_subitem_link',
-																// 	key_id: prop_subs.prop_subitem_id,
-																// 	task: 'INSERT',
-																// 	pk_name: 'prop_subitem_id',
-																// 	status: 1
-																// }).exec(function(err, syc_details){
-										 						// 		 if (err) console.log(res.json(err) ) ;
-										 						// 	});
+																if(prop_master_num.hasOwnProperty("self_prop_master_id")){
+
+																	Property_subitem_link.find({prop_master_id : prop_master_num.self_prop_master_id }).then(function(sub_items){
+
+																		var data_sub_items = [];
+																		for(var i=0,l = sub_items.length; i < l; i++){
+
+																			data_sub_items.push({
+																				prop_subitem_id: uuidV4(),
+																				property_id: property_id,
+																				com_subitem_id: sub_items[i].com_subitem_id,
+																				prop_master_id: prop_master_num.prop_master_id,
+																				item_name: sub_items[i].item_name,
+																				type: sub_items[i].type,
+																				priority: sub_items[i].priority,
+																				status: 1
+																			});
+
+																		}
+
+																		Property_subitem_link.create(data_sub_items).exec(function(err, prop_subs){
+																			 if (err) console.log(res.json(err) );
+																			 sails.log('sub items copied')
+																		});
+
+
+																	});
+																}
+
+
 
 															});
 
