@@ -987,7 +987,7 @@ module.exports = {
               '<img src="'+ server_image_path +  property_id + '/' + 'report_300_' + (master_item.temp_top_photos[j].file_name.substr(0, master_item.temp_top_photos[j].file_name.lastIndexOf('.')) || master_item.temp_top_photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />' +
               '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
               '<div>' +
-              '<a href="'+ server_image_path +  property_id + '/' + temp_master_items[i].temp_top_photos[j].file_name + '">Ref'+ (j + 1) +'</a>' +
+              '<a href="'+ server_image_path +  property_id + '/' + temp_master_items[i].temp_top_photos[j].file_name + '">Ref#'+ (j + 1) +'</a>' +
               '</div></div>';
 
               if(j >= 2){
@@ -1025,7 +1025,7 @@ module.exports = {
            '</div>';
 
            if(sub_item.feedback.description){
-                 temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px; "> <span class="left-text" style="background-color:#ea5455; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
+                 temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px; "> <span class="left-text" style="background-color:#d95858; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
            }
 
 
@@ -1063,7 +1063,7 @@ module.exports = {
                       '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-1-img" />' +
                       '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
                       '<div>' +
-                      '<a href="'+ server_image_path +  property_id + '/' + sub_item.photos[l].file_name + '">Ref'+ (j + 1) +'</a>' +
+                      '<a href="'+ server_image_path +  property_id + '/' + sub_item.photos[l].file_name + '">Ref#'+ (j + 1) +'</a>' +
                       '</div>' +
                       '</div>';
                  }
@@ -1144,7 +1144,7 @@ module.exports = {
               '<img src="'+ server_image_path +  property_id + '/' + 'report_300_' + (master_item.photos[j].file_name.substr(0, master_item.photos[j].file_name.lastIndexOf('.')) || master_item.photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />' +
               '<div style="font-style: italic; color: #a0a0a0;">'+ photo_date +'</div>'+
               '<div>' +
-              '<a href="'+ server_image_path +  property_id + '/' + temp_master_items[i].photos[j].file_name + '">Ref'+ (j + 1) +'</a>' +
+              '<a href="'+ server_image_path +  property_id + '/' + temp_master_items[i].photos[j].file_name + '">Ref#'+ (j + 1) +'</a>' +
               '</div></div>';
 
               if(j >= 2){
@@ -1174,7 +1174,7 @@ module.exports = {
          '</div>';
 
          if(master_item.feedback.description){
-           sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="background-color:#ea5455; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
+           sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="background-color:#d95858; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
          }
 
          if(!master_item.feedback.option && !master_item.feedback.comment && !need_maintance){
@@ -1210,7 +1210,7 @@ module.exports = {
                     '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (master_item.photos[l].file_name.substr(0, master_item.photos[l].file_name.lastIndexOf('.')) || master_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-1-img" />' +
                     '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
                     '<div>' +
-                    '<a href="'+ server_image_path +  property_id + '/' + master_item.photos[l].file_name + '">Ref'+ (j + 1) +'</a>' +
+                    '<a href="'+ server_image_path +  property_id + '/' + master_item.photos[l].file_name + '">Ref#'+ (j + 1) +'</a>' +
                     '</div>' +
                     '</div>';
                }
