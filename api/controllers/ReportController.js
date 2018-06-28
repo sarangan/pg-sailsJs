@@ -1419,8 +1419,8 @@ module.exports = {
                 '</div>' +
                 '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
                      '<div class="divtable" style="width:20%; display: inline-block;">&nbsp;Item</div>' +
-                     '<div class="divtable" style="width:40%; display: inline-block;">Condition</div>' +
-                     '<div class="divtable" style="width:10%; display: inline-block;">Description</div>' +
+                     '<div class="divtable" style="width:20%; display: inline-block;">Condition</div>' +
+                     '<div class="divtable" style="width:30%; display: inline-block;">Description</div>' +
                      '<div class="divtable" style="width:30%; display: inline-block;">Image</div>' +
                    '<div>' +
                    sub_items_html +
@@ -2418,7 +2418,7 @@ module.exports = {
             if(!property_info.report_date || property_info.report_date != '0000-00-00 00:00:00'){
               report_date = property_info.report_date;
               sails.log(report_date);
-              var dateParts = new Date(report_date);              
+              var dateParts = new Date(report_date);
               report_date = report_date.toISOString().slice(0, 19).replace('T', ' '); //dateParts.getDate() + '-', dateParts.getMonth()+1 + '-', dateParts.getFullYear();
               sails.log(report_date);
             }
