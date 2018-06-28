@@ -2372,6 +2372,7 @@ module.exports = {
             var fs = require('fs');
             var xls_file_path =  '/home/propertyground/public_html/' + user.id + '.xsl';
 
+            sails.log(total_photos);
 
             var front_photo = '';
             if(property_info.image_url){
