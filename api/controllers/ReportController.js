@@ -398,7 +398,7 @@ module.exports = {
                   return master_data;
               });
 
-              qry = "select property_masteritem_link.prop_master_id, property_masteritem_link.name as master_item_name, company_subitem_link.com_master_id,  property_masteritem_link.priority master_order, property_subitem_link.* from property_subitem_link inner join company_subitem_link on property_subitem_link.com_subitem_id = company_subitem_link.com_subitem_id inner JOIN property_masteritem_link on company_subitem_link.com_master_id = property_masteritem_link.com_master_id where property_masteritem_link.status =1 and property_subitem_link.status =1 and property_masteritem_link.property_id ='"+ property_id +"' and property_subitem_link.property_id = property_masteritem_link.property_id order by property_masteritem_link.name";
+              qry = "select property_masteritem_link.prop_master_id, property_masteritem_link.name as master_item_name, company_subitem_link.com_master_id, property_masteritem_link.priority master_order, property_subitem_link.* from property_subitem_link inner join company_subitem_link on property_subitem_link.com_subitem_id = company_subitem_link.com_subitem_id inner JOIN property_masteritem_link on property_subitem_link.prop_master_id = property_masteritem_link.prop_master_id where property_masteritem_link.status =1 and property_subitem_link.status =1 and property_masteritem_link.property_id ='"+ property_id +"' order by property_masteritem_link.name";
               var subQueryAsync = Promise.promisify(Property_subitem_link.query);
               var sub_items_data =  subQueryAsync(qry).then(function(sub_items_data) {
                   return sub_items_data;
@@ -2372,7 +2372,6 @@ module.exports = {
             var fs = require('fs');
             var xls_file_path =  '/home/propertyground/public_html/' + user.id + '.xsl';
 
-            sails.log(total_photos);
 
             var front_photo = '';
             if(property_info.image_url){
