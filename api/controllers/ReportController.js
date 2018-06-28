@@ -2383,10 +2383,10 @@ module.exports = {
             else{
 
 
-              if(total_photos[0].file_name){
+              if(total_photos.length > 0 && total_photos[0].file_name){
                 front_photo = server_image_path +  property_id + '/' + '300_' + (total_photos[0].file_name.substr(0, total_photos[0].file_name.lastIndexOf('.')) || total_photos[0].file_name) + '.jpg';
               }
-              else if(photo_data[0].file_name ){
+              else if(photo_data.length > 0 && photo_data[0].file_name ){
                 front_photo = server_image_path +  property_id + '/' + '300_' + (photo_data[0].file_name.substr(0, photo_data[0].file_name.lastIndexOf('.')) || photo_data[0].file_name) + '.jpg';
               }
               sails.log(front_photo);
