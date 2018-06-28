@@ -5598,15 +5598,11 @@ module.exports = {
 
 											if(coupon.length > 0){
 
-												if(Array.isArray(coupon) ){
-													coupon = coupon[0];
-												}
-
 												var data = {
 													status : 0
 												};
 
-												Coupons.update({id: coupon.coupon_id }, data).exec(function afterwards(err, updated){
+												Coupons.update({id: coupon[0].coupon_id }, data).exec(function afterwards(err, updated){
 													if (err) return res.json(err);
 
 													return res.json({status: 1, coupon: coupon});
