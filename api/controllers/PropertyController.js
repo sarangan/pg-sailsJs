@@ -5596,7 +5596,7 @@ module.exports = {
 									Coupons.find({coupon_text: coupon_code, status: 1 }).exec(function(err, coupon){
 											if(err) return res.json(err);
 
-											sails.log(coupon);
+											//sails.log(coupon);
 
 											if(coupon.length > 0){
 
@@ -5604,7 +5604,7 @@ module.exports = {
 													status : 0
 												};
 
-												Coupons.update({id: coupon[0].coupon_id }, data).exec(function afterwards(err, updated){
+												Coupons.update({coupon_id: coupon[0].coupon_id }, data).exec(function afterwards(err, updated){
 													if (err) return res.json(err);
 
 													return res.json({status: 1, coupon: coupon});
