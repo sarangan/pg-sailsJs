@@ -947,6 +947,9 @@ module.exports = {
   } // end if master
 
 
+  sails.log(temp_master_items);
+
+
   var master_html = '';
   var merger_photos_html = '';
   var check_master_item_data_exists = false;
