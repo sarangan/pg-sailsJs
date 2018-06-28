@@ -2417,10 +2417,9 @@ module.exports = {
             var report_date = mm + '/' + dd + '/' + yyyy;
             if(!property_info.report_date || property_info.report_date != '0000-00-00 00:00:00'){
               report_date = property_info.report_date;
-              sails.log(report_date);
-              var dateParts = report_date.split("-");
-              sails.log(dateParts);
-              report_date = dateParts[0] + '-', dateParts[1]+ '-', dateParts[2];
+
+              var dateParts = report_date.toString().split("-");
+              report_date = dateParts[0] + '-', dateParts[1] - 1 + '-', dateParts[2].substr(0,2);
 
             }
 
