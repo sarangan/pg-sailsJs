@@ -5596,6 +5596,8 @@ module.exports = {
 									Coupons.find({coupon_text: coupon_code, status: 1 }).exec(function(err, coupon){
 											if(err) return res.json(err);
 
+											sails.log(coupon);
+
 											if(coupon.length > 0){
 
 												var data = {
