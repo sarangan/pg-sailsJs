@@ -1300,7 +1300,7 @@ module.exports = {
 
               var sub_item = master_item.sub[j];
 
-              sails.log(sub_item);
+              //sails.log(sub_item);
 
               var option = '-';
               var desc = '-';
@@ -1369,7 +1369,9 @@ module.exports = {
                  check_master_item_data_exists = true;
                }
 
-               sub_items_html = temp_sub_items_html;
+               //sub_items_html = temp_sub_items_html;
+
+
 
             }
 
