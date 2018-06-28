@@ -1705,12 +1705,14 @@ module.exports = {
 
                var temp_sub_items_html = '<div class="divrow">' +
                  '<div style="width: 20%; display:inline-block"><span class="left-text">'+ sub_item.subitem.item_name +'</span></div>' +
-                 '<div style="width: 40%; display:inline-block"><span class="left-text">'+ option +'</span></div>' +
-                 '<div style="width: 10%; display:inline-block"><span class="left-text">'+ desc +'</span></div>' +
+                 '<div style="width: 15%; display:inline-block"><span class="left-text">'+ option +'</span></div>' +
+                 '<div style="width: 35%; display:inline-block"><span class="left-text">'+ desc +'</span></div>' +
                  '<div style="width: 30%; display:inline-block"><span class="left-text">'+ photos_html +'</span></div>' +
                '</div>';
 
-               temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="color:#EB6331">'+ need_maintance +'</span></div>';
+               if(need_maintance){
+                 temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="background-color:#d95858; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
+               }
 
                if(!sub_item.feedback.option && !sub_item.feedback.comment && !need_maintance){
                  sub_items_html += '';
@@ -1747,8 +1749,8 @@ module.exports = {
                  '</div>' +
                  '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
                       '<div class="divtable" style="width:20%; display: inline-block;">&nbsp;Item</div>' +
-                      '<div class="divtable" style="width:40%; display: inline-block;">Condition</div>' +
-                      '<div class="divtable" style="width:10%; display: inline-block;">Description</div>' +
+                      '<div class="divtable" style="width:15%; display: inline-block;">Condition</div>' +
+                      '<div class="divtable" style="width:35%; display: inline-block; text-align: center;">Description</div>' +
                       '<div class="divtable" style="width:30%; display: inline-block;">Image</div>' +
                     '<div>' +
                     sub_items_html +
@@ -1840,12 +1842,14 @@ module.exports = {
 
             var temp_sub_items_html = '<div class="divrow">' +
                '<div style="width: 20%; display:inline-block"><span class="left-text">'+ master_item.master.name +'</span></div>' +
-               '<div style="width: 40%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
-               '<div style="width: 10%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
+               '<div style="width: 15%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
+               '<div style="width: 35%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
                '<div style="width: 30%; display:inline-block"> <span class="left-text">'+ photos_html +'</span></div>' +
              '</div>';
 
-            temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="color:#EB6331">'+ need_maintance +'</span></div>';
+             if(need_maintance){
+               temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="background-color:#d95858; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
+             }
 
             if(!master_item.feedback.option && !master_item.feedback.comment && !need_maintance){
               sub_items_html += '';
@@ -1868,8 +1872,8 @@ module.exports = {
                  '</div>' +
                  '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
                       '<div class="divtable" style="width:20%; display: inline-block;">&nbsp;Item</div>' +
-                      '<div class="divtable" style="width:40%; display: inline-block;">Condition</div>' +
-                      '<div class="divtable" style="width:10%; display: inline-block;">Description</div>' +
+                      '<div class="divtable" style="width:15%; display: inline-block;">Condition</div>' +
+                      '<div class="divtable" style="width:35%; display: inline-block; text-align:center;">Description</div>' +
                       '<div class="divtable" style="width:30%; display: inline-block;">Image</div>' +
                     '<div>' +
                     sub_items_html +
