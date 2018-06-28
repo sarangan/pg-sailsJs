@@ -2419,7 +2419,7 @@ module.exports = {
               report_date = property_info.report_date;
 
               var dateParts = report_date.toString().split("-");
-              report_date = dateParts[0] + '-', dateParts[1] - 1 + '-', dateParts[2].substr(0,2);
+              report_date = dateParts[0].toString() + '-', dateParts[1] + '-', dateParts[2].toString().substr(0,2);
 
             }
 
