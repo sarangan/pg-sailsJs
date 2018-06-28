@@ -2054,6 +2054,9 @@ module.exports = {
             total_photo_html += '<div style="width: 20%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; margin-top: 20px; max-width: 300px;">' +
               '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (total_photos[po].file_name.substr(0, total_photos[po].file_name.lastIndexOf('.')) || total_photos[po].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
               '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
+              '<div>' +
+              '<a href="'+ server_image_path +  property_id + '/' + total_photos[po].file_name + '">Ref'+ (po + 1) +'</a>' +
+              '</div>' +
             '</div>';
 
           }
@@ -2080,7 +2083,7 @@ module.exports = {
 
 
       var photo_page = '';
-      photo_page = '<div style="width: 100%;" ><h1 class="sub-heading" style="margin-top: 20px;">'+ master_item.master.name +'</h1>'+
+      photo_page = '<div style="width: 100%;" ><h1 class="sub-heading" style="margin-top: 20px;">'+ master_item.master.name +' - Photos</h1>'+
       '<hr/>' +
       '<div style="margin-top: 20px; width:100%; text-align:left;" class="div-img-wrapper">'+
         total_photo_html +
