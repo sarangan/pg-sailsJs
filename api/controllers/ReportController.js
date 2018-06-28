@@ -1284,7 +1284,7 @@ module.exports = {
                   '<img src="'+ server_image_path +  property_id + '/' + 'report_300_' + (master_item.temp_top_photos[j].file_name.substr(0, master_item.temp_top_photos[j].file_name.lastIndexOf('.')) || master_item.temp_top_photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />' +
                   '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
                   '<div>' +
-                  '<a href="'+ server_image_path +  property_id + '/' + temp_master_items[i].temp_top_photos[j].file_name + '">Ref'+ (j + 1) +'</a>' +
+                  '<a href="'+ server_image_path +  property_id + '/' + temp_master_items[i].temp_top_photos[j].file_name + '">Ref#'+ (j + 1) +'</a>' +
                   '</div></div>';
 
                   if(j >= 2){
@@ -1295,9 +1295,12 @@ module.exports = {
 
 
             var sub_items_html = '';
+
             for(var j =0, sl = master_item.sub.length; j < sl ; j++){ // sub item loop
 
               var sub_item = master_item.sub[j];
+
+              sails.log(sub_item);
 
               var option = '-';
               var desc = '-';
@@ -1350,12 +1353,12 @@ module.exports = {
 
                var temp_sub_items_html = '<div class="divrow">' +
                  '<div style="width: 20%; display:inline-block"><span class="left-text">'+ sub_item.subitem.item_name +'</span></div>' +
-                 '<div style="width: 40%; display:inline-block"><span class="left-text">'+ option +'</span></div>' +
-                 '<div style="width: 10%; display:inline-block"><span class="left-text">'+ desc +'</span></div>' +
+                 '<div style="width: 10%; display:inline-block"><span class="left-text">'+ option +'</span></div>' +
+                 '<div style="width: 40%; display:inline-block"><span class="left-text">'+ desc +'</span></div>' +
                  '<div style="width: 30%; display:inline-block"><span class="left-text">'+ photos_html +'</span></div>' +
                '</div>';
 
-               temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="color:#EB6331">'+ need_maintance +'</span></div>';
+               temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="background-color:#d95858; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
 
                if(!sub_item.feedback.option && !sub_item.feedback.comment && !need_maintance){
 
@@ -1424,8 +1427,8 @@ module.exports = {
                 '</div>' +
                 '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
                      '<div class="divtable" style="width:20%; display: inline-block;">&nbsp;Item</div>' +
-                     '<div class="divtable" style="width:20%; display: inline-block;">Condition</div>' +
-                     '<div class="divtable" style="width:30%; display: inline-block;">Description</div>' +
+                     '<div class="divtable" style="width:10%; display: inline-block;">Condition</div>' +
+                     '<div class="divtable" style="width:40%; display: inline-block;">Description</div>' +
                      '<div class="divtable" style="width:30%; display: inline-block;">Image</div>' +
                    '<div>' +
                    sub_items_html +
@@ -1519,8 +1522,8 @@ module.exports = {
 
             var temp_sub_items_html = '<div class="divrow">' +
                '<div style="width: 20%; display:inline-block"><span class="left-text">'+ master_item.master.name +'</span></div>' +
-               '<div style="width: 40%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
-               '<div style="width: 10%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
+               '<div style="width: 10%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
+               '<div style="width: 40%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
                '<div style="width: 30%; display:inline-block"> <span class="left-text">'+ photos_html +'</span></div>' +
              '</div>';
 
@@ -1577,8 +1580,8 @@ module.exports = {
                  '</div>' +
                  '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
                       '<div class="divtable" style="width:20%; display: inline-block;">&nbsp;Item</div>' +
-                      '<div class="divtable" style="width:40%; display: inline-block;">Condition</div>' +
-                      '<div class="divtable" style="width:10%; display: inline-block;">Description</div>' +
+                      '<div class="divtable" style="width:10%; display: inline-block;">Condition</div>' +
+                      '<div class="divtable" style="width:40%; display: inline-block;">Description</div>' +
                       '<div class="divtable" style="width:30%; display: inline-block;">Image</div>' +
                     '<div>' +
                     sub_items_html +
