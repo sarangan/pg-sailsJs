@@ -922,7 +922,7 @@ module.exports = {
 
 							console.log('user', user.company_id);
 
-							Property_info.query("select property_info.*, DATE_FORMAT(property_info.createdAt,'%d/%m/%Y') as created_date, (SELECT sum(property_masteritem_link.total_num) FROM property_masteritem_link where property_masteritem_link.option = 'NUM' and property_masteritem_link.property_id = property_info.property_id ) as total_rooms from property_info inner join property on property_info.property_id = property.property_id where property.company_id="+ user.company_id, function(err, properties){
+							Property_info.query("select property_info.*, DATE_FORMAT(property_info.createdAt,'%d/%m/%Y') as created_date, (SELECT sum(property_masteritem_link.total_num) FROM property_masteritem_link where property_masteritem_link.option = 'NUM' and property_masteritem_link.property_id = property_info.property_id ) as total_rooms from property_info inner join property on property_info.property_id = property.property_id where property.company_id="+ user.company_id + " order by property_info.createdAt DESC", function(err, properties){
 
 								if(err) return res.json(err);
 
@@ -5541,6 +5541,86 @@ module.exports = {
 
 						});
 
+
+				}
+			}
+
+		},
+
+		checkcoupon: function(req, res){
+
+			if( req.token.hasOwnProperty('sid') ){
+				if(req.token.sid){
+
+						User.findOne({id :  req.token.sid}).exec(function(err, user){
+							if(err) return res.json(err);
+
+							console.log('user', user.company_id);
+
+							var coupon_code  = req.param('coupon_code');
+
+								//check if the user is authorize to access this property
+
+									Coupons.find({coupon_text: coupon_code, status: 1 }).exec(function(err, coupon){
+											if(err) return res.json(err);
+
+											if(coupon.length > 0){
+												return res.json({status: 1, coupon: coupon});
+											}
+											else{
+													return res.json({status: 2, text: 'invalid coupon!'});
+											}
+
+									});
+
+						});
+
+				}
+			}
+
+
+		},
+
+		updatecoupon: function(req, res){
+
+			if( req.token.hasOwnProperty('sid') ){
+				if(req.token.sid){
+
+						User.findOne({id :  req.token.sid}).exec(function(err, user){
+							if(err) return res.json(err);
+
+							console.log('user', user.company_id);
+
+							var coupon_code  = req.param('coupon_code');
+
+									Coupons.find({coupon_text: coupon_code, status: 1 }).exec(function(err, coupon){
+											if(err) return res.json(err);
+
+											if(coupon.length > 0){
+
+												if(Array.isArray(coupon) ){
+													coupon = coupon[0];
+												}
+
+												var data = {
+													status : 0
+												};
+
+												Coupons.update({id: coupon.coupon_id }, data).exec(function afterwards(err, updated){
+													if (err) return res.json(err);
+
+													return res.json({status: 1, coupon: coupon});
+
+												});
+
+											}
+											else{
+													return res.json({status: 2, text: 'invalid coupon!'});
+											}
+
+									});
+
+						});
 
 				}
 			}
