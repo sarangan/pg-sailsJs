@@ -1353,8 +1353,8 @@ module.exports = {
 
                var temp_sub_items_html = '<div class="divrow">' +
                  '<div style="width: 20%; display:inline-block"><span class="left-text">'+ sub_item.subitem.item_name +'</span></div>' +
-                 '<div style="width: 10%; display:inline-block"><span class="left-text">'+ option +'</span></div>' +
-                 '<div style="width: 40%; display:inline-block"><span class="left-text">'+ desc +'</span></div>' +
+                 '<div style="width: 15%; display:inline-block"><span class="left-text">'+ option +'</span></div>' +
+                 '<div style="width: 35%; display:inline-block"><span class="left-text">'+ desc +'</span></div>' +
                  '<div style="width: 30%; display:inline-block"><span class="left-text">'+ photos_html +'</span></div>' +
                '</div>';
 
@@ -1431,8 +1431,8 @@ module.exports = {
                 '</div>' +
                 '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
                      '<div class="divtable" style="width:20%; display: inline-block;">&nbsp;Item</div>' +
-                     '<div class="divtable" style="width:10%; display: inline-block;">Condition</div>' +
-                     '<div class="divtable" style="width:40%; display: inline-block; text-align: center; ">Description</div>' +
+                     '<div class="divtable" style="width:15%; display: inline-block;">Condition</div>' +
+                     '<div class="divtable" style="width:35%; display: inline-block; text-align: center; ">Description</div>' +
                      '<div class="divtable" style="width:30%; display: inline-block;">Image</div>' +
                    '<div>' +
                    sub_items_html +
@@ -1528,8 +1528,8 @@ module.exports = {
 
             var temp_sub_items_html = '<div class="divrow">' +
                '<div style="width: 20%; display:inline-block"><span class="left-text">'+ master_item.master.name +'</span></div>' +
-               '<div style="width: 10%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
-               '<div style="width: 40%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
+               '<div style="width: 15%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
+               '<div style="width: 35%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
                '<div style="width: 30%; display:inline-block"> <span class="left-text">'+ photos_html +'</span></div>' +
              '</div>';
 
@@ -1590,8 +1590,8 @@ module.exports = {
                  '</div>' +
                  '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
                       '<div class="divtable" style="width:20%; display: inline-block;">&nbsp;Item</div>' +
-                      '<div class="divtable" style="width:10%; display: inline-block;">Condition</div>' +
-                      '<div class="divtable" style="width:40%; display: inline-block; text-align: center; ">Description</div>' +
+                      '<div class="divtable" style="width:15%; display: inline-block;">Condition</div>' +
+                      '<div class="divtable" style="width:35%; display: inline-block; text-align: center; ">Description</div>' +
                       '<div class="divtable" style="width:30%; display: inline-block;">Image</div>' +
                     '<div>' +
                     sub_items_html +
