@@ -2316,7 +2316,7 @@ module.exports = {
                    'select{*font-size:100%;}legend{color:#000;}' +
                    '* { overflow: visible !important; }' +
                    'html,body { font-family: serif; font-size:16px; width: 100% }'+
-                   '.chapter { width: 100%; display: block; clear: both; page-break-before: always; padding: 5px; margin:0;  margin-top: 10px; margin-bottom: 10px;}'+
+                   '.chapter { width: 100%; display: block; clear: both; page-break-before: always; padding: 5px; margin:0;  margin-top: 5px; margin-bottom: 5px;}'+
                    '.block { display: block; clear: both; padding: 20px;}' +
                    '.heading{ font-size:20px; color: #0088CC; line-height: 20px; margin-bottom: 10px; font-weight: bold;}' +
                    '.sub-heading{ font-size: 18px; margin-top: 10px; color:' + style_sub_heading_color +'; line-height: 18px; font-weight: bold; background-color: ' + style_sub_heading_bg + '; width: 100%; }' +
@@ -2370,7 +2370,7 @@ module.exports = {
                    '.divtable { margin-top: 30px; width:100%; background-color: '+ style_table_header_bg +'; padding-top: 10px; padding-bottom: 10px; text-align: left; font-size: 16px; font-weight: bold; color: '+ style_table_header_txt +'; }' +
                    '.divrow {width:100%; padding: 10px; border-top: 1px solid #E5E5E5;  page-break-inside: avoid; page-break-after: avoid; display:block; }' +
                    '.divrow-noborder {width:100%; padding: 10px;}' +
-                  '.div-img-wrapper {text-align:left; padding-top: 20px; padding-bottom: 10px; width:100%; padding-right: 10px; page-break-inside: avoid; page-break-after: avoid; display:block;}'+
+                  '.div-img-wrapper {text-align:left; padding-top: 10px; padding-bottom: 10px; width:100%; padding-right: 10px; page-break-inside: avoid; page-break-after: avoid; display:block;}'+
                    '</style></head><body>' +
 
                       general_notes +
