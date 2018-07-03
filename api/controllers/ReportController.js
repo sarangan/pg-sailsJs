@@ -1368,7 +1368,7 @@ module.exports = {
                       photos_html = '<div class="img-inline-wrapper">' +
                          '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                          '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div></div>'+
-                         '<a href="'+ server_image_path +  property_id + '/' + sub_item.photos[l].file_name.file_name + '">Ref#'+ (j + 1) +'</a></div>' +
+                         '<a href="'+ server_image_path +  property_id + '/' + sub_item.photos[l].file_name + '">Ref#'+ 1 +'</a></div>' +
                          '</div>';
                          break;
                     }
