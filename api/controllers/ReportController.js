@@ -1200,7 +1200,7 @@ module.exports = {
          '</div>';
 
          if(need_maintance){
-           sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="background-color:#e2401c; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
+           temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="background-color:#e2401c; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
          }
 
          if(!master_item.feedback.option && !master_item.feedback.comment && !need_maintance){
