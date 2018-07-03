@@ -1040,17 +1040,20 @@ module.exports = {
            sails.log(sub_item.feedback.option);
            sails.log(sub_item.feedback.comment);
            sails.log(need_maintance);
-           sails.log('------');
+
 
            if(!sub_item.feedback.option && !sub_item.feedback.comment && !need_maintance){
 
              sub_items_html += '';
+             sails.log('not exists');
            }
            else{
+             sails.log('exists');
              sub_items_html += temp_sub_items_html;
              check_master_item_data_exists = true;
            }
 
+           sails.log('------');
 
            var photos_html = ''
            if(sub_item.photos){
@@ -1187,7 +1190,7 @@ module.exports = {
            '<div style="width: 50%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
          '</div>';
 
-         if(master_item.feedback.description){
+         if(need_maintance){
            sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="background-color:#e2401c; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
          }
 
