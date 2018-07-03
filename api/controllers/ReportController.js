@@ -1046,7 +1046,7 @@ module.exports = {
            sails.log(sub_item.photos.length);
 
 
-           if(!sub_item.feedback.option && !sub_item.feedback.comment && !need_maintance){
+           if(!sub_item.feedback.option && !sub_item.feedback.comment && !need_maintance && !sub_item.photos.length){
 
              sub_items_html += '';
              sails.log('not exists');
