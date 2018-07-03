@@ -2051,7 +2051,7 @@ module.exports = {
 
 
     }///style 4 end
-    else if(report_settings.items_details_layout == 'STYLE 5'){
+    else if(report_settings.items_details_layout == 'STYLE 5'){ // start style 5
 
       var hex = report_settings.table_header_bg_color;
       var lum = 0.3;
