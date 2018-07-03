@@ -1306,11 +1306,11 @@ module.exports = {
                   photo_date = photo_date.toISOString().slice(0, 19).replace('T', ' ');
                 }
 
-                top_photos += '<div style="width: 25%; padding: 10px; background-color: #ffffff; display: inline-block; max-width: 300px;  margin-bottom: 20px; margin-left: 10px;">'+
+                top_photos += '<div style="width: 25%; padding: 10px; background-color: #ffffff; display: inline-block; max-width: 300px;  margin-bottom: 10px; margin-left: 10px;">'+
                   '<img src="'+ server_image_path +  property_id + '/' + 'report_300_' + (master_item.temp_top_photos[j].file_name.substr(0, master_item.temp_top_photos[j].file_name.lastIndexOf('.')) || master_item.temp_top_photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />' +
                   '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
                   '<div>' +
-                  '<a href="'+ server_image_path +  property_id + '/' + temp_master_items[i].temp_top_photos[j].file_name + '">Ref#'+ (j + 1) +'</a>' +
+                  '<a href="'+ server_image_path +  property_id + '/' + master_item.temp_top_photos[j].file_name + '">Ref#'+ (j + 1) +'</a>' +
                   '</div></div>';
 
                   if(j >= 2){
@@ -1367,7 +1367,8 @@ module.exports = {
                     if(sub_item.photos[l].file_name){
                       photos_html = '<div class="img-inline-wrapper">' +
                          '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
-                         '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
+                         '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div></div>'+
+                         '<a href="'+ server_image_path +  property_id + '/' + sub_item.photos[l].file_name.file_name + '">Ref#'+ (j + 1) +'</a></div>' +
                          '</div>';
                          break;
                     }
@@ -1432,6 +1433,7 @@ module.exports = {
                     photos_bottom_html += '<div style="width: 20%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px; margin-top: 20px;">' +
                        '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (master_item.temp_top_photos[l].file_name.substr(0, master_item.temp_top_photos[l].file_name.lastIndexOf('.')) || master_item.temp_top_photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                        '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
+                       '<div><a href="'+ server_image_path +  property_id + '/' + master_item.temp_top_photos[l].file_name + '">Ref#'+ (j + 1) +'</a></div>' +
                        '</div>';
 
                   }
@@ -1456,14 +1458,14 @@ module.exports = {
                   '</span>' +
                 '</div>' +
                 '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
-                     '<div class="divtable" style="width:20%; display: inline-block;">&nbsp;Item</div>' +
+                     '<div class="divtable" style="width:20%; display: inline-block;">&nbsp;</div>' +
                      '<div class="divtable" style="width:15%; display: inline-block;">Condition</div>' +
                      '<div class="divtable" style="width:35%; display: inline-block; text-align: center; ">Description</div>' +
-                     '<div class="divtable" style="width:30%; display: inline-block;">Image</div>' +
+                     '<div class="divtable" style="width:30%; display: inline-block;">&nbsp;</div>' +
                    '<div>' +
                    sub_items_html +
             '</div></div>'+
-            '<div style="margin-top: 30px; width:100%; text-align: left;" class="div-img-wrapper">' +
+            '<div style="margin-top: 10px; width:100%; text-align: left;" class="div-img-wrapper">' +
             photos_bottom_html +
             '</div>' +
             '</div></div>';
@@ -1498,7 +1500,7 @@ module.exports = {
                   '<img src="'+ server_image_path +  property_id + '/' + 'report_300_' + (master_item.photos[j].file_name.substr(0, master_item.photos[j].file_name.lastIndexOf('.')) || master_item.photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />' +
                   '<div style="font-style: italic; color: #a0a0a0;">'+ photo_date +'</div>'+
                   '<div>' +
-                  '<a href="'+ server_image_path +  property_id + '/' + temp_master_items[i].photos[j].file_name + '">Ref'+ (j + 1) +'</a>' +
+                  '<div><a href="'+ server_image_path +  property_id + '/' + master_item.photos[j].file_name + '">Ref'+ (j + 1) +'</a></div>' +
                   '</div></div>';
 
                   if(j > 2){
@@ -1545,6 +1547,7 @@ module.exports = {
                     photos_html = '<div class="img-inline-wrapper">' +
                        '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (master_item.photos[l].file_name.substr(0, master_item.photos[l].file_name.lastIndexOf('.')) || master_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                        '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
+                       '<div><a href="'+ server_image_path +  property_id + '/' + master_item.photos[l].file_name + '">Ref'+ (j + 1) +'</a></div>' +
                        '</div>';
                        break;
                   }
@@ -1594,6 +1597,7 @@ module.exports = {
                      photos_bottom_html += '<div style="width: 20%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px; margin-top: 20px;">' +
                         '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (master_item.photos[l].file_name.substr(0, master_item.photos[l].file_name.lastIndexOf('.')) || master_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                         '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
+                        '<div><a href="'+ server_image_path +  property_id + '/' + master_item.photos[l].file_name + '">Ref#'+ (j + 1) +'</a></div>' +
                         '</div>';
                    }
 
