@@ -802,7 +802,7 @@ module.exports = {
 
     var meter_html = '';
     if(meter_data){
-        meter_html = '<div class="chapter"><h1 class="sub-heading">Meater Reading</h1><hr/><div><table class="format-table report-tbl7"><thead><th class="col1">Image</th><th class="col2">Condition</th><tbody>';
+        meter_html = '<div class="chapter"><h1 class="sub-heading">Meater Reading</h1><hr/><div><table class="format-table report-tbl7"><thead><th class="col1"></th><th class="col2"></th><tbody>';
 
         var check_meter_data = false;
 
@@ -811,13 +811,21 @@ module.exports = {
             check_meter_data = true;
             //sails.log(server_image_path +  property_id + '/' + '300_' + (meter_data[i].photo.substr(0, meter_data[i].photo.lastIndexOf('.')) || meter_data[i].photo) + '.jpg');
 
+            var need_maintance = meter_data[i].description ? (meter_data[i].description.toLowerCase() == 'true' ? 'Need maintenance' : '') : '';
+            var temp_needmaintaince_html = '';
+            if(need_maintance){
+              temp_needmaintaince_html ='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="background-color:#d95858; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
+            }
+
              meter_html += '<tr><td><div class="img-inline-wrapper">' +
              '<img src="' + server_image_path +  property_id + '/' + '300_' + (meter_data[i].photo.substr(0, meter_data[i].photo.lastIndexOf('.')) || meter_data[i].photo) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
              '<a href="'+ server_image_path +  property_id + '/' + meter_data[i].photo + '">Ref'+ (i + 1) +'</a>' +
               '</div></td><td>' +
               '<b>Meter name : </b>'+  meter_data[i].meter_name +'<br>' +
               '<b>Reading : </b>'+  meter_data[i].reading_value +'<br>' +
-              '<b>Description : </b>'+ meter_data[i].description + '</td></tr>';
+              '<b>Description : </b>'+ meter_data[i].comment + '<br>' +
+              temp_needmaintaince_html +
+              '</td></tr>';
            }
         }
 
@@ -1020,12 +1028,12 @@ module.exports = {
 
            var temp_sub_items_html = '<div class="divrow">' +
              '<div style="width: 30%; display:inline-block"><span class="left-text">'+ sub_item.subitem.item_name +'</span></div>' +
-             '<div style="width: 30%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
-             '<div style="width: 40%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
+             '<div style="width: 10%; display:inline-block"><span class="left-text">'+ option +'</span></div>' +
+             '<div style="width: 60%; display:inline-block"><span class="left-text">'+ desc +'</span></div>' +
            '</div>';
 
-           if(sub_item.feedback.description){
-                 temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px; "> <span class="left-text" style="background-color:#d95858; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
+           if(sub_item.feedback.description.trim().length > 0){
+                 temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px; "> <span class="left-text" style="background-color:#e2401c; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
            }
 
 
@@ -1083,6 +1091,9 @@ module.exports = {
 
         } //end master item loop
 
+        sails.log(master_item.master.name);
+        sails.log(master_item);
+
         var fgeneral = '';
         if(Object.keys(master_item.feedback_general).length === 0 && master_item.feedback_general.constructor === Object ){
           fgeneral = master_item.feedback_general.comment?master_item.feedback_general.comment:'';
@@ -1107,9 +1118,9 @@ module.exports = {
                '</span>' +
              '</div>' +
              '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
-                  '<div class="divtable" style="width:30%; display: inline-block;">&nbsp;Item</div>' +
-                  '<div class="divtable" style="width:30%; display: inline-block;">Condition</div>' +
-                  '<div class="divtable" style="width:40%; display: inline-block;">Description</div>' +
+                  '<div class="divtable" style="width:30%; display: inline-block;">&nbsp;</div>' +
+                  '<div class="divtable" style="width:10%; display: inline-block;">Condition</div>' +
+                  '<div class="divtable" style="width:60%; display: inline-block;">Comments</div>' +
                 '<div>' +
                 sub_items_html +
          '</div></div></div></div>';
@@ -1174,7 +1185,7 @@ module.exports = {
          '</div>';
 
          if(master_item.feedback.description){
-           sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="background-color:#d95858; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
+           sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="background-color:#e2401c; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
          }
 
          if(!master_item.feedback.option && !master_item.feedback.comment && !need_maintance){
@@ -1241,9 +1252,9 @@ module.exports = {
                '</span>' +
              '</div>' +
              '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
-                  '<div class="divtable" style="width:30%; display: inline-block;">&nbsp;Item</div>' +
+                  '<div class="divtable" style="width:30%; display: inline-block;">&nbsp;</div>' +
                   '<div class="divtable" style="width:30%; display: inline-block;">Condition</div>' +
-                  '<div class="divtable" style="width:40%; display: inline-block;">Description</div>' +
+                  '<div class="divtable" style="width:40%; display: inline-block;">Comments</div>' +
                 '<div>' +
                 sub_items_html +
          '</div></div></div></div>';
@@ -2277,7 +2288,7 @@ module.exports = {
              '<html lang="en"><style type="text/css" media="screen,print">'+
                 '<head>' +
                  '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">' +
-                 '<TITLE>Inventory Report</TITLE>' +
+                 '<TITLE>' + property_info.report_type + '</TITLE>' +
                  '<style type="text/css" media="screen,print">' +
                    'html{color:#000;background:#FFF;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,' +
                    'pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0;}' +
@@ -2290,15 +2301,15 @@ module.exports = {
                    'select{*font-size:100%;}legend{color:#000;}' +
                    '* { overflow: visible !important; }' +
                    'html,body { font-family: serif; font-size:16px; width: 100% }'+
-                   '.chapter { width: 100%; display: block; clear: both; page-break-before: always; padding: 20px; margin:0;  margin-top: 30px; margin-bottom: 20px;}'+
+                   '.chapter { width: 100%; display: block; clear: both; page-break-before: always; padding: 5px; margin:0;  margin-top: 10px; margin-bottom: 10px;}'+
                    '.block { display: block; clear: both; padding: 20px;}' +
-                   '.heading{ font-size:25px; color: #0088CC; line-height: 28px; margin-bottom: 20px; font-weight: bold;}' +
-                   '.sub-heading{ font-size: 25px; margin-top: 40px; color:' + style_sub_heading_color +'; line-height: 28px; font-weight: bold; background-color: ' + style_sub_heading_bg + '; width: 100%; }' +
-                   'hr { border:0; margin:0; padding:0; height:1px; color:'+ style_sub_heading_color + '; background-color:'+ style_sub_heading_color + '; margin-top: 7px; margin-bottom: 30px;}' +
+                   '.heading{ font-size:20px; color: #0088CC; line-height: 20px; margin-bottom: 10px; font-weight: bold;}' +
+                   '.sub-heading{ font-size: 18px; margin-top: 10px; color:' + style_sub_heading_color +'; line-height: 18px; font-weight: bold; background-color: ' + style_sub_heading_bg + '; width: 100%; }' +
+                   'hr { border:0; margin:0; padding:0; height:1px; color:'+ style_sub_heading_color + '; background-color:'+ style_sub_heading_color + '; margin-top: 7px; margin-bottom: 10px;}' +
                    'thead { display: table-header-group; }' +
                    'tfoot { display: table-row-group; }' +
                    'tr { page-break-inside: avoid; }' +
-                   '.format-table { border: 0; width: 100%; margin-bottom: 40px; }' +
+                   '.format-table { border: 0; width: 100%; margin-bottom: 10px; }' +
                    '.format-table td{ padding: 10px; border-bottom: 1px solid #E5E5E5; }' +
                    '.format-table tr{ font-size: 14px;  padding: 10px;}' +
                    '.format-table thead { background-color: '+ style_table_header_bg +'; }' +
@@ -2344,7 +2355,7 @@ module.exports = {
                    '.divtable { margin-top: 30px; width:100%; background-color: '+ style_table_header_bg +'; padding-top: 10px; padding-bottom: 10px; text-align: left; font-size: 16px; font-weight: bold; color: '+ style_table_header_txt +'; }' +
                    '.divrow {width:100%; padding: 10px; border-top: 1px solid #E5E5E5;  page-break-inside: avoid; page-break-after: avoid; display:block; }' +
                    '.divrow-noborder {width:100%; padding: 10px;}' +
-                  '.div-img-wrapper {text-align:center; padding-top: 20px; padding-bottom: 10px; width:100%; padding-right: 10px; page-break-inside: avoid; page-break-after: avoid; display:block;}'+
+                  '.div-img-wrapper {text-align:left; padding-top: 20px; padding-bottom: 10px; width:100%; padding-right: 10px; page-break-inside: avoid; page-break-after: avoid; display:block;}'+
                    '</style></head><body>' +
 
                       general_notes +
@@ -2612,6 +2623,7 @@ module.exports = {
                           '<div style="font-size: 23px; font-weight: bold; margin-bottom: 5px; letter-spacing: 1px; ">' + property_info.report_type  + '</div>' +
                           '<div style="font-size: 20px;">Date of Inspection: ' + report_date + '</div>' +
                           '<div style="font-size: 20px;">Address: ' + property_info.address_1 + ' ' + property_info.address_2 + '</div>' +
+                          '<div style="font-size: 20px;">' + property_info.city + ' ' + property_info.postalcode + '</div>' +
                         '</div>' +
                       '</td>' +
                     '</tr>' +
