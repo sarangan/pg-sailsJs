@@ -2054,6 +2054,7 @@ module.exports = {
     else if(report_settings.items_details_layout == 'STYLE 5'){
 
       var hex = report_settings.table_header_bg_color;
+      var lum = 0.3;
 
       hex = String(hex).replace(/[^0-9a-f]/gi, '');
       if (hex.length < 6) {
