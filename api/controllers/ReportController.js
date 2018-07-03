@@ -1007,6 +1007,8 @@ module.exports = {
 
         var sub_items_html = '';
 
+        sails.log(master_item.master.name);
+
         for(var j =0, sl = master_item.sub.length; j < sl ; j++){ // sub item loop
 
           var sub_item = master_item.sub[j];
@@ -1036,7 +1038,8 @@ module.exports = {
                  temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px; "> <span class="left-text" style="background-color:#e2401c; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
            }
 
-           sails.log(master_item.master.name);
+
+           sails.log(sub_item.subitem.item_name);
            sails.log(sub_item.feedback.option);
            sails.log(sub_item.feedback.comment);
            sails.log(need_maintance);
@@ -1053,7 +1056,7 @@ module.exports = {
              check_master_item_data_exists = true;
            }
 
-           sails.log('------');
+
 
            var photos_html = ''
            if(sub_item.photos){
@@ -1109,13 +1112,17 @@ module.exports = {
           check_master_item_data_exists = true;
         }
 
+        sails.log(check_master_item_data_exists);
+
+
+        sails.log('------');
 
         if(check_master_item_data_exists){
 
           master_html +='<div class="chapter">' +
            '<h1 class="sub-heading">' + master_item.master.name + '</h1>' +
            '<hr/><div>' +
-            '<div style="margin-top: 10px; margin-bottom: 10px; width:100%;">' +
+            '<div style="margin-top: 10px; margin-bottom: 2px; width:100%;">' +
                top_photos +
              '</div>' +
             ' <div>' +
