@@ -490,8 +490,6 @@ module.exports = {
              }
              else{
 
-
-
                //check ---------------- payment plans
 
                var created_date = '';
@@ -1017,6 +1015,8 @@ module.exports = {
           var desc = '-';
           var need_maintance = '';
 
+          var general_item_text = '';
+
           if(Object.keys(sub_item.feedback).length === 0 && sub_item.feedback.constructor === Object ){
             //is empty object
             option = '-';
@@ -1045,7 +1045,6 @@ module.exports = {
            sails.log(need_maintance);
            sails.log(sub_item.photos.length);
 
-
            if(!sub_item.feedback.option && !sub_item.feedback.comment && !need_maintance && !sub_item.photos.length){
 
              sub_items_html += '';
@@ -1053,7 +1052,9 @@ module.exports = {
            }
            else{
              sails.log('exists');
-             sub_items_html += temp_sub_items_html;
+             if(sub_item.subitem.type != 'GENERAL'){
+               sub_items_html += temp_sub_items_html;
+             }
              check_master_item_data_exists = true;
            }
 
