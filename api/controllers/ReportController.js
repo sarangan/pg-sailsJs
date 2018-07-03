@@ -1032,7 +1032,7 @@ module.exports = {
              '<div style="width: 60%; display:inline-block"><span class="left-text">'+ desc +'</span></div>' +
            '</div>';
 
-           if(sub_item.feedback.description.trim().length > 0){
+           if(sub_item.feedback.description.toString().trim().length > 0){
                  temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px; "> <span class="left-text" style="background-color:#e2401c; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
            }
 
