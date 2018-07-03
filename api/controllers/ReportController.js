@@ -814,7 +814,7 @@ module.exports = {
             var need_maintance = meter_data[i].description ? (meter_data[i].description.toLowerCase() == 'true' ? 'Need maintenance' : '') : '';
             var temp_needmaintaince_html = '';
             if(need_maintance){
-              temp_needmaintaince_html ='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="background-color:#d95858; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
+              temp_needmaintaince_html ='<div style="width: 100%; display:block; margin-top: 10px;"> <span class="left-text" style="background-color:#e2401c; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
             }
 
              meter_html += '<tr><td><div class="img-inline-wrapper">' +
@@ -1028,14 +1028,19 @@ module.exports = {
 
            var temp_sub_items_html = '<div class="divrow">' +
              '<div style="width: 30%; display:inline-block"><span class="left-text">'+ sub_item.subitem.item_name +'</span></div>' +
-             '<div style="width: 10%; display:inline-block"><span class="left-text">'+ option +'</span></div>' +
-             '<div style="width: 60%; display:inline-block"><span class="left-text">'+ desc +'</span></div>' +
+             '<div style="width: 20%; display:inline-block"><span class="left-text">'+ option +'</span></div>' +
+             '<div style="width: 50%; display:inline-block"><span class="left-text">'+ desc +'</span></div>' +
            '</div>';
 
-           if(sub_item.feedback.description && sub_item.feedback.description.toString().trim().length > 0){
+           if(need_maintance){
                  temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px; "> <span class="left-text" style="background-color:#e2401c; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
            }
 
+           sails.log(master_item.master.name);
+           sails.log(sub_item.feedback.option);
+           sails.log(sub_item.feedback.comment);
+           sails.log(need_maintance);
+           sails.log('------');
 
            if(!sub_item.feedback.option && !sub_item.feedback.comment && !need_maintance){
 
@@ -1091,8 +1096,6 @@ module.exports = {
 
         } //end master item loop
 
-        sails.log(master_item.master.name);
-        sails.log(master_item);
 
         var fgeneral = '';
         if(Object.keys(master_item.feedback_general).length === 0 && master_item.feedback_general.constructor === Object ){
@@ -1119,8 +1122,8 @@ module.exports = {
              '</div>' +
              '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
                   '<div class="divtable" style="width:30%; display: inline-block;">&nbsp;</div>' +
-                  '<div class="divtable" style="width:10%; display: inline-block;">Condition</div>' +
-                  '<div class="divtable" style="width:60%; display: inline-block;">Comments</div>' +
+                  '<div class="divtable" style="width:20%; display: inline-block;">Condition</div>' +
+                  '<div class="divtable" style="width:50%; display: inline-block;">Comments</div>' +
                 '<div>' +
                 sub_items_html +
          '</div></div></div></div>';
@@ -1180,8 +1183,8 @@ module.exports = {
 
         var temp_sub_items_html = '<div class="divrow">' +
            '<div style="width: 30%; display:inline-block"><span class="left-text">'+ master_item.master.name +'</span></div>' +
-           '<div style="width: 30%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
-           '<div style="width: 40%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
+           '<div style="width: 20%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
+           '<div style="width: 50%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
          '</div>';
 
          if(master_item.feedback.description){
@@ -1253,8 +1256,8 @@ module.exports = {
              '</div>' +
              '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
                   '<div class="divtable" style="width:30%; display: inline-block;">&nbsp;</div>' +
-                  '<div class="divtable" style="width:30%; display: inline-block;">Condition</div>' +
-                  '<div class="divtable" style="width:40%; display: inline-block;">Comments</div>' +
+                  '<div class="divtable" style="width:20%; display: inline-block;">Condition</div>' +
+                  '<div class="divtable" style="width:50%; display: inline-block;">Comments</div>' +
                 '<div>' +
                 sub_items_html +
          '</div></div></div></div>';
