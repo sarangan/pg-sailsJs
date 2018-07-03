@@ -1043,6 +1043,7 @@ module.exports = {
            sails.log(sub_item.feedback.option);
            sails.log(sub_item.feedback.comment);
            sails.log(need_maintance);
+           sails.log(sub_item.photos.length);
 
 
            if(!sub_item.feedback.option && !sub_item.feedback.comment && !need_maintance){
