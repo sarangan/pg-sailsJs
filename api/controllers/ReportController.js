@@ -1045,7 +1045,7 @@ module.exports = {
            sails.log(need_maintance);
 
 
-           if(!sub_item.feedback.option && !sub_item.feedback.comment && !need_maintance){
+           if(!sub_item.feedback.option && !sub_item.feedback.comment && !need_maintance && sub_item.photos && sub_item.photos.length > 0  ){
 
              sub_items_html += '';
              sails.log('not exists');
@@ -1108,7 +1108,7 @@ module.exports = {
           fgeneral = master_item.feedback_general.comment?master_item.feedback_general.comment:'';
         }
 
-        if(!fgeneral){
+        if(fgeneral){
           check_master_item_data_exists = true;
         }
 
@@ -2389,7 +2389,7 @@ module.exports = {
               encoding : 'utf-8',
               // marginBottom: '10mm',
               // marginTop: '10mm',
-              headerHtml: 'http://propertyground.co.uk/header.php?address='+ encodeURIComponent(property_info.address_1) +'&type=' + encodeURIComponent(property_info.report_type),
+              headerHtml: 'http://propertyground.co.uk/header.php?address='+ encodeURIComponent(property_info.address_1 + ' ' + property_info.address_2) +'&type=' + encodeURIComponent(property_info.report_type),
               //headerHtml: 'http://propertyground.co.uk/header.php?address=sara&type=assss',
               footerHtml:  'http://propertyground.co.uk/footer.html',
               //output: 'report.pdf'
