@@ -1386,7 +1386,7 @@ module.exports = {
                '</div>';
 
                if(need_maintance){
-                 temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="background-color:#d95858; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
+                 temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="background-color:#e2401c; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
                }
 
                if(!sub_item.feedback.option && !sub_item.feedback.comment && !need_maintance){
@@ -1460,7 +1460,7 @@ module.exports = {
                 '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
                      '<div class="divtable" style="width:20%; display: inline-block;">&nbsp;</div>' +
                      '<div class="divtable" style="width:15%; display: inline-block;">Condition</div>' +
-                     '<div class="divtable" style="width:35%; display: inline-block; text-align: center; ">Description</div>' +
+                     '<div class="divtable" style="width:35%; display: inline-block; text-align: center; ">Comment</div>' +
                      '<div class="divtable" style="width:30%; display: inline-block;">&nbsp;</div>' +
                    '<div>' +
                    sub_items_html +
@@ -1563,7 +1563,7 @@ module.exports = {
              '</div>';
 
              if(need_maintance){
-               temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="background-color:#d95858; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
+               temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="background-color:#e2401c; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
              }
 
              if(!master_item.feedback.option && !master_item.feedback.description ){
@@ -1619,10 +1619,10 @@ module.exports = {
                    '</span>' +
                  '</div>' +
                  '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
-                      '<div class="divtable" style="width:20%; display: inline-block;">&nbsp;Item</div>' +
+                      '<div class="divtable" style="width:20%; display: inline-block;">&nbsp;</div>' +
                       '<div class="divtable" style="width:15%; display: inline-block;">Condition</div>' +
-                      '<div class="divtable" style="width:35%; display: inline-block; text-align: center; ">Description</div>' +
-                      '<div class="divtable" style="width:30%; display: inline-block;">Image</div>' +
+                      '<div class="divtable" style="width:35%; display: inline-block; text-align: center;">Comment</div>' +
+                      '<div class="divtable" style="width:30%; display: inline-block;">&nbsp;</div>' +
                     '<div>' +
                     sub_items_html +
              '</div></div>'+
@@ -1741,7 +1741,7 @@ module.exports = {
                '</div>';
 
                if(need_maintance){
-                 temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="background-color:#d95858; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
+                 temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="background-color:#e2401c; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
                }
 
                if(!sub_item.feedback.option && !sub_item.feedback.comment && !need_maintance){
@@ -1878,7 +1878,7 @@ module.exports = {
              '</div>';
 
              if(need_maintance){
-               temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="background-color:#d95858; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
+               temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="background-color:#e2401c; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
              }
 
             if(!master_item.feedback.option && !master_item.feedback.comment && !need_maintance){
@@ -1948,7 +1948,7 @@ module.exports = {
              '</div>';
 
              if(need_maintance){
-               temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="background-color:#d95858; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
+               temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="background-color:#e2401c; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
              }
 
              if(!sub_item.feedback.option && !sub_item.feedback.comment && !need_maintance){
@@ -2017,7 +2017,7 @@ module.exports = {
            '</div>';
 
            if(need_maintance){
-             temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="background-color:#d95858; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
+             temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="background-color:#e2401c; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
            }
 
            if(!master_item.feedback.option && !master_item.feedback.description ){
@@ -2051,6 +2051,281 @@ module.exports = {
 
 
     }///style 4 end
+    else if(report_settings.items_details_layout == 'STYLE 5'){
+
+      if(master_item.type == 'SUB' ){
+
+        var top_photos = '';
+        if(master_item.temp_top_photos){
+
+          for(var j =0, tl = master_item.temp_top_photos.length; j < tl ; j++){
+
+            var photo_date = '';
+            if(master_item.temp_top_photos[j].mb_createdAt == '0000-00-00 00:00:00' ||  !master_item.temp_top_photos[j].mb_createdAt ){
+              photo_date = master_item.temp_top_photos[j].createdAt;
+            }
+            else{
+              photo_date = master_item.temp_top_photos[j].mb_createdAt;
+            }
+            if(report_settings.show_photo_date_time != 1){
+              photo_date = '';
+            }
+            else{
+              photo_date = photo_date.toISOString().slice(0, 19).replace('T', ' ');
+            }
+
+            top_photos += '<div style="width: 25%; padding: 10px; background-color: #e1e1e1; display: inline-block; max-width: 300px;">'+
+              '<img src="'+ server_image_path +  property_id + '/' + 'report_300_' + (master_item.temp_top_photos[j].file_name.substr(0, master_item.temp_top_photos[j].file_name.lastIndexOf('.')) || master_item.temp_top_photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />' +
+              '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
+              '<div>' +
+              '<a href="'+ server_image_path +  property_id + '/' + temp_master_items[i].temp_top_photos[j].file_name + '">Ref'+ (j + 1) +'</a>' +
+              '</div></div>';
+
+              if(j >= 2){
+                break;
+              }
+          }
+        }
+
+
+        var sub_items_html = '';
+        for(var j =0, sl = master_item.sub.length; j < sl ; j++){ // sub item loop
+
+          var sub_item = master_item.sub[j];
+
+          var option = '-';
+          var desc = '-';
+          var need_maintance = '';
+
+          if(Object.keys(sub_item.feedback).length === 0 && sub_item.feedback.constructor === Object ){
+            //is empty object
+            option = '-';
+            desc = '-';
+          }
+          else{
+            option =  sub_item.feedback.option? sub_item.feedback.option : '-';
+            desc = sub_item.feedback.comment? sub_item.feedback.comment: '-';
+            need_maintance = sub_item.feedback.description ? (sub_item.feedback.description.toLowerCase() == 'true' ? 'Need maintenance' : '') : '';
+          }
+
+
+          var photos_html = '';
+          if(sub_item.photos){
+
+              for(var l =0, pl = sub_item.photos.length; l < pl ; l++){
+
+                var photo_date = '';
+                if(sub_item.photos[l].mb_createdAt == '0000-00-00 00:00:00' ||  !sub_item.photos[l].mb_createdAt ){
+                  photo_date = sub_item.photos[l].createdAt;
+                }
+                else{
+                  photo_date = sub_item.photos[l].mb_createdAt;
+                }
+                if(report_settings.show_photo_date_time != 1){
+                  photo_date = '';
+                }
+                else{
+                  photo_date = photo_date.toISOString().slice(0, 19).replace('T', ' ');
+                }
+
+
+                if(sub_item.photos[l].file_name){
+                  photos_html = '<div class="img-inline-wrapper">' +
+                     '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
+                     '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
+                     '</div>';
+                     break;
+                }
+
+              }
+
+
+         }
+
+
+
+           var temp_sub_items_html = '<div class="divrow">' +
+             '<div style="width: 20%; display:inline-block"><span class="left-text">'+ sub_item.subitem.item_name +'</span></div>' +
+             '<div style="width: 15%; display:inline-block"><span class="left-text">'+ option +'</span></div>' +
+             '<div style="width: 35%; display:inline-block"><span class="left-text">'+ desc +'</span></div>' +
+             '<div style="width: 30%; display:inline-block"><span class="left-text">'+ photos_html +'</span></div>' +
+           '</div>';
+
+           if(need_maintance){
+             temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="background-color:#e2401c; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
+           }
+
+           if(!sub_item.feedback.option && !sub_item.feedback.comment && !need_maintance){
+             sub_items_html += '';
+           }
+           else{
+             sub_items_html += temp_sub_items_html;
+             check_master_item_data_exists = true;
+           }
+
+
+        }
+
+        var fgeneral = '';
+        if(Object.keys(master_item.feedback_general).length === 0 && master_item.feedback_general.constructor === Object ){
+          fgeneral = master_item.feedback_general.comment?master_item.feedback_general.comment:'';
+        }
+
+        if(fgeneral){
+          check_master_item_data_exists = true;
+        }
+
+
+        if(check_master_item_data_exists){
+          master_html +='<div class="chapter">' +
+           '<h1 class="sub-heading">' + master_item.master.name + '</h1>' +
+           '<hr/><div style="margin:0; width:100%;">' +
+            '<div style="margin-top: 30px; margin-bottom: 10px; width:100%;">' +
+               top_photos +
+             '</div>' +
+            ' <div>' +
+               '<span>' +
+                fgeneral +
+               '</span>' +
+             '</div>' +
+             '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
+                  '<div class="divtable" style="width:20%; display: inline-block;">&nbsp;Item</div>' +
+                  '<div class="divtable" style="width:15%; display: inline-block;">Condition</div>' +
+                  '<div class="divtable" style="width:35%; display: inline-block; text-align: center;">Description</div>' +
+                  '<div class="divtable" style="width:30%; display: inline-block;">Image</div>' +
+                '<div>' +
+                sub_items_html +
+         '</div></div>'+
+         '</div></div>';
+        }
+
+
+
+      }
+      else if(master_item.type == 'ITEM' ){
+        // item table
+        var sub_items_html = '';
+        var top_photos = '';
+        if(master_item.photos){
+          for(var j =0, tl = master_item.photos.length; j < tl ; j++){
+            var photo_date = '';
+            if(master_item.photos[j].mb_createdAt == '0000-00-00 00:00:00' ||  !master_item.photos[j].mb_createdAt ){
+              photo_date = master_item.photos[j].createdAt;
+            }
+            else{
+              photo_date = master_item.photos[j].mb_createdAt;
+            }
+
+            if(report_settings.show_photo_date_time != 1){
+              photo_date = '';
+            }
+            else{
+              photo_date = photo_date.toISOString().slice(0, 19).replace('T', ' ');
+            }
+
+            top_photos += '<div style="width: 25%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px;">'+
+              '<img src="'+ server_image_path +  property_id + '/' + 'report_300_' + (master_item.photos[j].file_name.substr(0, master_item.photos[j].file_name.lastIndexOf('.')) || master_item.photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />' +
+              '<div style="font-style: italic; color: #a0a0a0;">'+ photo_date +'</div>'+
+              '<div>' +
+              '<a href="'+ server_image_path +  property_id + '/' + temp_master_items[i].photos[j].file_name + '">Ref'+ (j + 1) +'</a>' +
+              '</div></div>';
+
+              if(j > 2){
+                break;
+              }
+          }
+        }
+
+        var option = '-';
+        var desc = '-';
+        var need_maintance = '';
+
+        if(Object.keys(master_item.feedback).length === 0 && master_item.feedback.constructor === Object ){
+          option = '-';
+          desc = '-';
+        }
+        else{
+          option =  master_item.feedback.option? master_item.feedback.option : '-';
+          desc = master_item.feedback.comment? master_item.feedback.comment: '-';
+          need_maintance = master_item.feedback.description ? (master_item.feedback.description.toLowerCase() == 'true' ? 'Need maintenance' : '') : '';
+        }
+
+        var photos_html = '';
+        if(master_item.photos){
+            for(var l =0, pl = master_item.photos.length; l < pl ; l++){
+
+              var photo_date = '';
+              if(master_item.photos[l].mb_createdAt == '0000-00-00 00:00:00' ||  !master_item.photos[l].mb_createdAt ){
+                photo_date = master_item.photos[l].createdAt;
+              }
+              else{
+                photo_date = master_item.photos[l].mb_createdAt;
+              }
+              if(report_settings.show_photo_date_time != 1){
+                photo_date = '';
+              }
+              else{
+                photo_date = photo_date.toISOString().slice(0, 19).replace('T', ' ');
+              }
+
+
+
+              if(master_item.photos[l].file_name){
+                photos_html = '<div class="img-inline-wrapper">' +
+                   '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (master_item.photos[l].file_name.substr(0, master_item.photos[l].file_name.lastIndexOf('.')) || master_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
+                   '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
+                   '</div>';
+                   break;
+              }
+
+            }
+       }
+
+        var temp_sub_items_html = '<div class="divrow">' +
+           '<div style="width: 20%; display:inline-block"><span class="left-text">'+ master_item.master.name +'</span></div>' +
+           '<div style="width: 15%; display:inline-block"> <span class="left-text">'+ option +'</span></div>' +
+           '<div style="width: 35%; display:inline-block"> <span class="left-text">'+ desc +'</span></div>' +
+           '<div style="width: 30%; display:inline-block"> <span class="left-text">'+ photos_html +'</span></div>' +
+         '</div>';
+
+         if(need_maintance){
+           temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="background-color:#e2401c; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
+         }
+
+        if(!master_item.feedback.option && !master_item.feedback.comment && !need_maintance){
+          sub_items_html += '';
+        }
+        else{
+          sub_items_html += temp_sub_items_html;
+          check_master_item_data_exists = true;
+        }
+
+        if(check_master_item_data_exists){
+          master_html +='<div class="chapter">' +
+           '<h1 class="sub-heading">' + master_item.master.name + '</h1>' +
+           '<hr/><div style="margin:0; width:100%;">' +
+            '<div style="margin-top: 20px; margin-bottom: 20px; width:100%;">' +
+               top_photos +
+             '</div>' +
+            ' <div class="rt-2-des">' +
+               '<span>' +
+               '</span>' +
+             '</div>' +
+             '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
+                  '<div class="divtable" style="width:20%; display: inline-block;">&nbsp;Item</div>' +
+                  '<div class="divtable" style="width:15%; display: inline-block;">Condition</div>' +
+                  '<div class="divtable" style="width:35%; display: inline-block; text-align:center;">Description</div>' +
+                  '<div class="divtable" style="width:30%; display: inline-block;">Image</div>' +
+                '<div>' +
+                sub_items_html +
+         '</div></div>'+
+         '</div></div>';
+        }
+
+      } //item end
+
+
+    }//style 5 end
 
 
 
