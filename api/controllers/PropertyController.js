@@ -5596,7 +5596,7 @@ module.exports = {
 									Coupons.find({coupon_text: coupon_code, status: 1 }).exec(function(err, coupon){
 											if(err) return res.json(err);
 
-											//sails.log(coupon);
+											//sails.log(coupon[0]);
 
 											if(coupon.length > 0){
 
@@ -5607,20 +5607,13 @@ module.exports = {
 												Coupons.update({coupon_id: coupon[0].coupon_id }, data).exec(function afterwards(err, updated){
 													if (err) return res.json(err);
 
-													if(coupon[0].package_id == 1000){ // only for sliver reports based on report
-														var sliver_data = {
-															company_id: user.company_id
-														};
-														Sliver_report_log.create(sliver_data).exec(function(err, user) {
-														});
-							            }
-
 													var subs_data = {
 														company_id: user.company_id,
 														splan_id: coupon[0].package_id
 													};
-													Subscriptions.create(sliver_data).exec(function(err, user) {
-													});							            
+
+													Subscriptions.create(subs_data).exec(function(err, user) {
+													});
 
 													return res.json({status: 1, coupon: coupon});
 
