@@ -1045,7 +1045,7 @@ module.exports = {
            sails.log(need_maintance);
 
 
-           if(!sub_item.feedback.option && !sub_item.feedback.comment && !need_maintance && !sub_item.photos && sub_item.photos.length == 0  ){
+           if(!sub_item.feedback.option && !sub_item.feedback.comment && !need_maintance){
 
              sub_items_html += '';
              sails.log('not exists');
