@@ -1449,7 +1449,7 @@ module.exports = {
              master_html +='<div class="chapter">' +
               '<h1 class="sub-heading">' + master_item.master.name + '</h1>' +
               '<hr/><div style="margin:0; width:100%;">' +
-               '<div style="margin-top: 30px; margin-bottom: 10px; width:100%;">' +
+               '<div style="margin-top: 5px; margin-bottom: 2px; width:100%;">' +
                   top_photos +
                 '</div>' +
                ' <div>' +
