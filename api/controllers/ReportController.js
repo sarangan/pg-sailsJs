@@ -1778,10 +1778,10 @@ module.exports = {
                    '</span>' +
                  '</div>' +
                  '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
-                      '<div class="divtable" style="width:20%; display: inline-block;">&nbsp;Item</div>' +
+                      '<div class="divtable" style="width:20%; display: inline-block;">&nbsp;</div>' +
                       '<div class="divtable" style="width:15%; display: inline-block;">Condition</div>' +
-                      '<div class="divtable" style="width:35%; display: inline-block; text-align: center;">Description</div>' +
-                      '<div class="divtable" style="width:30%; display: inline-block;">Image</div>' +
+                      '<div class="divtable" style="width:35%; display: inline-block; text-align: center;">Comment</div>' +
+                      '<div class="divtable" style="width:30%; display: inline-block;">&nbsp;</div>' +
                     '<div>' +
                     sub_items_html +
              '</div></div>'+
@@ -1901,10 +1901,10 @@ module.exports = {
                    '</span>' +
                  '</div>' +
                  '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
-                      '<div class="divtable" style="width:20%; display: inline-block;">&nbsp;Item</div>' +
+                      '<div class="divtable" style="width:20%; display: inline-block;">&nbsp;</div>' +
                       '<div class="divtable" style="width:15%; display: inline-block;">Condition</div>' +
-                      '<div class="divtable" style="width:35%; display: inline-block; text-align:center;">Description</div>' +
-                      '<div class="divtable" style="width:30%; display: inline-block;">Image</div>' +
+                      '<div class="divtable" style="width:35%; display: inline-block; text-align:center;">Comment</div>' +
+                      '<div class="divtable" style="width:30%; display: inline-block;">&nbsp;</div>' +
                     '<div>' +
                     sub_items_html +
              '</div></div>'+
@@ -1982,9 +1982,9 @@ module.exports = {
                  '</span>' +
                '</div>' +
                '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
-                    '<div class="divtable" style="width:30%; display: inline-block;">&nbsp;Item</div>' +
+                    '<div class="divtable" style="width:30%; display: inline-block;">&nbsp;</div>' +
                     '<div class="divtable" style="width:20%; display: inline-block;">Condition</div>' +
-                    '<div class="divtable" style="width:50%; display: inline-block;">Description</div>' +
+                    '<div class="divtable" style="width:50%; display: inline-block;">Comment</div>' +
                   '<div>' +
                   sub_items_html +
            '</div></div></div></div>';
@@ -2037,9 +2037,9 @@ module.exports = {
                '</span>' +
              '</div>' +
              '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
-                  '<div class="divtable" style="width:30%; display: inline-block;">&nbsp;Item</div>' +
+                  '<div class="divtable" style="width:30%; display: inline-block;">&nbsp;</div>' +
                   '<div class="divtable" style="width:20%; display: inline-block;">Condition</div>' +
-                  '<div class="divtable" style="width:50%; display: inline-block;">Description</div>' +
+                  '<div class="divtable" style="width:50%; display: inline-block;">Comment</div>' +
                 '<div>' +
                 sub_items_html +
          '</div></div></div></div>';
@@ -2052,6 +2052,25 @@ module.exports = {
 
     }///style 4 end
     else if(report_settings.items_details_layout == 'STYLE 5'){
+
+      var hex = report_settings.table_header_bg_color;
+
+      hex = String(hex).replace(/[^0-9a-f]/gi, '');
+      if (hex.length < 6) {
+        hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+      }
+      lum = lum || 0;
+
+      // convert to decimal and change luminosity
+      var rgb = "#", c, i;
+      for (i = 0; i < 3; i++) {
+        c = parseInt(hex.substr(i*2,2), 16);
+        c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16);
+        rgb += ("00"+c).substr(c.length);
+      }
+
+      var table_header_bg_color_light = rgb;
+
 
       if(master_item.type == 'SUB' ){
 
@@ -2130,11 +2149,10 @@ module.exports = {
 
 
                 if(sub_item.photos[l].file_name){
-                  photos_html = '<div class="img-inline-wrapper">' +
+                  photos_html += '<div class="img-inline-wrapper">' +
                      '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                      '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
                      '</div>';
-                     break;
                 }
 
               }
@@ -2142,18 +2160,19 @@ module.exports = {
 
          }
 
-
+          //'<div style="width: 35%; display:inline-block"><span class="left-text">'+ desc +'</span></div>' +
+          //'<div style="width: 30%; display:inline-block"><span class="left-text">'+ photos_html +'</span></div>' +
 
            var temp_sub_items_html = '<div class="divrow">' +
-             '<div style="width: 20%; display:inline-block"><span class="left-text">'+ sub_item.subitem.item_name +'</span></div>' +
-             '<div style="width: 15%; display:inline-block"><span class="left-text">'+ option +'</span></div>' +
-             '<div style="width: 35%; display:inline-block"><span class="left-text">'+ desc +'</span></div>' +
-             '<div style="width: 30%; display:inline-block"><span class="left-text">'+ photos_html +'</span></div>' +
+             '<div style="width: 50%; display:inline-block; color:' + report_settings.table_header_color + '; background-color:' + table_header_bg_color_light +' "><span class="left-text">'+ sub_item.subitem.item_name  + ' ' +  master_item.master.name +'</span></div>' +
+             '<div style="width: 50%; display:inline-block"><span class="left-text" style="text-transform: upper;">'+ option +' </span> Condition</div>' +
            '</div>';
 
-           if(need_maintance){
-             temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="background-color:#e2401c; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
-           }
+           temp_sub_items_html += photos_html;
+
+           // if(need_maintance){
+           //   temp_sub_items_html +='<div style="width: 100%; display:block; padding: 10px;"> <span class="left-text" style="background-color:#e2401c; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
+           // }
 
            if(!sub_item.feedback.option && !sub_item.feedback.comment && !need_maintance){
              sub_items_html += '';
@@ -2164,7 +2183,7 @@ module.exports = {
            }
 
 
-        }
+        }//end sub
 
         var fgeneral = '';
         if(Object.keys(master_item.feedback_general).length === 0 && master_item.feedback_general.constructor === Object ){
@@ -2176,11 +2195,12 @@ module.exports = {
         }
 
 
+
         if(check_master_item_data_exists){
           master_html +='<div class="chapter">' +
-           '<h1 class="sub-heading">' + master_item.master.name + '</h1>' +
+           '<h1 class="sub-heading" style=" font-size: 16px; color:' + report_settings.table_header_color + '; background-color:' + report_settings.table_header_bg_color + '; ">' + master_item.master.name + '</h1>' +
            '<hr/><div style="margin:0; width:100%;">' +
-            '<div style="margin-top: 30px; margin-bottom: 10px; width:100%;">' +
+            '<div style="margin-top: 5px; margin-bottom: 5px; width:100%;">' +
                top_photos +
              '</div>' +
             ' <div>' +
@@ -2189,10 +2209,10 @@ module.exports = {
                '</span>' +
              '</div>' +
              '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
-                  '<div class="divtable" style="width:20%; display: inline-block;">&nbsp;Item</div>' +
+                  '<div class="divtable" style="width:20%; display: inline-block;">&nbsp;</div>' +
                   '<div class="divtable" style="width:15%; display: inline-block;">Condition</div>' +
-                  '<div class="divtable" style="width:35%; display: inline-block; text-align: center;">Description</div>' +
-                  '<div class="divtable" style="width:30%; display: inline-block;">Image</div>' +
+                  '<div class="divtable" style="width:35%; display: inline-block; text-align: center;">Comment</div>' +
+                  '<div class="divtable" style="width:30%; display: inline-block;">&nbsp;</div>' +
                 '<div>' +
                 sub_items_html +
          '</div></div>'+
