@@ -991,7 +991,7 @@ module.exports = {
 
             //sails.log(server_image_path +  property_id + '/' + 'report_300_' + (master_item.temp_top_photos[j].file_name.substr(0, master_item.temp_top_photos[j].file_name.lastIndexOf('.')) || master_item.temp_top_photos[j].file_name) + '.jpg')
 
-            top_photos += '<div style="width: 25%; padding: 10px; background-color: #ffffff; display: inline-block; max-width: 300px; margin-bottom: 20px; margin-left: 10px; ">'+
+            top_photos += '<div style="width: 25%; padding: 10px; background-color: #ffffff; display: inline-block; max-width: 300px; margin-bottom: 5px; margin-left: 10px; ">'+
               '<img src="'+ server_image_path +  property_id + '/' + 'report_300_' + (master_item.temp_top_photos[j].file_name.substr(0, master_item.temp_top_photos[j].file_name.lastIndexOf('.')) || master_item.temp_top_photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />' +
               '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
               '<div>' +
@@ -1112,7 +1112,7 @@ module.exports = {
           master_html +='<div class="chapter">' +
            '<h1 class="sub-heading">' + master_item.master.name + '</h1>' +
            '<hr/><div>' +
-            '<div style="margin-top: 30px; margin-bottom: 10px; width:100%;">' +
+            '<div style="margin-top: 10px; margin-bottom: 10px; width:100%;">' +
                top_photos +
              '</div>' +
             ' <div>' +
@@ -1154,7 +1154,7 @@ module.exports = {
               photo_date = photo_date.toISOString().slice(0, 19).replace('T', ' ');
             }
 
-            top_photos += '<div style="width: 25%; padding: 10px; background-color: #ffffff; display: inline-block; margin: 5px; max-width: 300px;  margin-bottom: 20px; margin-left: 10px;">'+
+            top_photos += '<div style="width: 25%; padding: 10px; background-color: #ffffff; display: inline-block; margin: 5px; max-width: 300px;  margin-bottom: 10px; margin-left: 10px;">'+
               '<img src="'+ server_image_path +  property_id + '/' + 'report_300_' + (master_item.photos[j].file_name.substr(0, master_item.photos[j].file_name.lastIndexOf('.')) || master_item.photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />' +
               '<div style="font-style: italic; color: #a0a0a0;">'+ photo_date +'</div>'+
               '<div>' +
@@ -1247,7 +1247,7 @@ module.exports = {
           master_html +='<div class="chapter">' +
            '<h1 class="sub-heading">' + master_item.master.name + '</h1>' +
            '<hr/><div>' +
-            '<div style="margin-top: 20px; margin-bottom: 20px; width:100%;">' +
+            '<div style="margin-top: 10px; margin-bottom: 20px; width:100%;">' +
                top_photos +
              '</div>' +
             ' <div class="rt-2-des">' +
