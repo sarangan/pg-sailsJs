@@ -1123,7 +1123,7 @@ module.exports = {
              '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
                   '<div class="divtable" style="width:30%; display: inline-block;">&nbsp;</div>' +
                   '<div class="divtable" style="width:20%; display: inline-block;">Condition</div>' +
-                  '<div class="divtable" style="width:50%; display: inline-block;">Comments</div>' +
+                  '<div class="divtable" style="width:50%; display: inline-block;">Comment</div>' +
                 '<div>' +
                 sub_items_html +
          '</div></div></div></div>';
@@ -1257,7 +1257,7 @@ module.exports = {
              '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
                   '<div class="divtable" style="width:30%; display: inline-block;">&nbsp;</div>' +
                   '<div class="divtable" style="width:20%; display: inline-block;">Condition</div>' +
-                  '<div class="divtable" style="width:50%; display: inline-block;">Comments</div>' +
+                  '<div class="divtable" style="width:50%; display: inline-block;">Comment</div>' +
                 '<div>' +
                 sub_items_html +
          '</div></div></div></div>';
