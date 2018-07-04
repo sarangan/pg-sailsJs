@@ -2251,10 +2251,10 @@ module.exports = {
           master_html +='<div class="chapter">' +
            stlye5_header +
                '<div style="margin:0; width:100%;">' +
-                      '<div style="margin-top: 5px; margin-bottom: 5px; width:50%;">' +
+                      '<div style="margin-top: 5px; margin-bottom: 5px; width:50%; display: inline-block; vertical-align: top;">' +
                           top_photos +
                        '</div>' +
-                       '<div style="margin-top: 5px; margin-bottom: 5px; width:50%;">' +
+                       '<div style="margin-top: 5px; margin-bottom: 5px; width:50%; display: inline-block; vertical-align: top;">' +
                            '<span>' +
                             fgeneral +
                            '</span>' +
