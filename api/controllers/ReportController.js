@@ -2093,7 +2093,7 @@ module.exports = {
       if(master_item.type == 'SUB' ){
 
         sails.log('i am in sub');
-        sails.log(get_master_name);
+        sails.log(master_item.master.name);
         sails.log('*********************');
 
         var top_photos = '';
