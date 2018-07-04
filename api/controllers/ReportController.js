@@ -2054,7 +2054,7 @@ module.exports = {
     else if(report_settings.items_details_layout == 'STYLE 5'){ // start style 5
 
       var hex = report_settings.table_header_bg_color;
-      var lum = 0.1;
+      var lum = 0.2;
 
       hex = String(hex).replace(/[^0-9a-f]/gi, '');
       if (hex.length < 6) {
@@ -2198,7 +2198,7 @@ module.exports = {
             temp_sub_items_html_maintaince ='<span class="left-text" style="background-color:#e2401c; color:#ffffff; padding: 1px; paddin-left: 2px; padding-right: 2px; font-size: 13px;">'+ need_maintance +'</span>';
           }
 
-           var temp_sub_items_html = '<div class="divrow" style="padding:0px; padding-left: 10px; margin-bottom: 10px; border:none;color:' + report_settings.table_header_color + '; background-color:' + table_header_bg_color_light +'">' +
+           var temp_sub_items_html = '<div class="divrow" style="padding:0px; padding-left: 10px; margin-bottom: 15px; border:none;color:' + report_settings.table_header_color + '; background-color:' + table_header_bg_color_light +'">' +
              '<div style="width: 40%; display:inline-block; "><span class="left-text" style="font-size: 13px; color:' + report_settings.table_header_color + ';">'+ sub_item.subitem.item_name  + ' (' +  master_item.master.name +')</span></div>' +
              '<div style="width: 20%; display:inline-block"><span class="left-text" style="font-size: 13px; text-transform: uppercase;color:' + report_settings.table_header_color + ';">'+ option +' </span> condition</div>' +
              '<div style="width: 38%; display:inline-block; text-align: right; margin-right: 2px;">' + temp_sub_items_html_maintaince + '</div>' +
@@ -2221,7 +2221,7 @@ module.exports = {
         }//end sub
 
         sails.log('feed back genral');
-        //sails.log(master_item.feedback_general);
+        sails.log(master_item.feedback_general);
         var fgeneral = '';
         if(Object.keys(master_item.feedback_general).length === 0 && master_item.feedback_general.constructor === Object ){
           fgeneral = master_item.feedback_general.comment?master_item.feedback_general.comment:'';
