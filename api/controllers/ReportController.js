@@ -2158,7 +2158,7 @@ module.exports = {
 
                 if(sub_item.photos[l].file_name){
                   photos_html += '<div style="width: 30%; padding: 10px;  background-color: #ffffff; display: inline-block; margin: 5px; max-width: 300px;">' +
-                     '<div style="padding: 1px; background-color: #ffffff; border: 1px solid #000000; display: inline-block;">'
+                     '<div style="padding: 1px; background-color: #ffffff; border: 1px solid #000000; display: inline-block;">' +
                      '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                      '</div>' +
                      '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
