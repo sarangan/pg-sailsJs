@@ -1963,7 +1963,7 @@ module.exports = {
           }
 
           var fgeneral = '';
-          if(Object.keys(master_item.feedback_general).length === 0 && master_item.feedback_general.constructor === Object ){
+          if(Object.keys(master_item.feedback_general).length !== 0 && master_item.feedback_general.constructor === Object ){
             fgeneral = master_item.feedback_general.comment?master_item.feedback_general.comment:'';
           }
 
@@ -2223,7 +2223,7 @@ module.exports = {
         sails.log('feed back genral');
         sails.log(master_item.feedback_general);
         var fgeneral = '';
-        if(Object.keys(master_item.feedback_general).length === 0 && master_item.feedback_general.constructor === Object ){
+        if(Object.keys(master_item.feedback_general).length !== 0 && master_item.feedback_general.constructor === Object ){
           fgeneral = master_item.feedback_general.comment?master_item.feedback_general.comment:'';
         }
 
