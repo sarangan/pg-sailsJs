@@ -2130,6 +2130,7 @@ module.exports = {
                 if(general_item_id == sub_item.photos[l].item_id){
                   //we got general item photo
                   sails.log(sub_item.subitem.type);
+                  sails.log(master_item.master.name);
                   sails.log('we got photos also man');
                   sails.log(sub_item.photos[l].item_id);
                   top_photos = '<div style="width: 200px; height: auto; padding: 10px; background-color: #ffffff; display: inline-block;">'+
@@ -2156,8 +2157,10 @@ module.exports = {
 
 
                 if(sub_item.photos[l].file_name){
-                  photos_html += '<div style="width: 30%; padding: 10px;  background-color: #ffffff; border: 1px solid #000000; display: inline-block; margin: 5px; max-width: 300px;">' +
+                  photos_html += '<div style="width: 30%; padding: 10px;  background-color: #ffffff; display: inline-block; margin: 5px; max-width: 300px;">' +
+                     '<div style="padding: 1px; background-color: #ffffff; border: 1px solid #000000; display: inline-block;">'
                      '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
+                     '</div>' +
                      '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
                      '<div>' +
                      '<a href="'+ server_image_path +  property_id + '/' + sub_item.photos[l].file_name + '">Ref'+ (j + 1) +'</a>' +
@@ -2212,9 +2215,12 @@ module.exports = {
         }
 
 
-        sails.log(!top_photos);
+
 
         if(!top_photos){ // check if exists
+            sails.log('--------------------');
+            sails.log(master_item.master.name);
+            sails.log('i am here to update top photos');
             if(master_item.temp_top_photos){
 
               for(var j =0, tl = master_item.temp_top_photos.length; j < tl ; j++){
