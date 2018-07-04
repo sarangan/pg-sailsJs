@@ -1106,8 +1106,11 @@ module.exports = {
 
 
         var fgeneral = '';
-        if(Object.keys(master_item.feedback_general).length === 0 && master_item.feedback_general.constructor === Object ){
-          fgeneral = master_item.feedback_general.comment?master_item.feedback_general.comment:'';
+        // if(Object.keys(master_item.feedback_general).length === 0 && master_item.feedback_general.constructor === Object ){
+        //   fgeneral = master_item.feedback_general.comment?master_item.feedback_general.comment:'';
+        // }
+        if(master_item.feedback_general && master_item.feedback_general.hasOwnProperty('comment')){
+          fgeneral = master_item.feedback_general.comment ? master_item.feedback_general.comment : '';
         }
 
         if(fgeneral){
@@ -1405,8 +1408,11 @@ module.exports = {
             }
 
             var fgeneral = '';
-            if(Object.keys(master_item.feedback_general).length === 0 && master_item.feedback_general.constructor === Object ){
-              fgeneral = master_item.feedback_general.comment?master_item.feedback_general.comment:'';
+            // if(Object.keys(master_item.feedback_general).length === 0 && master_item.feedback_general.constructor === Object ){
+            //   fgeneral = master_item.feedback_general.comment?master_item.feedback_general.comment:'';
+            // }
+            if(master_item.feedback_general && master_item.feedback_general.hasOwnProperty('comment')){
+              fgeneral = master_item.feedback_general.comment ? master_item.feedback_general.comment : '';
             }
 
             var photos_bottom_html = '';
@@ -1756,8 +1762,12 @@ module.exports = {
             }
 
             var fgeneral = '';
-            if(Object.keys(master_item.feedback_general).length === 0 && master_item.feedback_general.constructor === Object ){
-              fgeneral = master_item.feedback_general.comment?master_item.feedback_general.comment:'';
+            // if(Object.keys(master_item.feedback_general).length === 0 && master_item.feedback_general.constructor === Object ){
+            //   fgeneral = master_item.feedback_general.comment?master_item.feedback_general.comment:'';
+            // }
+
+            if(master_item.feedback_general && master_item.feedback_general.hasOwnProperty('comment')){
+              fgeneral = master_item.feedback_general.comment ? master_item.feedback_general.comment : '';
             }
 
             if(fgeneral){
@@ -1963,8 +1973,12 @@ module.exports = {
           }
 
           var fgeneral = '';
-          if(Object.keys(master_item.feedback_general).length !== 0 && master_item.feedback_general.constructor === Object ){
-            fgeneral = master_item.feedback_general.comment?master_item.feedback_general.comment:'';
+          // if(Object.keys(master_item.feedback_general).length !== 0 && master_item.feedback_general.constructor === Object ){
+          //   fgeneral = master_item.feedback_general.comment?master_item.feedback_general.comment:'';
+          // }
+
+          if(master_item.feedback_general && master_item.feedback_general.hasOwnProperty('comment')){
+            fgeneral = master_item.feedback_general.comment ? master_item.feedback_general.comment : '';
           }
 
           if(fgeneral){
@@ -2235,9 +2249,6 @@ module.exports = {
           check_master_item_data_exists = true;
         }
 
-        sails.log(fgeneral);
-        sails.log(master_item.feedback_general.comment);
-
 
         if(check_master_item_data_exists){
 
@@ -2246,18 +2257,19 @@ module.exports = {
 
           master_html +='<div class="chapter">' +
            stlye5_header +
-           '<div style="margin:0; width:100%;">' +
-              '<div style="margin-top: 5px; margin-bottom: 5px; width:50%;">' +
-                 top_photos +
-               '</div>' +
-            ' <div style="margin-top: 5px; margin-bottom: 5px; width:50%;">' +
-               '<span>' +
-                fgeneral +
-               '</span>' +
-             '</div>' +
+               '<div style="margin:0; width:100%;">' +
+                      '<div style="margin-top: 5px; margin-bottom: 5px; width:50%;">' +
+                          top_photos +
+                       '</div>' +
+                       '<div style="margin-top: 5px; margin-bottom: 5px; width:50%;">' +
+                           '<span>' +
+                            fgeneral +
+                           '</span>' +
+                       '</div>' +
+                '</div><div>' +
                 sub_items_html +
-         '</div></div>'+
-         '</div></div>';
+                '</div>'+
+         '</div>';
         }
 
         //sails.log(master_html);
