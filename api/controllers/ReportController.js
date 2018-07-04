@@ -2068,7 +2068,7 @@ module.exports = {
     else if(report_settings.items_details_layout == 'STYLE 5'){ // start style 5
 
       var hex = report_settings.table_header_bg_color;
-      var lum = 0.2;
+      var lum = 0.3;
 
       hex = String(hex).replace(/[^0-9a-f]/gi, '');
       if (hex.length < 6) {
@@ -2116,7 +2116,7 @@ module.exports = {
               break;
             }
 
-            top_photos = '<div style="width: 200px; height: auto; padding: 10px; background-color: #e1e1e1; display: inline-block;">'+
+            top_photos = '<div style="width: 200px; height: auto; padding: 10px; background-color: #ffffff; display: inline-block;">'+
               '<img src="'+ server_image_path +  property_id + '/' + 'report_300_' + (master_item.temp_top_photos[j].file_name.substr(0, master_item.temp_top_photos[j].file_name.lastIndexOf('.')) || master_item.temp_top_photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />' +
               '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
               '<div>' +
@@ -2161,9 +2161,10 @@ module.exports = {
 
                 if(general_item_id == sub_item.photos[l].item_id){
                   //we got general item photo
+                  sails.log(sub_item.subitem.type);
                   sails.log('we got photos also man');
                   sails.log(sub_item.photos[l].item_id);
-                  top_photos = '<div style="width: 200px; height: auto; padding: 10px; background-color: #e1e1e1; display: inline-block;">'+
+                  top_photos = '<div style="width: 200px; height: auto; padding: 10px; background-color: #ffffff; display: inline-block;">'+
                     '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                     '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
                     '<div>' +
@@ -2187,7 +2188,7 @@ module.exports = {
 
 
                 if(sub_item.photos[l].file_name){
-                  photos_html += '<div class="img-inline-wrapper">' +
+                  photos_html += '<div style="width: 30%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px;">' +
                      '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                      '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
                      '<div>' +
@@ -2251,10 +2252,10 @@ module.exports = {
           master_html +='<div class="chapter">' +
            stlye5_header +
                '<div style="margin:0; width:100%;">' +
-                      '<div style="margin-top: 5px; margin-bottom: 5px; width:50%; display: inline-block; vertical-align: top;">' +
+                      '<div style="margin-top: 5px; margin-bottom: 5px; width:40%; display: inline-block; vertical-align: top;">' +
                           top_photos +
                        '</div>' +
-                       '<div style="margin-top: 5px; margin-bottom: 5px; width:50%; display: inline-block; vertical-align: top;">' +
+                       '<div style="margin-top: 5px; margin-bottom: 5px; width:60%; display: inline-block; vertical-align: top;">' +
                            '<span>' +
                             fgeneral +
                            '</span>' +
@@ -2265,7 +2266,7 @@ module.exports = {
          '</div>';
         }
 
-        sails.log(master_html);
+        //sails.log(master_html);
 
 
 
@@ -2291,8 +2292,8 @@ module.exports = {
               photo_date = photo_date.toISOString().slice(0, 19).replace('T', ' ');
             }
 
-            top_photos += '<div style="width: 25%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px;">'+
-              '<img src="'+ server_image_path +  property_id + '/' + 'report_300_' + (master_item.photos[j].file_name.substr(0, master_item.photos[j].file_name.lastIndexOf('.')) || master_item.photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />' +
+            top_photos += '<div style="width: 25%; padding: 10px; background-color: #ffffff; border: 1px solid #000000; display: inline-block; margin: 5px; max-width: 300px;">'+
+              '<img style="width: 100%; height: auto; max-width: 300px;" src="'+ server_image_path +  property_id + '/' + 'report_300_' + (master_item.photos[j].file_name.substr(0, master_item.photos[j].file_name.lastIndexOf('.')) || master_item.photos[j].file_name) + '.jpg'  + '" alt="img" />' +
               '<div style="font-style: italic; color: #a0a0a0;">'+ photo_date +'</div>'+
               '<div>' +
               '<a href="'+ server_image_path +  property_id + '/' + master_item.photos[j].file_name + '">Ref'+ (j + 1) +'</a>' +
