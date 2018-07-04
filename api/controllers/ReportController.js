@@ -2174,7 +2174,7 @@ module.exports = {
            var temp_sub_items_html = '<div class="divrow" style="padding:0px; padding-left: 10px; border:none;color:' + report_settings.table_header_color + '; background-color:' + table_header_bg_color_light +'">' +
              '<div style="width: 40%; display:inline-block; "><span class="left-text" style="font-size: 13px; color:' + report_settings.table_header_color + ';">'+ sub_item.subitem.item_name  + ' (' +  master_item.master.name +')</span></div>' +
              '<div style="width: 20%; display:inline-block"><span class="left-text" style="font-size: 13px; text-transform: uppercase;color:' + report_settings.table_header_color + ';">'+ option +' </span> Condition</div>' +
-             '<div style="width: 40%; display:inline-block; text-align: right; padding-left: 5px;">' + temp_sub_items_html_maintaince + '</div>' +
+             '<div style="width: 40%; display:inline-block; text-align: center; ">' + temp_sub_items_html_maintaince + '</div>' +
            '</div>';
 
            temp_sub_items_html = temp_sub_items_html.replace(/'/g, ""); // remove additional trailing quotes
