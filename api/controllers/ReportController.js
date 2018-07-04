@@ -2172,6 +2172,7 @@ module.exports = {
              '<div style="width: 50%; display:inline-block"><span class="left-text" style="font-size: 14px; text-transform: uppercase;color:' + report_settings.table_header_color + ';">'+ option +' </span> Condition</div>' +
            '</div>';
 
+           temp_sub_items_html = temp_sub_items_html.replace(/'/g, "");
 
            temp_sub_items_html += photos_html;
 
@@ -2202,8 +2203,12 @@ module.exports = {
 
 
         if(check_master_item_data_exists){
+
+          var stlye5_header = '<div style="padding:1px; padding-left: 10px;width:100%;"><h1 class="sub-heading" style="font-size: 16px;background-color:' + report_settings.table_header_bg_color + ';color:' + report_settings.table_header_color + ';">' + master_item.master.name + '</h1><div>';
+          stlye5_header = stlye5_header.replace(/'/g, "");
+
           master_html +='<div class="chapter">' +
-           '<div style="padding:1px; padding-left: 10px;width:100%;color:' + report_settings.table_header_color + '; background-color:' + report_settings.table_header_bg_color + '; "><h1 class="sub-heading" style="font-size: 16px;color:' + report_settings.table_header_color + ';">' + master_item.master.name + '</h1><div>' +
+           stlye5_header +
            '<hr/><div style="margin:0; width:100%;">' +
             '<div style="margin-top: 5px; margin-bottom: 5px; width:100%;">' +
                top_photos +
