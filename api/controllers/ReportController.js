@@ -2134,9 +2134,15 @@ module.exports = {
           }
 
           var general_item_id = '';
+          sails.log(sub_item.type);
+          sails.log(sub_item.prop_subitem_id);
           if(sub_item.type == 'GENERAL'){
             //we got general item
             general_item_id = sub_item.prop_subitem_id;
+
+            sails.log('GENERAL');
+            sails.log(general_item_id);
+
           }
 
 
@@ -2145,14 +2151,17 @@ module.exports = {
 
               for(var l =0, pl = sub_item.photos.length; l < pl ; l++){
 
-
+                sails.log('photos id');
+                sails.log(sub_item.photos[l].item_id);
                 if(general_item_id == sub_item.photos[l].item_id){
                   //we got general item photo
+                  sails.log('we got photos also man');
+
                   top_photos = '<div style="width: 200px; height: auto; padding: 10px; background-color: #e1e1e1; display: inline-block;">'+
                     '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                     '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
                     '<div>' +
-                    '<a href="'+ server_image_path +  property_id + '/' + sub_item.photos[l].file_name.file_name + '">Ref'+ (j + 1) +'</a>' +
+                    '<a href="'+ server_image_path +  property_id + '/' + sub_item.photos[l].file_name + '">Ref'+ (j + 1) +'</a>' +
                     '</div></div>';
                 }
 
@@ -2176,7 +2185,7 @@ module.exports = {
                      '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                      '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
                      '<div>' +
-                     '<a href="'+ server_image_path +  property_id + '/' + sub_item.photos[l].file_name.file_name + '">Ref'+ (j + 1) +'</a>' +
+                     '<a href="'+ server_image_path +  property_id + '/' + sub_item.photos[l].file_name + '">Ref'+ (j + 1) +'</a>' +
                      '</div></div>';
                 }
 
@@ -2214,6 +2223,8 @@ module.exports = {
 
         }//end sub
 
+        sails.log('feed back genral');
+        sails.log(master_item.feedback_general);
         var fgeneral = '';
         if(Object.keys(master_item.feedback_general).length === 0 && master_item.feedback_general.constructor === Object ){
           fgeneral = master_item.feedback_general.comment?master_item.feedback_general.comment:'';
