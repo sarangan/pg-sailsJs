@@ -2078,6 +2078,7 @@ module.exports = {
 
       if(master_item.type == 'SUB' ){
 
+
         var top_photos = '';
         if(master_item.temp_top_photos){
 
@@ -2097,17 +2098,18 @@ module.exports = {
               photo_date = photo_date.toISOString().slice(0, 19).replace('T', ' ');
             }
 
-            top_photos += '<div style="width: 25%; padding: 10px; background-color: #e1e1e1; display: inline-block; max-width: 300px;">'+
+            if(j >= 1){
+              break;
+            }
+
+            top_photos = '<div style="width: 200px; height: auto; padding: 10px; background-color: #e1e1e1; display: inline-block;">'+
               '<img src="'+ server_image_path +  property_id + '/' + 'report_300_' + (master_item.temp_top_photos[j].file_name.substr(0, master_item.temp_top_photos[j].file_name.lastIndexOf('.')) || master_item.temp_top_photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />' +
               '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
               '<div>' +
               '<a href="'+ server_image_path +  property_id + '/' + master_item.temp_top_photos[j].file_name + '">Ref'+ (j + 1) +'</a>' +
               '</div></div>';
-
-              if(j >= 2){
-                break;
-              }
           }
+
         }
 
 
@@ -2131,11 +2133,28 @@ module.exports = {
             need_maintance = sub_item.feedback.description ? (sub_item.feedback.description.toLowerCase() == 'true' ? 'Need maintenance' : '') : '';
           }
 
+          var general_item_id = '';
+          if(sub_item.type == 'GENERAL'){
+            //we got general item
+            general_item_id = sub_item.prop_subitem_id;
+          }
+
 
           var photos_html = '';
           if(sub_item.photos){
 
               for(var l =0, pl = sub_item.photos.length; l < pl ; l++){
+
+
+                if(general_item_id == sub_item.photos[l].item_id){
+                  //we got general item photo
+                  top_photos = '<div style="width: 200px; height: auto; padding: 10px; background-color: #e1e1e1; display: inline-block;">'+
+                    '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
+                    '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
+                    '<div>' +
+                    '<a href="'+ server_image_path +  property_id + '/' + sub_item.photos[l].file_name.file_name + '">Ref'+ (j + 1) +'</a>' +
+                    '</div></div>';
+                }
 
                 var photo_date = '';
                 if(sub_item.photos[l].mb_createdAt == '0000-00-00 00:00:00' ||  !sub_item.photos[l].mb_createdAt ){
@@ -2156,7 +2175,9 @@ module.exports = {
                   photos_html += '<div class="img-inline-wrapper">' +
                      '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                      '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
-                     '</div>';
+                     '<div>' +
+                     '<a href="'+ server_image_path +  property_id + '/' + sub_item.photos[l].file_name.file_name + '">Ref'+ (j + 1) +'</a>' +
+                     '</div></div>';
                 }
 
               }
@@ -2168,12 +2189,12 @@ module.exports = {
           //'<div style="width: 30%; display:inline-block"><span class="left-text">'+ photos_html +'</span></div>' +
           var temp_sub_items_html_maintaince = '';
           if(need_maintance){
-            temp_sub_items_html_maintaince ='<span class="left-text" style="background-color:#e2401c; color:#ffffff; padding: 1px;font-size: 13px;">'+ need_maintance +'</span>';
+            temp_sub_items_html_maintaince ='<span class="left-text" style="background-color:#e2401c; color:#ffffff; padding: 1px; paddin-left: 2px; padding-right: 2px; font-size: 13px;">'+ need_maintance +'</span>';
           }
 
            var temp_sub_items_html = '<div class="divrow" style="padding:0px; padding-left: 10px; border:none;color:' + report_settings.table_header_color + '; background-color:' + table_header_bg_color_light +'">' +
              '<div style="width: 40%; display:inline-block; "><span class="left-text" style="font-size: 13px; color:' + report_settings.table_header_color + ';">'+ sub_item.subitem.item_name  + ' (' +  master_item.master.name +')</span></div>' +
-             '<div style="width: 20%; display:inline-block"><span class="left-text" style="font-size: 13px; text-transform: uppercase;color:' + report_settings.table_header_color + ';">'+ option +' </span> Condition</div>' +
+             '<div style="width: 20%; display:inline-block"><span class="left-text" style="font-size: 13px; text-transform: uppercase;color:' + report_settings.table_header_color + ';">'+ option +' </span> condition</div>' +
              '<div style="width: 38%; display:inline-block; text-align: right; margin-right: 2px;">' + temp_sub_items_html_maintaince + '</div>' +
            '</div>';
 
@@ -2211,11 +2232,11 @@ module.exports = {
 
           master_html +='<div class="chapter">' +
            stlye5_header +
-           '<hr/><div style="margin:0; width:100%;">' +
-            '<div style="margin-top: 5px; margin-bottom: 5px; width:100%;">' +
-               top_photos +
-             '</div>' +
-            ' <div>' +
+           '<div style="margin:0; width:100%;">' +
+              '<div style="margin-top: 5px; margin-bottom: 5px; width:50%;">' +
+                 top_photos +
+               '</div>' +
+            ' <div style="margin-top: 5px; margin-bottom: 5px; width:50%;">' +
                '<span>' +
                 fgeneral +
                '</span>' +
