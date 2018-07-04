@@ -2153,7 +2153,7 @@ module.exports = {
                 if(general_item_id == sub_item.photos[l].item_id){
                   //we got general item photo
                   sails.log('we got photos also man');
-
+                  sails.log(sub_item.photos[l].item_id);
                   top_photos = '<div style="width: 200px; height: auto; padding: 10px; background-color: #e1e1e1; display: inline-block;">'+
                     '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                     '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
@@ -2198,7 +2198,7 @@ module.exports = {
             temp_sub_items_html_maintaince ='<span class="left-text" style="background-color:#e2401c; color:#ffffff; padding: 1px; paddin-left: 2px; padding-right: 2px; font-size: 13px;">'+ need_maintance +'</span>';
           }
 
-           var temp_sub_items_html = '<div class="divrow" style="padding:0px; padding-left: 10px; marginBottom: 10px; border:none;color:' + report_settings.table_header_color + '; background-color:' + table_header_bg_color_light +'">' +
+           var temp_sub_items_html = '<div class="divrow" style="padding:0px; padding-left: 10px; margin-bottom: 10px; border:none;color:' + report_settings.table_header_color + '; background-color:' + table_header_bg_color_light +'">' +
              '<div style="width: 40%; display:inline-block; "><span class="left-text" style="font-size: 13px; color:' + report_settings.table_header_color + ';">'+ sub_item.subitem.item_name  + ' (' +  master_item.master.name +')</span></div>' +
              '<div style="width: 20%; display:inline-block"><span class="left-text" style="font-size: 13px; text-transform: uppercase;color:' + report_settings.table_header_color + ';">'+ option +' </span> condition</div>' +
              '<div style="width: 38%; display:inline-block; text-align: right; margin-right: 2px;">' + temp_sub_items_html_maintaince + '</div>' +
@@ -2221,7 +2221,7 @@ module.exports = {
         }//end sub
 
         sails.log('feed back genral');
-        sails.log(master_item.feedback_general);
+        //sails.log(master_item.feedback_general);
         var fgeneral = '';
         if(Object.keys(master_item.feedback_general).length === 0 && master_item.feedback_general.constructor === Object ){
           fgeneral = master_item.feedback_general.comment?master_item.feedback_general.comment:'';
@@ -2231,6 +2231,7 @@ module.exports = {
           check_master_item_data_exists = true;
         }
 
+        sails.log(fgeneral);
 
 
         if(check_master_item_data_exists){
