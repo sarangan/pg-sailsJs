@@ -2054,7 +2054,7 @@ module.exports = {
     else if(report_settings.items_details_layout == 'STYLE 5'){ // start style 5
 
       var hex = report_settings.table_header_bg_color;
-      var lum = 0.3;
+      var lum = 0.2;
 
       hex = String(hex).replace(/[^0-9a-f]/gi, '');
       if (hex.length < 6) {
@@ -2209,12 +2209,6 @@ module.exports = {
                 fgeneral +
                '</span>' +
              '</div>' +
-             '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
-                  '<div class="divtable" style="width:20%; display: inline-block;">&nbsp;</div>' +
-                  '<div class="divtable" style="width:15%; display: inline-block;">Condition</div>' +
-                  '<div class="divtable" style="width:35%; display: inline-block; text-align: center;">Comment</div>' +
-                  '<div class="divtable" style="width:30%; display: inline-block;">&nbsp;</div>' +
-                '<div>' +
                 sub_items_html +
          '</div></div>'+
          '</div></div>';
