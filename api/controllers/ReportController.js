@@ -2211,6 +2211,9 @@ module.exports = {
           check_master_item_data_exists = true;
         }
 
+
+        sails.log(!top_photos);
+
         if(!top_photos){ // check if exists
             if(master_item.temp_top_photos){
 
