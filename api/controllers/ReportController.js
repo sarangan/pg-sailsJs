@@ -2223,8 +2223,12 @@ module.exports = {
         sails.log('feed back genral');
         sails.log(master_item.feedback_general);
         var fgeneral = '';
-        if(Object.keys(master_item.feedback_general).length !== 0 && master_item.feedback_general.constructor === Object ){
-          fgeneral = master_item.feedback_general.comment?master_item.feedback_general.comment:'';
+        // if(Object.keys(master_item.feedback_general).length !== 0 && master_item.feedback_general.constructor === Object ){
+        //   fgeneral = master_item.feedback_general.comment ? master_item.feedback_general.comment : '';
+        // }
+
+        if(master_item.feedback_general && master_item.feedback_general.hasOwnProperty('comment')){
+          fgeneral = master_item.feedback_general.comment ? master_item.feedback_general.comment : '';
         }
 
         if(fgeneral){
@@ -2232,6 +2236,7 @@ module.exports = {
         }
 
         sails.log(fgeneral);
+        sails.log(master_item.feedback_general.comment);
 
 
         if(check_master_item_data_exists){
