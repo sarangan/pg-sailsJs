@@ -2168,12 +2168,12 @@ module.exports = {
           //'<div style="width: 30%; display:inline-block"><span class="left-text">'+ photos_html +'</span></div>' +
           var temp_sub_items_html_maintaince = '';
           if(need_maintance){
-            temp_sub_items_html_maintaince ='<span class="left-text" style="background-color:#e2401c; color:#ffffff; padding: 1px;">'+ need_maintance +'</span>';
+            temp_sub_items_html_maintaince ='<span class="left-text" style="background-color:#e2401c; color:#ffffff; padding: 1px;font-size: 13px;">'+ need_maintance +'</span>';
           }
 
            var temp_sub_items_html = '<div class="divrow" style="padding:1px; padding-left: 10px; border:none;color:' + report_settings.table_header_color + '; background-color:' + table_header_bg_color_light +'">' +
-             '<div style="width: 40%; display:inline-block; "><span class="left-text" style="font-size: 14px; color:' + report_settings.table_header_color + ';">'+ sub_item.subitem.item_name  + ' (' +  master_item.master.name +')</span></div>' +
-             '<div style="width: 30%; display:inline-block"><span class="left-text" style="font-size: 14px; text-transform: uppercase;color:' + report_settings.table_header_color + ';">'+ option +' </span> Condition</div>' +
+             '<div style="width: 40%; display:inline-block; "><span class="left-text" style="font-size: 13px; color:' + report_settings.table_header_color + ';">'+ sub_item.subitem.item_name  + ' (' +  master_item.master.name +')</span></div>' +
+             '<div style="width: 30%; display:inline-block"><span class="left-text" style="font-size: 13px; text-transform: uppercase;color:' + report_settings.table_header_color + ';">'+ option +' </span> Condition</div>' +
              '<div style="width: 30%; display:inline-block; text-align: right;">' + temp_sub_items_html_maintaince + '</div>' +
            '</div>';
 
@@ -2206,7 +2206,7 @@ module.exports = {
 
         if(check_master_item_data_exists){
 
-          var stlye5_header = '<div style="padding:3px;width:100%;"><h1 class="sub-heading" style="padding-left: 10px; font-size: 16px;background-color:' + report_settings.table_header_bg_color + ';color:' + report_settings.table_header_color + ';">' + master_item.master.name + '</h1><div>';
+          var stlye5_header = '<div style="width:100%;"><h1 class="sub-heading" style="padding:2px; padding-left: 10px; font-size: 16px;background-color:' + report_settings.table_header_bg_color + ';color:' + report_settings.table_header_color + ';">' + master_item.master.name + '</h1><div>';
           stlye5_header = stlye5_header.replace(/'/g, "");
 
           master_html +='<div class="chapter">' +
@@ -2225,7 +2225,7 @@ module.exports = {
          '</div></div>';
         }
 
-        sails.log(master_html);
+        //sails.log(master_html);
 
 
 
