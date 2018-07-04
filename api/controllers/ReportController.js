@@ -2152,12 +2152,7 @@ module.exports = {
           if(sub_item.subitem.type == 'GENERAL'){
             //we got general item
             general_item_id = sub_item.subitem.prop_subitem_id;
-
-            sails.log('GENERAL');
-            sails.log(general_item_id);
-
           }
-
 
           var photos_html = '';
           if(sub_item.photos){
@@ -2234,8 +2229,6 @@ module.exports = {
 
         }//end sub
 
-        sails.log('feed back genral');
-        sails.log(master_item.feedback_general);
         var fgeneral = '';
         // if(Object.keys(master_item.feedback_general).length !== 0 && master_item.feedback_general.constructor === Object ){
         //   fgeneral = master_item.feedback_general.comment ? master_item.feedback_general.comment : '';
@@ -2272,7 +2265,7 @@ module.exports = {
          '</div>';
         }
 
-        //sails.log(master_html);
+        sails.log(master_html);
 
 
 
