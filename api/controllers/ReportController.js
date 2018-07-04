@@ -2094,38 +2094,6 @@ module.exports = {
 
 
         var top_photos = '';
-        if(master_item.temp_top_photos){
-
-          for(var j =0, tl = master_item.temp_top_photos.length; j < tl ; j++){
-
-            var photo_date = '';
-            if(master_item.temp_top_photos[j].mb_createdAt == '0000-00-00 00:00:00' ||  !master_item.temp_top_photos[j].mb_createdAt ){
-              photo_date = master_item.temp_top_photos[j].createdAt;
-            }
-            else{
-              photo_date = master_item.temp_top_photos[j].mb_createdAt;
-            }
-            if(report_settings.show_photo_date_time != 1){
-              photo_date = '';
-            }
-            else{
-              photo_date = photo_date.toISOString().slice(0, 19).replace('T', ' ');
-            }
-
-            if(j >= 1){
-              break;
-            }
-
-            top_photos = '<div style="width: 200px; height: auto; padding: 10px; background-color: #ffffff; display: inline-block;">'+
-              '<img src="'+ server_image_path +  property_id + '/' + 'report_300_' + (master_item.temp_top_photos[j].file_name.substr(0, master_item.temp_top_photos[j].file_name.lastIndexOf('.')) || master_item.temp_top_photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />' +
-              '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
-              '<div>' +
-              '<a href="'+ server_image_path +  property_id + '/' + master_item.temp_top_photos[j].file_name + '">Ref'+ (j + 1) +'</a>' +
-              '</div></div>';
-          }
-
-        }
-
 
         var sub_items_html = '';
         for(var j =0, sl = master_item.sub.length; j < sl ; j++){ // sub item loop
@@ -2188,7 +2156,7 @@ module.exports = {
 
 
                 if(sub_item.photos[l].file_name){
-                  photos_html += '<div style="width: 30%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px;">' +
+                  photos_html += '<div style="width: 30%; padding: 10px;  background-color: #ffffff; border: 1px solid #000000; display: inline-block; margin: 5px; max-width: 300px;">' +
                      '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                      '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
                      '<div>' +
@@ -2242,6 +2210,40 @@ module.exports = {
         if(fgeneral){
           check_master_item_data_exists = true;
         }
+
+        if(!top_photos){ // check if exists
+            if(master_item.temp_top_photos){
+
+              for(var j =0, tl = master_item.temp_top_photos.length; j < tl ; j++){
+
+                var photo_date = '';
+                if(master_item.temp_top_photos[j].mb_createdAt == '0000-00-00 00:00:00' ||  !master_item.temp_top_photos[j].mb_createdAt ){
+                  photo_date = master_item.temp_top_photos[j].createdAt;
+                }
+                else{
+                  photo_date = master_item.temp_top_photos[j].mb_createdAt;
+                }
+                if(report_settings.show_photo_date_time != 1){
+                  photo_date = '';
+                }
+                else{
+                  photo_date = photo_date.toISOString().slice(0, 19).replace('T', ' ');
+                }
+
+                if(j >= 1){
+                  break;
+                }
+
+                top_photos = '<div style="width: 200px; height: auto; padding: 10px; background-color: #ffffff; display: inline-block;">'+
+                  '<img src="'+ server_image_path +  property_id + '/' + 'report_300_' + (master_item.temp_top_photos[j].file_name.substr(0, master_item.temp_top_photos[j].file_name.lastIndexOf('.')) || master_item.temp_top_photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />' +
+                  '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
+                  '<div>' +
+                  '<a href="'+ server_image_path +  property_id + '/' + master_item.temp_top_photos[j].file_name + '">Ref'+ (j + 1) +'</a>' +
+                  '</div></div>';
+              }
+
+            }
+          }
 
 
         if(check_master_item_data_exists){
