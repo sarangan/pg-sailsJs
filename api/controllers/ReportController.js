@@ -2068,7 +2068,7 @@ module.exports = {
     else if(report_settings.items_details_layout == 'STYLE 5'){ // start style 5
 
       var hex = report_settings.table_header_bg_color;
-      var lum = 0.3;
+      var lum = 0.4;
 
       hex = String(hex).replace(/[^0-9a-f]/gi, '');
       if (hex.length < 6) {
@@ -2092,6 +2092,9 @@ module.exports = {
 
       if(master_item.type == 'SUB' ){
 
+        sails.log('i am in sub');
+        sails.log(get_master_name);
+        sails.log('*********************');
 
         var top_photos = '';
 
@@ -2157,8 +2160,8 @@ module.exports = {
 
 
                 if(sub_item.photos[l].file_name){
-                  photos_html += '<div style="width: 30%; padding: 10px;  background-color: #ffffff; display: inline-block; margin: 5px; max-width: 300px;">' +
-                     '<div style="padding: 1px; background-color: #ffffff; border: 1px solid #000000; display: inline-block;">' +
+                  photos_html += '<div style="width: 30%; background-color: #ffffff; display: inline-block; margin: 5px; max-width: 300px;">' +
+                     '<div style="padding: 1px; background-color: #ffffff; border: 1px solid #000000; display: inline-block; ">' +
                      '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                      '</div>' +
                      '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
