@@ -2072,6 +2072,9 @@ module.exports = {
 
       var table_header_bg_color_light = color_rgb;
 
+      sails.log(hex);
+      sails.log(table_header_bg_color_light);
+
 
       if(master_item.type == 'SUB' ){
 
@@ -2164,9 +2167,9 @@ module.exports = {
           //'<div style="width: 35%; display:inline-block"><span class="left-text">'+ desc +'</span></div>' +
           //'<div style="width: 30%; display:inline-block"><span class="left-text">'+ photos_html +'</span></div>' +
 
-           var temp_sub_items_html = '<div class="divrow">' +
-             '<div style="width: 50%; display:inline-block; color:' + report_settings.table_header_color + '; background-color:' + table_header_bg_color_light +' "><span class="left-text">'+ sub_item.subitem.item_name  + ' ' +  master_item.master.name +'</span></div>' +
-             '<div style="width: 50%; display:inline-block"><span class="left-text" style="text-transform: upper;">'+ option +' </span> Condition</div>' +
+           var temp_sub_items_html = '<div class="divrow" style="color:' + report_settings.table_header_color + '; background-color:' + table_header_bg_color_light +'">' +
+             '<div style="width: 50%; display:inline-block; "><span class="left-text" style="color:' + report_settings.table_header_color + ';">'+ sub_item.subitem.item_name  + ' ' +  master_item.master.name +'</span></div>' +
+             '<div style="width: 50%; display:inline-block"><span class="left-text" style="text-transform: upper;color:' + report_settings.table_header_color + ';">'+ option +' </span> Condition</div>' +
            '</div>';
 
            temp_sub_items_html += photos_html;
@@ -2199,7 +2202,7 @@ module.exports = {
 
         if(check_master_item_data_exists){
           master_html +='<div class="chapter">' +
-           '<h1 class="sub-heading" style=" font-size: 16px; color:' + report_settings.table_header_color + '; background-color:' + report_settings.table_header_bg_color + '; ">' + master_item.master.name + '</h1>' +
+           '<div style="width:100%;color:' + report_settings.table_header_color + '; background-color:' + report_settings.table_header_bg_color + '; "><h1 class="sub-heading" style="font-size: 16px;color:' + report_settings.table_header_color + ';">' + master_item.master.name + '</h1><div>' +
            '<hr/><div style="margin:0; width:100%;">' +
             '<div style="margin-top: 5px; margin-bottom: 5px; width:100%;">' +
                top_photos +
