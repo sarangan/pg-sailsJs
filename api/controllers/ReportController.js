@@ -2072,6 +2072,9 @@ module.exports = {
 
       var table_header_bg_color_light = rgb;
 
+      sails.log("i  am in style 5");
+      sails.log(table_header_bg_color_light);
+
 
       if(master_item.type == 'SUB' ){
 
