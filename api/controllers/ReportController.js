@@ -2134,11 +2134,10 @@ module.exports = {
           }
 
           var general_item_id = '';
-          sails.log(sub_item.type);
-          sails.log(sub_item.prop_subitem_id);
-          if(sub_item.type == 'GENERAL'){
+
+          if(sub_item.subitem.type == 'GENERAL'){
             //we got general item
-            general_item_id = sub_item.prop_subitem_id;
+            general_item_id = sub_item.subitem.prop_subitem_id;
 
             sails.log('GENERAL');
             sails.log(general_item_id);
@@ -2151,8 +2150,6 @@ module.exports = {
 
               for(var l =0, pl = sub_item.photos.length; l < pl ; l++){
 
-                sails.log('photos id');
-                sails.log(sub_item.photos[l].item_id);
                 if(general_item_id == sub_item.photos[l].item_id){
                   //we got general item photo
                   sails.log('we got photos also man');
@@ -2201,7 +2198,7 @@ module.exports = {
             temp_sub_items_html_maintaince ='<span class="left-text" style="background-color:#e2401c; color:#ffffff; padding: 1px; paddin-left: 2px; padding-right: 2px; font-size: 13px;">'+ need_maintance +'</span>';
           }
 
-           var temp_sub_items_html = '<div class="divrow" style="padding:0px; padding-left: 10px; border:none;color:' + report_settings.table_header_color + '; background-color:' + table_header_bg_color_light +'">' +
+           var temp_sub_items_html = '<div class="divrow" style="padding:0px; padding-left: 10px; marginBottom: 10px; border:none;color:' + report_settings.table_header_color + '; background-color:' + table_header_bg_color_light +'">' +
              '<div style="width: 40%; display:inline-block; "><span class="left-text" style="font-size: 13px; color:' + report_settings.table_header_color + ';">'+ sub_item.subitem.item_name  + ' (' +  master_item.master.name +')</span></div>' +
              '<div style="width: 20%; display:inline-block"><span class="left-text" style="font-size: 13px; text-transform: uppercase;color:' + report_settings.table_header_color + ';">'+ option +' </span> condition</div>' +
              '<div style="width: 38%; display:inline-block; text-align: right; margin-right: 2px;">' + temp_sub_items_html_maintaince + '</div>' +
