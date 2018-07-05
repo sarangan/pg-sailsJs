@@ -2379,7 +2379,7 @@ module.exports = {
                    '</div>' +
                    '<div style="font-style: italic; color: #a0a0a0; text-align: left; font-size: 11px;">'+ photo_date +'</div>'+
                    '<div>' +
-                   '<a style="font-size: 11px;" href="'+ server_image_path +  property_id + '/' + sub_item.photos[l].file_name + '">Ref#'+ (j + 1) +'</a>' +
+                   '<a style="font-size: 11px;" href="'+ server_image_path +  property_id + '/' + master_item.photos[l].file_name + '">Ref#'+ (j + 1) +'</a>' +
                    '</div></div>';
 
               }
