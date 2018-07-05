@@ -2213,8 +2213,11 @@ module.exports = {
               photo_date = photo_date.toISOString().slice(0, 19).replace('T', ' ');
             }
 
+            sails.log(master_item.temp_top_photos[j].type);
 
             if(master_item.master.prop_master_id == master_item.temp_top_photos[j].parent_id && master_item.temp_top_photos[j].type == 'GENERAL'){
+
+              sails.log('we found genrephotos');
               //we got general item photo
               top_photos = '<div style="width: 200px; height: auto; padding: 10px; background-color: #ffffff; display: inline-block;">'+
                 '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (master_item.temp_top_photos[j].file_name.substr(0, master_item.temp_top_photos[j].file_name.lastIndexOf('.')) || master_item.temp_top_photos[j].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
@@ -2234,6 +2237,9 @@ module.exports = {
           }
 
           if(!fould_one_master_photo){
+
+            sails.log("i came here again to search man");
+
             for(var j =0, tl = master_item.temp_top_photos.length; j < tl ; j++){
 
               var photo_date = '';
