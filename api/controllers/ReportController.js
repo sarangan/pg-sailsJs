@@ -2136,7 +2136,7 @@ module.exports = {
 
 
                 if(sub_item.photos[l].file_name){
-                  photos_html += '<div style="width: 25%; background-color: #ffffff; display: inline-block; margin: 5px; max-width: 300px;">' +
+                  photos_html += '<div style="width: 25%; background-color: #ffffff; display: inline-block; margin: 5px;">' +
                      '<div style="padding: 1px; background-color: #ffffff; border: 1px solid #000000; display: inline-block; ">' +
                      '<img src="' + server_image_path +  property_id + '/' + '300_' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                      '</div>' +
@@ -2373,7 +2373,7 @@ module.exports = {
               }
 
               if(master_item.photos[l].file_name){
-                photos_html += '<div style="width: 25%; background-color: #ffffff; display: inline-block; margin: 5px; max-width: 300px;">' +
+                photos_html += '<div style="width: 25%; background-color: #ffffff; display: inline-block; margin: 5px;">' +
                    '<div style="padding: 1px; background-color: #ffffff; border: 1px solid #000000; display: inline-block; ">' +
                    '<img src="' + server_image_path +  property_id + '/' + '300_' + (master_item.photos[l].file_name.substr(0, master_item.photos[l].file_name.lastIndexOf('.')) || master_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                    '</div>' +
