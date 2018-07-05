@@ -908,7 +908,8 @@ module.exports = {
             sub: temp_sub_items,
             type: 'SUB',
             temp_top_photos: temp_top_photos,
-            feedback_general: temp_feedback_general
+            feedback_general: temp_feedback_general,
+            photos: photo_data
           }
         );
 
