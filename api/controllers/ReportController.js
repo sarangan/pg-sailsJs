@@ -2141,7 +2141,7 @@ module.exports = {
                 if(sub_item.photos[l].file_name){
                   photos_html += '<div style="width: 220px; background-color: #ffffff; display: inline-block; margin: 5px;">' +
                      '<div style="padding: 1px; background-color: #ffffff; border: 1px solid #000000; display: inline-block; ">' +
-                     '<img src="' + server_image_path +  property_id + '/' + '' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
+                     '<img src="' + server_image_path +  property_id + '/' + '600_' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                      '</div>' +
                      '<div style="font-style: italic; color: #a0a0a0; text-align: left; font-size: 11px;">'+ photo_date +'</div>'+
                      '<div>' +
@@ -2228,7 +2228,7 @@ module.exports = {
 
               //we got general item photo
               top_photos = '<div style="width: 200px; height: auto; padding: 10px; background-color: #ffffff; display: inline-block;">'+
-                '<img src="' + server_image_path +  property_id + '/' + '' + (photo_data[j].file_name.substr(0, photo_data[j].file_name.lastIndexOf('.')) || photo_data[j].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
+                '<img src="' + server_image_path +  property_id + '/' + '300_' + (photo_data[j].file_name.substr(0, photo_data[j].file_name.lastIndexOf('.')) || photo_data[j].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                 '<div style="font-style: italic; color: #a0a0a0; text-align: left; font-size: 11px;">'+ photo_date +'</div>'+
                 '<div>' +
                 '<a style="font-size: 11px;" href="'+ server_image_path +  property_id + '/' + photo_data[j].file_name + '">Ref#'+ (j + 1) +'</a>' +
@@ -2269,7 +2269,7 @@ module.exports = {
               }
 
               top_photos = '<div style="width: 200px; height: auto; padding: 10px; background-color: #ffffff; display: inline-block;">'+
-                '<img src="'+ server_image_path +  property_id + '/' + '' + (master_item.temp_top_photos[j].file_name.substr(0, master_item.temp_top_photos[j].file_name.lastIndexOf('.')) || master_item.temp_top_photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />' +
+                '<img src="'+ server_image_path +  property_id + '/' + '300_' + (master_item.temp_top_photos[j].file_name.substr(0, master_item.temp_top_photos[j].file_name.lastIndexOf('.')) || master_item.temp_top_photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />' +
                 '<div style="font-style: italic; color: #a0a0a0; text-align: left; font-size: 11px; ">'+ photo_date +'</div>'+
                 '<div>' +
                 '<a style="font-size: 11px;" href="'+ server_image_path +  property_id + '/' + master_item.temp_top_photos[j].file_name + '">Ref#'+ (j + 1) +'</a>' +
@@ -2334,7 +2334,7 @@ module.exports = {
             }
 
             top_photos = '<div style="width: 200px; height: auto; padding: 10px; background-color: #ffffff; display: inline-block;">'+
-              '<img src="'+ server_image_path +  property_id + '/' + '' + (master_item.photos[j].file_name.substr(0, master_item.photos[j].file_name.lastIndexOf('.')) || master_item.photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />' +
+              '<img src="'+ server_image_path +  property_id + '/' + '300_' + (master_item.photos[j].file_name.substr(0, master_item.photos[j].file_name.lastIndexOf('.')) || master_item.photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />' +
               '<div style="font-style: italic; color: #a0a0a0; text-align: left; font-size: 11px; ">'+ photo_date +'</div>'+
               '<div>' +
               '<a style="font-size: 11px;" href="'+ server_image_path +  property_id + '/' + master_item.photos[j].file_name + '">Ref'+ (j + 1)+'</a>' +
@@ -2378,7 +2378,7 @@ module.exports = {
               if(master_item.photos[l].file_name){
                 photos_html += '<div style="width: 220px; height: auto; background-color: #ffffff; display: inline-block; margin: 5px;">' +
                    '<div style="padding: 1px; background-color: #ffffff; border: 1px solid #000000; display: inline-block; ">' +
-                   '<img src="' + server_image_path +  property_id + '/' + '' + (master_item.photos[l].file_name.substr(0, master_item.photos[l].file_name.lastIndexOf('.')) || master_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
+                   '<img src="' + server_image_path +  property_id + '/' + '300_' + (master_item.photos[l].file_name.substr(0, master_item.photos[l].file_name.lastIndexOf('.')) || master_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                    '</div>' +
                    '<div style="font-style: italic; color: #a0a0a0; text-align: left; font-size: 11px;">'+ photo_date +'</div>'+
                    '<div>' +
