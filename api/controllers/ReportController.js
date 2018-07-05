@@ -2194,7 +2194,7 @@ module.exports = {
         }
 
 
-        sails.log(master_item.master);
+        //sails.log(master_item.master);
 
         if(master_item.temp_top_photos){
           var fould_one_master_photo = false;
@@ -2215,13 +2215,13 @@ module.exports = {
             }
 
 
-            if(master_item.master.prop_master_id == sub_item.photos[l].parent_id){
+            if(master_item.master.prop_master_id == master_item.temp_top_photos[j].parent_id){
               //we got general item photo
               top_photos = '<div style="width: 200px; height: auto; padding: 10px; background-color: #ffffff; display: inline-block;">'+
-                '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
+                '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (master_item.temp_top_photos[j].file_name.substr(0, master_item.temp_top_photos[j].file_name.lastIndexOf('.')) || master_item.temp_top_photos[j].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                 '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
                 '<div>' +
-                '<a href="'+ server_image_path +  property_id + '/' + sub_item.photos[l].file_name + '">Ref'+ (j + 1) +'</a>' +
+                '<a href="'+ server_image_path +  property_id + '/' + master_item.temp_top_photos[j].file_name + '">Ref'+ (j + 1) +'</a>' +
                 '</div></div>';
                 fould_one_master_photo = true;
             }
