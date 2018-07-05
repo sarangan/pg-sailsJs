@@ -2770,7 +2770,7 @@ module.exports = {
                    '.img-wrapper1{width: 20%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px; min-width: 200px; height: auto;}' +
                    '.rt-1-img{ width: 100%; height: auto;  display: inline-block; max-width: 300px;}' +
                    '.img-inline-wrapper{ width: 80%; padding: 10px; background-color: #ffffff; display: inline-block; max-width: 300px; }' +
-                   '.rt-2-tbl-img{ width: 100%; height: auto;}' +
+                   '.rt-2-tbl-img{ width: 100%; height: auto; -webkit-transform: rotate(90deg);-moz-transform: rotate(90deg); -ms-transform: rotate(90deg); -o-transform: rotate(90deg); transform: rotate(90deg);}' +
                    '.report-tbl2{ margin-top: 20px;}' +
                    '.rt-2-top-img-wrapper{ margin-bottom: 10px; }' +
                    '.report-tbl3{ margin-top: 20px;}' +
