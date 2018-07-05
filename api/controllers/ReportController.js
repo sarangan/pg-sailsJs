@@ -812,12 +812,12 @@ module.exports = {
             var need_maintance = meter_data[i].description ? (meter_data[i].description.toLowerCase() == 'true' ? 'Need maintenance' : '') : '';
             var temp_needmaintaince_html = '';
             if(need_maintance){
-              temp_needmaintaince_html ='<div style="width: 100%; display:block; margin-top: 10px;"> <span class="left-text" style="background-color:#e2401c; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
+              temp_needmaintaince_html ='<div style="width: 100%; display:block; margin-top: 10px;"> <span class="left-text" style="background-color:#ffffff; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
             }
 
              meter_html += '<tr><td><div class="img-inline-wrapper" style="width: 200px;">' +
              '<img src="' + server_image_path +  property_id + '/' + '300_' + (meter_data[i].photo.substr(0, meter_data[i].photo.lastIndexOf('.')) || meter_data[i].photo) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
-             '<a href="'+ server_image_path +  property_id + '/' + meter_data[i].photo + '">Ref'+ (i + 1) +'</a>' +
+             '<a style="font-size: 11px;" href="'+ server_image_path +  property_id + '/' + meter_data[i].photo + '">Ref#'+ (i + 1) +'</a>' +
               '</div></td><td>' +
               '<b>Meter name : </b>'+  meter_data[i].meter_name +'<br>' +
               '<b>Reading : </b>'+  meter_data[i].reading_value +'<br>' +
@@ -2726,7 +2726,7 @@ module.exports = {
                    'select{*font-size:100%;}legend{color:#000;}' +
                    '* { overflow: visible !important; }' +
                    'html,body { font-family: serif; font-size:16px; width: 100% }'+
-                   '.chapter { width: 100%; display: block; clear: both; page-break-before: always; padding: 5px; margin:0;  margin-top: 5px; margin-bottom: 5px;}'+
+                   '.chapter { width: 100%; display: block; clear: both; page-break-before: always; padding: 2px; margin:0;  margin-top: 5px; margin-bottom: 5px;}'+
                    '.block { display: block; clear: both; padding: 20px;}' +
                    '.heading{ font-size:20px; color: #0088CC; line-height: 20px; margin-bottom: 10px; font-weight: bold;}' +
                    '.sub-heading{ font-size: 18px; margin-top: 10px; color:' + style_sub_heading_color +'; line-height: 18px; font-weight: bold; background-color: ' + style_sub_heading_bg + '; width: 100%; }' +
@@ -2766,7 +2766,7 @@ module.exports = {
                    '.img-wrapper{width: 30%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px;}' +
                    '.img-wrapper1{width: 20%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px; min-width: 200px; height: auto;}' +
                    '.rt-1-img{ width: 100%; height: auto;  display: inline-block; max-width: 300px;}' +
-                   '.img-inline-wrapper{ width: 80%; padding: 10px; background-color: #e1e1e1; display: inline-block; max-width: 300px; }' +
+                   '.img-inline-wrapper{ width: 80%; padding: 10px; background-color: #ffffff; display: inline-block; max-width: 300px; }' +
                    '.rt-2-tbl-img{ width: 100%; height: auto;}' +
                    '.report-tbl2{ margin-top: 20px;}' +
                    '.rt-2-top-img-wrapper{ margin-bottom: 10px; }' +
