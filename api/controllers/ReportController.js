@@ -2194,9 +2194,47 @@ module.exports = {
         }
 
 
+        sails.log(master_item.master);
 
-          if(master_item.temp_top_photos){
-            var fould_one_master_photo = false;
+        if(master_item.temp_top_photos){
+          var fould_one_master_photo = false;
+          for(var j =0, tl = master_item.temp_top_photos.length; j < tl ; j++){
+
+            var photo_date = '';
+            if(master_item.temp_top_photos[j].mb_createdAt == '0000-00-00 00:00:00' ||  !master_item.temp_top_photos[j].mb_createdAt ){
+              photo_date = master_item.temp_top_photos[j].createdAt;
+            }
+            else{
+              photo_date = master_item.temp_top_photos[j].mb_createdAt;
+            }
+            if(report_settings.show_photo_date_time != 1){
+              photo_date = '';
+            }
+            else{
+              photo_date = photo_date.toISOString().slice(0, 19).replace('T', ' ');
+            }
+
+
+            if(master_item.master.prop_master_id == sub_item.photos[l].parent_id){
+              //we got general item photo
+              top_photos = '<div style="width: 200px; height: auto; padding: 10px; background-color: #ffffff; display: inline-block;">'+
+                '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
+                '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
+                '<div>' +
+                '<a href="'+ server_image_path +  property_id + '/' + sub_item.photos[l].file_name + '">Ref'+ (j + 1) +'</a>' +
+                '</div></div>';
+                fould_one_master_photo = true;
+            }
+
+
+            if(fould_one_master_photo){
+              break;
+            }
+
+
+          }
+
+          if(!fould_one_master_photo){
             for(var j =0, tl = master_item.temp_top_photos.length; j < tl ; j++){
 
               var photo_date = '';
@@ -2213,60 +2251,20 @@ module.exports = {
                 photo_date = photo_date.toISOString().slice(0, 19).replace('T', ' ');
               }
 
-
-              if(master_item.master.prop_master_id == sub_item.photos[l].parent_id){
-                //we got general item photo
-                top_photos = '<div style="width: 200px; height: auto; padding: 10px; background-color: #ffffff; display: inline-block;">'+
-                  '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
-                  '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
-                  '<div>' +
-                  '<a href="'+ server_image_path +  property_id + '/' + sub_item.photos[l].file_name + '">Ref'+ (j + 1) +'</a>' +
-                  '</div></div>';
-                  fould_one_master_photo = true;
-              }
-
-
-              if(fould_one_master_photo){
+              if(j >= 1){
                 break;
               }
 
-
+              top_photos = '<div style="width: 200px; height: auto; padding: 10px; background-color: #ffffff; display: inline-block;">'+
+                '<img src="'+ server_image_path +  property_id + '/' + 'report_300_' + (master_item.temp_top_photos[j].file_name.substr(0, master_item.temp_top_photos[j].file_name.lastIndexOf('.')) || master_item.temp_top_photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />' +
+                '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
+                '<div>' +
+                '<a href="'+ server_image_path +  property_id + '/' + master_item.temp_top_photos[j].file_name + '">Ref'+ (j + 1) +'</a>' +
+                '</div></div>';
             }
-
-            if(!fould_one_master_photo){
-              for(var j =0, tl = master_item.temp_top_photos.length; j < tl ; j++){
-
-                var photo_date = '';
-                if(master_item.temp_top_photos[j].mb_createdAt == '0000-00-00 00:00:00' ||  !master_item.temp_top_photos[j].mb_createdAt ){
-                  photo_date = master_item.temp_top_photos[j].createdAt;
-                }
-                else{
-                  photo_date = master_item.temp_top_photos[j].mb_createdAt;
-                }
-                if(report_settings.show_photo_date_time != 1){
-                  photo_date = '';
-                }
-                else{
-                  photo_date = photo_date.toISOString().slice(0, 19).replace('T', ' ');
-                }
-
-                if(j >= 1){
-                  break;
-                }
-
-                top_photos = '<div style="width: 200px; height: auto; padding: 10px; background-color: #ffffff; display: inline-block;">'+
-                  '<img src="'+ server_image_path +  property_id + '/' + 'report_300_' + (master_item.temp_top_photos[j].file_name.substr(0, master_item.temp_top_photos[j].file_name.lastIndexOf('.')) || master_item.temp_top_photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />' +
-                  '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
-                  '<div>' +
-                  '<a href="'+ server_image_path +  property_id + '/' + master_item.temp_top_photos[j].file_name + '">Ref'+ (j + 1) +'</a>' +
-                  '</div></div>';
-              }
-            }
-
-
-
-
           }
+
+        }
 
 
 
