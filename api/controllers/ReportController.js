@@ -801,7 +801,7 @@ module.exports = {
     var meter_html = '';
     if(meter_data){
       var meter_html = '<div class="chapter" style="width:100%;"><h1 class="sub-heading" style="padding:3px; padding-left: 10px; font-size: 16px;background-color:' + report_settings.table_header_bg_color + ';color:' + report_settings.table_header_color + ';">Meater Reading</h1>';
-      stlye5_header = stlye5_header.replace(/'/g, "");
+      meter_html = meter_html.replace(/'/g, "");
 
         meter_html += '<div><table class="format-table report-tbl7"><thead><th class="col1"></th><th class="col2"></th><tbody>';
 
