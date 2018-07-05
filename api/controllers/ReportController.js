@@ -2280,7 +2280,7 @@ module.exports = {
 
         if(check_master_item_data_exists){
 
-          var stlye5_header = '<div style="width:100%;"><h1 class="sub-heading" style="padding:3px; padding-left: 10px; font-size: 16px;background-color:' + report_settings.table_header_bg_color + ';color:' + report_settings.table_header_color + ';">' + master_item.master.name + '</h1><div>';
+          var stlye5_header = '<div style="width:100%;"><h1 class="sub-heading" style="padding:3px; padding-left: 10px; font-size: 16px;background-color:' + report_settings.table_header_bg_color + ';color:' + report_settings.table_header_color + ';">' + master_item.master.name + '</h1></div>';
           stlye5_header = stlye5_header.replace(/'/g, "");
 
           master_html +='<div class="chapter">' +
@@ -2418,7 +2418,7 @@ module.exports = {
 
         if(check_master_item_data_exists){
 
-         var stlye5_header = '<div style="width:100%;"><h1 class="sub-heading" style="padding:3px; padding-left: 10px; font-size: 16px;background-color:' + report_settings.table_header_bg_color + ';color:' + report_settings.table_header_color + ';">' + master_item.master.name + '</h1><div>';
+         var stlye5_header = '<div style="width:100%;"><h1 class="sub-heading" style="padding:3px; padding-left: 10px; font-size: 16px;background-color:' + report_settings.table_header_bg_color + ';color:' + report_settings.table_header_color + ';">' + master_item.master.name + '</h1></div>';
          stlye5_header = stlye5_header.replace(/'/g, "");
 
          master_html +='<div class="chapter">' +
