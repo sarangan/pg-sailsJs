@@ -2092,12 +2092,6 @@ module.exports = {
 
       if(master_item.type == 'SUB' ){
 
-        sails.log('i am in sub');
-        sails.log(master_item.master.name);
-        //sails.log(master_item.sub);
-
-        sails.log('*********************');
-
         var top_photos = '';
 
         var sub_items_html = '';
