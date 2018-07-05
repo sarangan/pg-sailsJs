@@ -2068,7 +2068,7 @@ module.exports = {
     else if(report_settings.items_details_layout == 'STYLE 5'){ // start style 5
 
       var hex = report_settings.table_header_bg_color;
-      var lum = 0.4;
+      var lum = 0.2;
 
       hex = String(hex).replace(/[^0-9a-f]/gi, '');
       if (hex.length < 6) {
@@ -2136,7 +2136,7 @@ module.exports = {
 
 
                 if(sub_item.photos[l].file_name){
-                  photos_html += '<div style="width: 20%; background-color: #ffffff; display: inline-block; margin: 5px; max-width: 300px;">' +
+                  photos_html += '<div style="width: 24%; background-color: #ffffff; display: inline-block; margin: 5px; max-width: 300px;">' +
                      '<div style="padding: 1px; background-color: #ffffff; border: 1px solid #000000; display: inline-block; ">' +
                      '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                      '</div>' +
@@ -2151,7 +2151,7 @@ module.exports = {
 
          if(desc){
 
-           photos_html += '<div style="width: 20%; background-color: #ffffff; display: inline-block; margin: 5px; max-width: 300px; vertical-align: top;">' +
+           photos_html += '<div style="width: 24%; background-color: #ffffff; display: inline-block; margin: 5px; max-width: 300px; vertical-align: top;">' +
                   desc +
               '</div>';
 
@@ -2542,7 +2542,7 @@ module.exports = {
 
 
       var photo_page = '';
-      photo_page = '<div><div style="width: 100%; padding:0px; padding-left: 10px; margin-bottom: 15px; border:none;color:' + report_settings.table_header_color + '; background-color:' + report_settings.table_header_bg_color +'" ><h1 class="sub-heading" style="margin-top: 20px; font-size:16px; background-color:' + report_settings.table_header_bg_color +'; color:' + report_settings.table_header_color + '; ">'+ master_item.master.name +' - Photos</h1>'+
+      photo_page = '<div style="page-break-inside: avoid; page-break-after: avoid;"><div style="width: 100%; padding:0px; padding-left: 10px; margin-bottom: 15px; border:none;color:' + report_settings.table_header_color + '; background-color:' + report_settings.table_header_bg_color +'" ><h1 class="sub-heading" style="margin-top: 20px; font-size:16px; background-color:' + report_settings.table_header_bg_color +'; color:' + report_settings.table_header_color + '; ">'+ master_item.master.name +' - Photos</h1>'+
       '</div>' +
       '<div style="margin-top: 20px; width:100%; text-align:left;" class="div-img-wrapper">'+
         total_photo_html +
