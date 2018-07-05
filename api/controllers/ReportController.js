@@ -2142,7 +2142,7 @@ module.exports = {
                      '</div>' +
                      '<div style="font-style: italic; color: #a0a0a0; text-align: left; font-size: 11px;">'+ photo_date +'</div>'+
                      '<div>' +
-                     '<a href="'+ server_image_path +  property_id + '/' + sub_item.photos[l].file_name + '">Ref'+ (j + 1) +'</a>' +
+                     '<a style="font-size: 11px;" href="'+ server_image_path +  property_id + '/' + sub_item.photos[l].file_name + '">Ref'+ (j + 1) +'</a>' +
                      '</div></div>';
                 }
 
@@ -2156,6 +2156,8 @@ module.exports = {
               '</div>';
 
          }
+
+         sails.log(photos_html);
 
           //'<div style="width: 35%; display:inline-block"><span class="left-text">'+ desc +'</span></div>' +
           //'<div style="width: 30%; display:inline-block"><span class="left-text">'+ photos_html +'</span></div>' +
@@ -2225,7 +2227,7 @@ module.exports = {
                 '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (photo_data[j].file_name.substr(0, photo_data[j].file_name.lastIndexOf('.')) || photo_data[j].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                 '<div style="font-style: italic; color: #a0a0a0; text-align: left; font-size: 11px;">'+ photo_date +'</div>'+
                 '<div>' +
-                '<a href="'+ server_image_path +  property_id + '/' + photo_data[j].file_name + '">Ref'+ (j + 1) +'</a>' +
+                '<a style="font-size: 11px;" href="'+ server_image_path +  property_id + '/' + photo_data[j].file_name + '">Ref'+ (j + 1) +'</a>' +
                 '</div></div>';
                 fould_one_master_photo = true;
             }
@@ -2266,7 +2268,7 @@ module.exports = {
                 '<img src="'+ server_image_path +  property_id + '/' + 'report_300_' + (master_item.temp_top_photos[j].file_name.substr(0, master_item.temp_top_photos[j].file_name.lastIndexOf('.')) || master_item.temp_top_photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />' +
                 '<div style="font-style: italic; color: #a0a0a0; text-align: left; font-size: 11px; ">'+ photo_date +'</div>'+
                 '<div>' +
-                '<a href="'+ server_image_path +  property_id + '/' + master_item.temp_top_photos[j].file_name + '">Ref'+ (j + 1) +'</a>' +
+                '<a style="font-size: 11px;" href="'+ server_image_path +  property_id + '/' + master_item.temp_top_photos[j].file_name + '">Ref'+ (j + 1) +'</a>' +
                 '</div></div>';
             }
 
