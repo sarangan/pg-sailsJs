@@ -2136,7 +2136,7 @@ module.exports = {
 
 
                 if(sub_item.photos[l].file_name){
-                  photos_html += '<div style="width: 25%; background-color: #ffffff; display: inline-block; margin: 5px; max-width: 300px;">' +
+                  photos_html += '<div style="width: 20%; background-color: #ffffff; display: inline-block; margin: 5px; max-width: 300px;">' +
                      '<div style="padding: 1px; background-color: #ffffff; border: 1px solid #000000; display: inline-block; ">' +
                      '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                      '</div>' +
@@ -2151,7 +2151,7 @@ module.exports = {
 
          if(desc){
 
-           photos_html += '<div style="width: 25%; background-color: #ffffff; display: inline-block; margin: 5px; max-width: 300px; vertical-align: top;">' +
+           photos_html += '<div style="width: 20%; background-color: #ffffff; display: inline-block; margin: 5px; max-width: 300px; vertical-align: top;">' +
                   desc +
               '</div>';
 
@@ -2373,7 +2373,7 @@ module.exports = {
               }
 
               if(master_item.photos[l].file_name){
-                photos_html += '<div style="width: 25%; background-color: #ffffff; display: inline-block; margin: 5px; max-width: 300px;">' +
+                photos_html += '<div style="width: 20%; background-color: #ffffff; display: inline-block; margin: 5px; max-width: 300px;">' +
                    '<div style="padding: 1px; background-color: #ffffff; border: 1px solid #000000; display: inline-block; ">' +
                    '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (master_item.photos[l].file_name.substr(0, master_item.photos[l].file_name.lastIndexOf('.')) || master_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                    '</div>' +
@@ -2417,25 +2417,27 @@ module.exports = {
         }
 
         if(check_master_item_data_exists){
-          master_html +='<div class="chapter" style="padding:0px; border: none; width:100%;color:' + report_settings.table_header_color + '; background-color:' + report_settings.table_header_bg_color + '; "">' +
-           '<h1 class="sub-heading">' + master_item.master.name + '</h1>' +
-           '<hr/><div style="margin:0; width:100%;">' +
-            '<div style="margin-top: 20px; margin-bottom: 20px; width:100%;">' +
-               top_photos +
-             '</div>' +
-            ' <div class="rt-2-des">' +
-               '<span>' +
-               '</span>' +
-             '</div>' +
-             '<div style="border: 0; width: 100%; margin: 0; padding: 0;">' +
-                  '<div class="divtable" style="width:20%; display: inline-block;">&nbsp;Item</div>' +
-                  '<div class="divtable" style="width:15%; display: inline-block;">Condition</div>' +
-                  '<div class="divtable" style="width:35%; display: inline-block; text-align:center;">Description</div>' +
-                  '<div class="divtable" style="width:30%; display: inline-block;">Image</div>' +
-                '<div>' +
-                sub_items_html +
-         '</div></div>'+
-         '</div></div>';
+
+         var stlye5_header = '<div style="width:100%;"><h1 class="sub-heading" style="padding:3px; padding-left: 10px; font-size: 16px;background-color:' + report_settings.table_header_bg_color + ';color:' + report_settings.table_header_color + ';">' + master_item.master.name + '</h1><div>';
+         stlye5_header = stlye5_header.replace(/'/g, "");
+
+         master_html +='<div class="chapter">' +
+          stlye5_header +
+              '<div style="margin:0; width:100%;">' +
+                     '<div style="margin-top: 5px; margin-bottom: 5px; width:40%; display: inline-block; vertical-align: top;">' +
+                         top_photos +
+                      '</div>' +
+                      '<div style="margin-top: 5px; margin-bottom: 5px; width:60%; display: inline-block; vertical-align: top;">' +
+                          '<span>' +
+                           desc +
+                          '</span>' +
+                      '</div>' +
+               '</div><div>' +
+               sub_items_html +
+               '</div>'+
+        '</div>';
+
+
         }
 
       } //item end
