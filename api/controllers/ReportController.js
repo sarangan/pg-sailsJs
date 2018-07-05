@@ -800,7 +800,10 @@ module.exports = {
 
     var meter_html = '';
     if(meter_data){
-        meter_html = '<div class="chapter"><h1 class="sub-heading">Meater Reading</h1><hr/><div><table class="format-table report-tbl7"><thead><th class="col1"></th><th class="col2"></th><tbody>';
+      var meter_html = '<div class="chapter" style="width:100%;"><h1 class="sub-heading" style="padding:3px; padding-left: 10px; font-size: 16px;background-color:' + report_settings.table_header_bg_color + ';color:' + report_settings.table_header_color + ';">Meater Reading</h1>';
+      stlye5_header = stlye5_header.replace(/'/g, "");
+
+        meter_html += '<div><table class="format-table report-tbl7"><thead><th class="col1"></th><th class="col2"></th><tbody>';
 
         var check_meter_data = false;
 
@@ -812,7 +815,7 @@ module.exports = {
             var need_maintance = meter_data[i].description ? (meter_data[i].description.toLowerCase() == 'true' ? 'Need maintenance' : '') : '';
             var temp_needmaintaince_html = '';
             if(need_maintance){
-              temp_needmaintaince_html ='<div style="width: 100%; display:block; margin-top: 10px;"> <span class="left-text" style="background-color:#ffffff; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
+              temp_needmaintaince_html ='<div style="width: 100%; display:block; margin-top: 10px;"> <span class="left-text" style="background-color:#e2401c; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
             }
 
              meter_html += '<tr><td><div class="img-inline-wrapper" style="width: 200px;">' +
