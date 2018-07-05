@@ -2213,7 +2213,7 @@ module.exports = {
               photo_date = photo_date.toISOString().slice(0, 19).replace('T', ' ');
             }
 
-            sails.log(master_item.temp_top_photos[j].type);
+            sails.log(master_item.master.name + " - " + master_item.temp_top_photos[j].type);
 
             if(master_item.master.prop_master_id == master_item.temp_top_photos[j].parent_id && master_item.temp_top_photos[j].type == 'GENERAL'){
 
