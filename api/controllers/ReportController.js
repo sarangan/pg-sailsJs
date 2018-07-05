@@ -2500,7 +2500,7 @@ module.exports = {
           }
           else if(report_settings.photo_collection_layout ==  '3-COL'){
 
-            total_photo_html += '<div style="width: 25%; background-color: #ffffff; display: inline-block; margin: 5px; max-width: 300px;">' +
+            total_photo_html += '<div style="width: 27%; background-color: #ffffff; display: inline-block; margin: 5px; max-width: 300px;">' +
                '<div style="padding: 1px; background-color: #ffffff; border: 1px solid #000000; display: inline-block; ">' +
                '<img src="' + server_image_path +  property_id + '/' + '300_' + (total_photos[po].file_name.substr(0, total_photos[po].file_name.lastIndexOf('.')) || total_photos[po].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                '</div>' +
@@ -2770,7 +2770,7 @@ module.exports = {
                    '.img-wrapper1{width: 20%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px; min-width: 200px; height: auto;}' +
                    '.rt-1-img{ width: 100%; height: auto;  display: inline-block; max-width: 300px;}' +
                    '.img-inline-wrapper{ width: 80%; padding: 10px; background-color: #ffffff; display: inline-block; max-width: 300px; }' +
-                   '.rt-2-tbl-img{ width: 100%; height: auto; padding: 1px; }' +
+                   '.rt-2-tbl-img{ width: 100%; height: auto;}' +
                    '.report-tbl2{ margin-top: 20px;}' +
                    '.rt-2-top-img-wrapper{ margin-bottom: 10px; }' +
                    '.report-tbl3{ margin-top: 20px;}' +
