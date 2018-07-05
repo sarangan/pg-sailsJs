@@ -2213,7 +2213,7 @@ module.exports = {
               photo_date = photo_date.toISOString().slice(0, 19).replace('T', ' ');
             }
 
-            sails.log(master_item.master.name + " - " + photo_data.type);
+            sails.log(master_item.master.name + " - " + photo_data[j].type);
 
             if(master_item.master.prop_master_id == photo_data[j].parent_id && photo_data[j].type == 'GENERAL'){
 
@@ -2240,14 +2240,14 @@ module.exports = {
 
             sails.log("i came here again to search man");
 
-            for(var j =0, tl = master_item.photos.length; j < tl ; j++){
+            for(var j =0, tl = master_item.temp_top_photos.length; j < tl ; j++){
 
               var photo_date = '';
-              if(master_item.photos[j].mb_createdAt == '0000-00-00 00:00:00' ||  !master_item.photos[j].mb_createdAt ){
-                photo_date = master_item.photos[j].createdAt;
+              if(master_item.temp_top_photos[j].mb_createdAt == '0000-00-00 00:00:00' ||  !master_item.temp_top_photos[j].mb_createdAt ){
+                photo_date = master_item.temp_top_photos[j].createdAt;
               }
               else{
-                photo_date = master_item.photos[j].mb_createdAt;
+                photo_date = master_item.temp_top_photos[j].mb_createdAt;
               }
               if(report_settings.show_photo_date_time != 1){
                 photo_date = '';
@@ -2261,10 +2261,10 @@ module.exports = {
               }
 
               top_photos = '<div style="width: 200px; height: auto; padding: 10px; background-color: #ffffff; display: inline-block;">'+
-                '<img src="'+ server_image_path +  property_id + '/' + 'report_300_' + (master_item.photos[j].file_name.substr(0, master_item.photos[j].file_name.lastIndexOf('.')) || master_item.photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />' +
+                '<img src="'+ server_image_path +  property_id + '/' + 'report_300_' + (master_item.temp_top_photos[j].file_name.substr(0, master_item.temp_top_photos[j].file_name.lastIndexOf('.')) || master_item.temp_top_photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />' +
                 '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
                 '<div>' +
-                '<a href="'+ server_image_path +  property_id + '/' + master_item.photos[j].file_name + '">Ref'+ (j + 1) +'</a>' +
+                '<a href="'+ server_image_path +  property_id + '/' + master_item.temp_top_photos[j].file_name + '">Ref'+ (j + 1) +'</a>' +
                 '</div></div>';
             }
           }
