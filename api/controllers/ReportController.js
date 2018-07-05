@@ -2178,7 +2178,7 @@ module.exports = {
            temp_sub_items_html += photos_html;
 
 
-           if(!sub_item.feedback.option && !sub_item.feedback.comment && !need_maintance !photos_html){
+           if(!sub_item.feedback.option && !sub_item.feedback.comment && !need_maintance && !photos_html){
              sub_items_html += '';
            }
            else{
