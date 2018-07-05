@@ -2542,11 +2542,13 @@ module.exports = {
 
 
       var photo_page = '';
-      photo_page = '<div><div style="width: 100%; padding:0px; padding-left: 10px; margin-bottom: 15px; border:none;color:' + report_settings.table_header_color + '; background-color:' + report_settings.table_header_bg_color +'" ><h1 class="sub-heading" style="margin-top: 20px; font-size:16px;">'+ master_item.master.name +' - Photos</h1>'+
+      photo_page = '<div><div style="width: 100%; padding:0px; padding-left: 10px; margin-bottom: 15px; border:none;color:' + report_settings.table_header_color + '; background-color:' + report_settings.table_header_bg_color +'" ><h1 class="sub-heading" style="margin-top: 20px; font-size:16px; background-color:' + report_settings.table_header_bg_color +'; color:' + report_settings.table_header_color + '; ">'+ master_item.master.name +' - Photos</h1>'+
       '</div>' +
       '<div style="margin-top: 20px; width:100%; text-align:left;" class="div-img-wrapper">'+
         total_photo_html +
       '</div></div>';
+
+      photo_page = photo_page.replace(/'/g, "");
 
       merger_photos_html += photo_page;
 
