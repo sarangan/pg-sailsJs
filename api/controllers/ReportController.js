@@ -2100,17 +2100,17 @@ module.exports = {
           var sub_item = master_item.sub[j];
 
           var option = '-';
-          var desc = '-';
+          var desc = '';
           var need_maintance = '';
 
           if(Object.keys(sub_item.feedback).length === 0 && sub_item.feedback.constructor === Object ){
             //is empty object
             option = '-';
-            desc = '-';
+            desc = '';
           }
           else{
             option =  sub_item.feedback.option? sub_item.feedback.option : '-';
-            desc = sub_item.feedback.comment? sub_item.feedback.comment: '-';
+            desc = sub_item.feedback.comment? sub_item.feedback.comment: '';
             need_maintance = sub_item.feedback.description ? (sub_item.feedback.description.toLowerCase() == 'true' ? 'Need maintenance' : '') : '';
           }
 
@@ -2140,14 +2140,20 @@ module.exports = {
                      '<div style="padding: 1px; background-color: #ffffff; border: 1px solid #000000; display: inline-block; ">' +
                      '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                      '</div>' +
-                     '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
+                     '<div style="font-style: italic; color: #a0a0a0; text-align: left; font-size: 11px;">'+ photo_date +'</div>'+
                      '<div>' +
                      '<a href="'+ server_image_path +  property_id + '/' + sub_item.photos[l].file_name + '">Ref'+ (j + 1) +'</a>' +
                      '</div></div>';
                 }
 
               }
+         }
 
+         if(desc){
+
+           photos_html += '<div style="width: 30%; background-color: #ffffff; display: inline-block; margin: 5px; max-width: 300px;">' +
+                  desc
+              '</div>';
 
          }
 
@@ -2194,9 +2200,8 @@ module.exports = {
         }
 
 
-
+        var fould_one_master_photo = false;
         if(photo_data){
-          var fould_one_master_photo = false;
           for(var j =0, tl = photo_data.length; j < tl ; j++){
 
             var photo_date = '';
@@ -2213,15 +2218,12 @@ module.exports = {
               photo_date = photo_date.toISOString().slice(0, 19).replace('T', ' ');
             }
 
-            sails.log(master_item.master.name + " - " + photo_data[j].type);
-
             if(master_item.master.prop_master_id == photo_data[j].parent_id && photo_data[j].type == 'GENERAL'){
 
-              sails.log('we found genrephotos');
               //we got general item photo
               top_photos = '<div style="width: 200px; height: auto; padding: 10px; background-color: #ffffff; display: inline-block;">'+
                 '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (photo_data[j].file_name.substr(0, photo_data[j].file_name.lastIndexOf('.')) || photo_data[j].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
-                '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
+                '<div style="font-style: italic; color: #a0a0a0; text-align: left; font-size: 11px;">'+ photo_date +'</div>'+
                 '<div>' +
                 '<a href="'+ server_image_path +  property_id + '/' + photo_data[j].file_name + '">Ref'+ (j + 1) +'</a>' +
                 '</div></div>';
@@ -2233,12 +2235,12 @@ module.exports = {
               break;
             }
 
-
           }
+        }
 
-          if(!fould_one_master_photo){
+        if(!fould_one_master_photo){
 
-            sails.log("i came here again to search man");
+          if(master_item.temp_top_photos){
 
             for(var j =0, tl = master_item.temp_top_photos.length; j < tl ; j++){
 
@@ -2262,14 +2264,17 @@ module.exports = {
 
               top_photos = '<div style="width: 200px; height: auto; padding: 10px; background-color: #ffffff; display: inline-block;">'+
                 '<img src="'+ server_image_path +  property_id + '/' + 'report_300_' + (master_item.temp_top_photos[j].file_name.substr(0, master_item.temp_top_photos[j].file_name.lastIndexOf('.')) || master_item.temp_top_photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />' +
-                '<div style="font-style: italic; color: #a0a0a0; text-align: left;">'+ photo_date +'</div>'+
+                '<div style="font-style: italic; color: #a0a0a0; text-align: left; font-size: 11px; ">'+ photo_date +'</div>'+
                 '<div>' +
                 '<a href="'+ server_image_path +  property_id + '/' + master_item.temp_top_photos[j].file_name + '">Ref'+ (j + 1) +'</a>' +
                 '</div></div>';
             }
+
           }
 
         }
+
+
 
 
 
