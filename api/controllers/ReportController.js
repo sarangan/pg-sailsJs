@@ -2485,33 +2485,38 @@ module.exports = {
 
           if(report_settings.photo_collection_layout ==  '2-COL'){
 
+            total_photo_html += '<div style="width: 30%; background-color: #ffffff; display: inline-block; margin: 5px; max-width: 300px;">' +
+               '<div style="padding: 1px; background-color: #ffffff; border: 1px solid #000000; display: inline-block; ">' +
+               '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (total_photos[po].file_name.substr(0, total_photos[po].file_name.lastIndexOf('.')) || total_photos[po].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
+               '</div>' +
+               '<div style="font-style: italic; color: #a0a0a0; text-align: left; font-size: 11px;">'+ photo_date +'</div>'+
+               '<div>' +
+               '<a style="font-size: 11px;" href="'+ server_image_path +  property_id + '/' + total_photos[po].file_name + '">Ref#'+ (j + 1) +'</a>' +
+               '</div></div>';
 
-            total_photo_html += '<div style="width: 30%; padding: 10px; background-color: #ffffff; border: 1px solid #000000; display: inline-block; margin: 5px; margin-top: 20px; max-width: 300px;">' +
-                 '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (total_photos[po].file_name.substr(0, total_photos[po].file_name.lastIndexOf('.')) || total_photos[po].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
-                 '<div style="font-style: italic; color: #a0a0a0; text-align: left; font-size: 10px;">'+ photo_date +'</div>'+
-                 '<div>' +
-                 '<a style="font-size: 11px;" href="'+ server_image_path +  property_id + '/' + total_photos[po].file_name + '">Ref#'+ (j + 1) +'</a>' +
-                 '</div></div>';
           }
           else if(report_settings.photo_collection_layout ==  '3-COL'){
 
-            total_photo_html += '<div style="width: 25%; padding: 10px; background-color: #ffffff; border: 1px solid #000000; display: inline-block; margin: 5px; margin-top: 20px; max-width: 300px;">' +
-              '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (total_photos[po].file_name.substr(0, total_photos[po].file_name.lastIndexOf('.')) || total_photos[po].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
-              '<div style="font-style: italic; color: #a0a0a0; text-align: left; font-size: 10px;">'+ photo_date +'</div>'+
-              '<div>' +
-              '<a style="font-size: 11px;" style="font-size: 11px;" href="'+ server_image_path +  property_id + '/' + total_photos[po].file_name + '">Ref#'+ (j + 1) +'</a>' +
-              '</div></div>';
+            total_photo_html += '<div style="width: 25%; background-color: #ffffff; display: inline-block; margin: 5px; max-width: 300px;">' +
+               '<div style="padding: 1px; background-color: #ffffff; border: 1px solid #000000; display: inline-block; ">' +
+               '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (total_photos[po].file_name.substr(0, total_photos[po].file_name.lastIndexOf('.')) || total_photos[po].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
+               '</div>' +
+               '<div style="font-style: italic; color: #a0a0a0; text-align: left; font-size: 11px;">'+ photo_date +'</div>'+
+               '<div>' +
+               '<a style="font-size: 11px;" href="'+ server_image_path +  property_id + '/' + total_photos[po].file_name + '">Ref#'+ (j + 1) +'</a>' +
+               '</div></div>';
 
           }
           else if(report_settings.photo_collection_layout ==  '4-COL'){
 
-            total_photo_html += '<div style="width: 20%; padding: 10px; background-color: #ffffff; border: 1px solid #000000; display: inline-block; margin: 5px; margin-top: 20px; max-width: 300px;">' +
-              '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (total_photos[po].file_name.substr(0, total_photos[po].file_name.lastIndexOf('.')) || total_photos[po].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
-              '<div style="font-style: italic; color: #a0a0a0; text-align: left; font-size: 10px;">'+ photo_date +'</div>'+
-              '<div>' +
-              '<a style="font-size: 11px;" href="'+ server_image_path +  property_id + '/' + total_photos[po].file_name + '">Ref#'+ (po + 1) +'</a>' +
-              '</div>' +
-            '</div>';
+            total_photo_html += '<div style="width: 20%; background-color: #ffffff; display: inline-block; margin: 5px; max-width: 300px;">' +
+               '<div style="padding: 1px; background-color: #ffffff; border: 1px solid #000000; display: inline-block; ">' +
+               '<img src="' + server_image_path +  property_id + '/' + 'report_300_' + (total_photos[po].file_name.substr(0, total_photos[po].file_name.lastIndexOf('.')) || total_photos[po].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
+               '</div>' +
+               '<div style="font-style: italic; color: #a0a0a0; text-align: left; font-size: 11px;">'+ photo_date +'</div>'+
+               '<div>' +
+               '<a style="font-size: 11px;" href="'+ server_image_path +  property_id + '/' + total_photos[po].file_name + '">Ref#'+ (po + 1) +'</a>' +
+               '</div></div>';
 
           }
 
@@ -2537,8 +2542,8 @@ module.exports = {
 
 
       var photo_page = '';
-      photo_page = '<div style="width: 100%; padding:0px; padding-left: 10px; margin-bottom: 15px; border:none;color:' + report_settings.table_header_color + '; background-color:' + table_header_bg_color_light +'" ><h1 class="sub-heading" style="margin-top: 20px; font-size:16px;">'+ master_item.master.name +' - Photos</h1>'+
-      '<hr/>' +
+      photo_page = '<div><div style="width: 100%; padding:0px; padding-left: 10px; margin-bottom: 15px; border:none;color:' + report_settings.table_header_color + '; background-color:' + report_settings.table_header_bg_color +'" ><h1 class="sub-heading" style="margin-top: 20px; font-size:16px;">'+ master_item.master.name +' - Photos</h1>'+
+      '</div>' +
       '<div style="margin-top: 20px; width:100%; text-align:left;" class="div-img-wrapper">'+
         total_photo_html +
       '</div></div>';
