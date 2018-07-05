@@ -2152,12 +2152,12 @@ module.exports = {
          if(desc){
 
            photos_html += '<div style="width: 30%; background-color: #ffffff; display: inline-block; margin: 5px; max-width: 300px;">' +
-                  desc
+                  desc +
               '</div>';
 
          }
 
-         sails.log(photos_html);
+         //sails.log(photos_html);
 
           //'<div style="width: 35%; display:inline-block"><span class="left-text">'+ desc +'</span></div>' +
           //'<div style="width: 30%; display:inline-block"><span class="left-text">'+ photos_html +'</span></div>' +
