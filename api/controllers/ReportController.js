@@ -2665,7 +2665,7 @@ module.exports = {
                 '<tr style="height: 80px;">' +
                   '<td>' +
                     '<hr style="border:0; margin:0; padding:0; height:1px; color:#555555; background-color:#ffffff; width: 60%; "/>' +
-                    '<span>Signature</span><br/>' +
+                    '<span></span><br/>' +
                     landlord_img +
                   '</td>' +
                   '<td></td>' +
@@ -2673,7 +2673,7 @@ module.exports = {
                 '<tr>' +
                   '<td>' +
                     '<hr style="border:0; margin:0; padding:0; height:1px; color:#555555; background-color:#555555; width: 60%; "/>' +
-                    '<span></span></td>' +
+                    '<span>Signature</span></td>' +
                   '<td></td>' +
                 '</tr>' +
                 '<tr style="height: 80px;">' +
@@ -2690,23 +2690,23 @@ module.exports = {
                 '<tr style="height: 50px;">' +
                   '<td>' +
                     '<hr style="border:0; margin:0; padding:0; height:1px; color:#555555; background-color:#ffffff; width: 60%; "/>' +
-                    '<span>Signature</span><br/>' +
+                    '<span></span><br/>' +
                     tenant_img +
                   '</td>' +
                   '<td>' +
-                    '<hr style="border:0; margin:0; padding:0; height:1px; color:#555555; background-color:#555555; width: 60%; "/>' +
-                    '<span>Signature</span><br/>' +
+                    '<hr style="border:0; margin:0; padding:0; height:1px; color:#555555; background-color:#ffffff; width: 60%; "/>' +
+                    '<span></span><br/>' +
                      clerk_img +
                   '</td>' +
                 '</tr>' +
                 '<tr style="height: 50px;">' +
                   '<td>' +
                     '<hr style="border:0; margin:0; padding:0; height:1px; color:#555555; background-color:#555555; width: 60%; "/>' +
-                    '<span></span>' +
+                    '<span>Signature</span>' +
                   '</td>' +
                   '<td>' +
                     '<hr style="border:0; margin:0; padding:0; height:1px; color:#555555; background-color:#555555; width: 60%; "/>' +
-                    '<span></span>' +
+                    '<span>Signature</span>' +
                   '</td>' +
                 '</tr>' +
                 '<tr style="height: 50px;">' +
