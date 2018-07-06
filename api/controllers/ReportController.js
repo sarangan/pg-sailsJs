@@ -2600,7 +2600,7 @@ module.exports = {
 
       if(signature_data){
 
-      if(Object.keys(signature_data).length === 0 && signature_data.constructor === Object ){
+      if(Object.keys(signature_data).length !== 0 && signature_data.constructor === Object ){
         tenant_url = signature_data.tenant_url;
         lanlord_url = signature_data.lanlord_url;
         clerk_url = signature_data.clerk_url;
@@ -2619,6 +2619,7 @@ module.exports = {
       }
     }
 
+    sails.log(signature_data);
     sails.log(tenant_img);
 
       signature ='<div class="chapter">' +
