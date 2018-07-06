@@ -2602,18 +2602,13 @@ module.exports = {
 
         sails.log('i am in side the data');
 
-        if(Object.keys(signature_data).length !== 0 && signature_data.constructor === Object ){
-
-          sails.log('i am in side the if con');
-
-          tenant_url = signature_data.tenant_url;
-          lanlord_url = signature_data.lanlord_url;
-          clerk_url = signature_data.clerk_url;
+          tenant_url = signature_data.hasOwnProperty('tenant_url')? signature_data.tenant_url : '';
+          lanlord_url = ignature_data.hasOwnProperty('lanlord_url')? signature_data.lanlord_url : '';
+          clerk_url = ignature_data.hasOwnProperty('clerk_url')? signature_data.clerk_url : '';
 
           sails.log(signature_data.tenant_url);
           sails.log('---------------------');
           sails.log(tenant_url)
-        }
 
         if(lanlord_url){
           landlord_img = '<img src="'+ lanlord_url +'" alt="img" class="rt-2-tbl-img"  style="width: 100px; height: auto;"/>';
@@ -2725,7 +2720,7 @@ module.exports = {
       '</div>';
     }
 
-    sails.log(signature);
+    //sails.log(signature);
 
 	 	html = '<!DOCTYPE html>'+
              '<html lang="en"><style type="text/css" media="screen,print">'+
