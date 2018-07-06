@@ -2600,26 +2600,20 @@ module.exports = {
 
       if(signature_data){
 
-        sails.log('i am in side the data');
-
           tenant_url = signature_data.hasOwnProperty('tenant_url')? signature_data.tenant_url : '';
           lanlord_url = signature_data.hasOwnProperty('lanlord_url')? signature_data.lanlord_url : '';
           clerk_url = signature_data.hasOwnProperty('clerk_url')? signature_data.clerk_url : '';
 
-          sails.log(signature_data.tenant_url);
-          sails.log('---------------------');
-          sails.log(tenant_url)
-
         if(lanlord_url){
-          landlord_img = '<img src="'+ lanlord_url +'" alt="img" class="rt-2-tbl-img"  style="width: 100px; height: auto;"/>';
+          landlord_img = '<img src="'+ lanlord_url +'" alt="img" class="rt-2-sign-img"  />';
         }
 
         if(tenant_url){
-          tenant_img = '<img src="'+ tenant_url +'" alt="img" class="rt-2-tbl-img"  style="width: 100px; height: auto;"/>';
+          tenant_img = '<img src="'+ tenant_url +'" alt="img" class="rt-2-sign-img" />';
         }
 
         if(clerk_url){
-          clerk_img = '<img src="'+ clerk_url +'" alt="img" class="rt-2-tbl-img"  style="width: 100px; height: auto;"/>';
+          clerk_img = '<img src="'+ clerk_url +'" alt="img" class="rt-2-sign-img" />';
         }
     }
 
@@ -2781,6 +2775,7 @@ module.exports = {
                    '.rt-1-img{ width: 100%; height: auto;  display: inline-block; max-width: 300px;}' +
                    '.img-inline-wrapper{ width: 80%; padding: 10px; background-color: #ffffff; display: inline-block; max-width: 300px; }' +
                    '.rt-2-tbl-img{ width: 100%; height: auto; border: 1px solid #4c6f7b; padding: 1px;}' +
+                   '.rt-2-sign-img{ width: 150px; height: auto;}' +
                    '.report-tbl2{ margin-top: 20px;}' +
                    '.rt-2-top-img-wrapper{ margin-bottom: 10px; }' +
                    '.report-tbl3{ margin-top: 20px;}' +
