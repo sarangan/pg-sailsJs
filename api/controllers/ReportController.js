@@ -2595,7 +2595,7 @@ module.exports = {
       var landlord_img = '';
       var tenant_img = '';
       var clerk_img = '';
-
+      var sign_date = '';
 
 
       if(signature_data){
@@ -2615,6 +2615,18 @@ module.exports = {
         if(clerk_url){
           clerk_img = '<img src="'+ clerk_url +'" alt="img" class="rt-2-sign-img" />';
         }
+
+        if(signature_data.hasOwnProperty('mb_createdAt') && signature_data.hasOwnProperty('createdAt')  ){
+          if(signature_data.mb_createdAt == '0000-00-00 00:00:00' ||  !signature_data.mb_createdAt ){
+            sign_date = signature_data.createdAt;
+          }
+          else{
+            sign_date = signature_data.mb_createdAt;
+          }
+          sign_date = sign_date.slice(0, 10);
+        }
+
+
     }
 
     //sails.log(signature_data);
@@ -2652,20 +2664,21 @@ module.exports = {
                 '</tr>' +
                 '<tr style="height: 80px;">' +
                   '<td>' +
-                    '<hr style="border:0; margin:0; padding:0; height:1px; color:#555555; background-color:#555555; width: 60%; "/>' +
+                    '<hr style="border:0; margin:0; padding:0; height:1px; color:#555555; background-color:#ffffff; width: 60%; "/>' +
                     '<span>Signature</span><br/>' +
                     landlord_img +
                   '</td>' +
                   '<td></td>' +
-                '</tr style="height: 80px;">' +
+                '</tr>' +
                 '<tr>' +
                   '<td>' +
                     '<hr style="border:0; margin:0; padding:0; height:1px; color:#555555; background-color:#555555; width: 60%; "/>' +
-                    '<span>Print name</span></td>' +
+                    '<span></span></td>' +
                   '<td></td>' +
                 '</tr>' +
                 '<tr style="height: 80px;">' +
                   '<td>' +
+                    '<span>' + sign_date + '</span>' +
                     '<hr style="border:0; margin:0; padding:0; height:1px; color:#555555; background-color:#555555; width: 35%; "/>' +
                     '<span>Date</span></td>' +
                   '<td></td>' +
@@ -2676,7 +2689,7 @@ module.exports = {
                 '</tr>' +
                 '<tr style="height: 50px;">' +
                   '<td>' +
-                    '<hr style="border:0; margin:0; padding:0; height:1px; color:#555555; background-color:#555555; width: 60%; "/>' +
+                    '<hr style="border:0; margin:0; padding:0; height:1px; color:#555555; background-color:#ffffff; width: 60%; "/>' +
                     '<span>Signature</span><br/>' +
                     tenant_img +
                   '</td>' +
@@ -2689,19 +2702,21 @@ module.exports = {
                 '<tr style="height: 50px;">' +
                   '<td>' +
                     '<hr style="border:0; margin:0; padding:0; height:1px; color:#555555; background-color:#555555; width: 60%; "/>' +
-                    '<span>Print name</span>' +
+                    '<span></span>' +
                   '</td>' +
                   '<td>' +
                     '<hr style="border:0; margin:0; padding:0; height:1px; color:#555555; background-color:#555555; width: 60%; "/>' +
-                    '<span>Print name</span>' +
+                    '<span></span>' +
                   '</td>' +
                 '</tr>' +
                 '<tr style="height: 50px;">' +
                   '<td>' +
+                    '<span>' + sign_date + '</span>' +
                     '<hr style="border:0; margin:0; padding:0; height:1px; color:#555555; background-color:#555555; width: 35%; "/>' +
                     '<span>Date</span>' +
                   '</td>' +
                   '<td>' +
+                    '<span>' + sign_date + '</span>' + 
                     '<hr style="border:0; margin:0; padding:0; height:1px; color:#555555; background-color:#555555; width: 35%; "/>' +
                     '<span>Date</span>' +
                   '</td>' +
