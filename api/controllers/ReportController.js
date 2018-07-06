@@ -2140,7 +2140,7 @@ module.exports = {
                 }
 
                 var temp_image_url = 'http://propertyground.co.uk/cropper/phpThumb.php?src=' + encodeURIComponent(server_image_path +  property_id + '/' + '' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg') +'&w=300&h=300&ra=270';
-                sails.log(temp_image_url);
+                //sails.log(temp_image_url);
                 if(sub_item.photos[l].file_name){
                   photos_html += '<div style="width: 23%; background-color: #ffffff; display: inline-block; margin: 5px;">' +
                      '<div style="padding: 1px; background-color: #ffffff; border: 1px solid #ffffff; display: inline-block; ">' +
