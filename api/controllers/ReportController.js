@@ -2600,27 +2600,36 @@ module.exports = {
 
       if(signature_data){
 
-      if(Object.keys(signature_data).length !== 0 && signature_data.constructor === Object ){
-        tenant_url = signature_data.tenant_url;
-        lanlord_url = signature_data.lanlord_url;
-        clerk_url = signature_data.clerk_url;
-      }
+        sails.log('i am in side the data');
 
-      if(lanlord_url){
-        landlord_img = '<img src="'+ lanlord_url +'" alt="img" class="rt-2-tbl-img"  style="width: 100px; height: auto;"/>';
-      }
+        if(Object.keys(signature_data).length !== 0 && signature_data.constructor === Object ){
 
-      if(tenant_url){
-        tenant_img = '<img src="'+ tenant_url +'" alt="img" class="rt-2-tbl-img"  style="width: 100px; height: auto;"/>';
-      }
+          sails.log('i am in side the if con');
 
-      if(clerk_url){
-        clerk_img = '<img src="'+ clerk_url +'" alt="img" class="rt-2-tbl-img"  style="width: 100px; height: auto;"/>';
-      }
+          tenant_url = signature_data.tenant_url;
+          lanlord_url = signature_data.lanlord_url;
+          clerk_url = signature_data.clerk_url;
+
+          sails.log(signature_data.tenant_url);
+          sails.log('---------------------');
+          sails.log(tenant_url)
+        }
+
+        if(lanlord_url){
+          landlord_img = '<img src="'+ lanlord_url +'" alt="img" class="rt-2-tbl-img"  style="width: 100px; height: auto;"/>';
+        }
+
+        if(tenant_url){
+          tenant_img = '<img src="'+ tenant_url +'" alt="img" class="rt-2-tbl-img"  style="width: 100px; height: auto;"/>';
+        }
+
+        if(clerk_url){
+          clerk_img = '<img src="'+ clerk_url +'" alt="img" class="rt-2-tbl-img"  style="width: 100px; height: auto;"/>';
+        }
     }
 
-    sails.log(signature_data);
-    sails.log(tenant_img);
+    //sails.log(signature_data);
+    //sails.log(tenant_img);
 
       signature ='<div class="chapter">' +
         '<h1 class="sub-heading">Declaration</h1>' +
