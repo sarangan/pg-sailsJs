@@ -2142,7 +2142,7 @@ module.exports = {
 
                 if(sub_item.photos[l].file_name){
                   photos_html += '<div style="width: 23%; background-color: #ffffff; display: inline-block; margin: 5px;">' +
-                     '<div style="padding: 1px; background-color: #ffffff; border: 1px solid #000000; display: inline-block; ">' +
+                     '<div style="padding: 1px; background-color: #ffffff; border: 1px solid #ffffff; display: inline-block; ">' +
                      '<img src="' + server_image_path +  property_id + '/' + '600_' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                      '</div>' +
                      '<div style="font-style: italic; color: #a0a0a0; text-align: left; font-size: 11px;">Date taken: '+ photo_date +'</div>'+
@@ -2379,7 +2379,7 @@ module.exports = {
 
               if(master_item.photos[l].file_name){
                 photos_html += '<div style="width: 23%; height: auto; background-color: #ffffff; display: inline-block; margin: 5px;">' +
-                   '<div style="padding: 1px; background-color: #ffffff; border: 1px solid #000000; display: inline-block; ">' +
+                   '<div style="padding: 1px; background-color: #ffffff; border: 1px solid #ffffff; display: inline-block; ">' +
                    '<img src="' + server_image_path +  property_id + '/' + '300_' + (master_item.photos[l].file_name.substr(0, master_item.photos[l].file_name.lastIndexOf('.')) || master_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                    '</div>' +
                    '<div style="font-style: italic; color: #a0a0a0; text-align: left; font-size: 11px;">Date taken: '+ photo_date +'</div>'+
@@ -2491,7 +2491,7 @@ module.exports = {
           if(report_settings.photo_collection_layout ==  '2-COL'){
 
             total_photo_html += '<div style="width: 30%; background-color: #ffffff; display: inline-block; margin: 5px; max-width: 300px;">' +
-               '<div style="padding: 1px; background-color: #ffffff; border: 1px solid #000000; display: inline-block; ">' +
+               '<div style="padding: 1px; background-color: #ffffff; border: 1px solid #ffffff; display: inline-block; ">' +
                '<img src="' + server_image_path +  property_id + '/' + '300_' + (total_photos[po].file_name.substr(0, total_photos[po].file_name.lastIndexOf('.')) || total_photos[po].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                '</div>' +
                '<div style="font-style: italic; color: #a0a0a0; text-align: left; font-size: 11px;">Date taken: '+ photo_date +'</div>'+
@@ -2503,7 +2503,7 @@ module.exports = {
           else if(report_settings.photo_collection_layout ==  '3-COL'){
 
             total_photo_html += '<div style="width: 27%; background-color: #ffffff; display: inline-block; margin: 5px; max-width: 300px;">' +
-               '<div style="padding: 1px; background-color: #ffffff; border: 1px solid #000000; display: inline-block; ">' +
+               '<div style="padding: 1px; background-color: #ffffff; border: 1px solid #ffffff; display: inline-block; ">' +
                '<img src="' + server_image_path +  property_id + '/' + '300_' + (total_photos[po].file_name.substr(0, total_photos[po].file_name.lastIndexOf('.')) || total_photos[po].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                '</div>' +
                '<div style="font-style: italic; color: #a0a0a0; text-align: left; font-size: 11px;">Date taken: '+ photo_date +'</div>'+
@@ -2515,7 +2515,7 @@ module.exports = {
           else if(report_settings.photo_collection_layout ==  '4-COL'){
 
             total_photo_html += '<div style="width: 22%; background-color: #ffffff; display: inline-block; margin: 5px; max-width: 300px;">' +
-               '<div style="padding: 1px; background-color: #ffffff; border: 1px solid #000000; display: inline-block; ">' +
+               '<div style="padding: 1px; background-color: #ffffff; border: 1px solid #ffffff; display: inline-block; ">' +
                '<img src="' + server_image_path +  property_id + '/' + '300_' + (total_photos[po].file_name.substr(0, total_photos[po].file_name.lastIndexOf('.')) || total_photos[po].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                '</div>' +
                '<div style="font-style: italic; color: #a0a0a0; text-align: left; font-size: 11px;">Date taken: '+ photo_date +'</div>'+
@@ -2772,7 +2772,7 @@ module.exports = {
                    '.img-wrapper1{width: 20%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px; min-width: 200px; height: auto;}' +
                    '.rt-1-img{ width: 100%; height: auto;  display: inline-block; max-width: 300px;}' +
                    '.img-inline-wrapper{ width: 80%; padding: 10px; background-color: #ffffff; display: inline-block; max-width: 300px; }' +
-                   '.rt-2-tbl-img{ width: 100%; height: auto; border: 1px solid #000000; padding: 1px;}' +
+                   '.rt-2-tbl-img{ width: 100%; height: auto; border: 1px solid #4c6f7b; padding: 1px;}' +
                    '.report-tbl2{ margin-top: 20px;}' +
                    '.rt-2-top-img-wrapper{ margin-bottom: 10px; }' +
                    '.report-tbl3{ margin-top: 20px;}' +
