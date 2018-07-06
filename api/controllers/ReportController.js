@@ -809,6 +809,8 @@ module.exports = {
 
         for(var i =0, l = meter_data.length; i < l ; i++){
           if(meter_data[i].photo || meter_data[i].reading_value ){
+
+
             check_meter_data = true;
             //sails.log(server_image_path +  property_id + '/' + '300_' + (meter_data[i].photo.substr(0, meter_data[i].photo.lastIndexOf('.')) || meter_data[i].photo) + '.jpg');
 
@@ -2270,7 +2272,7 @@ module.exports = {
 
               top_photos = '<div style="width: 200px; height: auto; padding: 10px; background-color: #ffffff; display: inline-block;">'+
                 '<img src="'+ server_image_path +  property_id + '/' + '300_' + (master_item.temp_top_photos[j].file_name.substr(0, master_item.temp_top_photos[j].file_name.lastIndexOf('.')) || master_item.temp_top_photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />' +
-                '<div style="font-style: italic; color: #a0a0a0; text-align: left; font-size: 11px; ">'+ photo_date +'</div>'+
+                '<div style="font-style: italic; color: #a0a0a0; text-align: left; font-size: 11px; ">Date taken: '+ photo_date +'</div>'+
                 '<div>' +
                 '<a style="font-size: 11px;" href="'+ server_image_path +  property_id + '/' + master_item.temp_top_photos[j].file_name + '">Ref#'+ (j + 1) +'</a>' +
                 '</div></div>';
@@ -2770,7 +2772,7 @@ module.exports = {
                    '.img-wrapper1{width: 20%; padding: 10px; background-color: #e1e1e1; display: inline-block; margin: 5px; max-width: 300px; min-width: 200px; height: auto;}' +
                    '.rt-1-img{ width: 100%; height: auto;  display: inline-block; max-width: 300px;}' +
                    '.img-inline-wrapper{ width: 80%; padding: 10px; background-color: #ffffff; display: inline-block; max-width: 300px; }' +
-                   '.rt-2-tbl-img{ width: 100%; height: auto;}' +
+                   '.rt-2-tbl-img{ width: 100%; height: auto; border: 1px solid #000000; padding: 1px;}' +
                    '.report-tbl2{ margin-top: 20px;}' +
                    '.rt-2-top-img-wrapper{ margin-bottom: 10px; }' +
                    '.report-tbl3{ margin-top: 20px;}' +
@@ -2785,7 +2787,6 @@ module.exports = {
                    '.divrow-noborder {width:100%; padding: 10px;}' +
                   '.div-img-wrapper {text-align:left; padding-top: 10px; padding-bottom: 10px; width:100%; padding-right: 10px; page-break-inside: avoid; page-break-after: avoid; display:block;}'+
                    '</style></head><body>' +
-
                       general_notes +
                       general_conditiions_html +
                       meter_html +
