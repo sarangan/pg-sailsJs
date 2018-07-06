@@ -4960,9 +4960,14 @@ module.exports = {
 
 							      fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
 
-										var temp_src = 'http://propertyground.co.uk/cropper/phpThumb.php?src=' + encodeURIComponent(_src) +'&w=300&h=300&ar=P';;
-
-										fs.createReadStream(temp_src).pipe(fs.createWriteStream(upload_path + 'x_report_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg'));
+										var gm = require('gm').subClass({imageMagick: true});
+										gm(_src)
+										.resize(300, 300)
+										.noProfile()
+										.write(upload_path + 'x_report_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg', function (err) {
+										  if (!err) console.log('done with new resize man');
+											sails.log(upload_path + 'x_report_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg');
+										});
 
 										sails.log(upload_path + 'x_report_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg');
 
