@@ -2143,7 +2143,7 @@ module.exports = {
                 if(sub_item.photos[l].file_name){
                   photos_html += '<div style="width: 23%; background-color: #ffffff; display: inline-block; margin: 5px;">' +
                      '<div style="padding: 1px; background-color: #ffffff; border: 1px solid #ffffff; display: inline-block; ">' +
-                     '<img src="' + server_image_path +  property_id + '/' + '600_' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
+                     '<img src="' + 'http://propertyground.co.uk/cropper/thumbnail.php?url=' + encodeURIComponent(server_image_path +  property_id + '/' + '' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg') +'&w=300&h=300' + '" alt="img" class="rt-2-tbl-img" />' +
                      '</div>' +
                      '<div style="font-style: italic; color: #a0a0a0; text-align: left; font-size: 11px;">Date taken: '+ photo_date +'</div>'+
                      '<div>' +
