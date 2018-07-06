@@ -2139,7 +2139,7 @@ module.exports = {
                   photo_date = photo_date.toISOString().slice(0, 19).replace('T', ' ');
                 }
 
-                var temp_image_url = 'http://propertyground.co.uk/cropper/phpThumb.php?src=' + encodeURIComponent(server_image_path +  property_id + '/' + '' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg') +'&w=300&h=300&ra=270';
+                var temp_image_url = 'http://propertyground.co.uk/cropper/phpThumb.php?src=' + encodeURIComponent(server_image_path +  property_id + '/' + '' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg') +'&w=300&h=300&ar=P';
                 //sails.log(temp_image_url);
                 if(sub_item.photos[l].file_name){
                   photos_html += '<div style="width: 23%; background-color: #ffffff; display: inline-block; margin: 5px;">' +
