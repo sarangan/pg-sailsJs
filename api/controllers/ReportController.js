@@ -2623,7 +2623,7 @@ module.exports = {
           else{
             sign_date = signature_data.mb_createdAt;
           }
-          sign_date = sign_date.slice(0, 10);
+          sign_date = sign_date.toISOString().slice(0, 10);
         }
 
 
@@ -2716,7 +2716,7 @@ module.exports = {
                     '<span>Date</span>' +
                   '</td>' +
                   '<td>' +
-                    '<span>' + sign_date + '</span>' + 
+                    '<span>' + sign_date + '</span>' +
                     '<hr style="border:0; margin:0; padding:0; height:1px; color:#555555; background-color:#555555; width: 35%; "/>' +
                     '<span>Date</span>' +
                   '</td>' +
