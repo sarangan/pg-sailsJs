@@ -2619,6 +2619,8 @@ module.exports = {
       }
     }
 
+    sails.log(tenant_img);
+
       signature ='<div class="chapter">' +
         '<h1 class="sub-heading">Declaration</h1>' +
         '<hr/>' +
@@ -2713,6 +2715,7 @@ module.exports = {
       '</div>';
     }
 
+    sails.log(signature);
 
 	 	html = '<!DOCTYPE html>'+
              '<html lang="en"><style type="text/css" media="screen,print">'+
