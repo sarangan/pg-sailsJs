@@ -4962,7 +4962,7 @@ module.exports = {
 
 										var temp_src = 'http://propertyground.co.uk/cropper/phpThumb.php?src=' + encodeURIComponent(_src) +'&w=300&h=300&ar=P';;
 
-										fs.createReadStream(_src).pipe(fs.createWriteStream(upload_path + 'x_report_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg'));
+										fs.createReadStream(temp_src).pipe(fs.createWriteStream(upload_path + 'x_report_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg'));
 
 										sails.log(upload_path + 'x_report_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg');
 
