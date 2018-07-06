@@ -2603,8 +2603,8 @@ module.exports = {
         sails.log('i am in side the data');
 
           tenant_url = signature_data.hasOwnProperty('tenant_url')? signature_data.tenant_url : '';
-          lanlord_url = ignature_data.hasOwnProperty('lanlord_url')? signature_data.lanlord_url : '';
-          clerk_url = ignature_data.hasOwnProperty('clerk_url')? signature_data.clerk_url : '';
+          lanlord_url = signature_data.hasOwnProperty('lanlord_url')? signature_data.lanlord_url : '';
+          clerk_url = signature_data.hasOwnProperty('clerk_url')? signature_data.clerk_url : '';
 
           sails.log(signature_data.tenant_url);
           sails.log('---------------------');
