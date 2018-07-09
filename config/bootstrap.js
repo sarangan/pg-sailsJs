@@ -11,6 +11,20 @@
 
 module.exports.bootstrap = function(cb) {
 
+  var fs = require('fs')
+  , path = require('path');
+
+module.exports.bootstrap = function (cb) {
+  // Whatever else you want to bootstrap...
+
+  var postsSource = path.join(process.cwd(), 'assets/images/')
+    , postsDest = path.join(process.cwd(), '.tmp/public/images/');
+
+  fs.symlink(postsSource, postsDest, function(err) {
+    cb(err);
+  });
+};
+
   // It's very important to trigger this callback method when you are finished
   // with the bootstrap!  (otherwise your server will never lift, since it's waiting on the bootstrap)
   cb();
