@@ -2172,7 +2172,7 @@ module.exports = {
 
           var temp_sub_items_html_maintaince = '';
           if(need_maintance){
-            temp_sub_items_html_maintaince ='<span class="left-text" style="background-color:#e2401c; color:#ffffff; padding: 1px; paddin-left: 2px; padding-right: 2px; font-size: 13px;"> '+ need_maintance +' </span>';
+            temp_sub_items_html_maintaince ='<span class="left-text" style="background-color:#e2401c; color:#ffffff; padding: 1px; padding-left: 3px; padding-right: 3px; font-size: 13px;"> '+ need_maintance +' </span>';
           }
 
           var temp_sub_items_option = '';
@@ -2408,7 +2408,7 @@ module.exports = {
 
        var temp_sub_items_html_maintaince = '';
        if(need_maintance){
-         temp_sub_items_html_maintaince ='<span class="left-text" style="background-color:#e2401c; color:#ffffff; padding: 1px; paddin-left: 2px; padding-right: 2px; font-size: 13px;"> '+ need_maintance +' </span>';
+         temp_sub_items_html_maintaince ='<span class="left-text" style="background-color:#e2401c; color:#ffffff; padding: 1px; padding-left: 3px; padding-right: 3px; font-size: 13px;"> '+ need_maintance +' </span>';
        }
 
        var temp_sub_items_option = '';
@@ -2848,7 +2848,7 @@ module.exports = {
 
             };
 
-            sails.log(html);
+            //sails.log(html);
 
             // wkhtmltopdf(html, options,  function (err, stream){
             //   if (err){
