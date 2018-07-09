@@ -376,6 +376,7 @@ module.exports = {
 						var fs = require('fs');
 						var path = require('path');
 						var im = require('imagemagick');
+						var gm = require('gm').subClass({imageMagick: true});
 
 						var ImagesDirArr = __dirname.split('/'); // path to this controller
             ImagesDirArr.pop();
@@ -411,15 +412,14 @@ module.exports = {
 						      	fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
 
 
-
-										im.resize({
-		                  srcPath: _src,
-		                  dstPath: upload_path + '300_' + path.basename(files[0].fd),
-		                  width: 300
-		                }, function(err, stdout, stderr){
-		                  if (err) throw err;
-		                  console.log('resized fit within 300px');
-		                });
+										// im.resize({
+		                //   srcPath: _src,
+		                //   dstPath: upload_path + '300_' + path.basename(files[0].fd),
+		                //   width: 300
+		                // }, function(err, stdout, stderr){
+		                //   if (err) throw err;
+		                //   console.log('resized fit within 300px');
+		                // });
 
 										im.resize({
 		                  srcPath: _src,
@@ -438,6 +438,15 @@ module.exports = {
 										}, function(err, stdout, stderr){
 											if (err) throw err;
 											sails.log('cropped fit within 300px');
+										});
+
+										//new resize method
+										gm(_src)
+										.resize(300, 300)
+										.autoOrient()
+										//.noProfile()
+										.write(upload_path + '300_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg', function (err) {
+										  if (!err) console.log('done with new resize man');
 										});
 
 
@@ -493,14 +502,14 @@ module.exports = {
 
 								      	fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
 
-												im.resize({
-				                  srcPath: _src,
-				                  dstPath: upload_path + '300_' + path.basename(files[0].fd),
-				                  width: 300
-				                }, function(err, stdout, stderr){
-				                  if (err) throw err;
-				                  console.log('resized fit within 300px');
-				                });
+												// im.resize({
+				                //   srcPath: _src,
+				                //   dstPath: upload_path + '300_' + path.basename(files[0].fd),
+				                //   width: 300
+				                // }, function(err, stdout, stderr){
+				                //   if (err) throw err;
+				                //   console.log('resized fit within 300px');
+				                // });
 
 												im.resize({
 				                  srcPath: _src,
@@ -519,6 +528,16 @@ module.exports = {
 												}, function(err, stdout, stderr){
 													if (err) throw err;
 													sails.log('cropped fit within 300px');
+												});
+
+												//new resize method
+												gm(_src)
+												.resize(300, 300)
+												.autoOrient()
+												//.noProfile()
+												.write(upload_path + '300_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg', function (err) {
+												  if (!err) console.log('done with new resize man');
+
 												});
 
 
@@ -706,6 +725,7 @@ module.exports = {
 						var fs = require('fs');
             var im = require('imagemagick');
             var path = require('path');
+						var gm = require('gm').subClass({imageMagick: true});
 
 						var ImagesDirArr = __dirname.split('/'); // path to this controller
             ImagesDirArr.pop();
@@ -755,6 +775,14 @@ module.exports = {
 									}, function(err, stdout, stderr){
 										if (err) throw err;
 										sails.log('cropped fit within 300px');
+									});
+
+									gm(_src)
+									.resize(300, 300)
+									.autoOrient()
+									//.noProfile()
+									.write(upload_path + 'report_300_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg', function (err) {
+									  if (!err) console.log('done with new resize man');
 									});
 
 								 	Property_info.update({property_id: property_id }, dataPropertyInfo ).exec(function afterwards(err, updated){
@@ -814,6 +842,15 @@ module.exports = {
 			                  if (err) throw err;
 			                  sails.log('resized fit within 300px');
 			                });
+
+											gm(_src)
+											.resize(300, 300)
+											.autoOrient()
+											//.noProfile()
+											.write(upload_path + 'report_300_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg', function (err) {
+											  if (!err) console.log('done with new resize man');
+											});
+
 
 											im.crop({
 												srcPath: _src,
@@ -1134,6 +1171,7 @@ module.exports = {
 										var fs = require('fs');
 				            var im = require('imagemagick');
 				            var path = require('path');
+										var gm = require('gm').subClass({imageMagick: true});
 
 				            var ImagesDirArr = __dirname.split('/'); // path to this controller
 				            ImagesDirArr.pop();
@@ -1192,6 +1230,15 @@ module.exports = {
 													}, function(err, stdout, stderr){
 														if (err) throw err;
 														sails.log('cropped fit within 300px');
+													});
+
+													//new resize method
+													gm(_src)
+													.resize(300, 300)
+													.autoOrient()
+													//.noProfile()
+													.write(upload_path + '300_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg', function (err) {
+													  if (!err) console.log('done with new resize man');
 													});
 
 													//update main process //
@@ -1480,6 +1527,15 @@ module.exports = {
 					                        if (err) throw err;
 					                        sails.log('resized fit within 600px');
 					                      });
+
+																//new resize method
+																gm(_src)
+																.resize(300, 300)
+																.autoOrient()
+																//.noProfile()
+																.write(upload_path + '300_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg', function (err) {
+																  if (!err) console.log('done with new resize man');
+																});
 
 																//update main process //
 
@@ -2015,6 +2071,7 @@ module.exports = {
 										var fs = require('fs');
 				            var im = require('imagemagick');
 				            var path = require('path');
+										var gm = require('gm').subClass({imageMagick: true});
 
 				            var ImagesDirArr = __dirname.split('/'); // path to this controller
 				            ImagesDirArr.pop();
@@ -2072,6 +2129,16 @@ module.exports = {
 													}, function(err, stdout, stderr){
 														if (err) throw err;
 														sails.log('cropped fit within 300px');
+													});
+
+													//new resize method
+													gm(_src)
+													.resize(300, 300)
+													.autoOrient()
+													//.noProfile()
+													.write(upload_path + 'report_300_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg', function (err) {
+													  if (!err) console.log('done with new resize man');
+
 													});
 
 													dataPropertyInfo['image_url'] = path.basename(files[0].fd);
@@ -2143,6 +2210,16 @@ module.exports = {
 															}, function(err, stdout, stderr){
 																if (err) throw err;
 																sails.log('cropped fit within 300px');
+															});
+
+															//new resize method
+															gm(_src)
+															.resize(300, 300)
+															.autoOrient()
+															//.noProfile()
+															.write(upload_path + 'report_300_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg', function (err) {
+															  if (!err) console.log('done with new resize man');
+
 															});
 
 															dataPropertyInfo['image_url'] = path.basename(files[0].fd);
@@ -4916,6 +4993,7 @@ module.exports = {
 
 						var fs = require('fs');
             var im = require('imagemagick');
+						var gm = require('gm').subClass({imageMagick: true});
             var path = require('path');
 
 						var ImagesDirArr = __dirname.split('/'); // path to this controller
@@ -4960,17 +5038,8 @@ module.exports = {
 
 							      fs.createReadStream(_src).pipe(fs.createWriteStream(_dest));
 
-										var gm = require('gm').subClass({imageMagick: true});
-										gm(_src)
-										.resize(300, 300)
-										.autoOrient()
-										//.noProfile()
-										.write(upload_path + 'x_report_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg', function (err) {
-										  if (!err) console.log('done with new resize man');
-											sails.log(upload_path + 'x_report_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg');
-										});
 
-										sails.log(upload_path + 'x_report_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg');
+
 
 										//resize
 										im.resize({
@@ -4982,26 +5051,33 @@ module.exports = {
 											sails.log('resized fit within 600px');
 										});
 
-
-										im.resize({
-										 srcPath: _src,
-										 dstPath:  upload_path + '300_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
-										 quality: 0.6,
-										 width: 300
-									 	}, function(err, stdout, stderr){
-										 		if (err) throw err;
-										 			 sails.log('resized fit within 300px');
-										});
+										// im.resize({
+										//  srcPath: _src,
+										//  dstPath:  upload_path + '300_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
+										//  quality: 0.6,
+										//  width: 300
+									 	// }, function(err, stdout, stderr){
+										//  		if (err) throw err;
+										//  			 sails.log('resized fit within 300px');
+										// });
 
 										im.crop({
 											srcPath: _src,
 											dstPath: upload_path + 'report_300_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
 											width: 300,
 											height: 300,
-											quality: 0.6,
 										}, function(err, stdout, stderr){
 											if (err) throw err;
 											sails.log('cropped fit within 300px');
+										});
+
+										//new resize method
+										gm(_src)
+										.resize(300, 300)
+										.autoOrient()
+										//.noProfile()
+										.write(upload_path + '300_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg', function (err) {
+											if (!err) console.log('done with new resize man');
 
 											Photos.create(data).exec(function(err, photos){
 											 if (err) return res.json(err);
@@ -5070,14 +5146,14 @@ module.exports = {
 
 													//resize
 
-													im.resize({
-														srcPath: _src,
-														dstPath: upload_path + '300_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
-														width: 300
-													}, function(err, stdout, stderr){
-														if (err) throw err;
-														sails.log('resized fit within 300px');
-													});
+													// im.resize({
+													// 	srcPath: _src,
+													// 	dstPath: upload_path + '300_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
+													// 	width: 300
+													// }, function(err, stdout, stderr){
+													// 	if (err) throw err;
+													// 	sails.log('resized fit within 300px');
+													// });
 
 
 													im.resize({
@@ -5089,34 +5165,53 @@ module.exports = {
 													 sails.log('resized fit within 600px');
 												 });
 
-
 												 im.crop({
-													 srcPath: _src,
-													 dstPath: upload_path + 'report_300_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
-													 width: 300,
-													 height: 300,
-													 quality: 0.6,
+												 	srcPath: _src,
+												 	dstPath: upload_path + 'report_300_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
+												 	width: 300,
+												 	height: 300,
 												 }, function(err, stdout, stderr){
-													 if (err) throw err;
-													 sails.log('cropped fit within 300px');
-
-
-													 Photos.create(data).exec(function(err, photos){
- 														if (err) return res.json(err);
- 														 if(photos.photo_id){
-
- 															 return res.json({
- 																 message: files.length + ' file(s) uploaded successfully!',
- 																 files: files,
- 																 data: data,
- 																 status: 1
- 															 });
-
- 														 }
- 													});
-
-
+												 	if (err) throw err;
+												 	sails.log('cropped fit within 300px');
 												 });
+
+												 //new resize method
+		 										gm(_src)
+		 										.resize(300, 300)
+		 										.autoOrient()
+		 										//.noProfile()
+		 										.write(upload_path + '300_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg', function (err) {
+		 											if (!err) console.log('done with new resize man');
+
+													Photos.create(data).exec(function(err, photos){
+													 if (err) return res.json(err);
+														if(photos.photo_id){
+
+															return res.json({
+																message: files.length + ' file(s) uploaded successfully!',
+																files: files,
+																data: data,
+																status: 1
+															});
+
+														}
+												 });
+
+		 										});
+
+
+												 // im.crop({
+													//  srcPath: _src,
+													//  dstPath: upload_path + 'report_300_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg',
+													//  width: 300,
+													//  height: 300,
+													//  quality: 0.6,
+												 // }, function(err, stdout, stderr){
+													//  if (err) throw err;
+													//  sails.log('cropped fit within 300px');
+												 //
+												 //
+												 // });
 
 
 
