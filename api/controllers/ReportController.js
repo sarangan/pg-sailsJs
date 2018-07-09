@@ -822,7 +822,7 @@ module.exports = {
 
             var meter_photo = '';
             if(meter_data[i].photo){
-              meter_photo = '<td><div class="img-inline-wrapper">';
+              meter_photo = '<td><div class="img-inline-wrapper" style="padding:0; margin: 0;">';
               meter_photo += '<img src="' + server_image_path +  property_id + '/' + '300_' + (meter_data[i].photo.substr(0, meter_data[i].photo.lastIndexOf('.')) || meter_data[i].photo) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
               '<a style="font-size: 11px;" href="'+ server_image_path +  property_id + '/' + meter_data[i].photo + '">Ref#'+ (i + 1) +'</a>';
               meter_photo += '</div></td>';
