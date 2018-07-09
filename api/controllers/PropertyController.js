@@ -4963,7 +4963,8 @@ module.exports = {
 										var gm = require('gm').subClass({imageMagick: true});
 										gm(_src)
 										.resize(300, 300)
-										.noProfile()
+										.autoOrient()
+										//.noProfile()
 										.write(upload_path + 'x_report_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg', function (err) {
 										  if (!err) console.log('done with new resize man');
 											sails.log(upload_path + 'x_report_' + path.basename(files[0].fd, path.extname(files[0].fd) ) + '.jpg');
