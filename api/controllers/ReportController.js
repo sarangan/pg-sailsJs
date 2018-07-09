@@ -2147,7 +2147,7 @@ module.exports = {
                 var temp_image_url = 'http://propertyground.co.uk/cropper/phpThumb.php?src=' + encodeURIComponent(server_image_path +  property_id + '/' + '' + (sub_item.photos[l].file_name.substr(0, sub_item.photos[l].file_name.lastIndexOf('.')) || sub_item.photos[l].file_name) + '.jpg') +'&w=300&h=300&ar=P';
                 //sails.log(temp_image_url);
                 if(sub_item.photos[l].file_name){
-                  photos_html += '<div style="width: 23%; background-color: #ffffff; display: inline-block; margin: 5px;">' +
+                  photos_html += '<div style="width: 23%; background-color: #ffffff; display: inline-block; margin: 5px; vertical-align: top;">' +
                      '<div style="padding: 1px; background-color: #ffffff; border: 1px solid #ffffff; display: inline-block; ">' +
                      '<img src="' + temp_image_url + '" alt="img" class="rt-2-tbl-img" />' +
                      '</div>' +
@@ -2276,7 +2276,7 @@ module.exports = {
                 break;
               }
 
-              top_photos = '<div style="width: 200px; height: auto; padding: 10px; background-color: #ffffff; display: inline-block;">'+
+              top_photos = '<div style="width: 200px; height: auto; padding: 10px; background-color: #ffffff; display: inline-block; vertical-align: top;">'+
                 '<img src="'+ server_image_path +  property_id + '/' + '300_' + (master_item.temp_top_photos[j].file_name.substr(0, master_item.temp_top_photos[j].file_name.lastIndexOf('.')) || master_item.temp_top_photos[j].file_name) + '.jpg'  + '" alt="img" class="rt-2-tbl-img" />' +
                 '<div style="font-style: italic; color: #a0a0a0; text-align: left; font-size: 11px; ">Date taken: '+ photo_date +'</div>'+
                 '<div>' +
@@ -2305,7 +2305,7 @@ module.exports = {
                             fgeneral +
                            '</span>' +
                        '</div>' +
-                '</div><div style="vertical-align: top;">' +
+                '</div><div>' +
                 sub_items_html +
                 '</div>'+
          '</div>';
@@ -2384,7 +2384,7 @@ module.exports = {
               }
 
               if(master_item.photos[l].file_name){
-                photos_html += '<div style="width: 23%; height: auto; background-color: #ffffff; display: inline-block; margin: 5px;">' +
+                photos_html += '<div style="width: 23%; height: auto; background-color: #ffffff; display: inline-block; margin: 5px; vertical-align: top;">' +
                    '<div style="padding: 1px; background-color: #ffffff; border: 1px solid #ffffff; display: inline-block; ">' +
                    '<img src="' + server_image_path +  property_id + '/' + '300_' + (master_item.photos[l].file_name.substr(0, master_item.photos[l].file_name.lastIndexOf('.')) || master_item.photos[l].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                    '</div>' +
@@ -2443,7 +2443,7 @@ module.exports = {
                            desc +
                           '</span>' +
                       '</div>' +
-               '</div><div style="vertical-align: top;">' +
+               '</div><div>' +
                sub_items_html +
                '</div>'+
         '</div>';
