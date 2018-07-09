@@ -826,7 +826,7 @@ module.exports = {
               '<a style="font-size: 11px;" href="'+ server_image_path +  property_id + '/' + meter_data[i].photo + '">Ref#'+ (i + 1) +'</a>';
             }
 
-             meter_html += '<tr><td><div class="img-inline-wrapper" style="width: 200px;">' +
+             meter_html += '<tr><td><div class="img-inline-wrapper">' +
               meter_photo +
               '</div></td><td>' +
               '<b>Meter name : </b>'+  meter_data[i].meter_name +'<br>' +
@@ -2305,7 +2305,7 @@ module.exports = {
                             fgeneral +
                            '</span>' +
                        '</div>' +
-                '</div><div>' +
+                '</div><div style="vertical-align: top;">' +
                 sub_items_html +
                 '</div>'+
          '</div>';
@@ -2443,7 +2443,7 @@ module.exports = {
                            desc +
                           '</span>' +
                       '</div>' +
-               '</div><div>' +
+               '</div><div style="vertical-align: top;">' +
                sub_items_html +
                '</div>'+
         '</div>';
