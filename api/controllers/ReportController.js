@@ -820,9 +820,14 @@ module.exports = {
               temp_needmaintaince_html ='<div style="width: 100%; display:block; margin-top: 10px;"> <span class="left-text" style="background-color:#e2401c; color:#ffffff; padding: 2px;">'+ need_maintance +'</span></div>';
             }
 
+            var meter_photo = '';
+            if(meter_data[i].photo){
+              meter_photo = '<img src="' + server_image_path +  property_id + '/' + '300_' + (meter_data[i].photo.substr(0, meter_data[i].photo.lastIndexOf('.')) || meter_data[i].photo) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
+              '<a style="font-size: 11px;" href="'+ server_image_path +  property_id + '/' + meter_data[i].photo + '">Ref#'+ (i + 1) +'</a>';
+            }
+
              meter_html += '<tr><td><div class="img-inline-wrapper" style="width: 200px;">' +
-             '<img src="' + server_image_path +  property_id + '/' + '300_' + (meter_data[i].photo.substr(0, meter_data[i].photo.lastIndexOf('.')) || meter_data[i].photo) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
-             '<a style="font-size: 11px;" href="'+ server_image_path +  property_id + '/' + meter_data[i].photo + '">Ref#'+ (i + 1) +'</a>' +
+              meter_photo +
               '</div></td><td>' +
               '<b>Meter name : </b>'+  meter_data[i].meter_name +'<br>' +
               '<b>Reading : </b>'+  meter_data[i].reading_value +'<br>' +
