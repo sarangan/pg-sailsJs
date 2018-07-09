@@ -822,13 +822,15 @@ module.exports = {
 
             var meter_photo = '';
             if(meter_data[i].photo){
-              meter_photo = '<img src="' + server_image_path +  property_id + '/' + '300_' + (meter_data[i].photo.substr(0, meter_data[i].photo.lastIndexOf('.')) || meter_data[i].photo) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
+              meter_photo = '<td><div class="img-inline-wrapper">';
+              meter_photo += '<img src="' + server_image_path +  property_id + '/' + '300_' + (meter_data[i].photo.substr(0, meter_data[i].photo.lastIndexOf('.')) || meter_data[i].photo) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
               '<a style="font-size: 11px;" href="'+ server_image_path +  property_id + '/' + meter_data[i].photo + '">Ref#'+ (i + 1) +'</a>';
+              meter_photo += '</div></td>';
             }
 
-             meter_html += '<tr><td><div class="img-inline-wrapper">' +
+             meter_html += '<tr>' +
               meter_photo +
-              '</div></td><td>' +
+              '<td' +  (meter_data[i].photo? ' colspan="2" ' : '') + '>' +
               '<b>Meter name : </b>'+  meter_data[i].meter_name +'<br>' +
               '<b>Reading : </b>'+  meter_data[i].reading_value +'<br>' +
               '<b>Description : </b>'+ meter_data[i].comment + '<br>' +
@@ -2294,13 +2296,18 @@ module.exports = {
           var stlye5_header = '<div style="width:100%;"><h1 class="sub-heading" style="padding:3px; padding-left: 10px; font-size: 16px;background-color:' + report_settings.table_header_bg_color + ';color:' + report_settings.table_header_color + ';">' + master_item.master.name + '</h1></div>';
           stlye5_header = stlye5_header.replace(/'/g, "");
 
+          var div_top = '';
+          if(top_photos){
+            div_top = '<div style="margin-top: 5px; margin-bottom: 5px; width:40%; display: inline-block; vertical-align: top;">' +
+                top_photos +
+             '</div>';
+          }
+
           master_html +='<div class="chapter">' +
            stlye5_header +
                '<div style="margin:0; width:100%;">' +
-                      '<div style="margin-top: 5px; margin-bottom: 5px; width:40%; display: inline-block; vertical-align: top;">' +
-                          top_photos +
-                       '</div>' +
-                       '<div style="margin-top: 5px; margin-bottom: 5px; width:60%; display: inline-block; vertical-align: top;">' +
+                       div_top +
+                       '<div style="margin-top: 5px; margin-bottom: 5px; width:' + (top_photos?'60%;':'90%;') + ' display: inline-block; vertical-align: top;">' +
                            '<span>' +
                             fgeneral +
                            '</span>' +
@@ -2432,13 +2439,18 @@ module.exports = {
          var stlye5_header = '<div style="width:100%;"><h1 class="sub-heading" style="padding:3px; padding-left: 10px; font-size: 16px;background-color:' + report_settings.table_header_bg_color + ';color:' + report_settings.table_header_color + ';">' + master_item.master.name + '</h1></div>';
          stlye5_header = stlye5_header.replace(/'/g, "");
 
+         var top_div = '';
+         if(top_photos){
+           top_div = '<div style="margin-top: 5px; margin-bottom: 5px; width:40%; display: inline-block; vertical-align: top;">' +
+               top_photos +
+            '</div>';
+         }
+
          master_html +='<div class="chapter">' +
           stlye5_header +
               '<div style="margin:0; width:100%;">' +
-                     '<div style="margin-top: 5px; margin-bottom: 5px; width:40%; display: inline-block; vertical-align: top;">' +
-                         top_photos +
-                      '</div>' +
-                      '<div style="margin-top: 5px; margin-bottom: 5px; width:60%; display: inline-block; vertical-align: top;">' +
+                      top_div +
+                      '<div style="margin-top: 5px; margin-bottom: 5px; width:' + (top_photos?'60%;':'90%;') + ' display: inline-block; vertical-align: top;">' +
                           '<span>' +
                            desc +
                           '</span>' +
@@ -2496,7 +2508,7 @@ module.exports = {
 
           if(report_settings.photo_collection_layout ==  '2-COL'){
 
-            total_photo_html += '<div style="width: 30%; background-color: #ffffff; display: inline-block; margin: 5px; max-width: 300px;">' +
+            total_photo_html += '<div style="width: 30%; background-color: #ffffff; display: inline-block; margin: 5px; max-width: 300px; vertical-align: top;">' +
                '<div style="padding: 1px; background-color: #ffffff; border: 1px solid #ffffff; display: inline-block; ">' +
                '<img src="' + server_image_path +  property_id + '/' + '300_' + (total_photos[po].file_name.substr(0, total_photos[po].file_name.lastIndexOf('.')) || total_photos[po].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                '</div>' +
@@ -2508,7 +2520,7 @@ module.exports = {
           }
           else if(report_settings.photo_collection_layout ==  '3-COL'){
 
-            total_photo_html += '<div style="width: 27%; background-color: #ffffff; display: inline-block; margin: 5px; max-width: 300px;">' +
+            total_photo_html += '<div style="width: 27%; background-color: #ffffff; display: inline-block; margin: 5px; max-width: 300px; vertical-align: top;">' +
                '<div style="padding: 1px; background-color: #ffffff; border: 1px solid #ffffff; display: inline-block; ">' +
                '<img src="' + server_image_path +  property_id + '/' + '300_' + (total_photos[po].file_name.substr(0, total_photos[po].file_name.lastIndexOf('.')) || total_photos[po].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                '</div>' +
@@ -2520,7 +2532,7 @@ module.exports = {
           }
           else if(report_settings.photo_collection_layout ==  '4-COL'){
 
-            total_photo_html += '<div style="width: 22%; background-color: #ffffff; display: inline-block; margin: 5px; max-width: 300px;">' +
+            total_photo_html += '<div style="width: 22%; background-color: #ffffff; display: inline-block; margin: 5px; max-width: 300px; vertical-align: top;">' +
                '<div style="padding: 1px; background-color: #ffffff; border: 1px solid #ffffff; display: inline-block; ">' +
                '<img src="' + server_image_path +  property_id + '/' + '300_' + (total_photos[po].file_name.substr(0, total_photos[po].file_name.lastIndexOf('.')) || total_photos[po].file_name) + '.jpg' + '" alt="img" class="rt-2-tbl-img" />' +
                '</div>' +
