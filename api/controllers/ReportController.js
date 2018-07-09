@@ -2180,7 +2180,7 @@ module.exports = {
             temp_sub_items_option = '<span class="left-text" style="font-size: 13px; text-transform: uppercase;color:' + report_settings.table_header_color + ';">'+ option +' </span> condition';
           }
 
-           var temp_sub_items_html = '<div class="divrow" style="padding:0px; padding-left: 10px; margin-bottom: 15px; padding-right: 3px; border:none;color:' + report_settings.table_header_color + '; background-color:' + table_header_bg_color_light +'">' +
+           var temp_sub_items_html = '<div class="divrow" style="padding:0px; padding-left: 10px; margin-bottom: 15px; padding-right: 6px; border:none;color:' + report_settings.table_header_color + '; background-color:' + table_header_bg_color_light +'">' +
              '<div style="width: 40%; display:inline-block; "><span class="left-text" style="font-size: 13px; color:' + report_settings.table_header_color + ';">'+ sub_item.subitem.item_name  + ' (' +  master_item.master.name +')</span></div>' +
              '<div style="width: 20%; display:inline-block">'+ temp_sub_items_option +'</div>' +
              '<div style="width: 40%; display:inline-block; text-align: right;">' + temp_sub_items_html_maintaince + '</div>' +
@@ -2416,7 +2416,7 @@ module.exports = {
          temp_sub_items_option = '<span class="left-text" style="font-size: 13px; text-transform: uppercase;color:' + report_settings.table_header_color + ';">'+ option +' </span> condition';
        }
 
-       var temp_sub_items_html = '<div class="divrow" style="padding:0px; padding-left: 10px; padding-right: 3px; margin-bottom: 15px; border:none;color:' + report_settings.table_header_color + '; background-color:' + table_header_bg_color_light +'">' +
+       var temp_sub_items_html = '<div class="divrow" style="padding:0px; padding-left: 10px; padding-right: 6px; margin-bottom: 15px; border:none;color:' + report_settings.table_header_color + '; background-color:' + table_header_bg_color_light +'">' +
           '<div style="width: 40%; display:inline-block; "><span class="left-text" style="font-size: 13px; color:' + report_settings.table_header_color + ';">'+ master_item.master.name +'</span></div>' +
           '<div style="width: 20%; display:inline-block">' + temp_sub_items_option + '</div>' +
           '<div style="width: 40%; display:inline-block; text-align: right;"> ' + temp_sub_items_html_maintaince + ' </div>' +
