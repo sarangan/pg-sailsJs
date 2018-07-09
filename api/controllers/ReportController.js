@@ -2848,7 +2848,7 @@ module.exports = {
 
             };
 
-            //sails.log(html);
+            sails.log(html);
 
             // wkhtmltopdf(html, options,  function (err, stream){
             //   if (err){
