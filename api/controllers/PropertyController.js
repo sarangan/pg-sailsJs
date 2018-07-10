@@ -17,7 +17,7 @@ module.exports = {
 				User.findOne({id :  req.token.sid}).exec(function(err, user){
 					if(err) return res.json(err);
 
-						console.log(req.param('data'));
+						//console.log(req.param('data'));
 
 						var table = req.param('table');
 						var data =  req.param('data');
@@ -312,9 +312,7 @@ module.exports = {
 
 								case 'signatures':
 
-												sails.log('sign');
-												sails.log(data);
-
+												
 													Signatures.findOne({sign_id: data.sign_id }).exec(function(err, signatures){
 														if(err) return res.json(err);
 
@@ -5598,6 +5596,8 @@ module.exports = {
 											company_id: user.company_id,
 											mb_createdAt: req.param('mb_createdAt'),
 										};
+										sails.log('finished sync');
+										sails.log(data);
 
 										Property.create(data).exec(function(err, property){
 											if (err) return res.json(err);
