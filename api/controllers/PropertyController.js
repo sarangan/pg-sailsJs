@@ -17,12 +17,14 @@ module.exports = {
 				User.findOne({id :  req.token.sid}).exec(function(err, user){
 					if(err) return res.json(err);
 
+						console.log(req.param('data'));
+
 						var table = req.param('table');
 						var data =  req.param('data');
 						data = JSON.parse(data);
 						delete data.sync;
 
-						//console.log(data);
+
 
 						if(req.param('table') ){
 
