@@ -2483,7 +2483,7 @@ module.exports = {
 
     var total_photo_html = '';
 
-    if(total_photos.length > 0 && report_settings.show_photos != 'NO'){
+    if(total_photos.length > 0 && report_settings.show_photos != 'NO' && report_settings.items_details_layout != 'STYLE 5' ){
 
       var photo_count = 0;
       for(var po =0, pol = total_photos.length; po < pol ; po++){
@@ -2592,7 +2592,7 @@ module.exports = {
     var style_table_header_txt = report_settings.table_header_color?  report_settings.table_header_color:  '#ffffff';
 
     var jesus_photos = '';
-    if(report_settings.show_photos == 'NO' || report_settings.items_details_layout == 'STYLE 2' ){
+    if(report_settings.show_photos == 'NO' || report_settings.items_details_layout == 'STYLE 2' || report_settings.items_details_layout == 'STYLE 5' ){
       merger_photos_html = '';
     }
     else{

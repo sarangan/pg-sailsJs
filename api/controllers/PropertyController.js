@@ -309,6 +309,9 @@ module.exports = {
 
 								case 'signatures':
 
+												sails.log('sign');
+												sails.log(data);
+
 													Signatures.findOne({sign_id: data.sign_id }).exec(function(err, signatures){
 														if(err) return res.json(err);
 
