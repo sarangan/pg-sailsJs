@@ -26,6 +26,7 @@
     "jsonwebtoken": "^6.2.0",
     "mkdirp": "^0.5.1",
     "nodemailer": "^4.0.1",
+    "npm": "^6.1.0",
     "rc": "1.0.1",
     "sails": "~0.12.1",
     "sails-disk": "~0.10.9",
