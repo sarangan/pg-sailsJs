@@ -312,7 +312,7 @@ module.exports = {
 
 								case 'signatures':
 
-												
+
 													Signatures.findOne({sign_id: data.sign_id }).exec(function(err, signatures){
 														if(err) return res.json(err);
 
@@ -717,6 +717,8 @@ module.exports = {
 	},
 
 	uploadpropertyimg: function(req, res){
+
+		req.setTimeout(4 * 60 * 1000)
 
 		if( req.token.hasOwnProperty('sid') ){
 			if(req.token.sid){
