@@ -21,12 +21,13 @@ module.exports = {
 
 						var table = req.param('table');
 						var data =  req.param('data');
-						data = JSON.parse(data);
-						delete data.sync;
 
+						if(data){
+							data = JSON.parse(data);
+							delete data.sync;
+						}
 
-
-						if(req.param('table') ){
+						if(req.param('table') && data){
 
 
 								 //	var dataPropertyInfo = req.param('data');
