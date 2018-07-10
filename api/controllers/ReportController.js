@@ -2637,11 +2637,13 @@ module.exports = {
         if(signature_data.hasOwnProperty('mb_createdAt') && signature_data.hasOwnProperty('createdAt')  ){
           if(signature_data.mb_createdAt == '0000-00-00 00:00:00' ||  !signature_data.mb_createdAt ){
             sign_date = signature_data.createdAt;
+            sign_date = sign_date.toISOString().slice(0, 10);
           }
           else{
             sign_date = signature_data.mb_createdAt;
+            sign_date = sign_date.slice(0, 10);
           }
-          sign_date = sign_date.toISOString().slice(0, 10);
+
         }
 
 
@@ -2928,9 +2930,8 @@ module.exports = {
             if(!property_info.report_date || property_info.report_date != '0000-00-00 00:00:00'){
               report_date = property_info.report_date;
               sails.log(report_date);
-              //var dateParts = new Date(report_date);
-              //report_date = report_date.toISOString().slice(0, 19).replace('T', ' '); //dateParts.getDate() + '-', dateParts.getMonth()+1 + '-', dateParts.getFullYear();
-              report_date = report_date.slice(0, 10);
+              var dateParts = new Date(report_date);
+              report_date = report_date.toISOString().slice(0, 19).replace('T', ' '); //dateParts.getDate() + '-', dateParts.getMonth()+1 + '-', dateParts.getFullYear();
               sails.log(report_date);
             }
 
