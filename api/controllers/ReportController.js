@@ -2848,9 +2848,7 @@ module.exports = {
               //footerHtml:  'http://propertyground.co.uk/footer.html',
               //output: 'report.pdf'
               footerCenter: 'Sarangan',
-              marginLeft: 5,
-              maginRight: 5
-
+              
             };
 
             //sails.log(html);
