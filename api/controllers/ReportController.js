@@ -2845,10 +2845,8 @@ module.exports = {
               // marginTop: '10mm',
               headerHtml: 'http://propertyground.co.uk/header.php?address='+ encodeURIComponent(property_info.address_1 + ' ' + property_info.address_2 + ' ' + property_info.city + ' ' + property_info.postalcode ) +'&type=' + encodeURIComponent(property_info.report_type),
               //headerHtml: 'http://propertyground.co.uk/header.php?address=sara&type=assss',
-              //footerHtml:  'http://propertyground.co.uk/footer.html',
+              footerHtml:  'http://propertyground.co.uk/footer.html',
               //output: 'report.pdf'
-              footerCenter: 'Sarangan',
-              
             };
 
             //sails.log(html);
@@ -2915,7 +2913,7 @@ module.exports = {
             }
 
 
-            sails.log("xls path " + front_photo );
+            //sails.log("xls path " + front_photo );
 
             var today = new Date();
             var dd = today.getDate();
