@@ -8,6 +8,27 @@
 module.exports = {
 
 
+	syncdata: function(req, res){
+
+
+		if( req.token.hasOwnProperty('sid') ){
+			if(req.token.sid){
+
+				User.findOne({id :  req.token.sid}).exec(function(err, user){
+					if(err) return res.json(err);
+
+
+					var data =  req.param('data');
+					sails.log(data);
+
+
+				});
+
+			}
+		}
+
+	},
+
 	syncmob: function(req, res){
 
 

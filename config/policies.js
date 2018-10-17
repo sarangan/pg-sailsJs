@@ -109,7 +109,8 @@ module.exports.policies = {
    'payments' : ['tokenAuth'],
    'finishSync' : ['tokenAuth'],
    'checkcoupon' : ['tokenAuth'],
-   'updatecoupon' : ['tokenAuth']
+   'updatecoupon' : ['tokenAuth'],
+   'syncdata' : ['tokenAuth']
  },
  'ReportController': {
    'getreportsettings': ['tokenAuth'],
