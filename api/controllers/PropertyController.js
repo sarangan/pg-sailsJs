@@ -19,7 +19,29 @@ module.exports = {
 
 
 					var data =  req.param('data');
-					sails.log(data);
+					var stores = JSON.parse(data);
+
+					stores.map((result, i, store) => {
+	          //get at each store's key/value so you can work with it
+	          let key = store[i][0];
+	          let value = store[i][1];
+
+	          switch (key) {
+
+							case 'property_info': {
+
+								let properties = JSON.parse(value);
+
+								sails.log(properties);
+
+							}
+
+
+						}
+
+
+					});
+
 
 
 				});
