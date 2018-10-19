@@ -14,7 +14,7 @@ module.exports = {
 			if(req.token.sid){
 
 				User.findOne({id :  req.token.sid}).then(function(user){
-					
+
 
 					var property_id =  req.param('property_id');
 
@@ -65,7 +65,6 @@ module.exports = {
 				.spread(function( property_masteritem_link_data, property_subitem_link_data, property_general_condition_link_data, property_meter_link_data, property_feedback_data, property_sub_feedback_general_data ) {
 
             var newJson = {
-							'property_id': property_id,
 							'property_masteritem_link': property_masteritem_link_data,
 							'property_subitem_link' : property_subitem_link_data,
 							'property_general_condition_link' : property_general_condition_link_data,
