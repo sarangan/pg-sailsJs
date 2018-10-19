@@ -14,7 +14,7 @@ module.exports = {
 			if(req.token.sid){
 
 				User.findOne({id :  req.token.sid}).then(function(user){
-					if(err) return res.json(err);
+					
 
 					var property_id =  req.param('property_id');
 
