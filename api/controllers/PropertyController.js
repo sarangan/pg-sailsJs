@@ -8,6 +8,85 @@
 module.exports = {
 
 
+	checksyncdata: function(req, res){
+
+		if( req.token.hasOwnProperty('sid') ){
+			if(req.token.sid){
+
+				User.findOne({id :  req.token.sid}).then(function(user){
+					if(err) return res.json(err);
+
+					var property_id =  req.param('property_id');
+
+					if(property_id){
+
+						var property_masteritem_link_data = Property_masteritem_link.find({property_id: property_id})
+							.then(function(property_masteritem_link_data) {
+									return property_masteritem_link_data;
+						});
+
+						var property_subitem_link_data = Property_subitem_link.find({property_id: property_id})
+							.then(function(property_subitem_link_data) {
+									return property_subitem_link_data;
+						});
+
+
+						var property_general_condition_link_data = Property_general_condition_link.find({property_id: property_id})
+							.then(function(property_general_condition_link_data) {
+									return property_general_condition_link_data;
+						});
+
+						var property_meter_link_data = Property_meter_link.find({property_id: property_id})
+							.then(function(property_meter_link_data) {
+									return property_meter_link_data;
+						});
+
+						var property_feedback_data = Property_feedback.find({property_id: property_id})
+							.then(function(property_feedback_data) {
+									return property_feedback_data;
+						});
+
+						var property_sub_feedback_general_data = Property_sub_feedback_general.find({property_id: property_id})
+							.then(function(property_sub_feedback_general_data) {
+									return property_sub_feedback_general_data;
+						});
+
+						return [property_masteritem_link_data, property_subitem_link_data, property_general_condition_link_data, property_meter_link_data, property_feedback_data, property_sub_feedback_general_data];
+
+
+					}
+          else{
+            return res.json({status: 2, text: 'you are not allow to access this info!' });
+          }
+
+
+
+				})
+				.spread(function( property_masteritem_link_data, property_subitem_link_data, property_general_condition_link_data, property_meter_link_data, property_feedback_data, property_sub_feedback_general_data ) {
+
+            var newJson = {
+							'property_id': property_id,
+							'property_masteritem_link': property_masteritem_link_data,
+							'property_subitem_link' : property_subitem_link_data,
+							'property_general_condition_link' : property_general_condition_link_data,
+							'property_meter_link' : property_meter_link_data,
+							'property_feedback' : property_feedback_data,
+							'property_sub_feedback_general' : property_sub_feedback_general_data
+						};
+
+            return res.json({ status: 1, data: newJson });
+        })
+        .fail(function(err) {
+            console.log(err);
+            res.json({ error: err });
+        });
+
+
+			}
+		}
+
+	},
+
 	syncdata: function(req, res){
 
 
@@ -18,8 +97,10 @@ module.exports = {
 					if(err) return res.json(err);
 
 
-					var data =  req.param('data');
-					var stores = JSON.parse(data);
+					var stores_data =  req.param('data');
+					var property_id =  req.param('property_id');
+
+					var stores = JSON.parse(stores_data);
 
 					stores.map((result, i, store) => {
 	          //get at each store's key/value so you can work with it
@@ -28,19 +109,355 @@ module.exports = {
 
 	          switch (key) {
 
-							case 'property_info': {
+							case 'property_masteritem_link': {
 
-								let properties = JSON.parse(value);
+								let data = JSON.parse(value);
 
-								sails.log(properties);
+	              if(data.hasOwnProperty(property_id)){
 
-							}
+	                let master_data = data[property_id];
+
+	                for(let i =0, l = master_data.length; i < l ; i++){
+	                  //console.log(master_data[i].sync);
+	                  if(master_data[i].sync == 1){
+
+											//saving details starting
+
+											Property_masteritem_link.findOne({prop_master_id: master_data[i].prop_master_id }).exec(function(err, property_masteritem){
+												if(err) sails.log(err);
+
+												if(property_masteritem){
+
+													delete master_data[i]['prop_master_id'];
+
+													Property_masteritem_link.update({prop_master_id: property_masteritem.prop_master_id }, master_data[i] ).exec(function afterwards(err, updated){
+															if (err) sails.log(err);
+
+															sails.log('Property_masteritem_link updated');
+
+													});
+
+												}
+												else{
+
+													Property_masteritem_link.create(master_data[i]).exec(function(err, property_masteritem){
+														if (err) sails.log(err);
+														if(property_masteritem.prop_master_id){
+
+																sails.log('Property_masteritem_link saved');
+														}
+													});
+
+												}
+
+											});
+
+
+
+											//saving details ending
+
+										}
+
+
+									}
+
+								}
+
+
+								break;
+							} // prop master link end case
+
+							case "property_subitem_link": {
+
+
+								let data = JSON.parse(value);
+
+	              for( let key in data){
+
+	                let sub_items = data[key];
+
+	                let prop_master_id = key;
+
+	                for(let i =0, l = sub_items.length; i < l ; i++){
+
+	                  if(sub_items[i].property_id == property_id ){ // we got this prop sub item
+	                    //console.log(sub_item_details[i]);
+
+	                      if(sub_items[i].sync == 1){
+
+
+													Property_subitem_link.findOne({prop_subitem_id: sub_items[i].prop_subitem_id }).exec(function(err, property_subitem){
+														if(err) sails.log(err);
+
+														if(property_subitem){
+
+															delete sub_items[i]['prop_subitem_id'];
+
+															Property_subitem_link.update({prop_subitem_id: property_subitem.prop_subitem_id }, sub_items[i] ).exec(function afterwards(err, updated){
+																	if (err) sails.log(err);
+
+																	sails.log("sub item updated");
+
+
+															});
+
+														}
+														else{
+
+															Property_subitem_link.create(sub_items[i]).exec(function(err, property_subitem){
+																if (err) sails.log(err);
+																if(property_subitem.prop_subitem_id){
+																		sails.log("sub item created");
+
+																}
+															});
+
+														}
+
+													});
+
+
+	                      }
+
+	                  }
+
+	                }
+
+	              }
+
+
+								break;
+							} // prop sub link end case
+
+
+							case "property_general_condition_link": {
+
+								let data = JSON.parse(value);
+
+	              if(data.hasOwnProperty(property_id)){
+
+	                let general_data = data[property_id];
+
+	                for(let i =0, l = general_data.length; i < l ; i++){
+	                  if(general_data[i].sync == 1){
+
+
+											Property_general_condition_link.findOne({prop_general_id: general_data[i].prop_general_id }).exec(function(err, property_general_condition_link){
+												if(err) sails.log(err);
+
+
+												if(property_general_condition_link ){
+
+													delete general_data[i]['prop_general_id'];
+
+													Property_general_condition_link.update({prop_general_id: property_general_condition_link.prop_general_id }, general_data[i] ).exec(function afterwards(err, updated){
+															if (err) sails.log(err);
+
+															sails.log('prop genreal condition updated');
+
+													});
+
+												}
+												else{
+
+													Property_general_condition_link.create(general_data[i]).exec(function(err, property_general_condition_link){
+														if (err) sails.log(err);
+														if(property_general_condition_link.prop_general_id){
+																sails.log('prop genreal condition saved');
+														}
+													});
+
+												}
+
+											});
+
+
+
+	                  }
+	                }
+
+
+	              }
+
+
+								break;
+
+							} // end of prop general condition
+
+							case "property_meter_link": {
+
+
+								let data = JSON.parse(value);
+
+	              if(data.hasOwnProperty(property_id)){
+									let meter_data = data[property_id];
+
+									for(let i =0, l = meter_data.length; i < l; i++){
+	                  if(meter_data[i].sync == 1){
+
+											Property_meter_link.findOne({prop_meter_id: meter_data[i].prop_meter_id }).exec(function(err, property_meter){
+												if(err) sails.log(err);
+
+												if( property_meter){
+
+													delete meter_data[i]['prop_meter_id'];
+
+													Property_meter_link.update({prop_meter_id: property_meter.prop_meter_id }, meter_data[i] ).exec(function afterwards(err, updated){
+															if (err) sails.log(err);
+
+															sails.log('prop meter link updated');
+
+													});
+
+												}
+												else{
+
+													Property_meter_link.create(meter_data[i]).exec(function(err, property_meter){
+														if (err) sails.log(err);
+														if(property_meter.prop_meter_id){
+																sails.log('prop meter link saved');
+														}
+													});
+
+												}
+
+											});
+
+
+	                  }
+	                }
+
+								}
+
+								break;
+
+							} // end of prop meter link
+
+
+							case "property_feedback": {
+
+								let data = JSON.parse(value);
+
+	              if(data.hasOwnProperty(property_id)){
+
+	                let feedback_data = data[property_id];
+
+	                for(let key in feedback_data){
+	                    if(feedback_data.hasOwnProperty(key)) {
+
+	                        if(feedback_data[key].sync == 1){
+	                            //console.log(feedback_data[key]);
+
+															Property_feedback.findOne({prop_feedback_id: feedback_data[key].prop_feedback_id }).exec(function(err, property_feedback){
+																if(err) sails.log(err);
+
+																if(property_feedback){
+
+																	delete feedback_data[key]['prop_feedback_id'];
+
+																	Property_feedback.update({prop_feedback_id: property_feedback.prop_feedback_id }, feedback_data[key] ).exec(function afterwards(err, updated){
+																			if (err) sails.log(err);
+
+																			sails.log('prop feedback updated');
+
+																	});
+
+																}
+																else{
+
+																	Property_feedback.create(feedback_data[key]).exec(function(err, property_feedback){
+																		if (err) sails.log(err);
+																		if(property_feedback.prop_feedback_id){
+
+																				sails.log('prop feedback saved');
+
+																		}
+																	});
+
+																}
+
+															});
+
+
+	                        }
+
+	                    }
+	                }
+
+	              }
+
+
+								break;
+							}// end of property feed back
+
+
+							case "property_sub_feedback_general": {
+
+								let data = JSON.parse(value);
+
+	              if(data.hasOwnProperty(property_id)){
+
+	                let feedback_data = data[property_id];
+
+	                for(let key in feedback_data){
+	                    if(feedback_data.hasOwnProperty(key)) {
+
+	                      if(feedback_data[key].sync == 1){
+
+													Property_sub_feedback_general.findOne({prop_sub_feedback_general_id: feedback_data[key].prop_sub_feedback_general_id }).exec(function(err, property_sub_feedback_general){
+														if(err) sails.log(err);
+
+														if(property_sub_feedback_general ){
+
+															delete feedback_data[key]['prop_sub_feedback_general_id'];
+
+															Property_sub_feedback_general.update({prop_sub_feedback_general_id: property_sub_feedback_general.prop_sub_feedback_general_id }, feedback_data[key] ).exec(function afterwards(err, updated){
+																	if (err) sails.log(err);
+
+																	sails.log('prop sub feedback general updated');
+
+															});
+
+														}
+														else{
+
+															Property_sub_feedback_general.create(feedback_data[key]).exec(function(err, property_sub_feedback_general){
+																if (err) sails.log(err);
+																if(property_sub_feedback_general.prop_sub_feedback_general_id){
+
+																		sails.log('prop sub feedback general saved');
+
+																}
+															});
+
+														}
+
+													});
+
+
+	                      }
+
+	                    }
+	                }
+
+	              }
+
+
+								break;
+
+							}// end of prop sub feedback general
+
 
 
 						}
 
 
+
+
+
 					});
+
+					return res.json({ status: 1, text: 'hopefully updated' });
 
 
 
