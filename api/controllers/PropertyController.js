@@ -854,7 +854,7 @@ module.exports = {
 							req.file('photo').upload(
 									{
 										dirname: '../public/images',
-										maxBytes: 10000000
+										maxBytes: 104857600
 									},
 								function (err, files) {
 
@@ -946,7 +946,7 @@ module.exports = {
 									req.file('photo').upload(
 											{
 												dirname: '../public/images',
-												maxBytes: 10000000
+												maxBytes: 104857600
 											},
 										function (err, files) {
 
@@ -1065,7 +1065,7 @@ module.exports = {
 							req.file('voice').upload(
 							{
 								 dirname: '../public/images',
-								  maxBytes: 10000000
+								  maxBytes: 104857600
 							},
 							function (err, files) {
 
@@ -1120,7 +1120,7 @@ module.exports = {
 									req.file('voice').upload(
 									{
 										 dirname: '../public/images',
-										  maxBytes: 10000000
+										  maxBytes: 104857600
 									},
 									function (err, files) {
 
@@ -1205,7 +1205,7 @@ module.exports = {
 							req.file('photo').upload(
 								{
 									dirname: '../public/images',
-									maxBytes: 10000000
+									maxBytes: 104857600
 								},
 								function (err, files) {
 
@@ -1280,7 +1280,7 @@ module.exports = {
 									req.file('photo').upload(
 										{
 											dirname: '../public/images',
-											maxBytes: 10000000
+											maxBytes: 104857600
 										},
 										function (err, files) {
 
@@ -1650,7 +1650,7 @@ module.exports = {
 											req.file('logo').upload(
 												{
 													 dirname: '../public/images',
-														maxBytes: 10000000
+														maxBytes: 104857600
 												},
 												function (err, files) {
 
@@ -1958,7 +1958,7 @@ module.exports = {
 														req.file('logo').upload(
 					                    {
 					                       dirname: '../public/images',
-					                        maxBytes: 10000000
+					                        maxBytes: 104857600
 					                    },
 					                    function (err, files) {
 
@@ -2551,7 +2551,7 @@ module.exports = {
 											req.file('logo').upload(
 		                    {
 		                       dirname: '../public/images',
-		                        maxBytes: 10000000
+		                        maxBytes: 104857600
 		                    },
 		                    function (err, files) {
 
@@ -2632,7 +2632,7 @@ module.exports = {
 													req.file('logo').upload(
 				                    {
 				                       dirname: '../public/images',
-				                        maxBytes: 10000000
+				                        maxBytes: 104857600
 				                    },
 				                    function (err, files) {
 
@@ -5474,7 +5474,7 @@ module.exports = {
 							req.file('photo').upload(
 								{
 									 dirname: '../public/images',
-									  maxBytes: 10000000
+									  maxBytes: 104857600
 								},
 								function (err, files) {
 
@@ -5581,7 +5581,7 @@ module.exports = {
 										req.file('photo').upload(
 											{
 												 dirname: '../public/images',
-												  maxBytes: 10000000
+												  maxBytes: 104857600
 											},
 											function (err, files) {
 

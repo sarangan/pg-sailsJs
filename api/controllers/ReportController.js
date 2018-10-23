@@ -1051,11 +1051,11 @@ module.exports = {
            }
 
 
-           sails.log(sub_item.subitem.item_name);
-           sails.log(sub_item.feedback.option);
-           sails.log(sub_item.feedback.comment);
-           sails.log(need_maintance);
-           sails.log(sub_item.photos.length);
+           // sails.log(sub_item.subitem.item_name);
+           // sails.log(sub_item.feedback.option);
+           // sails.log(sub_item.feedback.comment);
+           // sails.log(need_maintance);
+           // sails.log(sub_item.photos.length);
 
            if(!sub_item.feedback.option && !sub_item.feedback.comment && !need_maintance && !sub_item.photos.length){
 
@@ -2698,7 +2698,7 @@ module.exports = {
                 '</tr>' +
                 '<tr style="height: 80px;">' +
                   '<td>' +
-                    '<span>' + sign_date + '</span>' +
+                    '<span>' + (landlord_img? sign_date : '') + '</span>' +
                     '<hr style="border:0; margin:0; padding:0; height:1px; color:#555555; background-color:#555555; width: 35%; "/>' +
                     '<span>Date</span></td>' +
                   '<td></td>' +
@@ -2731,12 +2731,12 @@ module.exports = {
                 '</tr>' +
                 '<tr style="height: 50px;">' +
                   '<td>' +
-                    '<span>' + sign_date + '</span>' +
+                    '<span>' + (tenant_img? sign_date : '') + '</span>' +
                     '<hr style="border:0; margin:0; padding:0; height:1px; color:#555555; background-color:#555555; width: 35%; "/>' +
                     '<span>Date</span>' +
                   '</td>' +
                   '<td>' +
-                    '<span>' + sign_date + '</span>' +
+                    '<span>' + (clerk_img? sign_date : '') + '</span>' +
                     '<hr style="border:0; margin:0; padding:0; height:1px; color:#555555; background-color:#555555; width: 35%; "/>' +
                     '<span>Date</span>' +
                   '</td>' +
