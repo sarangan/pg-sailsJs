@@ -8,13 +8,50 @@
 module.exports = {
 
 
+	checkphotoexists: function(req, res){
+
+		if( req.token.hasOwnProperty('sid') ){
+			if(req.token.sid){
+
+				User.findOne({id :  req.token.sid}).exec(function(err, user){
+					if(err) return res.json(err);
+
+					Photos.findOne({photo_id: req.param('photo_id') }).exec(function(err, photo){
+						if(err) sails.log(err);
+
+						if(photo && photo.hasOwnProperty('photo_id') && photo['photo_id'] == req.param('photo_id') ){
+							sails.log('already photo exists');
+
+							return res.json({
+								message: 'Photo already exists in server, skip upload',
+								status: 1
+							});
+
+						}
+						else{
+
+							return res.json({
+								message: 'Photo does not exists in server',
+								status: 2
+							});
+
+						}
+
+					});
+
+
+				});
+
+			}
+		}
+	},
+
 	checksyncdata: function(req, res){
 
 		if( req.token.hasOwnProperty('sid') ){
 			if(req.token.sid){
 
 				User.findOne({id :  req.token.sid}).then(function(user){
-
 
 					var property_id =  req.param('property_id');
 
